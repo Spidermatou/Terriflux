@@ -1,0 +1,149 @@
+@startuml
+
+!theme reddress-darkgreen
+
+package Godot {
+    class Node
+    class Node2D extends Node
+}
+
+package OurProject {
+
+package Models {
+    class TerritoryModel {
+        /' Rates '/
+        - economy : int
+        - ecology : int
+        - sociability : int
+        + GetEconomyRate() : int
+        + GetEcologyRate() : int
+        + GetSociabilityRate() : int
+    }
+
+    abstract BuildingModel{
+        - buildingName : string
+        - impacts : int[3]
+        + GetBuildingName() : string
+        + GetImpacts() : int[3]
+    }
+
+    /' Some examples '/
+    class BarModel
+    class CarFactoryModel
+    class PowerPlantModel
+    class OatFieldModel
+    class HaulageFirmModel
+
+    BuildingModel <|-- BarModel
+    BuildingModel <|-- CarFactoryModel
+    BuildingModel <|-- PowerPlantModel
+    BuildingModel <|-- OatFieldModel
+    BuildingModel <|-- HaulageFirmModel
+
+    note "impacts = {\n +-sociability,\n +-ecology,\n +-economy\n} " as ImpactsNote
+     BuildingModel - ImpactsNote
+}
+
+
+package Views {
+
+    abstract BuildingView implements IMovable{
+        + ^GetPosition() : int[]
+        + ^{override} _Input(click : InputEvent)
+    }
+
+    class "<<static>>\nSceneManager" as SceneManager {
+        + Initialize(root : Node, what : Node)
+        + GoToScene(actualScene : Node, targetScene : Node)
+    }
+
+    class MapGenerator {
+        + GenerateMap(int size) : TerritoryView
+    }
+
+    interface IUpdatable {
+        + UpdateSelf()
+    }
+
+    abstract Gauge extends Node2D implements IUpdatable  {
+        + ^{abstract} UpdateSelf()
+    }
+
+    class EconomyGauge {
+        + ^UpdateSelf()
+    }
+
+    class EcologyGauge {
+        + ^UpdateSelf()
+    }
+
+    class SociabilityGauge {
+        + ^UpdateSelf()
+    }
+
+    class TerritoryView implements IUpdatable {
+        + ^UpdateSelf()
+    }
+
+    interface IMovable{
+        + GetPosition() : int[]
+        + ^{override} _Input(click : InputEvent)
+    }
+
+
+
+    note "The map, the grid" as MapNote
+    note "Coordinates for grid?" as CoordinatesNote
+    note "Destroy the actual scene after load target!" as DestroySceneNote
+    SceneManager - DestroySceneNote
+    CoordinatesNote - IMovable
+    MapNote - TerritoryView
+    Gauge <|-- EconomyGauge
+    Gauge <|-- EcologyGauge
+    Gauge <|-- SociabilityGauge
+    SceneManager <..up Gauge : < instantiate
+    SceneManager <..up TerritoryView : < instantiate
+
+    /' Some examples '/
+    class BarView
+    class CarFactoryView
+    class PowerPlantView
+    class OatFieldView
+    class HaulageFirmView
+
+    BuildingView <|-- BarView
+    BuildingView <|-- CarFactoryView
+    BuildingView <|-- PowerPlantView
+    BuildingView <|-- OatFieldView
+    BuildingView <|-- HaulageFirmView
+
+}
+
+
+package Controllers {
+    class ImpactsController{
+        + ApplyImpacts(gauge : Gauge, modifier : int)
+    }
+
+    ImpactsController <.. TerritoryModel : > changes values
+    ImpactsController <.. Gauge : > calls for update
+}
+
+package Dual{
+    class BuildingFactory{
+        /' Some examples '/
+        + CreateBar() : (model : BuildingModel, view : BuildingView )
+        + CreateCarFactory() : (model : BuildingModel, view : BuildingView )
+        + CreatePowerPlant() : (model : BuildingModel, view : BuildingView )
+        + CreateOatField() : (model : BuildingModel, view : BuildingView )
+        + CreateHaulageFirm() : (model : BuildingModel, view : BuildingView )
+    }
+    BuildingModel <..o BuildingFactory : < create
+    BuildingView <..o BuildingFactory : < create
+}
+
+
+
+
+}
+@enduml
