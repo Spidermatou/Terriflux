@@ -7,6 +7,13 @@ package Godot {
     class Node2D extends Node
 }
 
+package Observers{
+    interface IBuildingObserver {
+        + UpdateModelData(model : IBuildingModel)
+    }
+
+}
+
 package OurProject {
 
 package Models {
@@ -20,9 +27,14 @@ package Models {
         + GetSociabilityRate() : int
     }
 
-    abstract BuildingModel{
+    abstract BuildingModel implements IBuildingModel {
         - buildingName : string
         - impacts : int[3]
+        + GetBuildingName() : string
+        + GetImpacts() : int[3]
+    }
+
+    interface IBuildingModel{
         + GetBuildingName() : string
         + GetImpacts() : int[3]
     }
@@ -47,7 +59,12 @@ package Models {
 
 package Views {
 
-    abstract BuildingView implements IMovable{
+    interface IBuildingView implements IMovable {
+        + GetPosition() : int[]
+        + ^{override} _Input(click : InputEvent)
+    }
+
+    abstract BuildingView implements IBuildingView, IBuildingObserver {
         + ^GetPosition() : int[]
         + ^{override} _Input(click : InputEvent)
     }
@@ -65,7 +82,7 @@ package Views {
         + UpdateSelf()
     }
 
-    abstract Gauge extends Node2D implements IUpdatable  {
+    abstract Gauge implements IUpdatable  {
         + ^{abstract} UpdateSelf()
     }
 
@@ -125,22 +142,22 @@ package Controllers {
         + ApplyImpacts(gauge : Gauge, modifier : int)
     }
 
+    class BuildingFactory{
+            /' Some examples '/
+            + CreateBar() : (model : IBuildingModel, view : BuildingView )
+            + CreateCarFactory() : (model : IBuildingModel, view : BuildingView )
+            + CreatePowerPlant() : (model : IBuildingModel, view : BuildingView )
+            + CreateOatField() : (model : IBuildingModel, view : BuildingView )
+            + CreateHaulageFirm() : (model : IBuildingModel, view : BuildingView )
+        }
+    IBuildingModel <..o BuildingFactory : < create
+    IBuildingView <..o BuildingFactory : < create
+
     ImpactsController <.. TerritoryModel : > changes values
     ImpactsController <.. Gauge : > calls for update
 }
 
-package Dual{
-    class BuildingFactory{
-        /' Some examples '/
-        + CreateBar() : (model : BuildingModel, view : BuildingView )
-        + CreateCarFactory() : (model : BuildingModel, view : BuildingView )
-        + CreatePowerPlant() : (model : BuildingModel, view : BuildingView )
-        + CreateOatField() : (model : BuildingModel, view : BuildingView )
-        + CreateHaulageFirm() : (model : BuildingModel, view : BuildingView )
-    }
-    BuildingModel <..o BuildingFactory : < create
-    BuildingView <..o BuildingFactory : < create
-}
+
 
 
 
