@@ -48,7 +48,7 @@ package Observers{
         }
     }
 }
-package OurProject {
+package Terriflux {
     package Models {
         class TerritoryModel { /' A grid, a collection of Cell '/
             /' Grid '/
@@ -84,11 +84,19 @@ package OurProject {
         }
         enum CellKind{
             BUILDING,
-            WASTELAND /' free cell '/
+            WASTELAND, /' free cell '/
+            PRIMARY /' nothing, basic '/
         }
         class Cell {
-            - type : CellKind
-            + GetCellType() : CellKind
+            - cname : StringName
+            - kind : CellKind
+            - size : int
+            + GetCellName() : StringName
+            + SetCellName(newName : StringName)
+            + GetCellKind() : CellKind
+            + SetCellKind(newKind : CellKind)
+            + GetCellSize() : int
+            + SetCellSize(newSize : int)
         }
         class BuildingModelsFactory{
             /' Some examples '/
