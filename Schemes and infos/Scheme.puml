@@ -7,53 +7,41 @@ package Godot {
 }
 
 package Observers{
-    interface "IObserver T" as IObserver {
-        + Update(what T)
-    }
-    abstract "ASingleObservable T" as ASingleObservable {
-        # observer : IObserver
-        + SetObserver(observer : T)
-        + Notify()
-    }
-    abstract "AMultipleObservable<T>" as AMultipleObservable {
-        # observers : IObserver[*]
-        + RegisterObserver(observer : T)
-        + UnregisterObserver(observer : T)
-        + NotifyAll()
-    }
-    package BuildingsObservers{
-        interface IBuildingObserver {
-            + ^Update(coordinates : Vector2)
+    package CellsObservers{
+        interface ICellObserver {
+            + Update(coordinates : Vector2)
         }
-        abstract ABuildingObservable{
-            + SetObserver(observer : IBuildingObserver)
+        interface ICellObservable{
+            + SetObserver(observer : ICellObserver)
+            + NotifyPlacement()
         }
     }
     package GaugesObservers{
         interface IGaugeObserver{
             + Update(rate : int)
         }
-        abstract AGaugeObservable{
-            + RegisterObserver(observer : IBuildingObserver)
-            + UnregisterObserver(observer : IBuildingObserver)
+        interface IGaugeObservable{ /' observes the 3 gauges '/
+            + RegisterObserver(observer : ICellObserver)
+            + UnregisterObserver(observer : ICellObserver)
+            + NotifyRateAll()
         }
     }
 
     package TerritoryObservers{
         interface ITerritoryObserver{
-            + Update(world : Grid)
+            + Update(world : CellModel[*])
         }
-        abstract ATerritoryObservable{
-            + SetObserver(observer : IBuildingObserver)
+        interface ITerritoryObservable{
+            + SetObserver(observer : ICellObserver)
         }
     }
 }
 package Terriflux {
     package Models {
-        class TerritoryModel { /' A grid, a collection of Cell '/
+        class TerritoryModel { /' A grid, a collection of CellModel '/
             /' Grid '/
-            - grid : Cell[*]
-            + GetGrid() : Cell[*]
+            - grid : CellModel[*]
+            + GetGrid() : CellModel[*]
             + SetGrid()
             /' Rates '/
             - economy : int
@@ -69,8 +57,8 @@ package Terriflux {
             - observer : IBuildingView /' just one for each instance! '/
             + GetBuildingName() : string
             + GetImpacts() : int[3]
-            + RegisterObserver(observer : IBuildingObserver)
-            + UnregisterObserver(observer : IBuildingObserver)
+            + RegisterObserver(observer : ICellObserver)
+            + UnregisterObserver(observer : ICellObserver)
             + NotifyObservers()
             /' + SomeMethodThatUpdatesData() : void {\n // Mettre à jour les données du modèle\n// Puis notifier les observateurs\nNotifyObservers()\n}
             impacts = {\n +-sociability,\n +-ecology,\n +-economy\n} " '/
@@ -87,7 +75,7 @@ package Terriflux {
             WASTELAND, /' free cell '/
             PRIMARY /' nothing, basic '/
         }
-        class Cell {
+        abstract CellModel {
             - cname : StringName
             - kind : CellKind
             - size : int
@@ -115,7 +103,7 @@ package Terriflux {
         }
         abstract ABuildingView {
             # inGridPosition : Vector2
-            + ^GetInGridPosition() : Vector2 
+            + ^GetInGridPosition() : Vector2
             + ^{override} _Input(click : InputEvent)
             + ^Update()
         }
@@ -153,6 +141,11 @@ package Terriflux {
             + GetInGridPosition() : Vector2 /' Coordinates for grid '/
             + ^{override} _Input(click : InputEvent)
         }
+        class CellView{
+            + Update()
+            - OnMouseOver()
+            - OnMouseExit()
+        }
     }
     package Controllers {
         class ImpactsController{
@@ -168,9 +161,9 @@ SceneManager o-> Gauge : < instantiate
 SceneManager o-> TerritoryView : < instantiate
 MapViewGenerator o-> TerritoryView
 Node2D <|-- Gauge
-Node2D <|-- ABuildingView
+Node2D <|-- CellModel
 Node2D <|-- TerritoryView
-ABuildingView --|> Cell
+ABuildingView --|> CellModel
 Gauge --|> IGaugeObserver
 TerritoryView --|> ITerritoryObserver
 ImpactsController o-> TerritoryModel : > changes values
@@ -178,22 +171,17 @@ ImpactsController o-> Gauge : > calls for update
 IBuildingView <..o BuildingViewsFactory : < create
 IBuildingView --|> IMovable
 ABuildingView --|> IBuildingView
-ABuildingView --|> IBuildingObserver
-Cell *..> TerritoryView : > instantiate and save
+ABuildingView --|> ICellObserver
+CellModel *..> TerritoryView : > instantiate and save
 IBuildingModel o..> BuildingModelsFactory : < create
 MapModelGenerator o-> TerritoryModel
-ABuildingModel --|> ABuildingObservable
-Cell <. CellKind : use
-Cell --|> Node2D
+CellView --|> ICellObserver
+CellModel --|> ICellObservable
+CellModel <. CellKind : use
+CellModel --|> Node2D
 ABuildingModel --|> IBuildingModel
-ITerritoryObserver --|> IObserver
-IBuildingObserver --|> IObserver
-IGaugeObserver --|> IObserver
-ASingleObservable <|--u ATerritoryObservable
-ASingleObservable <|--u ABuildingObservable
-AMultipleObservable <|--u AGaugeObservable
-TerritoryModel --|> AGaugeObservable
-TerritoryModel --|> ATerritoryObservable
+TerritoryModel --|> IGaugeObservable
+TerritoryModel --|> ITerritoryObservable
 
 /' Some examples
 ABuildingModel <|-- PowerPlantModel

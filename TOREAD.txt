@@ -1,0 +1,2 @@
+Revisit the cells! model and view mixed up for the moment!!!
+And add their observer/observable (via their interfaces, also to be created)
