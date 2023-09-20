@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://4gf0jxcehnfh"]
+
+[ext_resource type="Script" path="res://Nodes/TerritoryView.cs" id="1_otig7"]
+
+[node name="TerritoryView" type="Node2D"]
+script = ExtResource("1_otig7")
+
+[node name="Camera2D" type="Camera2D" parent="."]

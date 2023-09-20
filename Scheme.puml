@@ -1,5 +1,4 @@
 @startuml
-
 !theme reddress-darkgreen
 
 package Godot {
@@ -8,159 +7,192 @@ package Godot {
 }
 
 package Observers{
-    interface IBuildingObserver {
-        + UpdateModelData(model : IBuildingModel)
+    interface "IObserver T" as IObserver {
+        + Update(what T)
     }
-
-}
-
-package OurProject {
-
-package Models {
-    class TerritoryModel {
-        /' Rates '/
-        - economy : int
-        - ecology : int
-        - sociability : int
-        + GetEconomyRate() : int
-        + GetEcologyRate() : int
-        + GetSociabilityRate() : int
+    abstract "ASingleObservable T" as ASingleObservable {
+        # observer : IObserver
+        + SetObserver(observer : T)
+        + Notify()
     }
-
-    abstract BuildingModel implements IBuildingModel {
-        - buildingName : string
-        - impacts : int[3]
-        + GetBuildingName() : string
-        + GetImpacts() : int[3]
+    abstract "AMultipleObservable<T>" as AMultipleObservable {
+        # observers : IObserver[*]
+        + RegisterObserver(observer : T)
+        + UnregisterObserver(observer : T)
+        + NotifyAll()
     }
-
-    interface IBuildingModel{
-        + GetBuildingName() : string
-        + GetImpacts() : int[3]
-    }
-
-    /' Some examples '/
-    class BarModel
-    class CarFactoryModel
-    class PowerPlantModel
-    class OatFieldModel
-    class HaulageFirmModel
-
-    BuildingModel <|-- BarModel
-    BuildingModel <|-- CarFactoryModel
-    BuildingModel <|-- PowerPlantModel
-    BuildingModel <|-- OatFieldModel
-    BuildingModel <|-- HaulageFirmModel
-
-    note "impacts = {\n +-sociability,\n +-ecology,\n +-economy\n} " as ImpactsNote
-     BuildingModel - ImpactsNote
-}
-
-
-package Views {
-
-    interface IBuildingView implements IMovable {
-        + GetPosition() : int[]
-        + ^{override} _Input(click : InputEvent)
-    }
-
-    abstract BuildingView implements IBuildingView, IBuildingObserver {
-        + ^GetPosition() : int[]
-        + ^{override} _Input(click : InputEvent)
-    }
-
-    class "<<static>>\nSceneManager" as SceneManager {
-        + Initialize(root : Node, what : Node)
-        + GoToScene(actualScene : Node, targetScene : Node)
-    }
-
-    class MapGenerator {
-        + GenerateMap(int size) : TerritoryView
-    }
-
-    interface IUpdatable {
-        + UpdateSelf()
-    }
-
-    abstract Gauge implements IUpdatable  {
-        + ^{abstract} UpdateSelf()
-    }
-
-    class EconomyGauge {
-        + ^UpdateSelf()
-    }
-
-    class EcologyGauge {
-        + ^UpdateSelf()
-    }
-
-    class SociabilityGauge {
-        + ^UpdateSelf()
-    }
-
-    class TerritoryView implements IUpdatable {
-        + ^UpdateSelf()
-    }
-
-    interface IMovable{
-        + GetPosition() : int[]
-        + ^{override} _Input(click : InputEvent)
-    }
-
-
-
-    note "The map, the grid" as MapNote
-    note "Coordinates for grid?" as CoordinatesNote
-    note "Destroy the actual scene after load target!" as DestroySceneNote
-    SceneManager - DestroySceneNote
-    CoordinatesNote - IMovable
-    MapNote - TerritoryView
-    Gauge <|-- EconomyGauge
-    Gauge <|-- EcologyGauge
-    Gauge <|-- SociabilityGauge
-    SceneManager <..up Gauge : < instantiate
-    SceneManager <..up TerritoryView : < instantiate
-
-    /' Some examples '/
-    class BarView
-    class CarFactoryView
-    class PowerPlantView
-    class OatFieldView
-    class HaulageFirmView
-
-    BuildingView <|-- BarView
-    BuildingView <|-- CarFactoryView
-    BuildingView <|-- PowerPlantView
-    BuildingView <|-- OatFieldView
-    BuildingView <|-- HaulageFirmView
-
-}
-
-
-package Controllers {
-    class ImpactsController{
-        + ApplyImpacts(gauge : Gauge, modifier : int)
-    }
-
-    class BuildingFactory{
-            /' Some examples '/
-            + CreateBar() : (model : IBuildingModel, view : BuildingView )
-            + CreateCarFactory() : (model : IBuildingModel, view : BuildingView )
-            + CreatePowerPlant() : (model : IBuildingModel, view : BuildingView )
-            + CreateOatField() : (model : IBuildingModel, view : BuildingView )
-            + CreateHaulageFirm() : (model : IBuildingModel, view : BuildingView )
+    package BuildingsObservers{
+        interface IBuildingObserver {
+            + ^Update(coordinates : Vector2)
         }
-    IBuildingModel <..o BuildingFactory : < create
-    IBuildingView <..o BuildingFactory : < create
+        abstract ABuildingObservable{
+            + SetObserver(observer : IBuildingObserver)
+        }
+    }
+    package GaugesObservers{
+        interface IGaugeObserver{
+            + Update(rate : int)
+        }
+        abstract AGaugeObservable{
+            + RegisterObserver(observer : IBuildingObserver)
+            + UnregisterObserver(observer : IBuildingObserver)
+        }
+    }
 
-    ImpactsController <.. TerritoryModel : > changes values
-    ImpactsController <.. Gauge : > calls for update
+    package TerritoryObservers{
+        interface ITerritoryObserver{
+            + Update(world : Grid)
+        }
+        abstract ATerritoryObservable{
+            + SetObserver(observer : IBuildingObserver)
+        }
+    }
 }
-
-
-
-
-
-
+package OurProject {
+    package Models {
+        class TerritoryModel { /' A grid, a collection of Cell '/
+            /' Grid '/
+            - grid : Cell[*]
+            + GetGrid() : Cell[*]
+            + SetGrid()
+            /' Rates '/
+            - economy : int
+            - ecology : int
+            - sociability : int
+            + GetEconomyRate() : int
+            + GetEcologyRate() : int
+            + GetSociabilityRate() : int
+        }
+        abstract ABuildingModel{
+            - buildingName : string
+            - impacts : int[3]
+            - observer : IBuildingView /' just one for each instance! '/
+            + GetBuildingName() : string
+            + GetImpacts() : int[3]
+            + RegisterObserver(observer : IBuildingObserver)
+            + UnregisterObserver(observer : IBuildingObserver)
+            + NotifyObservers()
+            /' + SomeMethodThatUpdatesData() : void {\n // Mettre à jour les données du modèle\n// Puis notifier les observateurs\nNotifyObservers()\n}
+            impacts = {\n +-sociability,\n +-ecology,\n +-economy\n} " '/
+        }
+        interface IBuildingModel{
+            + GetBuildingName() : string
+            + GetImpacts() : int[3]
+        }
+        class MapModelGenerator {
+            + GenerateMap(int size) : ITerritoryView
+        }
+        enum CellKind{
+            BUILDING,
+            WASTELAND /' free cell '/
+        }
+        class Cell {
+            - type : CellKind
+            + GetCellType() : CellKind
+        }
+        class BuildingModelsFactory{
+            /' Some examples '/
+            + CreateBar() : IBuildingModel
+            + CreateCarFactory() : IBuildingModel
+            + CreatePowerPlant() : IBuildingModel
+            + CreateOatField() : IBuildingModel
+            + CreateHaulageFirm() : IBuildingModel
+        }
+    }
+    package Views {
+        interface IBuildingView {
+            + GetInGridPosition() : Vector2
+            + ^{override} _Input(click : InputEvent)
+            + ^Update()
+        }
+        abstract ABuildingView {
+            # inGridPosition : Vector2
+            + ^GetInGridPosition() : Vector2 
+            + ^{override} _Input(click : InputEvent)
+            + ^Update()
+        }
+        class BuildingViewsFactory{
+            /' Some examples '/
+            + CreateBar() : IBuildingView
+            + CreateCarFactory() : IBuildingView
+            + CreatePowerPlant() : IBuildingView
+            + CreateOatField() : IBuildingView
+            + CreateHaulageFirm() : IBuildingView
+        }
+        class "<<static>>\nSceneManager" as SceneManager {
+            + Initialize(root : Node, what : Node) /' unsafe, may cause errors '/
+            + GoToScene(actualScene : Node, targetScene : Node) /' Destroy the actual scene after load target! '/
+        }
+        class MapViewGenerator {
+            + GenerateMap(int size) : TerritoryView
+        }
+        abstract Gauge {
+            + ^{abstract} Update()
+        }
+        class EconomyGauge {
+            + ^Update()
+        }
+        class EcologyGauge {
+            + ^Update()
+        }
+        class SociabilityGauge {
+            + ^Update()
+        }
+        class TerritoryView { /'The map, the grid'/
+            + ^Update()
+        }
+        interface IMovable{
+            + GetInGridPosition() : Vector2 /' Coordinates for grid '/
+            + ^{override} _Input(click : InputEvent)
+        }
+    }
+    package Controllers {
+        class ImpactsController{
+            + ApplyImpacts(gauge : Gauge, modifier : int)
+        }
+    }
 }
+/' LINKS '/
+Gauge --|> EconomyGauge
+Gauge --|> EcologyGauge
+Gauge --|> SociabilityGauge
+SceneManager o-> Gauge : < instantiate
+SceneManager o-> TerritoryView : < instantiate
+MapViewGenerator o-> TerritoryView
+Node2D <|-- Gauge
+Node2D <|-- ABuildingView
+Node2D <|-- TerritoryView
+ABuildingView --|> Cell
+Gauge --|> IGaugeObserver
+TerritoryView --|> ITerritoryObserver
+ImpactsController o-> TerritoryModel : > changes values
+ImpactsController o-> Gauge : > calls for update
+IBuildingView <..o BuildingViewsFactory : < create
+IBuildingView --|> IMovable
+ABuildingView --|> IBuildingView
+ABuildingView --|> IBuildingObserver
+Cell *..> TerritoryView : > instantiate and save
+IBuildingModel o..> BuildingModelsFactory : < create
+MapModelGenerator o-> TerritoryModel
+ABuildingModel --|> ABuildingObservable
+Cell <. CellKind : use
+Cell --|> Node2D
+ABuildingModel --|> IBuildingModel
+ITerritoryObserver --|> IObserver
+IBuildingObserver --|> IObserver
+IGaugeObserver --|> IObserver
+ASingleObservable <|--u ATerritoryObservable
+ASingleObservable <|--u ABuildingObservable
+AMultipleObservable <|--u AGaugeObservable
+TerritoryModel --|> AGaugeObservable
+TerritoryModel --|> ATerritoryObservable
+
+/' Some examples
+ABuildingModel <|-- PowerPlantModel
+ABuildingModel <|-- OatFieldModel
+ABuildingModel <|-- HaulageFirmModel '/
+/' Some examples
+ABuildingView <|-- PowerPlantView
+ABuildingView <|-- OatFieldView
+ABuildingView <|-- HaulageFirmView '/
 @enduml
