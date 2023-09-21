@@ -9,7 +9,8 @@ package Godot {
 package Observers{
     package CellsObservers{
         interface ICellObserver {
-            + Update(coordinates : Vector2)
+            + UpdatePlacement(coordinates : Vector2)
+            + UpdateCellName(cname : StringName)
         }
         interface ICellObservable{
             + SetObserver(observer : ICellObserver)
@@ -79,12 +80,15 @@ package Terriflux {
             - cname : StringName
             - kind : CellKind
             - size : int
+            - placement : Vector2
             + GetCellName() : StringName
             + SetCellName(newName : StringName)
             + GetCellKind() : CellKind
             + SetCellKind(newKind : CellKind)
             + GetCellSize() : int
             + SetCellSize(newSize : int)
+            + GetPlacement() : Vector2
+            + SetPlacement(placement : Vector2)
         }
         class BuildingModelsFactory{
             /' Some examples '/
@@ -142,7 +146,8 @@ package Terriflux {
             + ^{override} _Input(click : InputEvent)
         }
         class CellView{
-            + Update()
+            + ^UpdatePlacement(coordinates : Vector2)
+            + ^UpdateCellName(cname : StringName)
             - OnMouseOver()
             - OnMouseExit()
         }

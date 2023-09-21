@@ -1,11 +1,12 @@
 using Godot;
 using System;
-
+using System.Collections.Generic;
 
 namespace Terriflux.Programs.GameContext
 {
 	public partial class TerritoryView : Node2D
 	{
+		private List<CellModel> grid = new List<CellModel>();
 
 		public override void _Ready()
 		{
@@ -17,18 +18,22 @@ namespace Terriflux.Programs.GameContext
 		// all in model, no value stored here, just map generation
 		private void GenerateMap(int lines, int columns)
 		{
-			Cell model = new();
 			for (int x = 0; x < lines; x++)
 			{
+				CellModel model = new(); // for size and pos
 				for (int y = 0; y < columns; y++)
 				{
-					PackedScene cellScene = GD.Load<PackedScene>($"{Paths.VIEW_NODES}Cell{Paths.GDEXT}");
-					Node2D cellNode = (Node2D)cellScene.Instantiate();
-					// move
-					cellNode.Position = new Vector2(model.GetCellSize() * x,
-													model.GetCellSize() * y);
-					// print
-					this.AddChild(cellNode);
+					CellView cv = new CellView();
+                    CellModel cm = new CellModel(cv, 
+						model.GetCellSize() * x,
+						model.GetCellSize() * y
+						);
+
+					// instatiate into this
+					cv.Initialize(this, (int) cm.GetPlacement().X, (int) cm.GetPlacement().Y);
+
+					// add the cell to the grid-data
+					grid.Add(cm);
 				}
 			}
 		}
