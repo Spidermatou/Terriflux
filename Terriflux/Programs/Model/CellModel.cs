@@ -3,14 +3,19 @@ using System;
 
 public partial class CellModel : ICellObservable
 {
-    private StringName cname = "Cell";
+    private string cname = "Cell";
     private int size = 128; // px
     private CellKind kind = CellKind.PRIMARY;
     private ICellObserver observer;
     private Vector2 placement;
 
     // CONSTRUCT
-    public CellModel() { }
+    public CellModel() { this.SetPlacement(0,0); }
+
+    public CellModel(int x, int y)
+    {
+        this.SetPlacement(x, y);
+    }
 
     public CellModel(ICellObserver observer, int x, int y) { 
         this.SetObserver(observer);
@@ -28,12 +33,12 @@ public partial class CellModel : ICellObservable
         this.size = newSellSize;
     }
 
-    public void SetCellName(StringName newName)
+    public void SetCellName(string newName)
     {
         this.cname = newName;
     }
 
-    public StringName GetCellName()
+    public string GetCellName()
     {
         return this.cname;
     }
@@ -67,11 +72,18 @@ public partial class CellModel : ICellObservable
 
     public void NotifyPlacement()
     {
-        this.observer.UpdatePlacement(this.placement);
+        if (observer != null)
+        {
+            this.observer.UpdatePlacement(this.placement);
+        }
     }
 
     public void NotifyCellName()
     {
         this.observer.UpdateCellName(cname);
+    }
+    public ICellObserver GetObserver()
+    {
+        return this.observer;
     }
 }

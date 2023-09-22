@@ -1,41 +1,35 @@
 using Godot;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Terriflux.Programs.GameContext
 {
 	public partial class TerritoryView : Node2D
 	{
-		private List<CellModel> grid = new List<CellModel>();
-
 		public override void _Ready()
 		{
-			// test
-			GenerateMap(10, 10);
-		}
+            // test
+            GridGenerator gd = new();
+            Grid test = gd.GenerateGrid(10);
+            UpdateMap(test);
+        }
 
-
-		// all in model, no value stored here, just map generation
-		private void GenerateMap(int lines, int columns)
+		private void UpdateMap(Grid grid)
 		{
-			for (int x = 0; x < lines; x++)
+			for (int x = 0; x < grid.GetSize(); x++)
 			{
-				CellModel model = new(); // for size and pos
-				for (int y = 0; y < columns; y++)
+                for (int y = 0; y < grid.GetSize(); y++)
 				{
-					CellView cv = new CellView();
-                    CellModel cm = new CellModel(cv, 
-						model.GetCellSize() * x,
-						model.GetCellSize() * y
-						);
+                    // Instantiate view
+                    CellView cv = CellView.Create();
+                    cv.Position = grid.GetAt(x, y).GetPlacement();
+                    this.AddChild(cv);
 
-					// instatiate into this
-					cv.Initialize(this, (int) cm.GetPlacement().X, (int) cm.GetPlacement().Y);
-
-					// add the cell to the grid-data
-					grid.Add(cm);
-				}
-			}
+                    // Link view and model
+                    grid.GetAt(x, y).SetObserver(cv);
+                }
+            }
 		}
-	}
+    }
 }

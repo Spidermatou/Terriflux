@@ -1,48 +1,46 @@
 @startuml
 !theme reddress-darkgreen
 
-package Godot {
-    class Node
-    class Node2D extends Node
-}
-
-package Observers{
-    package CellsObservers{
-        interface ICellObserver {
-            + UpdatePlacement(coordinates : Vector2)
-            + UpdateCellName(cname : StringName)
-        }
-        interface ICellObservable{
-            + SetObserver(observer : ICellObserver)
-            + NotifyPlacement()
-        }
-    }
-    package GaugesObservers{
-        interface IGaugeObserver{
-            + Update(rate : int)
-        }
-        interface IGaugeObservable{ /' observes the 3 gauges '/
-            + RegisterObserver(observer : ICellObserver)
-            + UnregisterObserver(observer : ICellObserver)
-            + NotifyRateAll()
-        }
-    }
-
-    package TerritoryObservers{
-        interface ITerritoryObserver{
-            + Update(world : CellModel[*])
-        }
-        interface ITerritoryObservable{
-            + SetObserver(observer : ICellObserver)
-        }
-    }
-}
 package Terriflux {
+    package Observers{
+        package CellsObservers{
+            interface ICellObserver {
+                + UpdatePlacement(coordinates : Vector2)
+                + UpdateCellName(cname : StringName)
+            }
+            interface ICellObservable{
+                + SetObserver(observer : ICellObserver)
+                + NotifyPlacement()
+            }
+        }
+        package GaugesObservers{
+            interface IGaugeObserver{
+                + Update(rate : int)
+            }
+            interface IGaugeObservable{ /' observes the 3 gauges '/
+                + RegisterObserver(observer : ICellObserver)
+                + UnregisterObserver(observer : ICellObserver)
+                + NotifyRateAll()
+            }
+        }
+        package TerritoryObservers{
+            interface ITerritoryObserver{
+                + Update(world : Grid)
+            }
+            interface ITerritoryObservable{
+                + SetObserver(observer : ICellObserver)
+            }
+        }
+    }
     package Models {
+        class Grid{
+            + GetSize() : int
+            + GetAt(x : int, y : int) : CellModel
+            + SetAt(x : int, y : int) : CellModel
+        }
         class TerritoryModel { /' A grid, a collection of CellModel '/
             /' Grid '/
-            - grid : CellModel[*]
-            + GetGrid() : CellModel[*]
+            + GetGrid() : Grid
             + SetGrid()
             /' Rates '/
             - economy : int
@@ -68,8 +66,8 @@ package Terriflux {
             + GetBuildingName() : string
             + GetImpacts() : int[3]
         }
-        class MapModelGenerator {
-            + GenerateMap(int size) : ITerritoryView
+        class GridGenerator {
+            + GenerateGrid(int : size) : Grid
         }
         enum CellKind{
             BUILDING,
@@ -119,10 +117,6 @@ package Terriflux {
             + CreateOatField() : IBuildingView
             + CreateHaulageFirm() : IBuildingView
         }
-        class "<<static>>\nSceneManager" as SceneManager {
-            + Initialize(root : Node, what : Node) /' unsafe, may cause errors '/
-            + GoToScene(actualScene : Node, targetScene : Node) /' Destroy the actual scene after load target! '/
-        }
         class MapViewGenerator {
             + GenerateMap(int size) : TerritoryView
         }
@@ -159,15 +153,10 @@ package Terriflux {
     }
 }
 /' LINKS '/
-Gauge --|> EconomyGauge
-Gauge --|> EcologyGauge
-Gauge --|> SociabilityGauge
-SceneManager o-> Gauge : < instantiate
-SceneManager o-> TerritoryView : < instantiate
+Gauge <|-DOWN- EconomyGauge
+Gauge <|-DOWN- EcologyGauge
+Gauge <|-DOWN- SociabilityGauge
 MapViewGenerator o-> TerritoryView
-Node2D <|-- Gauge
-Node2D <|-- CellModel
-Node2D <|-- TerritoryView
 ABuildingView --|> CellModel
 Gauge --|> IGaugeObserver
 TerritoryView --|> ITerritoryObserver
@@ -179,14 +168,17 @@ ABuildingView --|> IBuildingView
 ABuildingView --|> ICellObserver
 CellModel *..> TerritoryView : > instantiate and save
 IBuildingModel o..> BuildingModelsFactory : < create
-MapModelGenerator o-> TerritoryModel
+GridGenerator o-> Grid
 CellView --|> ICellObserver
 CellModel --|> ICellObservable
 CellModel <. CellKind : use
-CellModel --|> Node2D
 ABuildingModel --|> IBuildingModel
 TerritoryModel --|> IGaugeObservable
 TerritoryModel --|> ITerritoryObservable
+
+/' Attributs '/
+TerritoryModel <.. Grid : - grid
+
 
 /' Some examples
 ABuildingModel <|-- PowerPlantModel

@@ -1,12 +1,16 @@
 using Godot;
 using System;
+using System.Text;
+using System.Threading.Tasks;
 using Terriflux.Programs.GameContext;
 
-public partial class CellView : Node2D, ICellObserver
+public partial class CellView : Node2D, ICellObserver, IVerbosable
 {
 	// children
     private Label _nicknameLabel;
     private Sprite2D _skin;
+
+    private CellView() { }
 
     public override void _Ready()
     {
@@ -36,24 +40,45 @@ public partial class CellView : Node2D, ICellObserver
         this.Position = coordinates;
     }
 
-    public void UpdateCellName(StringName cname)
+    public void UpdateCellName(string cname)
     {
         this._nicknameLabel.Text = cname;
     }
 
-    public void LoadSkin()
+    /// <summary>
+    /// Change printed sprite.
+    /// If skinName is invalid, doesn't change the actual texture if she 
+    /// exists, else put the default texture. 
+    /// </summary>
+    /// <param name="skinName">Name of png/svg file to load, with extension precised</param>
+    public void ChangeSkin(string skinName)
     {
-        // TODO
-    }
+        skinName = skinName.ToLower();
+        this._skin.Texture = GD.Load<Texture2D>(Paths.IMAGES + skinName);
+    }    
 
-    public void Initialize(Node root, int x, int y)
+    public static CellView Create()
     {
-        Node2D n = (Node2D) GD.Load<PackedScene>(Paths.VIEW_NODES + "CellView" + Paths.GDEXT)
+        return (CellView)GD.Load<PackedScene>(Paths.VIEW_NODES + "CellView" + Paths.GDEXT)
             .Instantiate();
-        n.Position = new Vector2(x, y);
-        root.AddChild(n); 
-
-
     }
 
+    public string Verbose()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append("Cell " + this);
+        if (_skin == null)
+        {
+            sb.Append("_skin null");
+        }
+        else
+        {
+            sb.Append("Skin = " + _skin.Texture.ResourceName);
+        }
+        if (_nicknameLabel == null)
+        {
+            sb.Append("_nicknameLabel null");
+        }
+        return sb.ToString();
+    }
 }
