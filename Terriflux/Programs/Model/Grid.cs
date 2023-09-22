@@ -3,10 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public partial class Grid 
+public partial class Grid : IGridObservable 
 {
     private CellModel[,] cells;
     private int size;
+    private IGridObserver observer;
 
     public Grid(int size)
     {
@@ -39,5 +40,15 @@ public partial class Grid
     public int GetSize()
     {
         return this.size;
+    }
+
+    public void SetObserver(IGridObserver observer)
+    {
+        this.observer = observer;
+    }
+
+    public void Notify()
+    {
+        observer.UpdateMap(this);        
     }
 }

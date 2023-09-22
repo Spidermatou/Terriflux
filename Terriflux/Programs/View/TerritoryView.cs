@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Terriflux.Programs.GameContext
 {
-	public partial class TerritoryView : Node2D
+	public partial class TerritoryView : Node2D, IGridObserver
 	{
 		public override void _Ready()
 		{
@@ -15,7 +15,7 @@ namespace Terriflux.Programs.GameContext
             UpdateMap(test);
         }
 
-		private void UpdateMap(Grid grid)
+		public void UpdateMap(Grid grid)
 		{
 			for (int x = 0; x < grid.GetSize(); x++)
 			{
