@@ -7,7 +7,7 @@ public partial class CellModel : ICellObservable
     private int size = 128; // px
     private CellKind kind = CellKind.PRIMARY;
     private ICellObserver observer;
-    private Vector2 placement;
+    private Vector2I placement;
 
     // CONSTRUCT
     public CellModel() { this.SetPlacement(0,0); }
@@ -55,11 +55,11 @@ public partial class CellModel : ICellObservable
 
     public void SetPlacement(int x, int y)
     {
-        this.placement = new Vector2(x, y);
+        this.placement = new Vector2I(x, y);
         this.NotifyPlacement();
     }
 
-    public Vector2 GetPlacement()
+    public Vector2I GetPlacement()
     {
         return this.placement;
     }

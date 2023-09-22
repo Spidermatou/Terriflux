@@ -35,7 +35,7 @@ public partial class CellView : Node2D, ICellObserver, IVerbosable
         _nicknameLabel.Hide();
     }
 
-    public void UpdatePlacement(Vector2 coordinates)
+    public void UpdatePlacement(Vector2I coordinates)
     {
         this.Position = coordinates;
     }

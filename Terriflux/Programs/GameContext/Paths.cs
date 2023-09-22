@@ -7,8 +7,8 @@ namespace Terriflux.Programs.GameContext
     {
         // EXTENSIONS
         public static readonly string GDEXT = ".tscn"; // godot node extension
-        public static readonly string PNGEXT = ".png"; // godot node extension
-        public static readonly string SVGEXT = ".svg"; // godot node extension
+        public static readonly string PNGEXT = ".png"; 
+        public static readonly string SVGEXT = ".svg"; 
 
         public static readonly string RESSOURCES = "Ressources/";
         public static readonly string NODES = "Nodes/";

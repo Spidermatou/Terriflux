@@ -1,0 +1,114 @@
+@startuml
+!theme reddress-darkgreen
+
+interface IVerbosable{
+    + Verbose()
+}
+
+class Paths{
+    + {static} {readonly} GDEXT = ".tscn";
+    + {static} {readonly} PNGEXT = ".png";
+    + {static} {readonly} SVGEXT = ".svg";
+    + {static} {readonly} RESSOURCES = "Ressources/";
+    + {static} {readonly} NODES = "Nodes/";
+    + {static} {readonly} IMAGES = RESSOURCES + "Images/";
+    + {static} {readonly} VIEW_NODES = NODES + "View/";
+    + {static} {readonly} MODEL_NODES = NODES + "Model/";
+    + {static} {readonly} CONTROLLER_NODES = NODES + "Controller/";
+    + {static} {readonly} DEFAULT_TEXTURE = IMAGES + "icon" + SVGEXT;
+}
+
+enum CellKind{
+    BUILDING,
+    WASTELAND,
+    PRIMARY
+}
+
+class CellModel implements ICellObservable {
+    - cname : string
+    - size : int
+    - placement : Vector2I
+    + CellModel()
+    + CellModel(x : int, y : int)
+    + CellModel(observer : ICellObserver, x : int, y : int)
+    + GetCellSize() : int
+    + SetCellSize(newCellSize : int)
+    + SetCellName(newName : string)
+    + GetCellName() : string
+    + SetCellKind(newKind : CellKind)
+    + GetCellKind() : CellKind
+    + SetPlacement(x : int, y : int)
+    + GetPlacement() : Vector2I
+    + SetObserver(observer : ICellObserver)
+    + NotifyPlacement()
+    + NotifyCellName()
+    + GetObserver() : ICellObserver
+}
+CellKind <.. CellModel : use\n-kind
+ICellObserver <.. CellModel : use\n-observe
+
+class Grid implements IGridObservable {
+    - cells: CellModel[,]
+    - size: int
+    - observer: IGridObserver
+
+    + Grid(size: int)
+    + SetAt(cell: CellModel, line: int, column: int): void
+    + GetAt(line: int, column: int): CellModel
+    + GetSize(): int
+    + SetObserver(observer: IGridObserver): void
+    + Notify(): void
+}
+
+interface IGridObserver {
+    + UpdateMap(grid: Grid): void
+}
+
+class GridGenerator {
+    + GenerateGrid(size: int): Grid
+}
+GridGenerator o..> Grid
+
+
+interface ICellObservable {
+    + SetObserver(observer: ICellObserver)
+    + NotifyPlacement()
+    + NotifyCellName()
+}
+
+interface ICellObserver {
+    + UpdatePlacement(coordinates: Vector2I)
+    + UpdateCellName(cname: string)
+}
+
+interface IGridObserver {
+    + UpdateMap(grid: Grid)
+}
+
+interface IGridObservable {
+    + SetObserver(observer: IGridObserver)
+    + Notify()
+}
+
+class CellView implements ICellObserver {
+    - _nicknameLabel: Label
+    - _skin: Sprite2D
+
+    + _Ready() : void
+    + OnMouseOver() : void
+    + OnMouseExit() : void
+    + UpdatePlacement(coordinates: Vector2I) : void
+    + UpdateCellName(cname: string) : void
+    + ChangeSkin(skinName: string) : void
+    + Create() : CellView
+    + Verbose() : string
+}
+
+class TerritoryView implements IGridObserver {
+    + _Ready() : void
+    + UpdateMap(grid: Grid) : void
+}
+
+
+
+@enduml
