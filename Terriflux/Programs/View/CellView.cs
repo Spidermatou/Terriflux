@@ -47,15 +47,24 @@ public partial class CellView : Node2D, ICellObserver, IVerbosable
 
     /// <summary>
     /// Change printed sprite.
-    /// If skinName is invalid, doesn't change the actual texture if she 
-    /// exists, else put the default texture. 
     /// </summary>
     /// <param name="skinName">Name of png/svg file to load, with extension precised</param>
     public void ChangeSkin(string skinName)
     {
         skinName = skinName.ToLower();
         this._skin.Texture = GD.Load<Texture2D>(Paths.IMAGES + skinName);
-    }    
+    }
+
+    /// <summary>
+    /// Change printed sprite.
+    /// </summary>
+    /// <param name="skinName">Name of png/svg file to load</param>
+    /// <param name="extension">His extension (.png, .svg, .jpeg, etc.) </param>
+    public void ChangeSkin(string skinName, string extension)
+    {
+        skinName = skinName.ToLower();
+        this._skin.Texture = GD.Load<Texture2D>(Paths.IMAGES + skinName + extension);
+    }
 
     public static CellView Create()
     {

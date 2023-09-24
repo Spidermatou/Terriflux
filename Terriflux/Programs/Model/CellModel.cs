@@ -8,6 +8,7 @@ public partial class CellModel : ICellObservable
     private CellKind kind = CellKind.PRIMARY;
     private ICellObserver observer;
     private Vector2I placement;
+    private string skinExtension = ".png"; 
 
     // CONSTRUCT
     public CellModel() { this.SetPlacement(0,0); }
@@ -17,8 +18,8 @@ public partial class CellModel : ICellObservable
         this.SetPlacement(x, y);
     }
 
-    public CellModel(ICellObserver observer, int x, int y) { 
-        this.SetObserver(observer);
+    public CellModel(string name, int x, int y) { 
+        this.SetCellName(name);
         this.SetPlacement(x, y);
     }
 
@@ -62,6 +63,24 @@ public partial class CellModel : ICellObservable
     public Vector2I GetPlacement()
     {
         return this.placement;
+    }
+
+    public string GetSkinExtension() // TODO please add to uml
+    {
+        return this.skinExtension;
+    }
+
+    /// <summary>
+    /// Set extension (png, jpeg, etc.) of the skin to the specified new extension
+    /// </summary>
+    /// <param name="extension"></param>
+    public void SetSkinExtension(string extension) // TODO please add to uml
+    {
+        if (!extension.Contains('.'))
+        {
+            extension = "." + extension;
+        }
+        this.skinExtension = extension;
     }
 
     // Observer

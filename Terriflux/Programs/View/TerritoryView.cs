@@ -10,8 +10,8 @@ namespace Terriflux.Programs.GameContext
 		public override void _Ready()
 		{
             // test
-            GridGenerator gd = new();
-            Grid test = gd.GenerateGrid(10);
+            GridFactory gd = new();
+            Grid test = gd.CreateNoMansLand(10);
             UpdateMap(test);
         }
 
@@ -25,6 +25,10 @@ namespace Terriflux.Programs.GameContext
                     CellView cv = CellView.Create();
                     cv.Position = grid.GetAt(x, y).GetPlacement();
                     this.AddChild(cv);
+
+                    // Change skin
+                    cv.ChangeSkin(grid.GetAt(x, y).GetCellName(),
+                        grid.GetAt(x, y).GetSkinExtension());
 
                     // Link view and model
                     grid.GetAt(x, y).SetObserver(cv);
