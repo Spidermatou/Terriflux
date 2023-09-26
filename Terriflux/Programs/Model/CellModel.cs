@@ -67,7 +67,7 @@ public partial class CellModel : ICellObservable
         return this.placement;
     }
 
-    public string GetSkinExtension() // TODO please add to uml
+    public string GetSkinExtension() 
     {
         return this.skinExtension;
     }
@@ -76,7 +76,7 @@ public partial class CellModel : ICellObservable
     /// Set extension (png, jpeg, etc.) of the skin to the specified new extension
     /// </summary>
     /// <param name="extension"></param>
-    public void SetSkinExtension(string extension) // TODO please add to uml
+    public void SetSkinExtension(string extension) 
     {
         if (!extension.Contains('.'))
         {

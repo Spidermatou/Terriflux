@@ -3,7 +3,7 @@ using System;
 
 public partial class GridFactory 
 {
-    public Grid CreateTestLand(int size)
+    public Grid CreatePrimaryLand(int size)
     {
         Grid g = new Grid(size);
         CellModel model = new(); // for size and pos

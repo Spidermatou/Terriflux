@@ -1,6 +1,11 @@
 @startuml
 !theme reddress-darkgreen
 
+class Home{
+    + _Ready()
+}
+Home *..> TerritoryView : use
+
 interface IVerbosable{
     + Verbose()
 }
@@ -40,9 +45,11 @@ class CellModel implements ICellObservable {
     + SetPlacement(x : int, y : int)
     + GetPlacement() : Vector2I
     + SetObserver(observer : ICellObserver)
+    + GetObserver() : ICellObserver
+    + SetSkinExtension(extension : string)
+    + GetSkinExtension() : string
     + NotifyPlacement()
     + NotifyCellName()
-    + GetObserver() : ICellObserver
 }
 CellKind <.. CellModel : use\n-kind
 ICellObserver <.. CellModel : use\n-observe
@@ -53,22 +60,16 @@ class Grid implements IGridObservable {
     - observer: IGridObserver
 
     + Grid(size: int)
-    + SetAt(cell: CellModel, line: int, column: int): void
+    + SetAt(cell: CellModel, line: int, column: int)
     + GetAt(line: int, column: int): CellModel
     + GetSize(): int
-    + SetObserver(observer: IGridObserver): void
-    + Notify(): void
+    + SetObserver(observer: IGridObserver)
+    + Notify()
 }
 
 interface IGridObserver {
-    + UpdateMap(grid: Grid): void
+    + UpdateMap(grid: Grid)
 }
-
-class GridGenerator {
-    + GenerateGrid(size: int): Grid
-}
-GridGenerator o..> Grid
-
 
 interface ICellObservable {
     + SetObserver(observer: ICellObserver)
@@ -90,25 +91,40 @@ interface IGridObservable {
     + Notify()
 }
 
-class CellView implements ICellObserver {
+class CellView implements ICellObserver, IVerbosable {
     - _nicknameLabel: Label
     - _skin: Sprite2D
 
-    + _Ready() : void
-    + OnMouseOver() : void
-    + OnMouseExit() : void
-    + UpdatePlacement(coordinates: Vector2I) : void
-    + UpdateCellName(cname: string) : void
-    + ChangeSkin(skinName: string) : void
-    + Create() : CellView
+    + _Ready() 
+    + OnMouseOver() 
+    + OnMouseExit() 
+    + UpdatePlacement(coordinates: Vector2I) 
+    + UpdateCellName(cname: string) 
+    + ChangeSkin(skinName: string) 
+    + {static} Create() : CellView
     + Verbose() : string
 }
 
 class TerritoryView implements IGridObserver {
-    + _Ready() : void
-    + UpdateMap(grid: Grid) : void
+    + _Ready() 
+    + UpdateMap(grid: Grid)
+    + {static} Create() : TerritoryView
 }
+TerritoryView ..> IGridObservable : > consult
 
+class GridFactory{
+    + CreatePrimaryLand(size : int)
+    + CreateNoMansLand(size : int)
+}
+Grid <..o GridFactory
 
+class CellsFactory{
+    + CreatePrimaryCell(x : int, y : int) : CellModel
+    + DesignPrimaryCell(parent : Node, model : CellModel) : CellView
+    + CreateGrass(x : int, y : int) : CellModel
+    + DesignGrass(parent : Node, model : CellModel) : CellView
+}
+CellModel <..o CellsFactory
+CellView <..o CellsFactory
 
 @enduml
