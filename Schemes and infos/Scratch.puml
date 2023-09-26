@@ -127,4 +127,31 @@ class "<<static>> CellsFactory" as CellsFactory{
 CellModel <..o CellsFactory
 CellView <..o CellsFactory
 
+abstract ABuildingModel implements IBuildingObservable{
+    - observer : IBuildingObserver /' just one for each instance! '/
+    # impacts : int[3]
+    # needs : Flow[*]
+    # product : Flow[*]
+    + GetImpacts() : int[3]
+    + GetFlowNeeds() : Flow[*]
+    + GetFlowProducts() : Flow[*]
+    + GetQuantityNeeds(kind : Flow) : int
+    + GetQuantityProduced(kind : Flow) : int
+    + SetObserver(observer : ICellObserver)
+    + NotifyImpacts()
+    /' impacts =
+    +-sociability,
+    +-ecology,
+    +-economy\n}'/
+}
+note "needs and flows = {Flow:Quantity}" as FQNote
+FQNote - ABuildingModel
+
+interface IBuildingObserver{
+    + UpdateImpacts()
+}
+interface IBuildingObservable{
+    + NotifyImpacts()
+}
+
 @enduml
