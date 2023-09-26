@@ -13,6 +13,7 @@ namespace Terriflux.Programs.GameContext
         public static readonly string RESSOURCES = "Ressources/";
         public static readonly string NODES = "Nodes/";
         public static readonly string IMAGES = RESSOURCES + "Images/";
+        public static readonly string TEXTURES = RESSOURCES + "Textures/";
 
         // MVC
         public static readonly string VIEW_NODES = NODES + "View/";

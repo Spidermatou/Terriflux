@@ -7,8 +7,14 @@ namespace Terriflux.Programs.GameContext
 {
 	public partial class TerritoryView : Node2D, IGridObserver
 	{
+        private Camera2D _camera;
+
 		public override void _Ready()
 		{
+            // nodes
+            _camera = GetNode<Camera2D>("Camera");
+
+
             // test
             GridFactory gd = new();
             Grid test = gd.CreateNoMansLand(10);
@@ -17,18 +23,24 @@ namespace Terriflux.Programs.GameContext
 
 		public void UpdateMap(Grid grid)
 		{
+            // Zoom in or out
+            if (grid.GetSize() >= 10)
+            {
+                _camera.Zoom = new Vector2(1, 1); // TODO
+            }
+            else
+            {
+                _camera.Zoom = new Vector2(1, 1);
+            }
+
+            // Construct the graphical grid
+            CellsFactory cf = new();
 			for (int x = 0; x < grid.GetSize(); x++)
 			{
                 for (int y = 0; y < grid.GetSize(); y++)
 				{
                     // Instantiate view
-                    CellView cv = CellView.Create();
-                    cv.Position = grid.GetAt(x, y).GetPlacement();
-                    this.AddChild(cv);
-
-                    // Change skin
-                    cv.ChangeSkin(grid.GetAt(x, y).GetCellName(),
-                        grid.GetAt(x, y).GetSkinExtension());
+                    CellView cv = cf.DesignGrass(this, grid.GetAt(x, y));
 
                     // Link view and model
                     grid.GetAt(x, y).SetObserver(cv);

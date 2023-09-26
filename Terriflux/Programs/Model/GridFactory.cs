@@ -25,16 +25,14 @@ public partial class GridFactory
     {
         Grid g = new Grid(size);
         CellModel model = new(); // for size and pos
+        CellsFactory cf = new CellsFactory();
         for (int x = 0; x < size; x++)
         {
             for (int y = 0; y < size; y++)
             {
-                CellModel cm = new CellModel(
-                    model.GetCellSize() * x,
-                    model.GetCellSize() * y
-                    );
-                cm.SetCellName("Grass");
-                g.SetAt(cm, x, y);
+                CellModel grass = cf.CreateGrass(model.GetCellSize() * x,
+                    model.GetCellSize() * y);
+                g.SetAt(grass, x, y);
             }
         }
         return g;

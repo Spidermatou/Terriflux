@@ -18,7 +18,7 @@ public partial class CellModel : ICellObservable
         this.SetPlacement(x, y);
     }
 
-    public CellModel(string name, int x, int y) { 
+    public CellModel(string name, CellKind kind, int x, int y) { 
         this.SetCellName(name);
         this.SetPlacement(x, y);
     }

@@ -45,25 +45,17 @@ public partial class CellView : Node2D, ICellObserver, IVerbosable
         this._nicknameLabel.Text = cname;
     }
 
-    /// <summary>
-    /// Change printed sprite.
-    /// </summary>
-    /// <param name="skinName">Name of png/svg file to load, with extension precised</param>
-    public void ChangeSkin(string skinName)
-    {
-        skinName = skinName.ToLower();
-        this._skin.Texture = GD.Load<Texture2D>(Paths.IMAGES + skinName);
-    }
 
-    /// <summary>
-    /// Change printed sprite.
-    /// </summary>
-    /// <param name="skinName">Name of png/svg file to load</param>
-    /// <param name="extension">His extension (.png, .svg, .jpeg, etc.) </param>
-    public void ChangeSkin(string skinName, string extension)
+    
+    public void ChangeSkin(string path)
     {
-        skinName = skinName.ToLower();
-        this._skin.Texture = GD.Load<Texture2D>(Paths.IMAGES + skinName + extension);
+        try
+        {
+            path = path.ToLower();
+            this._skin.Texture = GD.Load<Texture2D>(path);
+        }
+        catch { throw new ArgumentException("Invalid texture path."); }
+        
     }
 
     public static CellView Create()
