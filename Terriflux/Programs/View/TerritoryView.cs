@@ -9,12 +9,26 @@ namespace Terriflux.Programs.GameContext
 	{
         private Camera2D _camera;
 
-		public override void _Ready()
+        private TerritoryView() { }
+
+        public static TerritoryView Create()
+        {
+            return (TerritoryView)GD.Load<PackedScene>(Paths.VIEW_NODES + "TerritoryView" + Paths.GDEXT)
+                .Instantiate();
+        }
+
+        public override void _Ready()
 		{
             // nodes
             _camera = GetNode<Camera2D>("Camera");
         }
 
+
+        /// <summary>
+        /// Update the specified grid on the screen.
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <exception cref="NotImplementedException"></exception>
 		public void UpdateMap(Grid grid)
 		{
             // Construct the graphical grid
