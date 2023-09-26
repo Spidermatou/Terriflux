@@ -32,6 +32,7 @@ public partial class GridFactory
             {
                 CellModel grass = cf.CreateGrass(model.GetCellSize() * x,
                     model.GetCellSize() * y);
+                grass.SetCellKind(CellKind.WASTELAND);
                 g.SetAt(grass, x, y);
             }
         }

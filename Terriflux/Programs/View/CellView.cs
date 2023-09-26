@@ -45,8 +45,6 @@ public partial class CellView : Node2D, ICellObserver, IVerbosable
         this._nicknameLabel.Text = cname;
     }
 
-
-    
     public void ChangeSkin(string path)
     {
         try

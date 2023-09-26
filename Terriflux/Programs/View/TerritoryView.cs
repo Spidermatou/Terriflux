@@ -13,34 +13,29 @@ namespace Terriflux.Programs.GameContext
 		{
             // nodes
             _camera = GetNode<Camera2D>("Camera");
-
-
-            // test
-            GridFactory gd = new();
-            Grid test = gd.CreateNoMansLand(10);
-            UpdateMap(test);
         }
 
 		public void UpdateMap(Grid grid)
 		{
-            // Zoom in or out
-            if (grid.GetSize() >= 10)
-            {
-                _camera.Zoom = new Vector2(1, 1); // TODO
-            }
-            else
-            {
-                _camera.Zoom = new Vector2(1, 1);
-            }
-
             // Construct the graphical grid
             CellsFactory cf = new();
 			for (int x = 0; x < grid.GetSize(); x++)
 			{
                 for (int y = 0; y < grid.GetSize(); y++)
 				{
-                    // Instantiate view
-                    CellView cv = cf.DesignGrass(this, grid.GetAt(x, y));
+                    CellView cv;
+                    CellKind actKind = grid.GetAt(x, y).GetCellKind();
+                    if (actKind == CellKind.BUILDING)
+                    {
+                        // TODO DesignBuilding
+                        cv = null;
+                        throw new NotImplementedException();
+                    }
+                    else
+                    {
+                        // Instantiate view
+                        cv = cf.DesignGrass(this, grid.GetAt(x, y));
+                    }
 
                     // Link view and model
                     grid.GetAt(x, y).SetObserver(cv);

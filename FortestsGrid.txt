@@ -1,0 +1,4 @@
+            // test
+            GridFactory gd = new();
+            Grid test = gd.CreateNoMansLand(10);
+            UpdateMap(test);

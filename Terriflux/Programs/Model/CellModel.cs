@@ -11,7 +11,9 @@ public partial class CellModel : ICellObservable
     private string skinExtension = ".png"; 
 
     // CONSTRUCT
-    public CellModel() { this.SetPlacement(0,0); }
+    public CellModel() { 
+        this.SetPlacement(0,0); 
+    }
 
     public CellModel(int x, int y)
     {

@@ -23,6 +23,7 @@ public partial class CellsFactory
         cv.Position = model.GetPlacement(); 
         root.AddChild(cv); // instantiate this and his children
         cv.ChangeSkin(Paths.TEXTURES + "grass.png");
+        cv.UpdateCellName(model.GetCellName());
         return cv;
     }
 
