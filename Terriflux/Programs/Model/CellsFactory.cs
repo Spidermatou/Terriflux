@@ -1,7 +1,7 @@
 using Godot;
 using Terriflux.Programs.GameContext;
 
-public partial class CellsFactory 
+public static partial class CellsFactory 
 {
     /// <summary>
     /// Create a very basic cell, with all default values
@@ -9,7 +9,7 @@ public partial class CellsFactory
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    public CellModel CreatePrimaryCell(int x, int y)
+    public static CellModel CreatePrimaryCell(int x, int y)
     {
         return new(x, y);
     }
@@ -20,7 +20,7 @@ public partial class CellsFactory
     /// <param name="parent"></param>
     /// <param name="model"></param>
     /// <returns>The already-added CellView.</returns>
-    public CellView DesignPrimaryCell(Node parent, CellModel model)
+    public static CellView DesignPrimaryCell(Node parent, CellModel model)
     {
         CellView cv = CellView.Create();
         cv.Position = model.GetPlacement();
@@ -29,7 +29,7 @@ public partial class CellsFactory
     }
 
 
-    public CellModel CreateGrass(int x, int y)
+    public static CellModel CreateGrass(int x, int y)
     {
         CellModel cm = new("Grass", CellKind.WASTELAND, x, y);
         return cm;
@@ -42,7 +42,7 @@ public partial class CellsFactory
     /// <param name="parent"></param>
     /// <param name="model"></param>
     /// <returns>The already-added CellView.</returns>
-    public CellView DesignGrass(Node parent, CellModel model)
+    public static CellView DesignGrass(Node parent, CellModel model)
     {
         CellView cv = CellView.Create();
         cv.Position = model.GetPlacement(); 

@@ -32,7 +32,6 @@ namespace Terriflux.Programs.GameContext
 		public void UpdateMap(Grid grid)
 		{
             // Construct the graphical grid
-            CellsFactory cf = new();
 			for (int x = 0; x < grid.GetSize(); x++)
 			{
                 for (int y = 0; y < grid.GetSize(); y++)
@@ -48,7 +47,7 @@ namespace Terriflux.Programs.GameContext
                     else
                     {
                         // Instantiate view
-                        cv = cf.DesignGrass(this, grid.GetAt(x, y));
+                        cv = CellsFactory.DesignGrass(this, grid.GetAt(x, y));
                     }
 
                     // Link view and model

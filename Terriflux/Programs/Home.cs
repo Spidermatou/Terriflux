@@ -10,8 +10,7 @@ public partial class Home : Node2D
 	public override void _Ready()
 	{
         // test
-        GridFactory gd = new();
-        Grid test = gd.CreateNoMansLand(10);
+        Grid test = GridFactory.CreateNoMansLand(10);
         TerritoryView tw = TerritoryView.Create();
         this.AddChild(tw);
         tw.UpdateMap(test);

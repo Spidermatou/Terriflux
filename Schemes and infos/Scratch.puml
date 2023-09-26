@@ -112,17 +112,17 @@ class TerritoryView implements IGridObserver {
 }
 TerritoryView ..> IGridObservable : > consult
 
-class GridFactory{
-    + CreatePrimaryLand(size : int)
-    + CreateNoMansLand(size : int)
+class "<<static>> GridFactory" as GridFactory{
+    + {static} CreatePrimaryLand(size : int)
+    + {static} CreateNoMansLand(size : int)
 }
 Grid <..o GridFactory
 
-class CellsFactory{
-    + CreatePrimaryCell(x : int, y : int) : CellModel
-    + DesignPrimaryCell(parent : Node, model : CellModel) : CellView
-    + CreateGrass(x : int, y : int) : CellModel
-    + DesignGrass(parent : Node, model : CellModel) : CellView
+class "<<static>> CellsFactory" as CellsFactory{
+    + {static} CreatePrimaryCell(x : int, y : int) : CellModel
+    + {static} DesignPrimaryCell(parent : Node, model : CellModel) : CellView
+    + {static} CreateGrass(x : int, y : int) : CellModel
+    + {static} DesignGrass(parent : Node, model : CellModel) : CellView
 }
 CellModel <..o CellsFactory
 CellView <..o CellsFactory
