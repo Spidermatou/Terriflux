@@ -22,6 +22,7 @@ public partial class Grid : IGridObservable
             throw new ArgumentOutOfRangeException();
         }
         this.cells[line, column] = cell;
+            Notify();
     }
 
     public CellModel GetAt(int line, int column)
@@ -49,6 +50,9 @@ public partial class Grid : IGridObservable
 
     public void Notify()
     {
-        observer.UpdateMap(this);        
+        if (this.observer != null)
+        {
+            observer.UpdateMap(this);
+        }
     }
 }

@@ -10,7 +10,7 @@ public partial class CellView : Node2D, ICellObserver, IVerbosable
     private Label _nicknameLabel;
     private Sprite2D _skin;
 
-    private CellView() { }
+    protected CellView() { }
 
     public override void _Ready()
     {

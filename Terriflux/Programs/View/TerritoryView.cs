@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 namespace Terriflux.Programs.GameContext
 {
-	public partial class TerritoryView : Node2D, IGridObserver
-	{
+    public partial class TerritoryView : Node2D, IGridObserver
+    {
         private Camera2D _camera;
 
         private TerritoryView() { }
@@ -18,7 +18,7 @@ namespace Terriflux.Programs.GameContext
         }
 
         public override void _Ready()
-		{
+        {
             // nodes
             _camera = GetNode<Camera2D>("Camera");
         }
@@ -30,12 +30,15 @@ namespace Terriflux.Programs.GameContext
         /// <param name="grid"></param>
         /// <exception cref="NotImplementedException"></exception>
 		public void UpdateMap(Grid grid)
-		{
+        {
+            // Reset
+            RemoveAllChildren();
+
             // Construct the graphical grid
-			for (int x = 0; x < grid.GetSize(); x++)
-			{
+            for (int x = 0; x < grid.GetSize(); x++)
+            {
                 for (int y = 0; y < grid.GetSize(); y++)
-				{
+                {
                     CellView cv;
                     CellKind actKind = grid.GetAt(x, y).GetCellKind();
                     if (actKind == CellKind.BUILDING)
@@ -54,6 +57,15 @@ namespace Terriflux.Programs.GameContext
                     grid.GetAt(x, y).SetObserver(cv);
                 }
             }
-		}
+        }
+
+        private void RemoveAllChildren()
+        {
+            foreach (Node child in this.GetChildren())
+            {
+                this.RemoveChild(child);
+            }
+        }
+
     }
 }

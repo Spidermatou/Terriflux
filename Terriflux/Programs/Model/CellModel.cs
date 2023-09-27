@@ -34,11 +34,13 @@ public partial class CellModel : ICellObservable
     public void SetCellSize(int newSellSize)
     {
         this.size = newSellSize;
+        // NotifySize // TODO
     }
 
     public void SetCellName(string newName)
     {
         this.cname = newName;
+        NotifyCellName();
     }
 
     public string GetCellName()
@@ -49,6 +51,7 @@ public partial class CellModel : ICellObservable
     public void SetCellKind(CellKind newKind)
     {
         this.kind = newKind;
+        // NotifyKind // TODO
     }
 
     public CellKind GetCellKind()
@@ -60,6 +63,7 @@ public partial class CellModel : ICellObservable
     {
         this.placement = new Vector2I(x, y);
         this.NotifyPlacement();
+        NotifyPlacement();
     }
 
     public Vector2I GetPlacement()

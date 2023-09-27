@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbw207jpaoqvm"]
+
+[ext_resource type="Script" path="res://Programs/View/BuildingView.cs" id="1_1aynv"]
+
+[node name="BuildingView" type="Node2D"]
+script = ExtResource("1_1aynv")

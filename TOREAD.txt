@@ -1,4 +1,4 @@
-ADD constructors to scheme !!!
+ADD constructors and cardinalities to scheme !!!
 
 Tasks:
 - create gauges (mvc format)

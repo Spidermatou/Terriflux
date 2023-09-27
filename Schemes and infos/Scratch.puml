@@ -94,7 +94,7 @@ interface IGridObservable {
 class CellView implements ICellObserver, IVerbosable {
     - _nicknameLabel: Label
     - _skin: Sprite2D
-
+    # CellView()
     + _Ready() 
     + OnMouseOver() 
     + OnMouseExit() 
@@ -130,13 +130,14 @@ CellView <..o CellsFactory
 abstract ABuildingModel implements IBuildingObservable{
     - observer : IBuildingObserver /' just one for each instance! '/
     # impacts : int[3]
-    # needs : Flow[*]
-    # product : Flow[*]
+    # needs : FlowKind[*]
+    # product : FlowKind[*]
+    # ABuildingModel()
     + GetImpacts() : int[3]
-    + GetFlowNeeds() : Flow[*]
-    + GetFlowProducts() : Flow[*]
-    + GetQuantityNeeds(kind : Flow) : int
-    + GetQuantityProduced(kind : Flow) : int
+    + GetFlowNeeds() : FlowKind[*]
+    + GetFlowProducts() : FlowKind[*]
+    + GetQuantityNeeds(kind : FlowKind) : int
+    + GetQuantityProduced(kind : FlowKind) : int
     + SetObserver(observer : ICellObserver)
     + NotifyImpacts()
     /' impacts =
@@ -144,7 +145,7 @@ abstract ABuildingModel implements IBuildingObservable{
     +-ecology,
     +-economy\n}'/
 }
-note "needs and flows = {Flow:Quantity}" as FQNote
+note "needs and flows = {FlowKind:Quantity}" as FQNote
 FQNote - ABuildingModel
 
 interface IBuildingObserver{

@@ -1,4 +1,4 @@
-﻿public interface IBuildingObserver // TODO
+﻿public interface IBuildingObserver 
 {
     public void UpdateImpacts();
 }
