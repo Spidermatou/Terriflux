@@ -2,41 +2,47 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using Terriflux.Programs.GameContext;
 
 public partial class BuildingView : CellView, IBuildingObserver
 {
-	private BuildingView() : base() { } 
+	private BuildingView() : base() { }
 
-
-	public static BuildingView Create(string buildingName, string texturePath, int x, int y)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="buildingName"></param>
+    /// <returns>The created BuildingView node, with basic cell skin </returns>
+    /// <exception cref="FileNotFoundException"></exception>
+    public static BuildingView Create(string buildingName)
 	{
-		if (!File.Exists(Paths.VIEW_NODES + buildingName.ToLower() + Paths.GDEXT))
+        string texturePath = Paths.TEXTURES + buildingName.ToLower() + Paths.PNGEXT;
+
+        if (File.Exists(texturePath))
 		{
-            BuildingView node = (BuildingView)GD.Load<PackedScene>(Paths.VIEW_NODES + buildingName.Capitalize() + Paths.GDEXT)
+            BuildingView building = (BuildingView)GD.Load<PackedScene>(Paths.VIEW_NODES + "BuildingView" + Paths.GDEXT)
 				.Instantiate();
-			node.ChangeSkin(texturePath);
-			return node;
-		}
+			return building;
+        }
 		else
 		{
-			throw new FileNotFoundException();
+            throw new FileNotFoundException();
 		}
     }
 
 
-	public override void _Ready()
+    public override void _Ready()
 	{
-		//
-		GD.Print("Building created!");
+		GD.Print("Building created!"); // test
 	}
 
 	public override void _Process(double delta)
 	{
 	}
 
-    public void UpdateImpacts() // TODO
+    public void UpdateImpacts() 
     {
-        throw new NotImplementedException();
+		// Nothing
     }
 }

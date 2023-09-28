@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Terriflux.Programs.GameContext;
@@ -47,13 +48,20 @@ public partial class CellView : Node2D, ICellObserver, IVerbosable
 
     public void ChangeSkin(string path)
     {
-        try
+        if (this._skin == null)
         {
-            path = path.ToLower();
+            throw new NullReferenceException(this + "'s skin child not loaded correctly!");
+        }
+
+        if (File.Exists(path))
+        {
             this._skin.Texture = GD.Load<Texture2D>(path);
         }
-        catch { throw new ArgumentException("Invalid texture path."); }
-        
+        else
+        {
+            GD.Print(path); // test
+            throw new ArgumentException("Invalid texture path.");
+        }
     }
 
     public static CellView Create()
@@ -79,5 +87,10 @@ public partial class CellView : Node2D, ICellObserver, IVerbosable
             sb.Append("_nicknameLabel null");
         }
         return sb.ToString();
+    }
+
+    public void UpdateCellKind(CellKind kind)
+    {
+        // Does nothing
     }
 }

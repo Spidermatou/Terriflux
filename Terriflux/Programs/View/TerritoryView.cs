@@ -54,7 +54,7 @@ namespace Terriflux.Programs.GameContext
                     }
 
                     // Link view and model
-                    grid.GetAt(x, y).SetObserver(cv);
+                    grid.GetAt(x, y).AddObserver(cv);
                 }
             }
         }

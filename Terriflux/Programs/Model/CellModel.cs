@@ -1,18 +1,22 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class CellModel : ICellObservable
 {
+    public const int DEFAULT_CELL_SIZE = 128; //px
+    public const int DEFAULT_SCALE = 1;
+
     private string cname = "Cell";
-    private int size = 128; // px
     private CellKind kind = CellKind.PRIMARY;
-    private ICellObserver observer;
+    private List<ICellObserver> observers = new List<ICellObserver>();
     private Vector2I placement;
-    private string skinExtension = ".png"; 
+    private string skinExtension = ".png";
 
     // CONSTRUCT
-    public CellModel() { 
-        this.SetPlacement(0,0); 
+    public CellModel()
+    {
+        this.SetPlacement(0, 0);
     }
 
     public CellModel(int x, int y)
@@ -20,7 +24,8 @@ public partial class CellModel : ICellObservable
         this.SetPlacement(x, y);
     }
 
-    public CellModel(string name, CellKind kind, int x, int y) { 
+    public CellModel(string name, CellKind kind, int x, int y)
+    {
         this.SetCellName(name);
         this.SetPlacement(x, y);
     }
@@ -28,13 +33,7 @@ public partial class CellModel : ICellObservable
     // GET-SET
     public int GetCellSize()
     {
-        return this.size;
-    }
-
-    public void SetCellSize(int newSellSize)
-    {
-        this.size = newSellSize;
-        // NotifySize // TODO
+        return DEFAULT_CELL_SIZE * DEFAULT_SCALE;
     }
 
     public void SetCellName(string newName)
@@ -51,7 +50,7 @@ public partial class CellModel : ICellObservable
     public void SetCellKind(CellKind newKind)
     {
         this.kind = newKind;
-        // NotifyKind // TODO
+        NotifyKind();
     }
 
     public CellKind GetCellKind()
@@ -71,7 +70,7 @@ public partial class CellModel : ICellObservable
         return this.placement;
     }
 
-    public string GetSkinExtension() 
+    public string GetSkinExtension()
     {
         return this.skinExtension;
     }
@@ -80,7 +79,7 @@ public partial class CellModel : ICellObservable
     /// Set extension (png, jpeg, etc.) of the skin to the specified new extension
     /// </summary>
     /// <param name="extension"></param>
-    public void SetSkinExtension(string extension) 
+    public void SetSkinExtension(string extension)
     {
         if (!extension.Contains('.'))
         {
@@ -90,25 +89,44 @@ public partial class CellModel : ICellObservable
     }
 
     // Observer
-    public void SetObserver(ICellObserver observer)
+    public void AddObserver(ICellObserver observer)
     {
-        this.observer = observer;
+        this.observers.Add(observer);
     }
 
     public void NotifyPlacement()
     {
-        if (observer != null)
+        foreach (ICellObserver observer in this.observers)
         {
-            this.observer.UpdatePlacement(this.placement);
+            observer.UpdatePlacement(this.placement);
         }
     }
 
     public void NotifyCellName()
     {
-        this.observer.UpdateCellName(cname);
+        foreach (ICellObserver observer in this.observers)
+        {
+            observer.UpdateCellName(this.cname);
+        }
     }
-    public ICellObserver GetObserver()
+    public ICellObserver[] GetObserver()
     {
-        return this.observer;
+        return this.observers.ToArray();
+    }
+
+    public void NotifyKind()
+    {
+        foreach (ICellObserver observer in this.observers)
+        {
+            observer.UpdateCellKind(this.kind);
+        }
+    }
+
+    public void RemoveObserver(ICellObserver observer)
+    {
+        if (this.observers.Contains(observer))
+        {
+            this.observers.Remove(observer);
+        }
     }
 }

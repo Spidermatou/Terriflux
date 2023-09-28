@@ -1,4 +1,5 @@
 ADD constructors and cardinalities to scheme !!!
+Notify into cells
 
 Tasks:
 - create gauges (mvc format)

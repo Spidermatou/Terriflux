@@ -10,23 +10,14 @@ public partial class Home : Node2D
 	public override void _Ready()
 	{
         // test grid
-        Grid test = GridFactory.CreateNoMansLand(10);
-        TerritoryView tw = TerritoryView.Create();
-        this.AddChild(tw);
-        tw.UpdateMap(test);
-        test.SetObserver(tw);
+        Grid grid_test = GridFactory.CreateNoMansLand(10);
+        TerritoryView territory_view = TerritoryView.Create();
+        this.AddChild(territory_view);
+        territory_view.UpdateMap(grid_test);
+        grid_test.SetObserver(territory_view);
 
         // test building
-        BuildingModel bm = new BuildingModel("field", ".png", 5, 5);
-        GD.Print(bm.GetCellName());
-        /*
-        BuildingView bv = BuildingView.Create(bm.GetCellName(),
-            Paths.TEXTURES+bm.GetCellName()+bm.GetSkinExtension(),
-            bm.GetPlacement().X,
-            bm.GetPlacement().Y);
-        test.SetAt(bm,
-            bm.GetPlacement().X,
-            bm.GetPlacement().Y); */
+        // todo
 
     }
 

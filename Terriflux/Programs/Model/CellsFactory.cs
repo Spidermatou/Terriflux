@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using Terriflux.Programs.GameContext;
 
 public static partial class CellsFactory 
@@ -50,6 +51,16 @@ public static partial class CellsFactory
         cv.ChangeSkin(Paths.TEXTURES + "grass.png");
         cv.UpdateCellName(model.GetCellName());
         return cv;
+    }
+
+    public static BuildingView DesignOatField(Node parent, CellModel model) // TODO
+    {
+        BuildingView bv = BuildingView.Create("Field");
+        bv.Position = model.GetPlacement();
+        parent.AddChild(bv); // instantiate this and his children
+        bv.ChangeSkin(Paths.TEXTURES + "field.png");
+        bv.UpdateCellName(model.GetCellName());
+        return bv; 
     }
 
 }

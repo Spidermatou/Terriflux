@@ -14,11 +14,12 @@ public partial class BuildingModel : CellModel, IBuildingObservable
     public BuildingModel(string name, string textureExtension) {
         this.SetCellName(name.Capitalize());
         this.SetSkinExtension(textureExtension);
-        GD.PrintErr(this.GetCellName());
+
     }
     public BuildingModel(string name, string textureExtension, int x, int y) {
-        BuildingModel bd = new BuildingModel(name, textureExtension);
-        bd.SetPlacement(x, y);
+        this.SetCellName(name.Capitalize());
+        this.SetSkinExtension(textureExtension);
+        this.SetPlacement(x, y);
     }
 
     public int[] GetImpacts()
