@@ -44,6 +44,31 @@ public partial class BuildingView : CellView, IBuildingObserver
 
     public void UpdateImpacts() 
     {
-		// Nothing
+		// TODO
+    }
+
+    public void UpdateImpacts(int[] impacts)
+    {
+        // TODO
+    }
+
+    public void UpdateInfluenceScale(InfluenceScale actualInfluenceScale)
+    {
+        // TODO
+    }
+
+    public void UpdateProducts(Dictionary<FlowKind, int> products)
+    {
+        // TODO
+    }
+
+    public void UpdateNeeds(Dictionary<FlowKind, int> needs)
+    {
+        // TODO
+    }
+
+    public void UpdateOccupation(int occupation)
+    {
+        // TODO
     }
 }

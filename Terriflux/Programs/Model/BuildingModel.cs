@@ -5,166 +5,171 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Terriflux.Programs.Observers;
 
-public partial class BuildingModel : CellModel, IBuildingObservable
+namespace Terriflux.Programs.Model
 {
-    private static readonly Dictionary<InfluenceScale, int> MULTIPLICATION_RATE = new Dictionary<InfluenceScale, int>()
+    public partial class BuildingModel : CellModel, IBuildingObservable
     {
-        { InfluenceScale.NATIONAL, 1 },
-        { InfluenceScale.NATIONAL, 3 },
-        { InfluenceScale.WORLDWIDE, 5 },
-    }; // the larger the scale, the larger the needs and production will be 
+        private static readonly Dictionary<InfluenceScale, int> MULTIPLICATION_RATE = new Dictionary<InfluenceScale, int>()
+        {
+            { InfluenceScale.NATIONAL, 1 },
+            { InfluenceScale.NATIONAL, 3 },
+            { InfluenceScale.WORLDWIDE, 5 },
+        }; // the larger the scale, the larger the needs and production will be 
 
 
-    private List<IBuildingObserver> buildingObservers = new List<IBuildingObserver>();
-    private int[] impacts = new int[3];
-    private Dictionary<FlowKind, int> needs = new Dictionary<FlowKind, int>();
-    private Dictionary<FlowKind, int> products = new Dictionary<FlowKind, int>();
-    private int occupation; //  number of cells occupied by the building in length or width
-    private InfluenceScale actualInfluenceScale;
+        private List<IBuildingObserver> buildingObservers = new List<IBuildingObserver>();
+        private int[] impacts = new int[3];
+        private Dictionary<FlowKind, int> needs = new Dictionary<FlowKind, int>();
+        private Dictionary<FlowKind, int> products = new Dictionary<FlowKind, int>();
+        private int occupation; //  number of cells occupied by the building in length or width
+        private InfluenceScale actualInfluenceScale;
 
-    public BuildingModel(string name, int occupation, int x, int y, InfluenceScale influence, 
-        Dictionary<FlowKind, int> needs, Dictionary<FlowKind, int> products) {
-        this.SetCellName(name.Capitalize());
-        this.SetSkinExtension("png");
-        this.SetOccupation(occupation); 
-        this.SetPlacement(x, y);
-        this.SetInfluenceScale(influence); 
+        public BuildingModel(string name, int occupation, int x, int y, InfluenceScale influence,
+            Dictionary<FlowKind, int> needs, Dictionary<FlowKind, int> products)
+        {
+            SetCellName(name.Capitalize());
+            SetSkinExtension("png");
+            SetOccupation(occupation);
+            SetPlacement(x, y);
+            SetInfluenceScale(influence);
 
-        // needs
-        foreach (KeyValuePair<FlowKind, int> kvp in needs){
-            this.AddNeed(kvp.Key, kvp.Value * MULTIPLICATION_RATE[influence]);
+            // needs
+            foreach (KeyValuePair<FlowKind, int> kvp in needs)
+            {
+                AddNeed(kvp.Key, kvp.Value * MULTIPLICATION_RATE[influence]);
+            }
+
+            // needs
+            foreach (KeyValuePair<FlowKind, int> kvp in products)
+            {
+                AddProduct(kvp.Key, kvp.Value * MULTIPLICATION_RATE[influence]);
+            }
         }
 
-        // needs
-        foreach (KeyValuePair<FlowKind, int> kvp in products)
+        public void AddProduct(FlowKind flow, int quantity)
         {
-            this.AddProduct(kvp.Key, kvp.Value * MULTIPLICATION_RATE[influence]);
+            if (!products.ContainsKey(flow))
+            {
+                products.Add(flow, quantity);
+                NotifyProducts();
+            }
         }
-    }
 
-    public void AddProduct(FlowKind flow, int quantity)
-    {
-        if (!this.products.ContainsKey(flow))
+        public void NotifyProducts()
         {
-            this.products.Add(flow, quantity);
-            NotifyProducts();
+            foreach (IBuildingObserver observer in buildingObservers)
+            {
+                // clone
+                observer.UpdateProducts(products.ToDictionary(entry => entry.Key,
+                                                                  entry => entry.Value));
+            }
         }
-    }
 
-    public void NotifyProducts()
-    {
-        foreach (IBuildingObserver observer in this.buildingObservers)
+        public void AddNeed(FlowKind flow, int quantity)
         {
-            // clone
-            observer.UpdateProducts(this.products.ToDictionary(entry => entry.Key,
-                                                              entry => entry.Value));
+            if (!needs.ContainsKey(flow))
+            {
+                needs.Add(flow, quantity);
+                NotifyNeeds();
+            }
         }
-    }
 
-    public void AddNeed(FlowKind flow, int quantity)
-    {
-        if (!this.needs.ContainsKey(flow))
+        public void NotifyNeeds()
         {
-            this.needs.Add(flow, quantity);
-            NotifyNeeds();
+            foreach (IBuildingObserver observer in buildingObservers)
+            {
+                // clone
+                observer.UpdateProducts(needs.ToDictionary(entry => entry.Key,
+                                                                  entry => entry.Value));
+            }
         }
-    }
 
-    public void NotifyNeeds()
-    {
-        foreach (IBuildingObserver observer in this.buildingObservers)
+        public void SetInfluenceScale(InfluenceScale influence)
         {
-            // clone
-            observer.UpdateProducts(this.needs.ToDictionary(entry => entry.Key,
-                                                              entry => entry.Value));
+            actualInfluenceScale = influence;
+            NotifyInfluenceScale();
         }
-    }
 
-    public void SetInfluenceScale (InfluenceScale influence)
-    {
-        this.actualInfluenceScale = influence;
-        NotifyInfluenceScale();
-    }
-
-    public void NotifyInfluenceScale()
-    {
-        foreach (IBuildingObserver observer in this.buildingObservers)
+        public void NotifyInfluenceScale()
         {
-            observer.UpdateInfluenceScale(this.actualInfluenceScale);
+            foreach (IBuildingObserver observer in buildingObservers)
+            {
+                observer.UpdateInfluenceScale(actualInfluenceScale);
+            }
         }
-    }
 
-    public void SetOccupation(int occupation)
-    {
-        this.occupation = occupation;
-        NotifyOccupation();
-    }
-
-    public void NotifyOccupation()
-    {
-        foreach (IBuildingObserver observer in this.buildingObservers)
+        public void SetOccupation(int occupation)
         {
-            // clone
-            observer.UpdateOccupation(this.occupation);
+            this.occupation = occupation;
+            NotifyOccupation();
         }
-    }
 
-    public int GetOccupation()
-    {
-        return this.occupation;
-    }
-
-    public int[] GetImpacts()
-    {
-        return impacts; 
-    }
-
-    public FlowKind[] GetFlowNeeds()
-    {
-        return this.needs.Keys.ToArray();
-    }
-
-    public FlowKind[] GetFlowProducts()
-    {
-        return this.products.Keys.ToArray();
-    }
-
-    public int GetQuantityNeeded(FlowKind kind)
-    {
-        return this.needs[kind];
-    }
-
-    public int GetQuantityProduced(FlowKind kind)
-    {
-        return this.needs[kind];
-    }
-
-    public InfluenceScale GetInfluence()
-    {
-        return this.actualInfluenceScale;
-    }
-
-    public void RegisterBuildingObserver(IBuildingObserver observer)
-    {
-        if (!this.buildingObservers.Contains(observer))
+        public void NotifyOccupation()
         {
-            this.buildingObservers.Add(observer);
+            foreach (IBuildingObserver observer in buildingObservers)
+            {
+                // clone
+                observer.UpdateOccupation(occupation);
+            }
         }
-    }
 
-    public void UnregisterBuildingObserver(IBuildingObserver observer)
-    {
-        if (this.buildingObservers.Contains(observer))
+        public int GetOccupation()
         {
-            this.buildingObservers.Remove(observer);
+            return occupation;
         }
-    }
 
-    public void NotifyImpacts()
-    {
-        foreach (IBuildingObserver observer in this.buildingObservers)
+        public int[] GetImpacts()
         {
-            observer.UpdateImpacts(this.impacts);
+            return impacts;
+        }
+
+        public FlowKind[] GetFlowNeeds()
+        {
+            return needs.Keys.ToArray();
+        }
+
+        public FlowKind[] GetFlowProducts()
+        {
+            return products.Keys.ToArray();
+        }
+
+        public int GetQuantityNeeded(FlowKind kind)
+        {
+            return needs[kind];
+        }
+
+        public int GetQuantityProduced(FlowKind kind)
+        {
+            return needs[kind];
+        }
+
+        public InfluenceScale GetInfluence()
+        {
+            return actualInfluenceScale;
+        }
+
+        public void RegisterBuildingObserver(IBuildingObserver observer)
+        {
+            if (!buildingObservers.Contains(observer))
+            {
+                buildingObservers.Add(observer);
+            }
+        }
+
+        public void UnregisterBuildingObserver(IBuildingObserver observer)
+        {
+            if (buildingObservers.Contains(observer))
+            {
+                buildingObservers.Remove(observer);
+            }
+        }
+
+        public void NotifyImpacts()
+        {
+            foreach (IBuildingObserver observer in buildingObservers)
+            {
+                observer.UpdateImpacts(impacts);
+            }
         }
     }
 }
