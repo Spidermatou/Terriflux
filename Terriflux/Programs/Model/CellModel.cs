@@ -129,4 +129,11 @@ public partial class CellModel : ICellObservable
             this.observers.Remove(observer);
         }
     }
+
+    public void NotifyAllCellsInfos()
+    {
+        NotifyPlacement();
+        NotifyCellName();
+        NotifyKind();
+    }
 }

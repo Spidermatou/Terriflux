@@ -1,11 +1,17 @@
 using Godot;
 using System;
 
-public interface ICellObservable 
+interface ICellObservable 
 {
-    public void AddObserver(ICellObserver observer);
-    public void RemoveObserver(ICellObserver observer);
-    public void NotifyPlacement();
-    public void NotifyCellName();
-    public void NotifyKind();
+    void AddObserver(ICellObserver observer);
+    void RemoveObserver(ICellObserver observer);
+    /// <summary>
+    /// Force all notifies call for cells informations
+    /// </summary>
+    void NotifyAllCellsInfos();
+    void NotifyPlacement();
+    void NotifyCellName();
+    void NotifyKind();
+
+
 }

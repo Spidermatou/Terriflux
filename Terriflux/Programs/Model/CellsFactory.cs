@@ -1,6 +1,10 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml.Linq;
 using Terriflux.Programs.GameContext;
+using Terriflux.Programs.Model;
 
 public static partial class CellsFactory 
 {
@@ -53,14 +57,36 @@ public static partial class CellsFactory
         return cv;
     }
 
-    public static BuildingView DesignOatField(Node parent, CellModel model) // TODO
+    public static BuildingModel CreateBuilding(string name)
     {
-        BuildingView bv = BuildingView.Create("Field");
-        bv.Position = model.GetPlacement();
-        parent.AddChild(bv); // instantiate this and his children
-        bv.ChangeSkin(Paths.TEXTURES + "field.png");
-        bv.UpdateCellName(model.GetCellName());
-        return bv; 
+        // TODO
+        return null;
     }
+
+    public static BuildingModel dev_CreateB()
+    {
+        //return new BuildingModel(name.Capitalize(), )
+        return null;
+
+    }
+
+    public static BuildingView DesignBuilding(Node parent, BuildingModel model) // TODO
+    {
+        string texturePath = Paths.TEXTURES + model.GetCellName() + ".png";
+        if (!File.Exists(texturePath))
+        {
+            throw new FileNotFoundException(texturePath+" file doesn't found.");
+        }
+        BuildingView bv = BuildingView.Create(model.GetCellName());
+        parent.AddChild(bv); // instantiate this and his children
+        bv.ChangeSkin(texturePath);
+
+        // observer and update
+        model.AddObserver(bv);
+        model.NotifyAllBuildingInfos();
+
+        return bv;
+    }
+
 
 }

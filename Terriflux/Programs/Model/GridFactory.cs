@@ -21,7 +21,24 @@ public static partial class GridFactory
         return g;
     }
 
-    public static Grid CreateNoMansLand(int size)
+    public static Grid CreateFullBuildLand(int size)
+    {
+        Grid g = new Grid(size);
+        CellModel model = new(); // for size and pos
+        for (int x = 0; x < size; x++)
+        {
+            for (int y = 0; y < size; y++)
+            {
+                CellModel grass = CellsFactory.CreateGrass(model.GetCellSize() * x,
+                    model.GetCellSize() * y);
+                grass.SetCellKind(CellKind.WASTELAND);
+                g.SetAt(grass, x, y);
+            }
+        }
+        return g;
+    }
+
+    public static Grid CreateFullGrassLand(int size)
     {
         Grid g = new Grid(size);
         CellModel model = new(); // for size and pos

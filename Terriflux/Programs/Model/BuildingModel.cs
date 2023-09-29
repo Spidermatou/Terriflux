@@ -171,5 +171,18 @@ namespace Terriflux.Programs.Model
                 observer.UpdateImpacts(impacts);
             }
         }
+
+        public void NotifyAllBuildingInfos()
+        {
+            // cells infos
+            NotifyAllCellsInfos();
+
+            // builds infos
+            NotifyImpacts();
+            NotifyInfluenceScale();
+            NotifyNeeds();
+            NotifyProducts();
+            NotifyOccupation();
+        }
     }
 }

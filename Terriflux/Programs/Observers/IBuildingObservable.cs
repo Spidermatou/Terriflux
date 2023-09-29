@@ -11,6 +11,10 @@ namespace Terriflux.Programs.Observers
     {
         void RegisterBuildingObserver(IBuildingObserver observer);
         void UnregisterBuildingObserver(IBuildingObserver observer);
+        /// <summary>
+        /// Force all notifies call for buildings informations
+        /// </summary>
+        void NotifyAllBuildingInfos();
         void NotifyImpacts();
         void NotifyProducts();
         void NotifyNeeds();
