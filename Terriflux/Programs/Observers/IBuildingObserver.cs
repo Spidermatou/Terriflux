@@ -1,4 +1,10 @@
-﻿public interface IBuildingObserver 
+﻿using System.Collections.Generic;
+
+public interface IBuildingObserver 
 {
-    public void UpdateImpacts();
+    void UpdateImpacts(int[] impacts);
+    void UpdateInfluenceScale(InfluenceScale actualInfluenceScale);
+    void UpdateProducts(Dictionary<FlowKind, int> products);
+    void UpdateNeeds(Dictionary<FlowKind, int> needs);
+    void UpdateOccupation(int occupation);
 }

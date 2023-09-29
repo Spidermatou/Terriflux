@@ -12,3 +12,4 @@ each person goes to work on the other's functionality, checks the documentation 
 
 Any view that inherits from a node will have to contain a static Create() function (which returns a packedscene cast in its own type) and will NEVER be created via constructor, only with this static Create function! (constructors must be private!!)
  
+c

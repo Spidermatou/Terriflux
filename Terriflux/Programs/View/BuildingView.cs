@@ -7,7 +7,8 @@ using Terriflux.Programs.GameContext;
 
 public partial class BuildingView : CellView, IBuildingObserver
 {
-	private BuildingView() : base() { }
+
+    private BuildingView() : base() { }
 
     /// <summary>
     /// 
