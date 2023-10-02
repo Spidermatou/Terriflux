@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terriflux.Programs.Data.Management;
 using Terriflux.Programs.GameContext;
+using Terriflux.Programs.View;
 
 
 /*
@@ -48,6 +49,8 @@ namespace Terriflux.Programs.Model
                 splited_needs = split[2].Replace(" ", "").Split(",");
                 splited_products = split[3].Replace(" ", "").Split(",");
 
+                GD.Print(line_name, size, splited_needs, splited_products);
+
                 if (line_name.Equals(name))
                 {
                     // extract needs
@@ -75,6 +78,24 @@ namespace Terriflux.Programs.Model
             // correct name never founded
             throw new ArgumentException($"No building with the name '{name}' has been" +
                     "found among the available buildings");
+        }
+
+        public static BuildingView DesignBuilding(Node parent, BuildingModel model) // TODO
+        {
+            string texturePath = Paths.TEXTURES + model.GetName() + ".png";
+            if (!File.Exists(texturePath))
+            {
+                throw new FileNotFoundException(texturePath + " file doesn't found.");
+            }
+            BuildingView bv = BuildingView.Create(model.GetName());
+            parent.AddChild(bv); // instantiate this and his children
+            bv.ChangeSkin(texturePath);
+
+            // observer and update
+            model.AddObserver(bv);
+            model.NotifyAlls();
+
+            return bv;
         }
     }
 }

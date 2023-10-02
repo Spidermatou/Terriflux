@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.Model
@@ -10,14 +11,14 @@ namespace Terriflux.Programs.Model
     /// <summary>
     /// Represents a building
     /// </summary>
-    public partial class BuildingModel : IBuildingObservable
+    public partial class BuildingModel : IBuildingObservable, IVerbosable
     {
         private static readonly Dictionary<InfluenceScale, int> MULTIPLICATION_RATE = new()
         {
-            { InfluenceScale.NATIONAL, 1 },
+            { InfluenceScale.REGIONAL, 1 },
             { InfluenceScale.NATIONAL, 3 },
             { InfluenceScale.WORLDWIDE, 5 },
-  
+
         }; // the larger the scale, the larger the needs and production will be 
 
         private readonly List<IBuildingObserver> observers = new();
@@ -26,17 +27,18 @@ namespace Terriflux.Programs.Model
         private Dictionary<FlowKind, int> products = new();
         private readonly List<CellModel> parts = new();      // cells wich compose the building
         private InfluenceScale actualInfluenceScale;
-        private string name = "Building";       
+        private string name = "Building";
 
-        
+
         public BuildingModel(
-            string name, 
-            int size, 
-            Dictionary<FlowKind, int> needs, 
+            string name,
+            int size,
+            Dictionary<FlowKind, int> needs,
             Dictionary<FlowKind, int> products
             )
         {
             // build attributes
+            SetName(name);
             SetInfluence(InfluenceScale.REGIONAL);  // by default
             SetBasisNeeds(needs);
             SetBasisProduction(products);
@@ -52,6 +54,10 @@ namespace Terriflux.Programs.Model
         }
 
         // Building's PRIMARY INFORMATIONS
+        /// <summary>
+        /// Modify building's name, and the name of all cells wich compose him.
+        /// </summary>
+        /// <param name="name"></param>
         public void SetName(string name)
         {
             this.name = name;
@@ -89,9 +95,9 @@ namespace Terriflux.Programs.Model
         /// Modify building productions, then apply influence scale's modificators
         /// </summary>
         /// <param name="products">Default building productions, at lowest scale of influence</param>
-        public void SetBasisProduction(IDictionary<FlowKind, int> products) 
+        public void SetBasisProduction(Dictionary<FlowKind, int> products)
         {
-            this.products = (Dictionary<FlowKind, int>)products;
+            this.products = products;
 
             // apply influence multiplicators
             foreach (KeyValuePair<FlowKind, int> kvp in this.products)
@@ -127,14 +133,19 @@ namespace Terriflux.Programs.Model
         /// Modify building needs, then apply influence scale's modificators
         /// </summary>
         /// <param name="needs">Default building needs, at lowest scale of influence</param>
-        public void SetBasisNeeds(IDictionary<FlowKind, int> needs) 
+        public void SetBasisNeeds(Dictionary<FlowKind, int> needs)
         {
-            this.needs = (Dictionary<FlowKind, int>)needs;
+            this.needs = needs;
+
+            GD.Print("IN NEEEEEEEEEED"); // test
 
             // apply influence multiplicators
             foreach (KeyValuePair<FlowKind, int> kvp in this.needs)
             {
-                this.needs[kvp.Key] = kvp.Value * MULTIPLICATION_RATE[this.GetInfluence()]; 
+                GD.Print("Before modif:" + kvp.Key + "," + kvp.Value); // test
+                this.needs[kvp.Key] = kvp.Value * MULTIPLICATION_RATE[this.GetInfluence()];
+                GD.Print("After modif:" + kvp.Key + "," + kvp.Value); // test
+
             }
 
             NotifyNeeds();
@@ -243,10 +254,10 @@ namespace Terriflux.Programs.Model
         /// Add observers who will look at the cells composing the building
         /// </summary>
         /// <param name="observers"></param>
-        public void AddCompositionObserver(ICollection<ICellObserver> observers)
+        public void AddCompositionObserver(ICellObserver[] observers)
         {
             // security
-            if (observers.Count != this.GetSize())
+            if (observers.Length != this.GetSize())
             {
                 throw new ArgumentException("Try to assign more or less cells' observers than cells wich compose the building !");
             }
@@ -263,10 +274,10 @@ namespace Terriflux.Programs.Model
         /// Remove observers who will look at the cells composing the building
         /// </summary>
         /// <param name="observers"></param>
-        public void RemoveCompositionObserver(ICollection<ICellObserver> observers)
+        public void RemoveCompositionObserver(ICellObserver[] observers)
         {
             // security
-            if (observers.Count != this.GetSize())
+            if (observers.Length != this.GetSize())
             {
                 throw new ArgumentException("Try to assign more or less cells' observers than cells wich compose the building !");
             }
@@ -277,6 +288,45 @@ namespace Terriflux.Programs.Model
             {
                 this.parts[i].RemoveObserver(observersList[i]);
             }
+        }
+
+        public string Verbose()
+        {
+            StringBuilder sb = new();
+
+            // basis
+            sb.Append($"Name: {this.name}\n");
+            sb.Append($"Nb of observers: {this.observers.Count}\n");
+            sb.Append($"Influence: {this.actualInfluenceScale}\n");
+
+            // impacts
+            sb.Append($"Impacts:\n");
+            sb.Append($"    Sociability{impacts[0]}\n");
+            sb.Append($"    Economy{impacts[1]}\n");
+            sb.Append($"    Ecology{impacts[2]}\n");
+
+            // parts
+            sb.Append($"Composed with {this.GetSize()}\n");
+            for (int i = 0; i< this.GetSize(); i++)
+            {
+                sb.Append($"    part-{i} correctly instantiated? {this.parts[i] != null}\n");
+            }
+
+            // needs
+            sb.Append($"Needs:\n");
+            foreach (KeyValuePair<FlowKind, int> kvp in this.needs)
+            {
+                sb.Append($"    Key={kvp.Key}, Value{kvp.Value}\n");
+            }
+
+            // products
+            sb.Append($"Products:\n");
+            foreach (KeyValuePair<FlowKind, int> kvp in this.products)
+            {
+                sb.Append($"    Key={kvp.Key}, Value{kvp.Value}\n");
+            }
+
+            return sb.ToString();
         }
     }
 }

@@ -19,20 +19,10 @@ namespace Terriflux.Programs.View
         /// <param name="buildingName"></param>
         /// <returns>The created BuildingView node, with basic cell skin </returns>
         /// <exception cref="FileNotFoundException"></exception>
-        public static BuildingView Create(string buildingName)
+        public static BuildingView Create()
         {
-            string texturePath = Paths.TEXTURES + buildingName.ToLower() + Paths.PNGEXT;
-
-            if (File.Exists(texturePath))
-            {
-                BuildingView building = (BuildingView)GD.Load<PackedScene>(Paths.VIEW_NODES + "BuildingView" + Paths.GDEXT)
+            return (BuildingView)GD.Load<PackedScene>(Paths.VIEW_NODES + "BuildingView" + Paths.GDEXT)
                     .Instantiate();
-                return building;
-            }
-            else
-            {
-                throw new FileNotFoundException();
-            }
         }
 
 

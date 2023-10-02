@@ -158,7 +158,7 @@ class BuildingModel {
     + NotifyAlls()
 }
 BuildingModel *..> CellModel : composed of\n-parts : Cell[*]
-note "needs and flows = {FlowKind:Quantity}" as FQNote
+note "needs and flows = {FlowKind:Quantity}\nImpacts = sociabilty, economy, ecology" as FQNote
 FQNote - BuildingModel
 
 interface IBuildingObservable  {

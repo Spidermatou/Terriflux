@@ -1,1 +1,1 @@
-Field ; 2 ; Water,1 ; Cereals,2
+Field;2;Water,1;Cereals,2
