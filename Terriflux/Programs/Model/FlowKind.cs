@@ -1,12 +1,16 @@
 using Godot;
 using System;
 
-public enum FlowKind 
+namespace Terriflux.Programs.Model
 {
-    // ex: for a car factory
-    Electricity,
-    Raw_materials,
-    // ex: for fields
-    Water,
-    Cereals
+
+    public enum FlowKind
+    {
+        // ex: for a car factory
+        Electricity,
+        Raw_materials,
+        // ex: for fields
+        Water,
+        Cereals
+    }
 }

@@ -1,9 +1,12 @@
 using Godot;
 using System;
 
-public enum InfluenceScale 
+namespace Terriflux.Programs.Model
 {
-    REGIONAL,
-    NATIONAL,
-    WORLDWIDE
+    public enum InfluenceScale
+    {
+        REGIONAL,
+        NATIONAL,
+        WORLDWIDE
+    }
 }

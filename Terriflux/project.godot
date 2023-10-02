@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="Terriflux"
-run/main_scene="res://Nodes/View/TerritoryView.tscn"
+run/main_scene="res://Nodes/Home.tscn"
 config/features=PackedStringArray("4.1", "C#", "GL Compatibility")
 config/icon="res://Ressources/Images/icon.svg"
+
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 
 [dotnet]
 

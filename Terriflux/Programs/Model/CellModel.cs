@@ -1,139 +1,130 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using Terriflux.Programs.Observers;
 
-public partial class CellModel : ICellObservable
+namespace Terriflux.Programs.Model
 {
-    public const int DEFAULT_CELL_SIZE = 128; //px
-    public const int DEFAULT_SCALE = 1;
-
-    private string cname = "Cell";
-    private CellKind kind = CellKind.PRIMARY;
-    private List<ICellObserver> observers = new List<ICellObserver>();
-    private Vector2I placement;
-    private string skinExtension = ".png";
-
-    // CONSTRUCT
-    public CellModel()
+    public partial class CellModel : ICellObservable
     {
-        this.SetPlacement(0, 0);
-    }
+        protected const int DEFAULT_CELL_SIZE = 128; //px
+        protected const int DEFAULT_SCALE = 1;
 
-    public CellModel(int x, int y)
-    {
-        this.SetPlacement(x, y);
-    }
+        private string cname = "Cell";
+        private CellKind kind = CellKind.PRIMARY;
+        private readonly List<ICellObserver> observers = new();
+        private Vector2I placement;
 
-    public CellModel(string name, CellKind kind, int x, int y)
-    {
-        this.SetCellName(name);
-        this.SetPlacement(x, y);
-    }
-
-    // GET-SET
-    public int GetCellSize()
-    {
-        return DEFAULT_CELL_SIZE * DEFAULT_SCALE;
-    }
-
-    public void SetCellName(string newName)
-    {
-        this.cname = newName;
-        NotifyCellName();
-    }
-
-    public string GetCellName()
-    {
-        return this.cname;
-    }
-
-    public void SetCellKind(CellKind newKind)
-    {
-        this.kind = newKind;
-        NotifyKind();
-    }
-
-    public CellKind GetCellKind()
-    {
-        return this.kind;
-    }
-
-    public void SetPlacement(int x, int y)
-    {
-        this.placement = new Vector2I(x, y);
-        this.NotifyPlacement();
-        NotifyPlacement();
-    }
-
-    public Vector2I GetPlacement()
-    {
-        return this.placement;
-    }
-
-    public string GetSkinExtension()
-    {
-        return this.skinExtension;
-    }
-
-    /// <summary>
-    /// Set extension (png, jpeg, etc.) of the skin to the specified new extension
-    /// </summary>
-    /// <param name="extension"></param>
-    public void SetSkinExtension(string extension)
-    {
-        if (!extension.Contains('.'))
+        // CONSTRUCT
+        public CellModel()
         {
-            extension = "." + extension;
+            SetPlacement(0, 0);
         }
-        this.skinExtension = extension;
-    }
 
-    // Observer
-    public void AddObserver(ICellObserver observer)
-    {
-        this.observers.Add(observer);
-    }
-
-    public void NotifyPlacement()
-    {
-        foreach (ICellObserver observer in this.observers)
+        public CellModel(int x, int y)
         {
-            observer.UpdatePlacement(this.placement);
+            SetPlacement(x, y);
         }
-    }
 
-    public void NotifyCellName()
-    {
-        foreach (ICellObserver observer in this.observers)
+        public CellModel(string name, CellKind kind, int x, int y)
         {
-            observer.UpdateCellName(this.cname);
+            SetCellName(name);
+            SetPlacement(x, y);
+            SetCellKind(kind);
         }
-    }
-    public ICellObserver[] GetObserver()
-    {
-        return this.observers.ToArray();
-    }
 
-    public void NotifyKind()
-    {
-        foreach (ICellObserver observer in this.observers)
+        // GET-SET
+        public static int GetDefaultDimension()
         {
-            observer.UpdateCellKind(this.kind);
+            return DEFAULT_CELL_SIZE * DEFAULT_SCALE;
         }
-    }
 
-    public void RemoveObserver(ICellObserver observer)
-    {
-        if (this.observers.Contains(observer))
+        public void SetCellName(string newName)
         {
-            this.observers.Remove(observer);
+            cname = newName;
+            NotifyCellName();
         }
-    }
 
-    public void NotifyAllCellsInfos()
-    {
-        NotifyPlacement();
-        NotifyCellName();
-        NotifyKind();
+        public string GetCellName()
+        {
+            return cname;
+        }
+
+        public void SetCellKind(CellKind newKind)
+        {
+            kind = newKind;
+            NotifyKind();
+        }
+
+        public CellKind GetCellKind()
+        {
+            return kind;
+        }
+
+        public void SetPlacement(int x, int y)
+        {
+            placement = new Vector2I(x, y);
+            NotifyPlacement();
+        }
+
+        public void SetPlacement(Vector2I coordinates)
+        {
+            placement = coordinates;
+            NotifyPlacement();
+        }
+
+        public Vector2I GetPlacement()
+        {
+            return placement;
+        }
+
+        // Observer
+        public void AddObserver(ICellObserver observer)
+        {
+            observers.Add(observer);
+        }
+
+        public void NotifyPlacement()
+        {
+            foreach (ICellObserver observer in observers)
+            {
+                observer.UpdatePlacement(placement);
+            }
+        }
+
+        public void NotifyCellName()
+        {
+            foreach (ICellObserver observer in observers)
+            {
+                observer.UpdateCellName(cname);
+            }
+        }
+        public ICellObserver[] GetObserver()
+        {
+            return observers.ToArray();
+        }
+
+        public void NotifyKind()
+        {
+            foreach (ICellObserver observer in observers)
+            {
+                observer.UpdateCellKind(kind);
+            }
+        }
+
+        public void RemoveObserver(ICellObserver observer)
+        {
+            if (observers.Contains(observer))
+            {
+                observers.Remove(observer);
+            }
+        }
+
+        public void NotifyAlls()
+        {
+            NotifyPlacement();
+            NotifyCellName();
+            NotifyKind();
+        }
     }
 }

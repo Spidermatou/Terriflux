@@ -19,11 +19,5 @@ namespace Terriflux.Programs.GameContext
         public static readonly string VIEW_NODES = NODES + "View/";
         public static readonly string MODEL_NODES = NODES + "Model/";
         public static readonly string CONTROLLER_NODES = NODES + "Controller/";
-
-        // DEFAULTS TOOLS
-        public static readonly string DEFAULT_TEXTURE = IMAGES + "icon" + SVGEXT;
-
-
-
     }
 }

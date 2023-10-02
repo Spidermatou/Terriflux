@@ -1,10 +1,13 @@
 using Godot;
 using System;
 
-public enum CellKind 
+namespace Terriflux.Programs.Model
 {
-    BUILDING, 
-    WASTELAND, // free cell 
-    PRIMARY // nothing, basic 
-	
+    public enum CellKind
+    {
+        BUILDING,
+        WASTELAND, // free cell 
+        PRIMARY // nothing, basic 
+
+    }
 }

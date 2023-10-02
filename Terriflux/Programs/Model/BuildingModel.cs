@@ -7,130 +7,146 @@ using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.Model
 {
-    public partial class BuildingModel : CellModel, IBuildingObservable
+    /// <summary>
+    /// Represents a building
+    /// </summary>
+    public partial class BuildingModel : IBuildingObservable
     {
-        private static readonly Dictionary<InfluenceScale, int> MULTIPLICATION_RATE = new Dictionary<InfluenceScale, int>()
+        private static readonly Dictionary<InfluenceScale, int> MULTIPLICATION_RATE = new()
         {
             { InfluenceScale.NATIONAL, 1 },
             { InfluenceScale.NATIONAL, 3 },
             { InfluenceScale.WORLDWIDE, 5 },
+  
         }; // the larger the scale, the larger the needs and production will be 
 
-
-        private List<IBuildingObserver> buildingObservers = new List<IBuildingObserver>();
+        private readonly List<IBuildingObserver> observers = new();
         private int[] impacts = new int[3];
-        private Dictionary<FlowKind, int> needs = new Dictionary<FlowKind, int>();
-        private Dictionary<FlowKind, int> products = new Dictionary<FlowKind, int>();
-        private int occupation; //  number of cells occupied by the building in length or width
+        private Dictionary<FlowKind, int> needs = new();
+        private Dictionary<FlowKind, int> products = new();
+        private readonly List<CellModel> parts = new();      // cells wich compose the building
         private InfluenceScale actualInfluenceScale;
+        private string name = "Building";       
 
-        public BuildingModel(string name, int occupation, int x, int y, InfluenceScale influence,
-            Dictionary<FlowKind, int> needs, Dictionary<FlowKind, int> products)
+        
+        public BuildingModel(string name, 
+            int size, 
+            InfluenceScale influence,
+            Dictionary<FlowKind, int> needs, 
+            Dictionary<FlowKind, int> products)
         {
-            SetCellName(name.Capitalize());
-            SetSkinExtension("png");
-            SetOccupation(occupation);
-            SetPlacement(x, y);
-            SetInfluenceScale(influence);
+            // build attributes
+            SetInfluence(influence);
+            SetBasisNeeds(needs);
+            SetBasisProduction(products);
 
-            // needs
-            foreach (KeyValuePair<FlowKind, int> kvp in needs)
+            // build the building with cells
+            for (int i = 0; i < size; i++)
             {
-                AddNeed(kvp.Key, kvp.Value * MULTIPLICATION_RATE[influence]);
-            }
-
-            // needs
-            foreach (KeyValuePair<FlowKind, int> kvp in products)
-            {
-                AddProduct(kvp.Key, kvp.Value * MULTIPLICATION_RATE[influence]);
+                CellModel part = new();
+                part.SetCellName(name);
+                part.SetCellKind(CellKind.BUILDING);
+                this.parts.Add(part);
             }
         }
 
-        public void AddProduct(FlowKind flow, int quantity)
+        // Building's PRIMARY INFORMATIONS
+        public void SetName(string name)
         {
-            if (!products.ContainsKey(flow))
+            this.name = name;
+
+            // update self composition
+            foreach (CellModel part in this.parts)
             {
-                products.Add(flow, quantity);
-                NotifyProducts();
+                part.SetCellName(this.name);
             }
+
+            this.NotifyName();
+        }
+
+        public string GetName()
+        {
+            return this.name;
+        }
+
+        public void NotifyName()
+        {
+            foreach (IBuildingObserver observer in this.observers)
+            {
+                observer.UpdateName(this.GetName());
+            }
+        }
+
+        // Building's COMPOSITION
+        public int GetSize()
+        {
+            return this.parts.Count;
+        }
+
+        // Building's PRODUCTION
+        /// <summary>
+        /// Modify building productions, then apply influence scale's modificators
+        /// </summary>
+        /// <param name="products">Default building productions, at lowest scale of influence</param>
+        public void SetBasisProduction(IDictionary<FlowKind, int> products) 
+        {
+            this.products = (Dictionary<FlowKind, int>)products;
+
+            // apply influence multiplicators
+            foreach (KeyValuePair<FlowKind, int> kvp in this.products)
+            {
+                this.products[kvp.Key] = kvp.Value * MULTIPLICATION_RATE[this.GetInfluence()]; 
+            }
+
+            NotifyProducts();
         }
 
         public void NotifyProducts()
         {
-            foreach (IBuildingObserver observer in buildingObservers)
+            foreach (IBuildingObserver observer in observers)
             {
                 // clone
-                observer.UpdateProducts(products.ToDictionary(entry => entry.Key,
+                observer.UpdateProducts(this.products.ToDictionary(entry => entry.Key,
                                                                   entry => entry.Value));
             }
         }
 
-        public void AddNeed(FlowKind flow, int quantity)
+        public FlowKind[] GetFlowsProduction()
         {
-            if (!needs.ContainsKey(flow))
+            return products.Keys.ToArray();
+        }
+
+        public int GetQuantityProducedOf(FlowKind kind)
+        {
+            return needs[kind];
+        }
+
+        // Building's NEEDS
+        /// <summary>
+        /// Modify building needs, then apply influence scale's modificators
+        /// </summary>
+        /// <param name="needs">Default building needs, at lowest scale of influence</param>
+        public void SetBasisNeeds(IDictionary<FlowKind, int> needs) 
+        {
+            this.needs = (Dictionary<FlowKind, int>)needs;
+
+            // apply influence multiplicators
+            foreach (KeyValuePair<FlowKind, int> kvp in this.needs)
             {
-                needs.Add(flow, quantity);
-                NotifyNeeds();
+                this.needs[kvp.Key] = kvp.Value * MULTIPLICATION_RATE[this.GetInfluence()]; 
             }
+
+            NotifyNeeds();
         }
 
         public void NotifyNeeds()
         {
-            foreach (IBuildingObserver observer in buildingObservers)
+            foreach (IBuildingObserver observer in observers)
             {
                 // clone
-                observer.UpdateProducts(needs.ToDictionary(entry => entry.Key,
+                observer.UpdateNeeds(this.needs.ToDictionary(entry => entry.Key,
                                                                   entry => entry.Value));
             }
-        }
-
-        public void SetInfluenceScale(InfluenceScale influence)
-        {
-            actualInfluenceScale = influence;
-            NotifyInfluenceScale();
-        }
-
-        public void NotifyInfluenceScale()
-        {
-            foreach (IBuildingObserver observer in buildingObservers)
-            {
-                observer.UpdateInfluenceScale(actualInfluenceScale);
-            }
-        }
-
-        public void SetOccupation(int occupation)
-        {
-            this.occupation = occupation;
-            NotifyOccupation();
-        }
-
-        public void NotifyOccupation()
-        {
-            foreach (IBuildingObserver observer in buildingObservers)
-            {
-                // clone
-                observer.UpdateOccupation(occupation);
-            }
-        }
-
-        public int GetOccupation()
-        {
-            return occupation;
-        }
-
-        public int[] GetImpacts()
-        {
-            return impacts;
-        }
-
-        public FlowKind[] GetFlowNeeds()
-        {
-            return needs.Keys.ToArray();
-        }
-
-        public FlowKind[] GetFlowProducts()
-        {
-            return products.Keys.ToArray();
         }
 
         public int GetQuantityNeeded(FlowKind kind)
@@ -138,9 +154,24 @@ namespace Terriflux.Programs.Model
             return needs[kind];
         }
 
-        public int GetQuantityProduced(FlowKind kind)
+        public FlowKind[] GetFlowsNeeded()
         {
-            return needs[kind];
+            return needs.Keys.ToArray();
+        }
+
+        // Building's INFLUENCE scale
+        public void SetInfluence(InfluenceScale influence)
+        {
+            actualInfluenceScale = influence;
+            NotifyInfluence();
+        }
+
+        public void NotifyInfluence()
+        {
+            foreach (IBuildingObserver observer in observers)
+            {
+                observer.UpdateInfluence(this.actualInfluenceScale);
+            }
         }
 
         public InfluenceScale GetInfluence()
@@ -148,41 +179,103 @@ namespace Terriflux.Programs.Model
             return actualInfluenceScale;
         }
 
-        public void RegisterBuildingObserver(IBuildingObserver observer)
+        // Building's IMPACTS
+        public void SetImpacts(ICollection<int> impacts)
         {
-            if (!buildingObservers.Contains(observer))
+            if (impacts.Count == 3)
             {
-                buildingObservers.Add(observer);
+                this.impacts = (int[])impacts;
+            }
+            else
+            {
+                if (impacts.Count < 3) throw new ArgumentException("Try to attribute too few impacts ! Required: 3 exactly");
+                else throw new ArgumentException("Try to attribute too much impacts ! Required: 3 exactly");
             }
         }
-
-        public void UnregisterBuildingObserver(IBuildingObserver observer)
+        public int[] GetImpacts()
         {
-            if (buildingObservers.Contains(observer))
-            {
-                buildingObservers.Remove(observer);
-            }
+            return impacts;
         }
 
         public void NotifyImpacts()
         {
-            foreach (IBuildingObserver observer in buildingObservers)
+            foreach (IBuildingObserver observer in observers)
             {
                 observer.UpdateImpacts(impacts);
             }
         }
 
-        public void NotifyAllBuildingInfos()
+        // ALLS
+        public void NotifyAlls()
         {
             // cells infos
-            NotifyAllCellsInfos();
+            foreach (CellModel part in parts)
+            {
+                part.NotifyAlls();
+            }
 
             // builds infos
             NotifyImpacts();
-            NotifyInfluenceScale();
+            NotifyInfluence();
             NotifyNeeds();
             NotifyProducts();
-            NotifyOccupation();
+        }
+
+        // OBSERVATION
+        public void AddObserver(IBuildingObserver observer)
+        {
+            if (!observers.Contains(observer))
+            {
+                observers.Add(observer);
+            }
+        }
+
+        public void RemoveObserver(IBuildingObserver observer)
+        {
+            if (observers.Contains(observer))
+            {
+                observers.Remove(observer);
+            }
+        }
+
+        /// <summary>
+        /// Add observers who will look at the cells composing the building
+        /// </summary>
+        /// <param name="observers"></param>
+        public void AddCompositionObserver(ICollection<ICellObserver> observers)
+        {
+            // security
+            if (observers.Count != this.GetSize())
+            {
+                throw new ArgumentException("Try to assign more or less cells' observers than cells wich compose the building !");
+            }
+
+            // update
+            List<ICellObserver> observersList = observers.ToList();
+            for (int i = 0; i < observersList.Count; i++)
+            {
+                this.parts[i].AddObserver(observersList[i]);
+            }
+        }
+
+        /// <summary>
+        /// Remove observers who will look at the cells composing the building
+        /// </summary>
+        /// <param name="observers"></param>
+        public void RemoveCompositionObserver(ICollection<ICellObserver> observers)
+        {
+            // security
+            if (observers.Count != this.GetSize())
+            {
+                throw new ArgumentException("Try to assign more or less cells' observers than cells wich compose the building !");
+            }
+
+            // update
+            List<ICellObserver> observersList = observers.ToList();
+            for (int i = 0; i < observersList.Count; i++)
+            {
+                this.parts[i].RemoveObserver(observersList[i]);
+            }
         }
     }
 }

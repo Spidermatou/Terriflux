@@ -1,10 +1,15 @@
 ﻿using System.Collections.Generic;
+using Terriflux.Programs.Model;
 
-public interface IBuildingObserver 
+namespace Terriflux.Programs.Observers
 {
-    void UpdateImpacts(int[] impacts);
-    void UpdateInfluenceScale(InfluenceScale actualInfluenceScale);
-    void UpdateProducts(Dictionary<FlowKind, int> products);
-    void UpdateNeeds(Dictionary<FlowKind, int> needs);
-    void UpdateOccupation(int occupation);
+    public interface IBuildingObserver
+    {
+        void UpdateName(string name);
+        void UpdateImpacts(int[] impacts);
+        void UpdateInfluence(InfluenceScale actualInfluenceScale);
+        void UpdateProducts(Dictionary<FlowKind, int> products);
+        void UpdateNeeds(Dictionary<FlowKind, int> needs);
+        void UpdateOccupation(int occupation);
+    }
 }

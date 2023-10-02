@@ -2,6 +2,8 @@ using Godot;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Terriflux.Programs.Model;
+using Terriflux.Programs.Observers;
 
 public partial class Grid : IGridObservable 
 {

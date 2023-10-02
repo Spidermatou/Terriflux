@@ -1,9 +1,15 @@
 using Godot;
 using System;
+using Terriflux.Programs.Model;
 
-public interface ICellObserver 
+namespace Terriflux.Programs.Observers
 {
-    public void UpdatePlacement(Vector2I coordinates);
-    public void UpdateCellName(string name);
-    public void UpdateCellKind(CellKind kind);
+    public interface ICellObserver
+    {
+        void UpdateCellName(string name);
+
+        void UpdatePlacement(Vector2I coordinates);
+
+        void UpdateCellKind(CellKind kind);
+    }
 }

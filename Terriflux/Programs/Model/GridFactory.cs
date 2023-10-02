@@ -1,57 +1,40 @@
 using Godot;
 using System;
 
-public static partial class GridFactory 
+namespace Terriflux.Programs.Model
 {
-    public static Grid CreatePrimaryLand(int size)
+    public static partial class GridFactory
     {
-        Grid g = new Grid(size);
-        CellModel model = new(); // for size and pos
-        for (int x = 0; x < size; x++)
+        public static Grid CreateFullBuildLand(int size)
         {
-            for (int y = 0; y < size; y++)
+            Grid g = new(size);
+            for (int x = 0; x < size; x++)
             {
-                CellModel cm = new CellModel(
-                    model.GetCellSize() * x,
-                    model.GetCellSize() * y
-                    );
-                g.SetAt(cm, x, y);
+                for (int y = 0; y < size; y++)
+                {
+                    CellModel grass = CellsFactory.CreateGrass(CellModel.GetDefaultDimension() * x,
+                        CellModel.GetDefaultDimension() * y);
+                    grass.SetCellKind(CellKind.WASTELAND);
+                    g.SetAt(grass, x, y);
+                }
             }
+            return g;
         }
-        return g;
-    }
 
-    public static Grid CreateFullBuildLand(int size)
-    {
-        Grid g = new Grid(size);
-        CellModel model = new(); // for size and pos
-        for (int x = 0; x < size; x++)
+        public static Grid CreateFullGrassLand(int size)
         {
-            for (int y = 0; y < size; y++)
+            Grid g = new(size);
+            for (int x = 0; x < size; x++)
             {
-                CellModel grass = CellsFactory.CreateGrass(model.GetCellSize() * x,
-                    model.GetCellSize() * y);
-                grass.SetCellKind(CellKind.WASTELAND);
-                g.SetAt(grass, x, y);
+                for (int y = 0; y < size; y++)
+                {
+                    CellModel grass = CellsFactory.CreateGrass(CellModel.GetDefaultDimension() * x,
+                        CellModel.GetDefaultDimension() * y);
+                    grass.SetCellKind(CellKind.WASTELAND);
+                    g.SetAt(grass, x, y);
+                }
             }
+            return g;
         }
-        return g;
-    }
-
-    public static Grid CreateFullGrassLand(int size)
-    {
-        Grid g = new Grid(size);
-        CellModel model = new(); // for size and pos
-        for (int x = 0; x < size; x++)
-        {
-            for (int y = 0; y < size; y++)
-            {
-                CellModel grass = CellsFactory.CreateGrass(model.GetCellSize() * x,
-                    model.GetCellSize() * y);
-                grass.SetCellKind(CellKind.WASTELAND);
-                g.SetAt(grass, x, y);
-            }
-        }
-        return g;
     }
 }

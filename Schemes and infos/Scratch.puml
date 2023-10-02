@@ -55,7 +55,6 @@ CellKind <.. CellModel : use\n-kind
 ICellObserver <.. CellModel : use\n-observe
 
 class Grid implements IGridObservable {
-    - cells: CellModel[,]
     - size: int
     - observer: IGridObserver
 
@@ -66,6 +65,7 @@ class Grid implements IGridObservable {
     + SetObserver(observer: IGridObserver)
     + Notify()
 }
+Grid *..> CellModel : organizes and controls\n- cells : CellModel[*]
 
 interface IGridObserver {
     + UpdateMap(grid: Grid)
@@ -127,32 +127,50 @@ class "<<static>> CellsFactory" as CellsFactory{
 CellModel <..o CellsFactory
 CellView <..o CellsFactory
 
-abstract ABuildingModel implements IBuildingObservable{
-    - observer : IBuildingObserver /' just one for each instance! '/
-    # impacts : int[3]
-    # needs : FlowKind[*]
-    # product : FlowKind[*]
-    # ABuildingModel()
-    + GetImpacts() : int[3]
-    + GetFlowNeeds() : FlowKind[*]
-    + GetFlowProducts() : FlowKind[*]
-    + GetQuantityNeeds(kind : FlowKind) : int
-    + GetQuantityProduced(kind : FlowKind) : int
-    + SetObserver(observer : ICellObserver)
+class BuildingModel {
+    - MULTIPLICATION_RATE : Dictionary<InfluenceScale, int>
+    - observers : List<IBuildingObserver>
+    - impacts : int[3]
+    - needs : Dictionary<FlowKind, int>
+    - products : Dictionary<FlowKind, int>
+    - parts : List<CellModel>
+    - actualInfluenceScale : InfluenceScale
+    + BuildingModel(name: string, parts: List<CellModel>, influence: InfluenceScale, needs: Dictionary<FlowKind, int>, products: Dictionary<FlowKind, int>)
+    + SetComposition(parts: ICollection<CellModel>)
+    + NotifyComposition()
+    + GetComposition() : CellModel[]
+    + SetProduction(products: IDictionary<FlowKind, int>)
+    + NotifyProducts()
+    + GetFlowsProduction() : FlowKind[]
+    + GetQuantityProducedOf(kind: FlowKind) : int
+    + SetNeeds(needs: IDictionary<FlowKind, int>)
+    + NotifyNeeds()
+    + GetQuantityNeeded(kind: FlowKind) : int
+    + GetFlowsNeeded() : FlowKind[]
+    + SetInfluence(influence: InfluenceScale)
+    + NotifyInfluence()
+    + GetInfluence() : InfluenceScale
+    + SetImpacts(impacts: ICollection<int>)
+    + GetImpacts() : int[]
     + NotifyImpacts()
-    /' impacts =
-    +-sociability,
-    +-ecology,
-    +-economy\n}'/
+    + AddObserver(observer: IBuildingObserver)
+    + RemoveObserver(observer: IBuildingObserver)
+    + NotifyAlls()
 }
+BuildingModel *..> CellModel : composed of\n-parts : Cell[*]
 note "needs and flows = {FlowKind:Quantity}" as FQNote
-FQNote - ABuildingModel
+FQNote - BuildingModel
 
-interface IBuildingObserver{
-    + UpdateImpacts()
-}
-interface IBuildingObservable{
+interface IBuildingObservable  {
+    + RegisterBuildingObserver(observer: IBuildingObserver)
+    + UnregisterBuildingObserver(observer: IBuildingObserver)
     + NotifyImpacts()
+    + NotifyInfluence()
+    + NotifyProducts()
+    + NotifyComposition()
+    + NotifyNeeds()
+    + NotifyAlls()
 }
+
 
 @enduml

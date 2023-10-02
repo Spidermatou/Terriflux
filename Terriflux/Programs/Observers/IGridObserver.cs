@@ -1,7 +1,10 @@
 using Godot;
 using System;
 
-public interface IGridObserver
+namespace Terriflux.Programs.Observers
 {
-    public void UpdateMap(Grid grid);
+    public interface IGridObserver
+    {
+        public void UpdateMap(Grid grid);
+    }
 }

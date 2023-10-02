@@ -2,6 +2,9 @@ using Godot;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Terriflux.Programs.Model;
+using Terriflux.Programs.Observers;
+using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.GameContext
 {
@@ -44,7 +47,6 @@ namespace Terriflux.Programs.GameContext
                     if (actKind == CellKind.BUILDING)
                     {
                         // TODO DesignBuilding
-                        cv = null;
                         throw new NotImplementedException();
                     }
                     else

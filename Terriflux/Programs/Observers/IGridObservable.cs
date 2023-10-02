@@ -1,8 +1,11 @@
 using Godot;
 using System;
 
-public interface IGridObservable
+namespace Terriflux.Programs.Observers
 {
-    public void SetObserver(IGridObserver observer);
-    public void Notify();
+    public interface IGridObservable
+    {
+        public void SetObserver(IGridObserver observer);
+        public void Notify();
+    }
 }
