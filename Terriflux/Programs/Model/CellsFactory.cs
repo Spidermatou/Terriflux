@@ -33,10 +33,6 @@ namespace Terriflux.Programs.Model
             return cv;
         }
 
-        // TODO - public static BuildingModel CreateBuilding(string name)
-        /* reads a file containing all the information related to each building available in the game, 
-         * and retrieves those associated with the name specified in the parameter. */
-
         public static BuildingView DesignBuilding(Node parent, BuildingModel model) // TODO
         {
             string texturePath = Paths.TEXTURES + model.GetName() + ".png";

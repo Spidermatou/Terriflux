@@ -3,7 +3,6 @@ using System;
 
 namespace Terriflux.Programs.Model
 {
-
     public enum FlowKind
     {
         // ex: for a car factory
@@ -13,4 +12,5 @@ namespace Terriflux.Programs.Model
         Water,
         Cereals
     }
+
 }

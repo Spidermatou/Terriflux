@@ -29,14 +29,15 @@ namespace Terriflux.Programs.Model
         private string name = "Building";       
 
         
-        public BuildingModel(string name, 
+        public BuildingModel(
+            string name, 
             int size, 
-            InfluenceScale influence,
             Dictionary<FlowKind, int> needs, 
-            Dictionary<FlowKind, int> products)
+            Dictionary<FlowKind, int> products
+            )
         {
             // build attributes
-            SetInfluence(influence);
+            SetInfluence(InfluenceScale.REGIONAL);  // by default
             SetBasisNeeds(needs);
             SetBasisProduction(products);
 

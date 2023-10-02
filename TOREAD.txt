@@ -1,6 +1,8 @@
 ADD constructors and cardinalities to scheme !!!
 Notify into cells
 
+Each notify must be private. And Observables must be class or abstract for this, never interface!!! (else other class have access to notifies, it's strange) 
+
 Tasks:
 - create gauges (mvc format)
 - terrain creation (mvc format)
