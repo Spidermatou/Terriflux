@@ -10,7 +10,7 @@ namespace Terriflux.Programs.View
 {
     public partial class BuildingView : Node2D, IBuildingObserver 
     {
-        private List<Sprite2D> _skins = new();
+        private readonly List<Sprite2D> _skins = new();
 
         private BuildingView() : base() { }
 

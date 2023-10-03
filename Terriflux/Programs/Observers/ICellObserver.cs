@@ -8,7 +8,7 @@ namespace Terriflux.Programs.Observers
     {
         void UpdateCellName(string name);
 
-        void UpdatePlacement(Vector2I coordinates);
+        void UpdatePlacement(Vector2 coordinates);
 
         void UpdateCellKind(CellKind kind);
     }

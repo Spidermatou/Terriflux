@@ -10,9 +10,9 @@ namespace Terriflux.Programs.Model
 {
     public static partial class CellsFactory
     {
-        public static CellModel CreateGrass(int x, int y)
+        public static CellModel CreateGrass()
         {
-            CellModel cm = new("Grass", CellKind.WASTELAND, x, y);
+            CellModel cm = new("Grass", CellKind.WASTELAND);
             return cm;
         }
 
@@ -42,7 +42,7 @@ namespace Terriflux.Programs.Model
             }
             BuildingView bv = BuildingView.Create();
             parent.AddChild(bv); // instantiate this and his children
-            bv.ChangeSkin(texturePath);
+            bv.ChangeSkin(texturePath, model.GetPartsNumber());
 
             // observer and update
             model.AddObserver(bv);

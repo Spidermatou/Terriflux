@@ -12,9 +12,9 @@ namespace Terriflux.Programs.Model
             {
                 for (int y = 0; y < size; y++)
                 {
-                    CellModel grass = CellsFactory.CreateGrass(CellModel.GetDefaultDimension() * x,
-                        CellModel.GetDefaultDimension() * y);
-                    grass.SetCellKind(CellKind.WASTELAND);
+                    CellModel grass = CellsFactory.CreateGrass();
+                    grass.SetPlacement(x * grass.GetExactDimensions(),
+                        y * grass.GetExactDimensions());   
                     g.SetAt(grass, x, y);
                 }
             }
@@ -28,9 +28,9 @@ namespace Terriflux.Programs.Model
             {
                 for (int y = 0; y < size; y++)
                 {
-                    CellModel grass = CellsFactory.CreateGrass(CellModel.GetDefaultDimension() * x,
-                        CellModel.GetDefaultDimension() * y);
-                    grass.SetCellKind(CellKind.WASTELAND);
+                    CellModel grass = CellsFactory.CreateGrass();
+                    grass.SetPlacement(x * grass.GetExactDimensions(),
+                        y * grass.GetExactDimensions());
                     g.SetAt(grass, x, y);
                 }
             }

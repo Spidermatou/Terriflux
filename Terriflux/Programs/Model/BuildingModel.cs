@@ -46,9 +46,7 @@ namespace Terriflux.Programs.Model
             // build the building with cells
             for (int i = 0; i < size; i++)
             {
-                CellModel part = new();
-                part.SetCellName(name);
-                part.SetCellKind(CellKind.BUILDING);
+                CellModel part = new(name, CellKind.BUILDING);
                 this.parts.Add(part);
             }
         }
@@ -85,9 +83,33 @@ namespace Terriflux.Programs.Model
         }
 
         // Building's COMPOSITION
-        public int GetSize()
+        public int GetPartsNumber()
         {
             return this.parts.Count;
+        }
+        
+        public int GetPartsSize()
+        {
+            if (this.parts.Count > 0)
+            {
+                return this.parts[0].GetSize();
+            }
+            else
+            {
+                throw new NullReferenceException("No parts saved into the building");
+            }
+        }
+
+        public double GetPartsScale()
+        {
+            if (this.parts.Count > 0)
+            {
+                return this.parts[0].GetScale();
+            }
+            else
+            {
+                throw new NullReferenceException("No parts saved into the building");
+            }
         }
 
         // Building's PRODUCTION
@@ -257,7 +279,7 @@ namespace Terriflux.Programs.Model
         public void AddCompositionObserver(ICellObserver[] observers)
         {
             // security
-            if (observers.Length != this.GetSize())
+            if (observers.Length != this.GetPartsNumber())
             {
                 throw new ArgumentException("Try to assign more or less cells' observers than cells wich compose the building !");
             }
@@ -277,7 +299,7 @@ namespace Terriflux.Programs.Model
         public void RemoveCompositionObserver(ICellObserver[] observers)
         {
             // security
-            if (observers.Length != this.GetSize())
+            if (observers.Length != this.GetPartsNumber())
             {
                 throw new ArgumentException("Try to assign more or less cells' observers than cells wich compose the building !");
             }
@@ -306,8 +328,8 @@ namespace Terriflux.Programs.Model
             sb.Append($"    Ecology{impacts[2]}\n");
 
             // parts
-            sb.Append($"Composed with {this.GetSize()}\n");
-            for (int i = 0; i< this.GetSize(); i++)
+            sb.Append($"Composed with {this.GetPartsNumber()}\n");
+            for (int i = 0; i< this.GetPartsNumber(); i++)
             {
                 sb.Append($"    part-{i} correctly instantiated? {this.parts[i] != null}\n");
             }

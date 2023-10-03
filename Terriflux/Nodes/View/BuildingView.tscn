@@ -7,5 +7,6 @@
 script = ExtResource("1_1aynv")
 
 [node name="Skin" type="Sprite2D" parent="."]
+position = Vector2(0.5, 0)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_e2gi7")

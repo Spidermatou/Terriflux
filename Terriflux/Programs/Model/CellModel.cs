@@ -7,38 +7,73 @@ namespace Terriflux.Programs.Model
 {
     public partial class CellModel : ICellObservable
     {
-        protected const int DEFAULT_CELL_SIZE = 128; //px
-        protected const int DEFAULT_SCALE = 1;
+        protected const int DEFAULT_CELL_SIZE = 1024;   //px
+        protected const float DEFAULT_SCALE = (float) 0.1;
+
+        // 
+        private int trueSize = DEFAULT_CELL_SIZE;
+        private float trueScale = DEFAULT_SCALE;
 
         private string cname = "Cell";
         private CellKind kind = CellKind.PRIMARY;
         private readonly List<ICellObserver> observers = new();
-        private Vector2I placement;
+        private Vector2 placement;
 
         // CONSTRUCT
-        public CellModel()
-        {
-            SetPlacement(0, 0);
-        }
-
-        public CellModel(int x, int y)
-        {
-            SetPlacement(x, y);
-        }
-
-        public CellModel(string name, CellKind kind, int x, int y)
+        public CellModel(string name, CellKind kind)
         {
             SetCellName(name);
-            SetPlacement(x, y);
             SetCellKind(kind);
         }
 
-        // GET-SET
-        public static int GetDefaultDimension()
+        // Global dimensions
+        public static double GetDefaultDimension()
         {
             return DEFAULT_CELL_SIZE * DEFAULT_SCALE;
         }
 
+        public static double GetDefaultSize()
+        {
+            return DEFAULT_CELL_SIZE;
+        }
+
+        public static double GetDefaultScale()
+        {
+            return DEFAULT_SCALE;
+        }
+
+        // Own dimensions
+        /// <summary>
+        /// Equivalent of GetScale() * GetSize();
+        /// </summary>
+        /// <returns></returns>
+        public float GetExactDimensions()
+        {
+            return this.GetScale() * this.GetSize();
+        }
+
+        public float GetScale()
+        {
+            return this.trueScale;
+        }
+
+        public int GetSize()
+        {
+            return this.trueSize;
+        }
+
+        public void SetSize(float scale)
+        {
+            this.trueScale = scale;
+        }
+
+        public void SetScale(int size)
+        {
+            this.trueScale = size;
+        }
+
+
+        // Own name
         public void SetCellName(string newName)
         {
             cname = newName;
@@ -61,19 +96,19 @@ namespace Terriflux.Programs.Model
             return kind;
         }
 
-        public void SetPlacement(int x, int y)
+        public void SetPlacement(float x, float y)
         {
-            placement = new Vector2I(x, y);
+            placement = new Vector2(x, y);
             NotifyPlacement();
         }
 
-        public void SetPlacement(Vector2I coordinates)
+        public void SetPlacement(Vector2 coordinates)
         {
             placement = coordinates;
             NotifyPlacement();
         }
 
-        public Vector2I GetPlacement()
+        public Vector2 GetPlacement()
         {
             return placement;
         }

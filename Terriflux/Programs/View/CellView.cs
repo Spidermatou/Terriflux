@@ -40,7 +40,7 @@ namespace Terriflux.Programs.View
             _nicknameLabel.Hide();
         }
 
-        public void UpdatePlacement(Vector2I coordinates)
+        public void UpdatePlacement(Vector2 coordinates)
         {
             this.Position = coordinates;
         }
