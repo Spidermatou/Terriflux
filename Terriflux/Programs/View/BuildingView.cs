@@ -8,14 +8,12 @@ using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.View
 {
-    public partial class BuildingView : CellView, IBuildingObserver // TODO - doesn't inherit from CellView, but composed of!
+    public partial class BuildingView : Node2D, IBuildingObserver 
     {
+        private List<Sprite2D> _skins = new();
 
         private BuildingView() : base() { }
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="buildingName"></param>
         /// <returns>The created BuildingView node, with basic cell skin </returns>
         /// <exception cref="FileNotFoundException"></exception>
@@ -34,6 +32,39 @@ namespace Terriflux.Programs.View
         public override void _Process(double delta)
         {
         }
+
+        public void ChangeSkin(string texturePath, int expectedNbOfParts)
+        {
+            // cut the texture
+            Texture2D origin = ImageToolsProvider.LoadTexture(texturePath);
+            Texture2D[] textureParts = ImageToolsProvider.SliceImage(origin, expectedNbOfParts);
+
+            // reset actual appearance
+            this._skins.Clear();
+
+            // add new appearance
+            foreach (Texture2D textureX in textureParts) {
+                Sprite2D cellSkinX = new();
+                cellSkinX.Texture = textureX;
+                this._skins.Add(cellSkinX);
+            }
+
+            // refresh/update view
+            RefreshSkin();
+        }
+
+        private void RefreshSkin()
+        {
+            // reset children
+            this.GetChildren().Clear();
+
+            // replace with new
+            foreach (Sprite2D sprite in this._skins)
+            {
+                this.AddChild(sprite);
+            }
+        }
+
 
         public void UpdateName(string name)
         {

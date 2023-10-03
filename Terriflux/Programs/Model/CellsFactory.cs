@@ -40,7 +40,7 @@ namespace Terriflux.Programs.Model
             {
                 throw new FileNotFoundException(texturePath + " file doesn't found.");
             }
-            BuildingView bv = BuildingView.Create(model.GetName());
+            BuildingView bv = BuildingView.Create();
             parent.AddChild(bv); // instantiate this and his children
             bv.ChangeSkin(texturePath);
 
