@@ -14,7 +14,7 @@ namespace Terriflux.Programs.GameContext
 
         private TerritoryView() { }
 
-        public static TerritoryView Create()
+        public static TerritoryView Design()
         {
             return (TerritoryView)GD.Load<PackedScene>(Paths.VIEW_NODES + "TerritoryView" + Paths.GDEXT)
                 .Instantiate();
@@ -52,7 +52,7 @@ namespace Terriflux.Programs.GameContext
                     else
                     {
                         // Instantiate view
-                        cv = CellsFactory.DesignGrass(this, grid.GetAt(x, y));
+                        cv = GrassView.Design(this, grid.GetAt(x, y));
                     }
 
                     // Link view and model

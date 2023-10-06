@@ -15,14 +15,31 @@ namespace Terriflux.Programs.View
         private BuildingView() : base() { }
 
         /// <param name="buildingName"></param>
-        /// <returns>The created BuildingView node, with basic cell skin </returns>
+        /// <returns>The created BuildingView node </returns>
         /// <exception cref="FileNotFoundException"></exception>
-        public static BuildingView Create()
+        private static BuildingView Create()
         {
             return (BuildingView)GD.Load<PackedScene>(Paths.VIEW_NODES + "BuildingView" + Paths.GDEXT)
                     .Instantiate();
         }
 
+        public static BuildingView Design(Node parent, BuildingModel model) // TODO - move
+        {
+            string texturePath = Paths.TEXTURES + model.GetName() + ".png";
+            if (!File.Exists(texturePath))
+            {
+                throw new FileNotFoundException(texturePath + " file doesn't found.");
+            }
+            BuildingView bv = BuildingView.Create();
+            parent.AddChild(bv); // instantiate this and his children
+            bv.ChangeSkin(texturePath, model.GetPartsNumber());
+
+            // observer and update
+            model.AddObserver(bv);
+            model.NotifyAlls();
+
+            return bv;
+        }
 
         public override void _Ready()
         {

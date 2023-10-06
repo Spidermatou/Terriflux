@@ -16,5 +16,5 @@ Make the documentation, install securities (especially in the more "primary" cla
 
 
 Remember:
-Any view that inherits from a node will have to contain a static Create() function (which returns a packedscene cast in its own type) and will NEVER be created via constructor, only with this static Create function! (constructors must be private!!)
+Any view that inherits from a node will have to contain a static Design() function (which returns a packedscene cast in its own type) and will NEVER be created via constructor, only with this static Create function! (constructors must be private!!). Her model 
  

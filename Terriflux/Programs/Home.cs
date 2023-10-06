@@ -26,7 +26,7 @@ namespace Terriflux.Programs
         {
             // test grid
             Grid grid_test = GridFactory.CreateFullGrassLand(10);
-            TerritoryView territory_view = TerritoryView.Create();
+            TerritoryView territory_view = TerritoryView.Design();
             this.AddChild(territory_view);
             grid_test.SetObserver(territory_view);
             territory_view.UpdateMap(grid_test);
@@ -45,7 +45,7 @@ namespace Terriflux.Programs
 
         private void Test_BuildGeneration()
         {
-            TerritoryView territory_view = TerritoryView.Create();
+            TerritoryView territory_view = TerritoryView.Design();
             this.AddChild(territory_view);
 
             GD.Print("Build generation test:");
