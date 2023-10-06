@@ -8,7 +8,7 @@ using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.View
 {
-    public partial class BuildingView : Node2D, IBuildingObserver 
+    public partial class BuildingView : Node2D, IBuildingObserver
     {
         private readonly List<Sprite2D> childSkins = new();
 
@@ -91,7 +91,6 @@ namespace Terriflux.Programs.View
             }
         }
 
-
         public void UpdateName(string name)
         {
             throw new NotImplementedException();
@@ -118,6 +117,11 @@ namespace Terriflux.Programs.View
         }
 
         public void UpdateOccupation(int occupation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateDirection(Direction2D direction)
         {
             throw new NotImplementedException();
         }

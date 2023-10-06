@@ -8,15 +8,15 @@ using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.GameContext
 {
-    public partial class TerritoryView : Node2D, IGridObserver
+    public partial class GridView : Node2D, IGridObserver
     {
         private Camera2D _camera;
 
-        private TerritoryView() { }
+        private GridView() { }
 
-        public static TerritoryView Design()
+        public static GridView Design()
         {
-            return (TerritoryView)GD.Load<PackedScene>(Paths.VIEW_NODES + "TerritoryView" + Paths.GDEXT)
+            return (GridView)GD.Load<PackedScene>(Paths.VIEW_NODES + "TerritoryView" + Paths.GDEXT)
                 .Instantiate();
         }
 
@@ -32,7 +32,7 @@ namespace Terriflux.Programs.GameContext
         /// </summary>
         /// <param name="grid"></param>
         /// <exception cref="NotImplementedException"></exception>
-		public void UpdateMap(Grid grid)
+		public void UpdateMap(GridModel grid)
         {
             // Reset
             RemoveAllChildren();

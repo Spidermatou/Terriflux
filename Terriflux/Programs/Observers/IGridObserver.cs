@@ -5,6 +5,6 @@ namespace Terriflux.Programs.Observers
 {
     public interface IGridObserver
     {
-        public void UpdateMap(Grid grid);
+        public void UpdateMap(GridModel grid);
     }
 }

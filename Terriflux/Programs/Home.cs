@@ -25,8 +25,8 @@ namespace Terriflux.Programs
         private void Test_Grid()
         {
             // test grid
-            Grid grid_test = GridFactory.CreateFullGrassLand(10);
-            TerritoryView territory_view = TerritoryView.Design();
+            GridModel grid_test = GridFactory.CreateFullGrassLand(10);
+            GridView territory_view = GridView.Design();
             this.AddChild(territory_view);
             grid_test.SetObserver(territory_view);
             territory_view.UpdateMap(grid_test);
@@ -45,14 +45,27 @@ namespace Terriflux.Programs
 
         private void Test_BuildGeneration()
         {
-            TerritoryView territory_view = TerritoryView.Design();
+            GridView territory_view = GridView.Design();
             this.AddChild(territory_view);
 
             GD.Print("Build generation test:");
             
-            BuildingModel model = BuildingFactory.CreateBuilding("fIElD");
-            BuildingView view = BuildingFactory.DesignBuilding(territory_view, model);
+            BuildingModel model = BuildingFactory.CreateFromName("fIElD");
+            BuildingView view = BuildingFactory.Design(territory_view, model);
             territory_view.AddChild(view);
+
+        }
+
+        private void Test_PlaceBuilding()
+        {
+            // Game basis creation
+            GridModel grid = new(5);
+            GridView view = GridView.Design();
+            grid.SetObserver(view);
+
+            // Building creation
+            BuildingModel bmodel = BuildingFactory.CreateFromName("field");
+            grid.PlaceAt(bmodel, new Vector2I(1,1), true);
 
         }
     }

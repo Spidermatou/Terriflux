@@ -6,7 +6,7 @@ namespace Terriflux.Programs.Model
     public static partial class GridFactory
     {
 
-        public static Grid CreateFullBuildLand(int size)
+        public static GridModel CreateFullBuildLand(int size)
         {
             /*
             Grid g = new(size);
@@ -25,9 +25,9 @@ namespace Terriflux.Programs.Model
             throw new NotImplementedException();
         }
 
-        public static Grid CreateFullGrassLand(int size)
+        public static GridModel CreateFullGrassLand(int size)
         {
-            Grid g = new(size);
+            GridModel g = new(size);
             for (int x = 0; x < size; x++)
             {
                 for (int y = 0; y < size; y++)
@@ -35,7 +35,7 @@ namespace Terriflux.Programs.Model
                     CellModel grass = GrassModel.Create();
                     grass.SetPlacement(x * grass.GetExactDimensions(),
                         y * grass.GetExactDimensions());
-                    g.SetAt(grass, x, y);
+                    g.SetAt(grass, x, y, true);
                 }
             }
             return g;

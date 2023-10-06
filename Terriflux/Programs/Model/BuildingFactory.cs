@@ -24,9 +24,9 @@ namespace Terriflux.Programs.Model
 {
     public partial class BuildingFactory // TODO - factory useless! put this function in constructor
     {
-        public static BuildingModel CreateBuilding(string name) // TODO - read the default direction of the building from the file 
+        public static BuildingModel CreateFromName(string name) // TODO - read the default direction of the building from the file 
         {
-            StreamReader reader = DataManager.LoadBuildingData();
+            StreamReader reader = DataManager.LoadBuildingData(); 
             name = name.ToLower().Replace(" ", ""); // erase spaces
 
             // read each line to find the correct building
@@ -80,7 +80,7 @@ namespace Terriflux.Programs.Model
                     "found among the available buildings");
         }
 
-        public static BuildingView DesignBuilding(Node parent, BuildingModel model) // TODO
+        public static BuildingView Design(Node parent, BuildingModel model) // TODO
         {
             string texturePath = Paths.TEXTURES + model.GetName() + ".png";
             if (!File.Exists(texturePath))

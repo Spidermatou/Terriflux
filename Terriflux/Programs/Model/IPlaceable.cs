@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Model
@@ -13,7 +15,7 @@ namespace Terriflux.Programs.Model
         /// Return all cells wich must be placed if this object is
         /// </summary>
         /// <returns></returns>
-        List<CellView> GetComposition();
+        List<CellModel> GetComposition();
 
         /// <summary>
         /// 
@@ -26,5 +28,12 @@ namespace Terriflux.Programs.Model
         /// </summary>
         /// <returns>Number of cell wich compose the placeable element </returns>
         int GetPartsNumber();
+
+        /// <summary>
+        /// Modify the placement data for the first cell wich compose the element, 
+        /// then deduces and modifies the rest of the cells' placement, 
+        /// according to the element direction.
+        /// </summary>
+        void ChangeOriginCoordinates(Vector2I newCoordinates); 
     }
 }

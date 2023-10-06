@@ -13,7 +13,7 @@ namespace Terriflux.Programs.Model
     /// <summary>
     /// Represents a building
     /// </summary>
-    public partial class BuildingModel : IBuildingObservable, IVerbosable
+    public partial class BuildingModel : IBuildingObservable, IPlaceable, IVerbosable
     {
         private static readonly Dictionary<InfluenceScale, int> MULTIPLICATION_RATE = new()
         {
@@ -379,6 +379,28 @@ namespace Terriflux.Programs.Model
             }
 
             return sb.ToString();
+        }
+
+        public List<CellModel> GetComposition()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ChangeOriginCoordinates(Vector2I newCoordinates)
+        {
+            for (int offset = 0; offset < this.GetPartsNumber(); offset++)
+            {
+                if (this.GetDirection() == Direction2D.HORIZONTAL)
+                {
+                    this.parts[offset].SetPlacement(newCoordinates.X + offset, 
+                        newCoordinates.Y);
+                }
+                else if (this.GetDirection() == Direction2D.VERTICAL)
+                {
+                    this.parts[offset].SetPlacement(newCoordinates.X,
+                        newCoordinates.Y + offset);
+                }
+            }
         }
     }
 }
