@@ -24,7 +24,7 @@ namespace Terriflux.Programs.Model
 {
     public partial class BuildingFactory // TODO - factory useless! put this function in constructor
     {
-        public static BuildingModel CreateBuilding(string name)
+        public static BuildingModel CreateBuilding(string name) // TODO - read the default direction of the building from the file 
         {
             StreamReader reader = DataManager.LoadBuildingData();
             name = name.ToLower().Replace(" ", ""); // erase spaces
@@ -71,7 +71,7 @@ namespace Terriflux.Programs.Model
                         }
                     }
 
-                    return new BuildingModel(name, size, effective_needs, effective_products);
+                    return new BuildingModel(name, size, effective_needs, effective_products, Direction2D.HORIZONTAL);
                 }
             }
 

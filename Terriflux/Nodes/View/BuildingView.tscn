@@ -1,12 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cvm78g5adseu2"]
+[gd_scene load_steps=2 format=3 uid="uid://cvm78g5adseu2"]
 
 [ext_resource type="Script" path="res://Programs/View/BuildingView.cs" id="1_1aynv"]
-[ext_resource type="Texture2D" uid="uid://dios3lpr3armu" path="res://Ressources/Textures/new_grass.png" id="2_e2gi7"]
 
 [node name="BuildingView" type="Node2D"]
 script = ExtResource("1_1aynv")
-
-[node name="Skin" type="Sprite2D" parent="."]
-position = Vector2(0.5, 0)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_e2gi7")

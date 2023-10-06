@@ -10,7 +10,7 @@ namespace Terriflux.Programs.View
 {
     public partial class BuildingView : Node2D, IBuildingObserver 
     {
-        private readonly List<Sprite2D> _skins = new();
+        private readonly List<Sprite2D> childSkins = new();
 
         private BuildingView() : base() { }
 
@@ -50,6 +50,12 @@ namespace Terriflux.Programs.View
         {
         }
 
+        /// <summary>
+        /// Load and cut an image according to the number of parts captured by the building, 
+        /// then display them on the node. 
+        /// </summary>
+        /// <param name="texturePath"></param>
+        /// <param name="expectedNbOfParts"></param>
         public void ChangeSkin(string texturePath, int expectedNbOfParts)
         {
             // cut the texture
@@ -57,26 +63,29 @@ namespace Terriflux.Programs.View
             Texture2D[] textureParts = ImageToolsProvider.SliceImage(origin, expectedNbOfParts);
 
             // reset actual appearance
-            this._skins.Clear();
+            this.childSkins.Clear();
 
             // add new appearance
             foreach (Texture2D textureX in textureParts) {
                 Sprite2D cellSkinX = new();
                 cellSkinX.Texture = textureX;
-                this._skins.Add(cellSkinX);
+                this.childSkins.Add(cellSkinX);
             }
 
             // refresh/update view
             RefreshSkin();
         }
 
+        /// <summary>
+        /// Refresh skin of each cell wich compose the building
+        /// </summary>
         private void RefreshSkin()
         {
             // reset children
             this.GetChildren().Clear();
 
             // replace with new
-            foreach (Sprite2D sprite in this._skins)
+            foreach (Sprite2D sprite in this.childSkins)
             {
                 this.AddChild(sprite);
             }

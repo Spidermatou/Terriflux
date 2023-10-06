@@ -1,10 +1,12 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Terriflux.Programs.Observers;
+using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Model
 {
@@ -27,6 +29,7 @@ namespace Terriflux.Programs.Model
         private Dictionary<FlowKind, int> products = new();
         private readonly List<CellModel> parts = new();      // cells wich compose the building
         private InfluenceScale actualInfluenceScale;
+        private Direction2D direction; 
         private string name = "Building";
 
 
@@ -34,7 +37,8 @@ namespace Terriflux.Programs.Model
             string name,
             int size,
             Dictionary<FlowKind, int> needs,
-            Dictionary<FlowKind, int> products
+            Dictionary<FlowKind, int> products,
+            Direction2D direction
             )
         {
             // build attributes
@@ -42,6 +46,7 @@ namespace Terriflux.Programs.Model
             SetInfluence(InfluenceScale.REGIONAL);  // by default
             SetBasisNeeds(needs);
             SetBasisProduction(products);
+            SetDirection(direction);
 
             // build the building with cells
             for (int i = 0; i < size; i++)
@@ -110,6 +115,11 @@ namespace Terriflux.Programs.Model
             {
                 throw new NullReferenceException("No parts saved into the building");
             }
+        }
+
+        public List<CellView> GetViewableComposition()
+        {
+            return new List<CellView>((IEnumerable<CellView>)this.parts);
         }
 
         // Building's PRODUCTION
@@ -236,6 +246,26 @@ namespace Terriflux.Programs.Model
             foreach (IBuildingObserver observer in observers)
             {
                 observer.UpdateImpacts(impacts);
+            }
+        }
+
+        // PLACEMENT
+        public Direction2D GetDirection()
+        {
+            return this.direction;
+        }
+
+        public void SetDirection(Direction2D direction)
+        {
+            this.direction = direction;
+            NotifyDirection();
+        }
+
+        private void NotifyDirection()
+        {
+            foreach (IBuildingObserver observer in observers)
+            {
+                observer.UpdateDirection(this.direction);
             }
         }
 

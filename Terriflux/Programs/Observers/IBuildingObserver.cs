@@ -11,5 +11,7 @@ namespace Terriflux.Programs.Observers
         void UpdateProducts(Dictionary<FlowKind, int> products);
         void UpdateNeeds(Dictionary<FlowKind, int> needs);
         void UpdateOccupation(int occupation);
+
+        void UpdateDirection(Direction2D direction);
     }
 }
