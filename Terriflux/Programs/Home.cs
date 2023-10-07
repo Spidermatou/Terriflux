@@ -150,7 +150,7 @@ namespace Terriflux.Programs
         {
             GD.Print("--Build generation test--");
             
-            BuildingModel model = BuildingFactory.CreateFromName("fIElD");
+            BuildingModel model = BuildingModel.CreateFromName("fIElD");
             BuildingView.Design(this, model);
 
 
@@ -176,7 +176,7 @@ namespace Terriflux.Programs
 
 
             // Building creation
-            BuildingModel bmodel = BuildingFactory.CreateFromName("field");
+            BuildingModel bmodel = BuildingModel.CreateFromName("field");
             grid.PlaceAt(bmodel, new Vector2I(1,1), true);
 
         }
