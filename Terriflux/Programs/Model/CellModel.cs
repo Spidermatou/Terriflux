@@ -10,9 +10,9 @@ namespace Terriflux.Programs.Model
         protected const int DEFAULT_CELL_SIZE = 1024;   //px
         protected const float DEFAULT_SCALE = (float) 0.1;
 
-        // 
-        private readonly int trueSize = DEFAULT_CELL_SIZE;
-        private float trueScale = DEFAULT_SCALE;
+        // Own infos
+        private int size = DEFAULT_CELL_SIZE;
+        private float scale = DEFAULT_SCALE;
 
         private string cname = "Cell";
         private CellKind kind = CellKind.PRIMARY;
@@ -52,26 +52,21 @@ namespace Terriflux.Programs.Model
             return this.GetScale() * this.GetSize();
         }
 
+        public void SetDimensions(int size, int scale)
+        {
+            this.size = size;
+            this.scale = scale;
+        }
+
         public float GetScale()
         {
-            return this.trueScale;
+            return this.scale;
         }
 
         public int GetSize()
         {
-            return this.trueSize;
+            return this.size;
         }
-
-        public void SetSize(float scale)
-        {
-            this.trueScale = scale;
-        }
-
-        public void SetScale(int size)
-        {
-            this.trueScale = size;
-        }
-
 
         // Own name
         public void SetCellName(string newName)

@@ -11,11 +11,13 @@ namespace Terriflux.Programs.GameContext
         public static readonly string SVGEXT = ".svg";
         public static readonly string TEXTEXT = ".txt";
 
+        // Ressources
         public static readonly string RESSOURCES = "Ressources/";
         public static readonly string NODES = "Nodes/";
         public static readonly string IMAGES = RESSOURCES + "Images/";
         public static readonly string TEXTURES = RESSOURCES + "Textures/";
         public static readonly string PROGRAMS = "Programs/";
+        public static readonly string GENERATED_BUILDINGS_PARTS = TEXTURES + "GeneratedBuildingsParts/";
 
         // MVC
         public static readonly string VIEW_NODES = NODES + "View/";

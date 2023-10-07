@@ -9,10 +9,12 @@ Each notify must be private. And Observables must be class or abstract for this,
 
 The grid must have a function for placing a building, e.g. Place(BuildingModel). Since a building is not one cell but several, it cannot be placed directly in the grid via SetAt()!
 
+Try skin stored into models, and the view have just to UpdateSkin(Sprite2D skin)
+
 
 Make the documentation, install securities (especially in the more "primary" classes), and update ALL the plantuml !!!
 
-
+Transform Paths into a static dictoonnary, with an internal enum
 
 
 Remember:

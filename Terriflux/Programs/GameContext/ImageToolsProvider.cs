@@ -8,10 +8,6 @@ using System.Threading.Tasks;
 
 namespace Terriflux.Programs.GameContext
 {
-    /* TODO - URGENT - there's a prb into SliceImg: return transparent textures!
-     * Else back to one-cell building */
-
-
     public class ImageToolsProvider
     {
         public static ImageTexture[] SliceImageTexture(string texturePath, int numSlices)
@@ -32,7 +28,6 @@ namespace Terriflux.Programs.GameContext
 
                 ImageTexture tex = ImageTexture.CreateFromImage(img);
                 textures[i] = tex;
-                img.SavePng($"TestOut/test_output_{i}.png");
             }
 
             return textures;
@@ -49,7 +44,6 @@ namespace Terriflux.Programs.GameContext
             img.BlitRect(blitImage, usedRect, Vector2I.Zero);
 
             ImageTexture tex = ImageTexture.CreateFromImage(img);
-            img.SavePng("TestOut/test_output.png");
 
             return tex;
         }

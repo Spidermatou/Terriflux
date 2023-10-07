@@ -93,7 +93,7 @@ namespace Terriflux.Programs.Model
             return this.parts.Count;
         }
         
-        public int GetPartsSize()
+        public int GetPartsSize() // TODO - useless and break encapsulation
         {
             if (this.parts.Count > 0)
             {
@@ -105,7 +105,7 @@ namespace Terriflux.Programs.Model
             }
         }
 
-        public double GetPartsScale()
+        public double GetPartsScale() // TODO - useless and break encapsulation
         {
             if (this.parts.Count > 0)
             {

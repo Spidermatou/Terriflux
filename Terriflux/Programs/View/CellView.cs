@@ -15,7 +15,14 @@ namespace Terriflux.Programs.View
         private Label _nicknameLabel;
         private Sprite2D _skin;
 
+        // Creation
         protected CellView() { }
+
+        public static CellView Design()
+        {
+            return (CellView)GD.Load<PackedScene>(Paths.VIEW_NODES + "CellView" + Paths.GDEXT)
+                .Instantiate();
+        }
 
         public override void _Ready()
         {
@@ -27,6 +34,84 @@ namespace Terriflux.Programs.View
 
             // default
             _nicknameLabel.Text = "Cell";
+        }
+
+        // Skin
+        /// <summary>
+        /// Changes the image representing this cell on the screen
+        /// </summary>
+        /// <param name="path"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public void ChangeSkin(string path)
+        {
+            if (this._skin == null)
+            {
+                throw new NullReferenceException(this + "'s skin child not loaded correctly!");
+            }
+
+            if (File.Exists(path))
+            {
+                this._skin.Texture = GD.Load<Texture2D>(path);
+            }
+            else
+            {
+                throw new ArgumentException($"Invalid texture path '{path}'.");
+            }
+        }
+
+        /// <summary>
+        /// Changes the image representing this cell on the screen
+        /// </summary>
+        /// <param name="skin"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public void ChangeSkin(Texture2D skin)
+        {
+            if (skin == null)
+            {
+                throw new ArgumentNullException(nameof(skin));
+            }
+            else
+            {
+                this._skin.Texture = skin;
+            }
+        }
+
+        /// <summary>
+        /// Changes the image representing this cell on the screen
+        /// </summary>
+        /// <param name="skin"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public void ChangeSkin(Sprite2D skin)
+        {
+            if (skin == null)
+            {
+                throw new ArgumentNullException(nameof(skin));
+            }
+            else
+            {
+                this._skin.Texture = skin.Texture;
+            }
+        }
+
+        // Verbose
+        public string Verbose()
+        {
+            StringBuilder sb = new();
+            sb.Append("Cell " + this);
+            if (_skin == null)
+            {
+                sb.Append("_skin null");
+            }
+            else
+            {
+                sb.Append("Skin = " + _skin.Texture.ResourceName);
+            }
+            if (_nicknameLabel == null)
+            {
+                sb.Append("_nicknameLabel null");
+            }
+            return sb.ToString();
         }
 
         // Events
@@ -48,60 +133,6 @@ namespace Terriflux.Programs.View
         public void UpdateCellName(string cname)
         {
             this._nicknameLabel.Text = cname;
-        }
-
-        public void ChangeSkin(string path)
-        {
-            if (this._skin == null)
-            {
-                throw new NullReferenceException(this + "'s skin child not loaded correctly!");
-            }
-
-            if (File.Exists(path))
-            {
-                this._skin.Texture = GD.Load<Texture2D>(path);
-            }
-            else
-            {
-                throw new ArgumentException($"Invalid texture path '{path}'.");
-            }
-        }
-
-        public void ChangeSkin(Sprite2D skin)
-        {
-            if (skin == null)
-            {
-                throw new ArgumentNullException(nameof(skin));
-            }
-            else
-            {
-                this._skin = skin;
-            }
-        }
-
-        public static CellView Design()
-        {
-            return (CellView)GD.Load<PackedScene>(Paths.VIEW_NODES + "CellView" + Paths.GDEXT)
-                .Instantiate();
-        }
-
-        public string Verbose()
-        {
-            StringBuilder sb = new();
-            sb.Append("Cell " + this);
-            if (_skin == null)
-            {
-                sb.Append("_skin null");
-            }
-            else
-            {
-                sb.Append("Skin = " + _skin.Texture.ResourceName);
-            }
-            if (_nicknameLabel == null)
-            {
-                sb.Append("_nicknameLabel null");
-            }
-            return sb.ToString();
         }
 
         public void UpdateCellKind(CellKind kind)
