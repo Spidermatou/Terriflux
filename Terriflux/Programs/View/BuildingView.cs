@@ -51,8 +51,7 @@ namespace Terriflux.Programs.View
             }
 
             // load and cut the texture
-            Texture2D[] allPartsTextures = ImageToolsProvider.SliceImage(ImageToolsProvider.LoadTexture(texturePath),
-                expectedNbOfParts);
+            Texture2D[] allPartsTextures = ImageToolsProvider.SliceImageTexture(texturePath,expectedNbOfParts);
 
             // security: have as many different textures as different cells?
             if (allPartsTextures.Length != expectedNbOfParts)

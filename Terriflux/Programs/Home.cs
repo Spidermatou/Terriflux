@@ -25,10 +25,12 @@ namespace Terriflux.Programs
 
         private void Test_ImageToolsProvider()
         {
+            string path = "Ressources/Textures/grass.png";
+
             GD.Print($"--Test_ImageToolsProvider--");
             GD.Print($"Actual parent scene child count: {this.GetChildren().Count}");
 
-            Texture2D texture = ImageToolsProvider.LoadTexture("Ressources/Textures/grass.png"); 
+            Texture2D texture = ImageToolsProvider.LoadTexture(path); 
             GD.Print($"Texture loaded? {texture != null}");
             Sprite2D origine = new();
             origine.Texture = texture;
@@ -38,7 +40,7 @@ namespace Terriflux.Programs
             // create image to show the slice-texture's results
             const int CUT_WANTED = 2;
             int gap = 1;
-            Texture2D[] slicedTextureParts = ImageToolsProvider.SliceImage(texture, CUT_WANTED);
+            Texture2D[] slicedTextureParts = ImageToolsProvider.SliceImageTexture(path, CUT_WANTED);
             GD.Print($"Number of parts provided: {slicedTextureParts.Length}, waited: {CUT_WANTED}.");
             foreach (Texture2D individualTexture in slicedTextureParts)
             {
@@ -46,7 +48,8 @@ namespace Terriflux.Programs
                 sprite.Texture = individualTexture;
                 sprite.Position = new Vector2(100 *  gap, 100 * gap);
                 this.AddChild(sprite);
-            }
+                gap++;
+            } 
 
             GD.Print($"New parent scene child count: {this.GetChildren().Count}");
         }
@@ -69,7 +72,7 @@ namespace Terriflux.Programs
             CellView view2 = CellView.Design();  // with texture path
             this.AddChild(view2);
             model2.AddObserver(view2);
-            Texture2D[] textures = ImageToolsProvider.SliceImage(ImageToolsProvider.LoadTexture(path), CUT);
+            Texture2D[] textures = ImageToolsProvider.SliceImageTexture(path, CUT);
             Texture2D littleBit = textures[1];
             Sprite2D sprite = new Sprite2D();
 

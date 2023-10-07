@@ -8,28 +8,50 @@ using System.Threading.Tasks;
 
 namespace Terriflux.Programs.GameContext
 {
-    /* TODO - URGENT - there's a prb into SliceImg: return transparent textures! */
+    /* TODO - URGENT - there's a prb into SliceImg: return transparent textures!
+     * Else back to one-cell building */
 
 
     public class ImageToolsProvider
     {
-        public static Texture2D[] SliceImage(Texture2D texture, int expectedNbOfParts) 
+        public static ImageTexture[] SliceImageTexture(string texturePath, int numSlices)
         {
-            int tileWidth = (int)(texture.GetWidth() / expectedNbOfParts);
-            int tileHeight = (int)(texture.GetHeight() / expectedNbOfParts);
+            Image blitImage = new Image();
+            blitImage.Load(texturePath);
 
-            Texture2D[] regions = new Texture2D[expectedNbOfParts];
+            Rect2I usedRect = blitImage.GetUsedRect();
+            int sliceWidth = usedRect.Size.X / numSlices;
 
-            for (int index = 0; index < expectedNbOfParts; index++)
+            ImageTexture[] textures = new ImageTexture[numSlices];
+
+            for (int i = 0; i < numSlices; i++)
             {
-                Image subImage = Image.Create(tileWidth, tileHeight, false, Image.Format.Rgba8);
-                Texture2D subTexture = ImageTexture.CreateFromImage(subImage);
+                Image img = Image.Create(sliceWidth, usedRect.Size.Y, false, Image.Format.Rgb8);
+                Rect2I sliceRect = new Rect2I(i * sliceWidth, 0, sliceWidth, usedRect.Size.Y);
+                img.BlitRect(blitImage, sliceRect, Vector2I.Zero);
 
-                // save
-                regions[index] = subTexture;
+                ImageTexture tex = ImageTexture.CreateFromImage(img);
+                textures[i] = tex;
+                img.SavePng($"TestOut/test_output_{i}.png");
             }
 
-            return regions;
+            return textures;
+        }
+
+        public static ImageTexture LoadImageTexture(string texturePath)
+        {
+            Image blitImage = new Image();
+            blitImage.Load(texturePath);
+
+            Rect2I usedRect = blitImage.GetUsedRect();
+            Image img = Image.Create(usedRect.Size.X, usedRect.Size.Y, false, Image.Format.Rgb8);
+
+            img.BlitRect(blitImage, usedRect, Vector2I.Zero);
+
+            ImageTexture tex = ImageTexture.CreateFromImage(img);
+            img.SavePng("TestOut/test_output.png");
+
+            return tex;
         }
 
         public static Texture2D LoadTexture(string path)
