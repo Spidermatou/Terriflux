@@ -10,7 +10,7 @@ namespace Terriflux.Programs.GameContext
 {
     public static partial class GlobalTools
     {
-        public static FlowKind TranslateToFlowKind(string what)
+        public static FlowKind TranslateToFlowKind(string what) 
         {
             what = what.ToUpper().Replace(" ", "");
             foreach (FlowKind kind in Enum.GetValues(typeof(FlowKind)))

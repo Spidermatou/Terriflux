@@ -117,11 +117,6 @@ namespace Terriflux.Programs.Model
             }
         }
 
-        public List<CellView> GetViewableComposition()
-        {
-            return new List<CellView>((IEnumerable<CellView>)this.parts);
-        }
-
         // Building's PRODUCTION
         /// <summary>
         /// Modify building productions, then apply influence scale's modificators
@@ -169,15 +164,10 @@ namespace Terriflux.Programs.Model
         {
             this.needs = needs;
 
-            GD.Print("IN NEEEEEEEEEED"); // test
-
             // apply influence multiplicators
             foreach (KeyValuePair<FlowKind, int> kvp in this.needs)
             {
-                GD.Print("Before modif:" + kvp.Key + "," + kvp.Value); // test
                 this.needs[kvp.Key] = kvp.Value * MULTIPLICATION_RATE[this.GetInfluence()];
-                GD.Print("After modif:" + kvp.Key + "," + kvp.Value); // test
-
             }
 
             NotifyNeeds();
@@ -320,6 +310,11 @@ namespace Terriflux.Programs.Model
             {
                 this.parts[i].AddObserver(observersList[i]);
             }
+
+
+
+            //test:
+            obs = observersList;
         }
 
         /// <summary>
@@ -383,7 +378,7 @@ namespace Terriflux.Programs.Model
 
         public List<CellModel> GetComposition()
         {
-            throw new NotImplementedException();
+            return this.parts.ToList(); 
         }
 
         public void ChangeOriginCoordinates(Vector2I newCoordinates)
@@ -401,6 +396,15 @@ namespace Terriflux.Programs.Model
                         newCoordinates.Y + offset);
                 }
             }
+        }
+
+
+
+        //test:
+        private List<ICellObserver> obs = new();
+        public List<ICellObserver> GetCompObser()
+        {
+            return this.obs;
         }
     }
 }

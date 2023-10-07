@@ -9,7 +9,7 @@ using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.View
 {
-    public partial class CellView : Node2D, ICellObserver, IVerbosable
+    public partial class CellView : Node2D, ICellObserver, IVerbosable 
     {
         // children
         private Label _nicknameLabel;
@@ -67,7 +67,19 @@ namespace Terriflux.Programs.View
             }
         }
 
-        public static CellView Create()
+        public void ChangeSkin(Sprite2D skin)
+        {
+            if (skin == null)
+            {
+                throw new ArgumentNullException(nameof(skin));
+            }
+            else
+            {
+                this._skin = skin;
+            }
+        }
+
+        public static CellView Design()
         {
             return (CellView)GD.Load<PackedScene>(Paths.VIEW_NODES + "CellView" + Paths.GDEXT)
                 .Instantiate();

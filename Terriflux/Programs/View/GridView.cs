@@ -16,7 +16,7 @@ namespace Terriflux.Programs.GameContext
 
         public static GridView Design()
         {
-            return (GridView)GD.Load<PackedScene>(Paths.VIEW_NODES + "TerritoryView" + Paths.GDEXT)
+            return (GridView)GD.Load<PackedScene>(Paths.VIEW_NODES + "GridView" + Paths.GDEXT)
                 .Instantiate();
         }
 
@@ -42,21 +42,18 @@ namespace Terriflux.Programs.GameContext
             {
                 for (int y = 0; y < grid.GetSize(); y++)
                 {
-                    CellView cv;
-                    CellKind actKind = grid.GetAt(x, y).GetCellKind();
-                    if (actKind == CellKind.BUILDING)
+                    // Is there a building here?
+                    if (grid.GetAt(x, y).GetCellKind() == CellKind.BUILDING)
                     {
+                        grid.PlaceAt( BuildingFactory.CreateFromName(grid.GetAt(x,y).GetCellName()), new Vector2I(x,y) );
                         // TODO DesignBuilding
-                        throw new NotImplementedException();
+                        // TODO - NotImplemented
                     }
                     else
                     {
-                        // Instantiate view
-                        cv = GrassView.Design(this, grid.GetAt(x, y));
+                        // Fill with simple grass
+                        grid.GetAt(x, y).AddObserver( GrassView.Design(this, grid.GetAt(x, y)) );
                     }
-
-                    // Link view and model
-                    grid.GetAt(x, y).AddObserver(cv);
                 }
             }
         }

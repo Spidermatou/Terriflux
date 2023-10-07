@@ -11,7 +11,7 @@ namespace Terriflux.Programs.Model
         protected const float DEFAULT_SCALE = (float) 0.1;
 
         // 
-        private int trueSize = DEFAULT_CELL_SIZE;
+        private readonly int trueSize = DEFAULT_CELL_SIZE;
         private float trueScale = DEFAULT_SCALE;
 
         private string cname = "Cell";

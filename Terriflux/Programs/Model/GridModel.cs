@@ -138,9 +138,18 @@ public partial class GridModel : IGridObservable
         return this.size;
     }
 
+    // OBSERVATION
     public void SetObserver(IGridObserver observer)
     {
         this.observer = observer;
+    }
+
+    /// <summary>
+    /// Manually request a view update
+    /// </summary>
+    public void CallForUpdate()
+    {
+        NotifyGridChanges();
     }
 
     public void NotifyGridChanges()

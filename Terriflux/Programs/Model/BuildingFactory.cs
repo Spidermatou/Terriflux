@@ -11,15 +11,6 @@ using Terriflux.Programs.GameContext;
 using Terriflux.Programs.View;
 
 
-/*
- *  The error comes from FlowKind, 
- *  which is either repeated twice in the same dictionary (2x in need, or 2x in products); 
- *  or else it's in the translation function; 
- *  to test!
- */
-
-
-
 namespace Terriflux.Programs.Model
 {
     public partial class BuildingFactory // TODO - factory useless! put this function in constructor
@@ -49,8 +40,6 @@ namespace Terriflux.Programs.Model
                 splited_needs = split[2].Replace(" ", "").Split(",");
                 splited_products = split[3].Replace(" ", "").Split(",");
 
-                GD.Print(line_name, size, splited_needs, splited_products);
-
                 if (line_name.Equals(name))
                 {
                     // extract needs
@@ -78,24 +67,6 @@ namespace Terriflux.Programs.Model
             // correct name never founded
             throw new ArgumentException($"No building with the name '{name}' has been" +
                     "found among the available buildings");
-        }
-
-        public static BuildingView Design(Node parent, BuildingModel model) // TODO
-        {
-            string texturePath = Paths.TEXTURES + model.GetName() + ".png";
-            if (!File.Exists(texturePath))
-            {
-                throw new FileNotFoundException(texturePath + " file doesn't found.");
-            }
-            BuildingView bv = BuildingView.Design(parent, model);
-            parent.AddChild(bv); // instantiate this and his children
-            bv.ChangeSkin(texturePath, model.GetPartsNumber());
-
-            // observer and update
-            model.AddObserver(bv);
-            model.NotifyAlls();
-
-            return bv;
         }
     }
 }

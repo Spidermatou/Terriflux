@@ -5,10 +5,9 @@ namespace Terriflux.Programs.Model
 {
     public static partial class GridFactory
     {
-
+        /*
         public static GridModel CreateFullBuildLand(int size)
         {
-            /*
             Grid g = new(size);
             for (int x = 0; x < size; x++)
             {
@@ -21,9 +20,8 @@ namespace Terriflux.Programs.Model
                 }
             }
             return g;
-            */
-            throw new NotImplementedException();
-        }
+            // TODO - NotImplemented
+        } */
 
         public static GridModel CreateFullGrassLand(int size)
         {

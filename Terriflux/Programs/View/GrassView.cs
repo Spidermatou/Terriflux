@@ -22,7 +22,7 @@ namespace Terriflux.Programs.View
         /// <returns>The already-added CellView.</returns>
         public static CellView Design(Node parent, CellModel model)
         {
-            CellView cv = CellView.Create();
+            CellView cv = CellView.Design();
             cv.Position = model.GetPlacement();
             parent.AddChild(cv); // instantiate this and his children
             cv.ChangeSkin(Paths.TEXTURES + "grass.png");
