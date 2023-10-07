@@ -132,6 +132,13 @@ public partial class GridModel : IGridObservable
         if (callForUpdate) NotifyGridChanges();
     }
 
+    // TODO - GetPlaceable
+    public IPlaceable GetPlaceableAt(int line, int column)
+    {
+        /* Store the list placable elements stored on the grid? In the form Dictionary<hashage_buildings, tuple(x,y)>. */
+        throw new NotImplementedException();
+    }
+
     // INFOS
     public int GetSize()
     {

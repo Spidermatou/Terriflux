@@ -149,30 +149,6 @@ namespace Terriflux.Programs.Model
             return this.parts.Count;
         }
         
-        public int GetPartsSize() // TODO - useless and break encapsulation
-        {
-            if (this.parts.Count > 0)
-            {
-                return this.parts[0].GetSize();
-            }
-            else
-            {
-                throw new NullReferenceException("No parts saved into the building");
-            }
-        }
-
-        public double GetPartsScale() // TODO - useless and break encapsulation
-        {
-            if (this.parts.Count > 0)
-            {
-                return this.parts[0].GetScale();
-            }
-            else
-            {
-                throw new NullReferenceException("No parts saved into the building");
-            }
-        }
-
         // Building's PRODUCTION
         /// <summary>
         /// Modify building productions, then apply influence scale's modificators

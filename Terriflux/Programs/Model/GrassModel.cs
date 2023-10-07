@@ -10,11 +10,6 @@ namespace Terriflux.Programs.Model
 {
     public partial class GrassModel : CellModel // TODO Create() are useless for models!
     {
-        private GrassModel() : base("Grass", CellKind.WASTELAND) { }
-
-        public static CellModel Create()
-        {
-            return new GrassModel();
-        }
+        public GrassModel() : base("Grass", CellKind.WASTELAND) { }
     }
 }

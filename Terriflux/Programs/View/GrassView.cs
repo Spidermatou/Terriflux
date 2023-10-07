@@ -20,7 +20,7 @@ namespace Terriflux.Programs.View
         /// <param name="parent"></param>
         /// <param name="model"></param>
         /// <returns>The already-added CellView.</returns>
-        public static CellView Design(Node parent, CellModel model)
+        public static CellView Design(Node2D parent, CellModel model)
         {
             CellView cv = CellView.Design();
             cv.Position = model.GetPlacement();

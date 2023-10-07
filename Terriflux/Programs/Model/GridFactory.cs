@@ -17,7 +17,7 @@ namespace Terriflux.Programs.Model
             {
                 for (int y = 0; y < size; y++)
                 {
-                    CellModel grass = GrassModel.Create();
+                    GrassModel grass = new();
                     grass.SetPlacement(x * grass.GetExactDimensions(),
                         y * grass.GetExactDimensions());
                     g.SetAt(grass, x, y, true);

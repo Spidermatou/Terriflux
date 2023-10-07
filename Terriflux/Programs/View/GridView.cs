@@ -45,7 +45,7 @@ namespace Terriflux.Programs.GameContext
                     // Is there a building here?
                     if (grid.GetAt(x, y).GetCellKind() == CellKind.BUILDING)
                     {
-                        grid.PlaceAt( BuildingFactory.CreateFromName(grid.GetAt(x,y).GetCellName()), new Vector2I(x,y) );
+                        //BuildingView buildingView = BuildingView.Design(this,)
                         // TODO DesignBuilding
                         // TODO - NotImplemented
                     }

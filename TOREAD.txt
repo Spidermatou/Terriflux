@@ -3,8 +3,6 @@ Notify into cells
 
 Rework CellView --> Don't ihnerit from cellview!!
 
-Destroy factories and define the create (static?) functions into class themselves
-
 Each notify must be private. And Observables must be class or abstract for this, never interface!!! (else other class have access to notifies, it's strange) 
 
 The grid must have a function for placing a building, e.g. Place(BuildingModel). Since a building is not one cell but several, it cannot be placed directly in the grid via SetAt()!
