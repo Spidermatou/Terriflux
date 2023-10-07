@@ -16,12 +16,40 @@ namespace Terriflux.Programs
 
         public override void _Ready()
         {
-            Test_Cell();
+            Test_ImageToolsProvider();
+            
+            //Test_Cell();
             
             //Test_BuildGeneration();
         }
 
+        private void Test_ImageToolsProvider()
+        {
+            GD.Print($"--Test_ImageToolsProvider--");
+            GD.Print($"Actual parent scene child count: {this.GetChildren().Count}");
 
+            Texture2D texture = ImageToolsProvider.LoadTexture("Ressources/Textures/grass.png"); 
+            GD.Print($"Texture loaded? {texture != null}");
+            Sprite2D origine = new();
+            origine.Texture = texture;
+            origine.Position = new Vector2(-100, -100);
+            this.AddChild(origine );
+
+            // create image to show the slice-texture's results
+            const int CUT_WANTED = 2;
+            int gap = 1;
+            Texture2D[] slicedTextureParts = ImageToolsProvider.SliceImage(texture, CUT_WANTED);
+            GD.Print($"Number of parts provided: {slicedTextureParts.Length}, waited: {CUT_WANTED}.");
+            foreach (Texture2D individualTexture in slicedTextureParts)
+            {
+                Sprite2D sprite = new();
+                sprite.Texture = individualTexture;
+                sprite.Position = new Vector2(100 *  gap, 100 * gap);
+                this.AddChild(sprite);
+            }
+
+            GD.Print($"New parent scene child count: {this.GetChildren().Count}");
+        }
 
         private void Test_Cell()
         {

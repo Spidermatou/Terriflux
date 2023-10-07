@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Terriflux.Programs.GameContext
 {
+    /* TODO - URGENT - there's a prb into SliceImg: return transparent textures! */
+
+
     public class ImageToolsProvider
     {
         public static Texture2D[] SliceImage(Texture2D texture, int expectedNbOfParts) 
