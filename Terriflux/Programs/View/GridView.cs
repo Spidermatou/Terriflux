@@ -12,6 +12,9 @@ namespace Terriflux.Programs.GameContext
     {
         private Camera2D _camera;
 
+        /// <summary>
+        /// Simple class construction not allowed. Please use the associated Design() function.
+        /// </summary>
         private GridView() { }
 
         public static GridView Design()

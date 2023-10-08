@@ -16,7 +16,10 @@ namespace Terriflux.Programs.View
         private Sprite2D _skin;
 
         // Creation
-        protected CellView() { }
+        /// <summary>
+        /// Simple class construction not allowed. Please use the associated Design() function.
+        /// </summary>
+        private CellView() { }
 
         public static CellView Design()
         {

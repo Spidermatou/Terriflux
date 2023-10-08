@@ -7,8 +7,14 @@ using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.View
 {
-    public partial class BuildingView : Node2D, IBuildingObserver // TODO - technically, it is immutable and needs no update
+    /// <summary>
+    /// Creates a building visible to the player (IMMUABLE!)
+    /// </summary>
+    public partial class BuildingView : Node2D, IBuildingObserver 
     {
+        /// <summary>
+        /// Simple class construction not allowed. Please use the associated Design() function.
+        /// </summary>
         private BuildingView() : base() { }
 
         // TODO - where the horizontal and vertical version will be stored, so as not to have to recreate a building every time the player changes orientation)?
@@ -101,39 +107,9 @@ namespace Terriflux.Programs.View
             return buildingView;
         }
 
-        public void UpdateName(string name)
-        {
-            // TODO - NotImplemented
-        }
-
-        public void UpdateImpacts(int[] impacts)
-        {
-            // TODO - NotImplemented
-        }
-
-        public void UpdateInfluence(InfluenceScale actualInfluenceScale)
-        {
-            // TODO - NotImplemented
-        }
-
-        public void UpdateProducts(Dictionary<FlowKind, int> products)
-        {
-            // TODO - NotImplemented
-        }
-
-        public void UpdateNeeds(Dictionary<FlowKind, int> needs)
-        {
-            // TODO - NotImplemented
-        }
-
-        public void UpdateOccupation(int occupation)
-        {
-            // TODO - NotImplemented
-        }
-
         public void UpdateDirection(Direction2D direction)
         {
-            // TODO - NotImplemented
+            throw new System.NotImplementedException();  // TODO
         }
     }
 }
