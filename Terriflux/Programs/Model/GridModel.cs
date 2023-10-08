@@ -18,10 +18,26 @@ public partial class GridModel : IGridObservable
     private int size;
     private IGridObserver observer;
 
-    public GridModel(int size)
+    /// <summary>
+    /// Instantiates a square cell grid
+    /// </summary>
+    /// <param name="size">Length AND width</param>
+    /// <param name="autoFilling">If true, fill in the primary cell grid. Otherwise, leave the grid with nulls.</param>
+    public GridModel(int size, bool autoFilling = false)
     {
         this.size = size;
         this.cells = new CellModel[this.size, this.size] ;
+
+        if (autoFilling)
+        {
+            for (int line  = 0; line < this.size; line++)
+            {
+                for (int column  = 0; column < this.size; column++)
+                {
+                    this.cells[line, column] = new CellModel();
+                }
+            }
+        }
     }
 
     // CELLS
@@ -37,9 +53,10 @@ public partial class GridModel : IGridObservable
     public void SetAt(CellModel cell, int line, int column, bool callForUpdate = false)
     {
         // security (avoid out of range)
-        if (size < line && size < column)
+        if (size < line || size < column)
         {
-            throw new ArgumentOutOfRangeException();
+            throw new ArgumentOutOfRangeException($"Try to access a cell outside the grid limits: " +
+                $"{this}'s size={size} but accessed coordinates are {line},{column}");
         }
 
         // set
@@ -48,15 +65,16 @@ public partial class GridModel : IGridObservable
         // update view?
         if (callForUpdate) NotifyGridChanges();
     }
+
     public CellModel GetAt(int line, int column)
     {
         if (size < line && size < column)
         {
-            throw new ArgumentOutOfRangeException();
+            throw new ArgumentOutOfRangeException("Tries to place a cell beyond the limits of the grid");
         }
         if (this.cells[line, column] == null)
         {
-            throw new NullReferenceException();
+            throw new NullReferenceException($"No initialized cell at emplacement {line}, {column}!");
         }
         return this.cells[line, column];
     }
@@ -146,7 +164,7 @@ public partial class GridModel : IGridObservable
     }
 
     // OBSERVATION
-    public void SetObserver(IGridObserver observer)
+    public void SetObserver(IGridObserver observer) // TODO - multiple observers
     {
         this.observer = observer;
     }

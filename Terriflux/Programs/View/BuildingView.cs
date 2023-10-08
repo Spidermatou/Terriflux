@@ -11,7 +11,7 @@ namespace Terriflux.Programs.View
     {
         private BuildingView() : base() { }
 
-        // TODO - where the horizontal and vertical version will be stored, so as not to have to recreate a building every time the player changes direction)?
+        // TODO - where the horizontal and vertical version will be stored, so as not to have to recreate a building every time the player changes orientation)?
 
         /// <param name="buildingName"></param>
         /// <returns>The created BuildingView node </returns>

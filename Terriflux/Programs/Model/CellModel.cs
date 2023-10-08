@@ -14,12 +14,14 @@ namespace Terriflux.Programs.Model
         private int size = DEFAULT_CELL_SIZE;
         private float scale = DEFAULT_SCALE;
 
-        private string cname = "Cell";
-        private CellKind kind = CellKind.PRIMARY;
+        private string cname = "Cell";  // default
+        private CellKind kind = CellKind.PRIMARY;   // default
+        private Vector2 placement = new(0,0);   // default
         private readonly List<ICellObserver> observers = new();
-        private Vector2 placement;
 
         // CONSTRUCT
+        public CellModel() { }
+
         public CellModel(string name, CellKind kind)
         {
             SetCellName(name);

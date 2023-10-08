@@ -23,43 +23,13 @@ namespace Terriflux.Programs
             //Test_BuildGeneration();
         }
 
+        // TODO - a class to regroup tests (TestsProvider)
+
         private void Test_ImageToolsProvider()
         {
             string path = "Ressources/Textures/grass.png";
 
-            GD.Print($"--Test_ImageToolsProvider--");
-            GD.Print($"Actual parent scene child count: {this.GetChildren().Count}");
 
-            Texture2D texture = ImageToolsProvider.LoadTexture(path); 
-            GD.Print($"Texture loaded? {texture != null}");
-            Sprite2D origine = new();
-            origine.Texture = texture;
-            origine.Position = new Vector2(-100, -100);
-            this.AddChild(origine );
-
-            // create image to show the slice-texture's results
-            const int CUT_WANTED = 2;
-            int gap = 1;
-            Texture2D[] slicedTextureParts = ImageToolsProvider.SliceImageTexture(path, CUT_WANTED);
-            GD.Print($"Number of parts provided: {slicedTextureParts.Length}, waited: {CUT_WANTED}.");
-            foreach (Texture2D individualTexture in slicedTextureParts)
-            {
-                Sprite2D sprite = new();
-                sprite.Texture = individualTexture;
-                sprite.Position = new Vector2(100 *  gap, 100 * gap);
-                this.AddChild(sprite);
-                gap++;
-            } 
-
-            GD.Print($"New parent scene child count: {this.GetChildren().Count}");
-        }
-
-        private void Test_ImageToolsProvider_OnGrid()
-        {
-            string path = "Ressources/Textures/grass.png";
-            GridModel gridModel = new(5);
-
-   
             GD.Print($"--Test_ImageToolsProvider OnGrid--");
             GD.Print($"Actual parent scene child count: {this.GetChildren().Count}");
 
@@ -81,13 +51,51 @@ namespace Terriflux.Programs
                 CellModel cm = new("Field", CellKind.BUILDING);
                 CellView cv = CellView.Design();
                 cm.AddObserver(cv);
-                cm.SetDimensions(128/2, 1);
+                cm.SetDimensions(128 / 2, 1);
                 cm.SetPlacement(new Vector2(gap, 0));
                 this.AddChild(cv);
 
                 cv.ChangeSkin(sprite);
                 gap += cm.GetSize();
             }
+
+            GD.Print($"New parent scene child count: {this.GetChildren().Count}");
+        }
+
+        private void Test_ImageToolsProvider_OnGrid()
+        {
+            string path = "Ressources/Textures/grass.png";
+            GridModel gridModel = new(10, true);
+            GridView gridView = GridView.Design();
+            gridModel.SetObserver(gridView);
+            this.AddChild(gridView);
+
+            GD.Print($"--Test_ImageToolsProvider OnGrid--");
+            GD.Print($"Actual parent scene child count: {this.GetChildren().Count}");
+
+            Texture2D texture = ImageToolsProvider.LoadTexture(path);
+            GD.Print($"Texture loaded? {texture != null}");
+
+            // create image to show the slice-texture's results
+            const int CUT_WANTED = 2;
+            int gap = 1;
+            Texture2D[] slicedTextureParts = ImageToolsProvider.SliceImageTexture(path, CUT_WANTED);
+            GD.Print($"Number of parts provided: {slicedTextureParts.Length}, awaited: {CUT_WANTED}.");
+
+            // show on screen
+            foreach (Texture2D individualTexture in slicedTextureParts)
+            {
+                Sprite2D sprite = new();
+                sprite.Texture = individualTexture;
+
+                CellModel cm = new("Field", CellKind.BUILDING);
+                cm.SetDimensions(128/2, 1);
+                cm.SetPlacement(new Vector2(gap, 0));
+                gridModel.SetAt(cm, gap, 0, true);
+                gap++;
+            }
+
+           
 
             GD.Print($"New parent scene child count: {this.GetChildren().Count}");
         }

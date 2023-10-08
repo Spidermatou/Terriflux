@@ -20,7 +20,7 @@ namespace Terriflux.Programs.Model
         /// <summary>
         /// 
         /// </summary>
-        /// <returns>The direction (horizontal or vertical) where the placeable element is supposed to be oriented </returns>
+        /// <returns>The orientation (horizontal or vertical) where the placeable element is supposed to be oriented </returns>
         Direction2D GetDirection();
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Terriflux.Programs.Model
         /// <summary>
         /// Modify the placement data for the first cell wich compose the element, 
         /// then deduces and modifies the rest of the cells' placement, 
-        /// according to the element direction.
+        /// according to the element orientation.
         /// </summary>
         void ChangeOriginCoordinates(Vector2I newCoordinates); 
     }

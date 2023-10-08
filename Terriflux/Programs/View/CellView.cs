@@ -67,7 +67,11 @@ namespace Terriflux.Programs.View
         /// <exception cref="ArgumentNullException"></exception>
         public void ChangeSkin(Texture2D skin)
         {
-            if (skin == null)
+            if (this._skin == null)
+            {
+                throw new NullReferenceException(this + "'s skin child not loaded correctly!");
+            }
+            else if (skin == null)
             {
                 throw new ArgumentNullException(nameof(skin));
             }
@@ -84,9 +88,17 @@ namespace Terriflux.Programs.View
         /// <exception cref="ArgumentNullException"></exception>
         public void ChangeSkin(Sprite2D skin)
         {
-            if (skin == null)
+            if (this._skin == null)
+            {
+                throw new NullReferenceException(this + "'s skin child not loaded correctly!");
+            }
+            else if (skin == null)
             {
                 throw new ArgumentNullException(nameof(skin));
+            }
+            else if (skin.Texture == null)
+            {
+                throw new ArgumentNullException("This skin doesn't have texture!");
             }
             else
             {

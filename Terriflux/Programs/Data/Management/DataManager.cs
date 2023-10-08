@@ -46,7 +46,7 @@ namespace Terriflux.Programs.Data.Management
                 
                 if (split.Length == NECESSARIES_BUILD_DATA) 
                 {
-                    BuildingModel model = BuildingFactory.CreateFromName(split[0]);
+                    BuildingModel model = BuildingModel.CreateFromName(split[0]);
                     result.Append(model.Verbose());
                     result.Append("---\n");
                 }

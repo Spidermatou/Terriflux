@@ -32,7 +32,7 @@ namespace Terriflux.Programs.Model
         private Dictionary<FlowKind, int> products = new();
         private readonly List<CellModel> parts = new();      // cells wich compose the building
         private InfluenceScale actualInfluenceScale;
-        private Direction2D direction; 
+        private Direction2D orientation; 
         private string name = "Building";
 
 
@@ -60,7 +60,7 @@ namespace Terriflux.Programs.Model
             }
         }
 
-        public static BuildingModel CreateFromName(string name) // TODO - read the default direction of the building from the file 
+        public static BuildingModel CreateFromName(string name) 
         {
             StreamReader reader = DataManager.LoadBuildingData();
             name = name.ToLower().Replace(" ", ""); // erase spaces
@@ -71,21 +71,27 @@ namespace Terriflux.Programs.Model
             string line_name;
             string[] splited_products;
             string[] splited_needs;
-            int size;
 
+            int size;
             Dictionary<FlowKind, int> effective_products = new();
             Dictionary<FlowKind, int> effective_needs = new();
+            Direction2D direction;
+
             while ((line = reader.ReadLine()) != null)
             {
                 split = line.Split(";");
-                line_name = split[0].Replace(" ", "").ToLower();
-                size = int.Parse(split[1]);
-                splited_needs = split[2].Replace(" ", "").Split(",");
-                splited_products = split[3].Replace(" ", "").Split(",");
 
-                if (line_name.Equals(name))
+                // extract name
+                line_name = split[0].Replace(" ", "").ToLower();    
+                
+                // is it the one we want? 
+                if (line_name.Equals(name))     // yes
                 {
+                    // extract size (nb of parts)
+                    size = int.Parse(split[1]);
+
                     // extract needs
+                    splited_needs = split[2].Replace(" ", "").Split(",");
                     for (int i = 0; i < splited_needs.Length - 1; i += 2)
                     {
                         if (!effective_needs.ContainsKey(GlobalTools.TranslateToFlowKind(splited_needs[i])))
@@ -95,6 +101,7 @@ namespace Terriflux.Programs.Model
                     }
 
                     // extract products
+                    splited_products = split[3].Replace(" ", "").Split(",");
                     for (int i = 0; i < splited_products.Length - 1; i++)
                     {
                         if (!effective_products.ContainsKey(GlobalTools.TranslateToFlowKind(splited_products[i])))
@@ -103,8 +110,28 @@ namespace Terriflux.Programs.Model
                         }
                     }
 
-                    return new BuildingModel(name, size, effective_needs, effective_products, Direction2D.HORIZONTAL);
+                    // extract default orientation
+                    string direction_code = split[4].Trim().ToUpper();
+                    if (direction_code.Length != 1)
+                    {
+                        throw new FileLoadException("The \"default direction\" code is not valid " +
+                        "within the file. Usage: h/H (for horizontal) or v/V (for vertical)");
+                    }
+                    else
+                    {
+                        if (direction_code[0] == 'H')
+                        {
+                            direction = Direction2D.HORIZONTAL;
+                        }
+                        else
+                        {
+                            direction = Direction2D.VERTICAL;
+                        }
+                    }
+
+                    return new BuildingModel(name, size, effective_needs, effective_products, direction);
                 }
+                // no? skip to next building
             }
 
             // correct name never founded
@@ -274,12 +301,12 @@ namespace Terriflux.Programs.Model
         // PLACEMENT
         public Direction2D GetDirection()
         {
-            return this.direction;
+            return this.orientation;
         }
 
         public void SetDirection(Direction2D direction)
         {
-            this.direction = direction;
+            this.orientation = direction;
             NotifyDirection();
         }
 
@@ -287,7 +314,7 @@ namespace Terriflux.Programs.Model
         {
             foreach (IBuildingObserver observer in observers)
             {
-                observer.UpdateDirection(this.direction);
+                observer.UpdateDirection(this.orientation);
             }
         }
 
@@ -375,6 +402,7 @@ namespace Terriflux.Programs.Model
 
             // basis
             sb.Append($"Name: {this.name}\n");
+            sb.Append($"Actual orientation: {this.orientation}\n");
             sb.Append($"Nb of observers: {this.observers.Count}\n");
             sb.Append($"Influence: {this.actualInfluenceScale}\n");
 
