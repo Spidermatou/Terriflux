@@ -14,7 +14,7 @@ using Terriflux.Programs.View;
 /// Create a cell grid that can accommodate any Placeable element.
 /// (Note: it is impossible to modify the size of a grid once it has been created).
 /// </summary>
-public partial class GridModel : IGridObservable, IVerbosable
+public partial class GridModel : IVerbosable
 {
     private readonly CellModel[,] cells;
     private readonly int size;

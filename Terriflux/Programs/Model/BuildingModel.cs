@@ -16,7 +16,7 @@ namespace Terriflux.Programs.Model
     /// <summary>
     /// Represents a building
     /// </summary>
-    public partial class BuildingModel : IBuildingObservable, IPlaceable, IVerbosable
+    public partial class BuildingModel : IPlaceable, IVerbosable
     {
         private static readonly Dictionary<InfluenceScale, int> MULTIPLICATION_RATE = new()
         {
@@ -164,7 +164,7 @@ namespace Terriflux.Programs.Model
 
         public void NotifyName()
         {
-            foreach (IBuildingObserver observer in this.observers)
+            foreach (IExtendedBuildingObserver observer in this.observers)
             {
                 observer.UpdateName(this.GetName());
             }
@@ -196,7 +196,7 @@ namespace Terriflux.Programs.Model
 
         public void NotifyProducts()
         {
-            foreach (IBuildingObserver observer in observers)
+            foreach (IExtendedBuildingObserver observer in observers)
             {
                 // clone
                 observer.UpdateProducts(this.products.ToDictionary(entry => entry.Key,
@@ -234,7 +234,7 @@ namespace Terriflux.Programs.Model
 
         public void NotifyNeeds()
         {
-            foreach (IBuildingObserver observer in observers)
+            foreach (IExtendedBuildingObserver observer in observers)
             {
                 // clone
                 observer.UpdateNeeds(this.needs.ToDictionary(entry => entry.Key,
@@ -261,7 +261,7 @@ namespace Terriflux.Programs.Model
 
         public void NotifyInfluence()
         {
-            foreach (IBuildingObserver observer in observers)
+            foreach (IExtendedBuildingObserver observer in observers)
             {
                 observer.UpdateInfluence(this.actualInfluenceScale);
             }
@@ -292,7 +292,7 @@ namespace Terriflux.Programs.Model
 
         public void NotifyImpacts()
         {
-            foreach (IBuildingObserver observer in observers)
+            foreach (IExtendedBuildingObserver observer in observers)
             {
                 observer.UpdateImpacts(impacts);
             }
@@ -312,7 +312,7 @@ namespace Terriflux.Programs.Model
 
         private void NotifyDirection()
         {
-            foreach (IBuildingObserver observer in observers)
+            foreach (IExtendedBuildingObserver observer in observers)
             {
                 observer.UpdateDirection(this.orientation);
             }

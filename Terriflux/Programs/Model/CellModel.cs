@@ -5,7 +5,7 @@ using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.Model
 {
-    public partial class CellModel : ICellObservable
+    public partial class CellModel 
     {
         protected const int DEFAULT_CELL_SIZE = 1024;   //px
         protected const float DEFAULT_SCALE = (float) 0.1;
