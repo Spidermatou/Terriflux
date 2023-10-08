@@ -5,7 +5,7 @@ namespace Terriflux.Programs.Observers
 {
     public interface IGridObservable
     {
-        public void SetObserver(IGridObserver observer);
+        public void AddObserver(IGridObserver observer);
         public void NotifyGridChanges();
     }
 }

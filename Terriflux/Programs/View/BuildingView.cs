@@ -37,7 +37,7 @@ namespace Terriflux.Programs.View
             BuildingView buildingView = BuildingView.Create();
             parent.AddChild(buildingView); // instantiate this and his children
 
-            // observer and update
+            // observers and update
             model.AddObserver(buildingView);
 
             /* Configuration */

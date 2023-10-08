@@ -62,12 +62,12 @@ namespace Terriflux.Programs
             GD.Print($"New parent scene child count: {this.GetChildren().Count}");
         }
 
-        private void Test_ImageToolsProvider_OnGrid()
+        private void Test_ImageToolsProvider_OnGrid()   // TODO - URGENT - not yet conclusive!
         {
             string path = "Ressources/Textures/grass.png";
             GridModel gridModel = new(10, true);
             GridView gridView = GridView.Design();
-            gridModel.SetObserver(gridView);
+            gridModel.AddObserver(gridView);
             this.AddChild(gridView);
 
             GD.Print($"--Test_ImageToolsProvider OnGrid--");
@@ -95,7 +95,8 @@ namespace Terriflux.Programs
                 gap++;
             }
 
-           
+            GD.Print("Grid status is:");
+            GD.Print(gridModel.Verbose());
 
             GD.Print($"New parent scene child count: {this.GetChildren().Count}");
         }
@@ -140,7 +141,7 @@ namespace Terriflux.Programs
             GridModel grid_test = GridFactory.CreateFullGrassLand(10);
             GridView territory_view = GridView.Design();
             this.AddChild(territory_view);
-            grid_test.SetObserver(territory_view);
+            grid_test.AddObserver(territory_view);
             territory_view.UpdateMap(grid_test);
         }
 
@@ -179,7 +180,7 @@ namespace Terriflux.Programs
             // Game basis creation
             GridModel grid = new(5);
             GridView view = GridView.Design();
-            grid.SetObserver(view);
+            grid.AddObserver(view);
             this.AddChild(view);
 
 

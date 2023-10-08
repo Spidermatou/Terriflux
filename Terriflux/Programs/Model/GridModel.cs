@@ -3,7 +3,9 @@ using Microsoft.VisualBasic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using Terriflux.Programs.Exceptions;
+using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Model;
 using Terriflux.Programs.Observers;
 using Terriflux.Programs.View;
@@ -12,11 +14,11 @@ using Terriflux.Programs.View;
 /// Create a cell grid that can accommodate any Placeable element.
 /// (Note: it is impossible to modify the size of a grid once it has been created).
 /// </summary>
-public partial class GridModel : IGridObservable
+public partial class GridModel : IGridObservable, IVerbosable
 {
-    private CellModel[,] cells;
-    private int size;
-    private IGridObserver observer;
+    private readonly CellModel[,] cells;
+    private readonly int size;
+    private readonly List<IGridObserver> observers = new();
 
     /// <summary>
     /// Instantiates a square cell grid
@@ -164,9 +166,20 @@ public partial class GridModel : IGridObservable
     }
 
     // OBSERVATION
-    public void SetObserver(IGridObserver observer) // TODO - multiple observers
+    public void AddObserver(IGridObserver observer) 
     {
-        this.observer = observer;
+        if (!this.observers.Contains(observer))
+        {
+            this.observers.Add(observer);
+        }
+    }
+
+    public void RemoveObserver(IGridObserver observer) 
+    {
+        if (this.observers.Contains(observer))
+        {
+            this.observers.Remove(observer);
+        }
     }
 
     /// <summary>
@@ -179,9 +192,46 @@ public partial class GridModel : IGridObservable
 
     public void NotifyGridChanges()
     {
-        if (this.observer != null)
+        foreach (IGridObserver observer in this.observers)
         {
             observer.UpdateMap(this);
         }
+    }
+
+    public string Verbose()
+    {
+        StringBuilder sb = new();
+
+        // print some informations
+        sb.Append($"Size={size}\n");
+
+        // observers
+        sb.Append($"Observers : ");
+        foreach (IGridObserver observer in this.observers)
+        {
+            sb.Append(observer);
+        }
+        sb.Append('\n');
+
+        // print of the actual grid content
+        for (int line  = 0; line < this.size; line++)
+        {
+            for (int column = 0; column < this.size; column++)
+            {
+                if (this.cells[line, column] != null)
+                {
+                    sb.Append(this.cells[line, column].GetCellName());
+                }
+                else
+                {
+                    sb.Append("NULL");
+                }
+
+                if (column < this.size - 1) sb.Append(',');
+            }
+            sb.Append('\n');
+        }
+
+        return sb.ToString();
     }
 }
