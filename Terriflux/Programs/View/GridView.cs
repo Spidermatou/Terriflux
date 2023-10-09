@@ -48,14 +48,19 @@ namespace Terriflux.Programs.GameContext
                     // Is there a building here?
                     if (grid.GetAt(x, y).GetCellKind() == CellKind.BUILDING)
                     {
-                        //BuildingView buildingView = BuildingView.Design(this,)
-                        // TODO DesignBuilding
-                        // TODO - NotImplemented
+                        IPlaceable model = grid.GetPlaceableAt(x, y);
+                        if (model is BuildingModel)
+                        {
+                            this.AddChild(BuildingView.Design(this, (BuildingModel) model));
+                        }
                     }
                     else
                     {
                         // Fill with simple grass
-                        grid.GetAt(x, y).AddObserver( GrassView.Design(this, grid.GetAt(x, y)) );
+                        GrassModel grassModel = new();
+                        GrassView grass = GrassView.Design(this, grassModel);
+                        grid.GetAt(x, y).AddObserver((ICellObserver) grass);
+                        this.AddChild(grass);
                     }
                 }
             }
