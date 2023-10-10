@@ -10,7 +10,7 @@ namespace Terriflux.Programs.View
     /// <summary>
     /// Creates a building visible to the player (IMMUABLE!)
     /// </summary>
-    public partial class BuildingView : Node2D, IBuildingObserver 
+    public partial class BuildingView : Node2D, IBuildingObserver
     {
         /// <summary>
         /// Simple class construction not allowed. Please use the associated Design() function.
@@ -22,82 +22,26 @@ namespace Terriflux.Programs.View
         /// <param name="buildingName"></param>
         /// <returns>The created BuildingView node </returns>
         /// <exception cref="FileNotFoundException"></exception>
-        private static BuildingView Create()
+        public static BuildingView Design()
         {
             return (BuildingView)GD.Load<PackedScene>(Paths.VIEW_NODES + "BuildingView" + Paths.GDEXT)
                     .Instantiate();
         }
 
-        /// <summary>
-        /// Instantiates a building in the specified scene.
-        /// </summary>
-        /// <param name="parent">Scene in which this will be instantiated </param>
-        /// <param name="model">Model on which this is based, from which this retrieves its information</param>
-        /// <returns></returns>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="FileLoadException"></exception>
-        public static BuildingView Design(Node parent, BuildingModel model) 
-        {
-            GD.Print($"*design building*"); // test
-
-
-            BuildingView buildingView = BuildingView.Create();
-            parent.AddChild(buildingView); // instantiate this and his children
-
-            // observers and update
-            model.AddObserver(buildingView);
-
-            /* Configuration */
-            string texturePath = Paths.TEXTURES + model.GetName() + ".png";
-            int expectedNbOfParts = model.GetPartsNumber();
-
-            // security : texture into path exists?
-            if (!File.Exists(texturePath))
-            {
-                throw new FileNotFoundException(texturePath + " file doesn't found.");
-            }
-
-            // load and cut the texture
-            Texture2D[] allPartsTextures = ImageToolsProvider.SliceImageTexture(texturePath,expectedNbOfParts);
-
-            // security: have as many different textures as different cells?
-            if (allPartsTextures.Length != expectedNbOfParts)
-            {
-                throw new FileLoadException($"Number of textures loaded ({allPartsTextures.Length}) " +
-                    $"is not the same as number of necessary textures ({expectedNbOfParts})");
-            }
-
-            // create enough cell view to store the parts' skins
-            CellView[] allCellsViews = new CellView[expectedNbOfParts]; 
-            for (int i = 0; i < allPartsTextures.Length; i++)
-            {
-                CellView cellView = CellView.Design();      // create child
-                allCellsViews[i] = cellView;    // add to futur obseervers list
-                buildingView.AddChild(cellView);    // instantiate into scene
-            }
-
-            // add the new composition views to building's composition observers list
-            model.AddCompositionObserver(allCellsViews);
-
-            // set up each cells with correct appearance
-            for (int i = 0; i < allPartsTextures.Length; i++)
-            {
-                Sprite2D skin = new();
-                skin.Texture = allPartsTextures[i];
-                allCellsViews[i].ChangeSkin(skin);
-
-            }
-
-
-            GD.Print($"*{buildingView == null}*"); // test
-
-
-            return buildingView;
-        }
-
         public void UpdateDirection(Direction2D direction)
         {
             throw new System.NotImplementedException();  // TODO
+        }
+
+        public void UpdateName(string name)
+        {
+            foreach (Node child in this.GetChildren())
+            {
+                if (child is CellView cellChild)
+                {
+                    cellChild.UpdateCellName(name);
+                }
+            }
         }
     }
 }

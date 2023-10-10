@@ -3,6 +3,7 @@ using Microsoft.VisualBasic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Terriflux.Programs.Exceptions;
 using Terriflux.Programs.GameContext;
@@ -11,7 +12,7 @@ using Terriflux.Programs.Observers;
 using Terriflux.Programs.View;
 
 /// <summary>
-/// Create a cell grid that can accommodate any Placeable element.
+/// Design a cell grid that can accommodate any Placeable element.
 /// (Note: it is impossible to modify the size of a grid once it has been created).
 /// </summary>
 public partial class GridModel : IVerbosable
@@ -169,6 +170,16 @@ public partial class GridModel : IVerbosable
         {
             return null;
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns>A clone of Dictionary(Coordinates,Placeable) wich represent all Placeable actually placed
+    /// on the grid. </returns>
+    public Dictionary<Tuple<int, int>, IPlaceable> GetPlaceablesInfos()
+    {
+        return this.placementTable.ToDictionary(entry => entry.Key, entry => entry.Value);
     }
 
     // INFOS

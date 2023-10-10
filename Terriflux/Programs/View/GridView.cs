@@ -37,6 +37,8 @@ namespace Terriflux.Programs.GameContext
         /// <exception cref="NotImplementedException"></exception>
 		public void UpdateMap(GridModel grid)       // TODO - Urgent - have some troubles here
         {
+            bool invalidCase = false;
+
             // Reset
             RemoveAllChildren();
 
@@ -45,18 +47,33 @@ namespace Terriflux.Programs.GameContext
             {
                 for (int y = 0; y < grid.GetSize(); y++)
                 {
-                    CellModel cell = grid.GetAt(x, y);
-                    IPlaceable placeable = grid.GetPlaceableAt(x, y);
+                    Dictionary<Tuple<int, int>, IPlaceable> placeables = grid.GetPlaceablesInfos();
+                    Tuple<int, int> actualCoordinates = new(x, y);
 
                     // Is there a building here?
-                    if (cell != null
-                        && cell.GetCellKind() == CellKind.BUILDING 
-                        && placeable != null 
-                        && placeable is BuildingModel buildingModel)
+                    if (placeables.ContainsKey(actualCoordinates))   // is a building on this coordinates?
                     {
-                        this.AddChild(BuildingView.Design(this, buildingModel));
+                        // Is a building?
+                        if (placeables[actualCoordinates] is BuildingModel buildingModel)
+                        {
+                            // Load view and instantiate her on the scene
+                            BuildingView building = BuildingViewsFactory.DesignFromModel(buildingModel, this);
+                            building.Position = new Vector2((float)(x * CellModel.GetDefaultDimension()),
+                                (float)(y * CellModel.GetDefaultDimension()));
+                        }
+                        else
+                        {
+                            invalidCase = true;
+                        }
                     }
                     else
+                    {
+                        invalidCase = true;
+                    }
+                    
+
+                    // Have to design grass to fill an invalid case?
+                    if (invalidCase)
                     {
                         // Fill with simple grass
                         GrassView grass = (GrassView)GrassView.Design();
@@ -65,6 +82,9 @@ namespace Terriflux.Programs.GameContext
                         // Instantiate into scene
                         grass.Position = new Vector2(x * model.GetExactDimensions(), y * model.GetExactDimensions());
                         this.AddChild(grass);
+
+                        // Next case probably valid
+                        invalidCase = false;
                     }
                 }
             }

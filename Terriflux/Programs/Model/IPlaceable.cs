@@ -34,6 +34,6 @@ namespace Terriflux.Programs.Model
         /// then deduces and modifies the rest of the cells' placement, 
         /// according to the element orientation.
         /// </summary>
-        void ChangeOriginCoordinates(Vector2I newCoordinates); 
+        void ChangeOriginCoordinates(Vector2I newCoordinates);
     }
 }

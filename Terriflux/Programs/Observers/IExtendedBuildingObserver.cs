@@ -5,7 +5,6 @@ namespace Terriflux.Programs.Observers
 {
     public interface IExtendedBuildingObserver : IBuildingObserver
     {
-        void UpdateName(string name);
         void UpdateImpacts(int[] impacts);
         void UpdateInfluence(InfluenceScale actualInfluenceScale);
         void UpdateProducts(Dictionary<FlowKind, int> products);

@@ -9,4 +9,4 @@ script = ExtResource("1_t8hv8")
 position = Vector2(568, 328)
 
 [node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(184, -96)
+position = Vector2(560, 336)

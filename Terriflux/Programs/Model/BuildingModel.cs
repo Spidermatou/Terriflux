@@ -164,7 +164,7 @@ namespace Terriflux.Programs.Model
 
         public void NotifyName()
         {
-            foreach (IExtendedBuildingObserver observer in this.observers)
+            foreach (IBuildingObserver observer in this.observers)
             {
                 observer.UpdateName(this.GetName());
             }
@@ -196,11 +196,14 @@ namespace Terriflux.Programs.Model
 
         public void NotifyProducts()
         {
-            foreach (IExtendedBuildingObserver observer in observers)
+            foreach (IBuildingObserver observer in observers)
             {
-                // clone
-                observer.UpdateProducts(this.products.ToDictionary(entry => entry.Key,
-                                                                  entry => entry.Value));
+                if (observer is IExtendedBuildingObserver extendedObserver)
+                {
+                    // clone
+                    extendedObserver.UpdateProducts(this.products.ToDictionary(entry => entry.Key,
+                                                                      entry => entry.Value));
+                }
             }
         }
 
@@ -234,11 +237,14 @@ namespace Terriflux.Programs.Model
 
         public void NotifyNeeds()
         {
-            foreach (IExtendedBuildingObserver observer in observers)
+            foreach (IBuildingObserver observer in observers)
             {
-                // clone
-                observer.UpdateNeeds(this.needs.ToDictionary(entry => entry.Key,
-                                                                  entry => entry.Value));
+                if (observer is IExtendedBuildingObserver extendedObserver)
+                {
+                    // clone
+                    extendedObserver.UpdateNeeds(this.needs.ToDictionary(entry => entry.Key,
+                                                                      entry => entry.Value));
+                }
             }
         }
 
@@ -261,9 +267,12 @@ namespace Terriflux.Programs.Model
 
         public void NotifyInfluence()
         {
-            foreach (IExtendedBuildingObserver observer in observers)
+            foreach (IBuildingObserver observer in observers)
             {
-                observer.UpdateInfluence(this.actualInfluenceScale);
+                if (observer is IExtendedBuildingObserver extendedObserver)
+                {
+                    extendedObserver.UpdateInfluence(this.actualInfluenceScale);
+                }
             }
         }
 
@@ -292,9 +301,12 @@ namespace Terriflux.Programs.Model
 
         public void NotifyImpacts()
         {
-            foreach (IExtendedBuildingObserver observer in observers)
+            foreach (IBuildingObserver observer in observers)
             {
-                observer.UpdateImpacts(impacts);
+                if (observer is IExtendedBuildingObserver extendedObserver)
+                {
+                    extendedObserver.UpdateImpacts(impacts);
+                }
             }
         }
 
@@ -312,14 +324,14 @@ namespace Terriflux.Programs.Model
 
         private void NotifyDirection()
         {
-            foreach (IExtendedBuildingObserver observer in observers)
+            foreach (IBuildingObserver observer in observers)
             {
                 observer.UpdateDirection(this.orientation);
             }
         }
 
         // ALLS
-        public void NotifyAlls()
+        public void CallForUpdates()
         {
             // cells infos
             foreach (CellModel part in parts)
@@ -328,7 +340,9 @@ namespace Terriflux.Programs.Model
             }
 
             // builds infos
-            NotifyImpacts();
+            NotifyName();       // for all
+            
+            NotifyImpacts();    // for ExtendedObservers
             NotifyInfluence();
             NotifyNeeds();
             NotifyProducts();
@@ -369,11 +383,6 @@ namespace Terriflux.Programs.Model
             {
                 this.parts[i].AddObserver(observersList[i]);
             }
-
-
-
-            //test:
-            obs = observersList;
         }
 
         /// <summary>

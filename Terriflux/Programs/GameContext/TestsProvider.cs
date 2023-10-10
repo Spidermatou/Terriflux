@@ -70,9 +70,15 @@ namespace Terriflux.Programs.GameContext
             // instantiate into test zone
             scene.AddChild(gridView);
 
-            gridModel.CallForUpdate();
-            gridModel.Verbose();
+            // Modify grid
+            gridModel.PlaceAt(BuildingModel.CreateFromName("field"), new Vector2I(5, 5));
+            gridModel.PlaceAt(BuildingModel.CreateFromName("field"), new Vector2I(3, 7));
+            gridModel.PlaceAt(BuildingModel.CreateFromName("field"), new Vector2I(0, 0));
 
+            // Call a update of view
+            gridModel.CallForUpdate();
+
+            gridModel.Verbose();
             GD.Print($"GridView children number: {gridView.GetChildren().Count}");
 
             GD.Print($"Actual child into grid view: {scene.GetChildren().Count}");
@@ -137,10 +143,17 @@ namespace Terriflux.Programs.GameContext
 
         }
 
+        /// <summary>
+        /// Design a building "field", who wild spawn at specified coordinates
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void BuildGeneration()
         {
             BuildingModel model = BuildingModel.CreateFromName("fIElD");
-            BuildingView.Design(scene, model);
+            BuildingView view = BuildingViewsFactory.DesignFromModel(model, scene);
+            view.Position = new Vector2((float) CellModel.GetDefaultDimension(),
+                (float)CellModel.GetDefaultDimension());
 
             // hierarchy
             GD.Print("scene children:" + scene.GetChildren().Count);
