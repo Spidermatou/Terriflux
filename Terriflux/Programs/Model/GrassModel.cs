@@ -8,7 +8,7 @@ using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Model
 {
-    public partial class GrassModel : CellModel // TODO Create() are useless for models!
+    public partial class GrassModel : CellModel 
     {
         public GrassModel() : base("Grass", CellKind.WASTELAND) { }
 

@@ -122,7 +122,6 @@ namespace Terriflux.Programs.GameContext
 
         public void Grid()
         {
-            // test grid
             GridModel grid_test = GridFactory.CreateFullGrassLand(10);
             GridView territory_view = GridView.Design();
             scene.AddChild(territory_view);
@@ -132,8 +131,6 @@ namespace Terriflux.Programs.GameContext
 
         public void EnumTranslation()
         {
-            // enum test
-            GD.Print("--Enum test--");
             string what = "wAteR";
             what = what.Capitalize();
             GD.Print(GlobalTools.TranslateToFlowKind(what));
@@ -142,11 +139,8 @@ namespace Terriflux.Programs.GameContext
 
         public void BuildGeneration()
         {
-            GD.Print("--Build generation test--");
-
             BuildingModel model = BuildingModel.CreateFromName("fIElD");
             BuildingView.Design(scene, model);
-
 
             // hierarchy
             GD.Print("scene children:" + scene.GetChildren().Count);

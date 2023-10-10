@@ -457,14 +457,5 @@ namespace Terriflux.Programs.Model
                 }
             }
         }
-
-
-
-        //test:
-        private List<ICellObserver> obs = new();
-        public List<ICellObserver> GetCompObser()
-        {
-            return this.obs;
-        }
     }
 }
