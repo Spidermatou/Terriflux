@@ -199,6 +199,7 @@ public partial class GridModel : IVerbosable
     /// </summary>
     public void CallForUpdate()
     {
+        GD.Print($"Call for update at {this.observers.Count} "); // test
         NotifyGridChanges();
     }
 

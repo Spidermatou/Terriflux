@@ -40,6 +40,8 @@ namespace Terriflux.Programs.GameContext
             // Reset
             RemoveAllChildren();
 
+            GD.Print("Update map!!"); // test
+
             // Construct the graphical grid
             for (int x = 0; x < grid.GetSize(); x++)
             {
@@ -60,8 +62,13 @@ namespace Terriflux.Programs.GameContext
                     {
                         // Fill with simple grass
                         GrassView grass = (GrassView)GrassView.Design();
-                        grass.Position = new Vector2(x, y);
+                        GrassModel model = new();   // just for dimensions
+                        
+                        // Instantiate into scene
+                        grass.Position = new Vector2(x * model.GetExactDimensions(), y * model.GetExactDimensions());
                         this.AddChild(grass);
+
+                        GD.Print(grass.Position); // test
                     }
                 }
             }

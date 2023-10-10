@@ -6,6 +6,7 @@
 script = ExtResource("1_t8hv8")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(568, 328)
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(184, -96)
