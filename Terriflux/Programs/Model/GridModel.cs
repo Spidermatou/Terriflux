@@ -106,7 +106,7 @@ public partial class GridModel : IVerbosable
                 CellModel actualCell = this.cells[originPositionPlacement.X + i, originPositionPlacement.Y]; // next cell on right
 
                 // is the size already used?
-                if (actualCell.GetKind() == CellKind.WASTELAND) 
+                if (actualCell.GetKind() != CellKind.WASTELAND) 
                 {
                     throw new UnplaceableException(); 
                 }

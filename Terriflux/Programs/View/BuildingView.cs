@@ -17,8 +17,6 @@ namespace Terriflux.Programs.View
         /// </summary>
         private BuildingView() : base() { }
 
-        // TODO - where the horizontal and vertical version will be stored, so as not to have to recreate a building every time the player changes orientation)?
-
         /// <param name="buildingName"></param>
         /// <returns>The created BuildingView node </returns>
         /// <exception cref="FileNotFoundException"></exception>
@@ -26,11 +24,6 @@ namespace Terriflux.Programs.View
         {
             return (BuildingView)GD.Load<PackedScene>(Paths.VIEW_NODES + "BuildingView" + Paths.GDEXT)
                     .Instantiate();
-        }
-
-        public void UpdateDirection(Direction2D direction)
-        {
-            throw new System.NotImplementedException();  // TODO
         }
 
         public void UpdateName(string name)

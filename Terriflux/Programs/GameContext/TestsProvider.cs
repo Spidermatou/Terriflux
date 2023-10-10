@@ -45,7 +45,6 @@ namespace Terriflux.Programs.GameContext
                 CellModel cm = new("Field", CellKind.BUILDING);
                 CellView cv = CellView.Design();
                 cm.AddObserver(cv);
-                cm.SetGlobalSize(128 / 2, 1);
                 cm.SetPlacement(new Vector2((float) gap, 0));
                 scene.AddChild(cv);
 
@@ -56,7 +55,7 @@ namespace Terriflux.Programs.GameContext
             GD.Print($"New parent scene child count: {scene.GetChildren().Count}");
         }
 
-        public void ImageToolsProvider_OnGrid()   // TODO - URGENT - not yet conclusive!
+        public void ImageToolsProvider_OnGrid()   
         {
             GD.Print($"--Test_ImageToolsProvider OnGrid--");
             GD.Print($"Actual child into grid view: {scene.GetChildren().Count}");
@@ -133,6 +132,20 @@ namespace Terriflux.Programs.GameContext
             scene.AddChild(territory_view);
             grid_test.AddObserver(territory_view);
             territory_view.UpdateMap(grid_test);
+        }
+
+        public void GridWithBuilds()
+        {
+            GridModel grid_model = GridFactory.CreateFullGrassLand(10);
+            GridView grid_view = GridView.Design();
+            scene.AddChild(grid_view);
+            grid_model.AddObserver(grid_view);
+
+            // add a building
+            BuildingModel build_model = BuildingModel.CreateFromName("field");
+            grid_model.PlaceAt(build_model, new Vector2I(5,5));
+
+            grid_view.UpdateMap(grid_model);
         }
 
         public void EnumTranslation()

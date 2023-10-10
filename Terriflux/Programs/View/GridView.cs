@@ -35,7 +35,7 @@ namespace Terriflux.Programs.GameContext
         /// </summary>
         /// <param name="grid"></param>
         /// <exception cref="NotImplementedException"></exception>
-		public void UpdateMap(GridModel grid)       // TODO - Urgent - have some troubles here
+		public void UpdateMap(GridModel grid)       
         {
             bool invalidCase = false;
 
@@ -80,7 +80,7 @@ namespace Terriflux.Programs.GameContext
                         GrassModel model = new();   // just for dimensions
                         
                         // Instantiate into scene
-                        grass.Position = new Vector2(x * model.GetExactDimensions(), y * model.GetExactDimensions());
+                        grass.Position = new Vector2((float)(x * CellModel.GetGlobalSize()), (float)(y * CellModel.GetGlobalSize()));
                         this.AddChild(grass);
 
                         // Next case probably valid

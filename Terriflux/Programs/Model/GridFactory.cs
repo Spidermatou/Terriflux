@@ -18,8 +18,8 @@ namespace Terriflux.Programs.Model
                 for (int y = 0; y < size; y++)
                 {
                     GrassModel grass = new();
-                    grass.SetPlacement(x * grass.GetExactDimensions(),
-                        y * grass.GetExactDimensions());
+                    grass.SetPlacement((float)(x * CellModel.GetGlobalSize()),
+                        (float)(y * CellModel.GetGlobalSize()));
                     g.SetAt(grass, x, y, true);
                 }
             }

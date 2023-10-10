@@ -17,8 +17,7 @@ namespace Terriflux.Programs
         public override void _Ready()
         {
             TestsProvider tp = new(this);
-            //tp.ImageToolsProvider_OnGrid();
-            tp.BuildGeneration();
+            tp.GridWithBuilds();
 
         }
     }
