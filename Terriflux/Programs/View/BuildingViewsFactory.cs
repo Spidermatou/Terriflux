@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.IO;
 using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Model;
@@ -22,7 +21,10 @@ namespace Terriflux.Programs.View
             parent.AddChild(buildingView);
 
             // observers and update
-            if (addAsObserver) model.AddObserver(buildingView);
+            if (addAsObserver)
+            {
+                model.AddObserver(buildingView);
+            }
 
             /* Configuration */
             string texturePath = Paths.TEXTURES + model.GetName() + ".png";

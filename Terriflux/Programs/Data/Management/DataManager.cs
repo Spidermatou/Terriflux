@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Model;
-using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Data.Management
 {
@@ -39,12 +34,14 @@ namespace Terriflux.Programs.Data.Management
             StringBuilder result = new();
             StreamReader reader = LoadBuildingData();
 
+            result.AppendLine("Avaible buildings:");
+
             string line;
-            while ( (line = reader.ReadLine()) != null )
+            while ((line = reader.ReadLine()) != null)
             {
                 string[] split = line.Split(";");
-                
-                if (split.Length == NECESSARIES_BUILD_DATA) 
+
+                if (split.Length == NECESSARIES_BUILD_DATA)
                 {
                     BuildingModel model = BuildingModel.CreateFromName(split[0]);
                     result.Append(model.Verbose());

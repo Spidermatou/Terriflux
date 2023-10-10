@@ -1,9 +1,5 @@
 using Godot;
-using System;
-using System.Linq;
 using Terriflux.Programs.GameContext;
-using Terriflux.Programs.Model;
-using Terriflux.Programs.View;
 
 namespace Terriflux.Programs
 {

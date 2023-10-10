@@ -2,14 +2,12 @@ using Godot;
 using System;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using Terriflux.Programs.GameContext;
-using Terriflux.Programs.Model;
 using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.View
 {
-    public partial class CellView : Node2D, ICellObserver, IVerbosable 
+    public partial class CellView : Node2D, ICellObserver, IVerbosable
     {
         // children
         private Label _nicknameLabel;     // def
@@ -19,7 +17,7 @@ namespace Terriflux.Programs.View
         /// <summary>
         /// Simple class construction not allowed. Please use the associated Design() function.
         /// </summary>
-        protected CellView() {}
+        protected CellView() { }
 
         public override void _Ready()
         {
@@ -50,14 +48,14 @@ namespace Terriflux.Programs.View
         /// <exception cref="ArgumentException"></exception>
         public void ChangeSkin(string path)
         {
-            if (this._skin == null)
+            if (_skin == null)
             {
                 throw new NullReferenceException(this + "'s skin child not loaded correctly!");
             }
 
             if (File.Exists(path))
             {
-                this._skin.Texture = GD.Load<Texture2D>(path);
+                _skin.Texture = GD.Load<Texture2D>(path);
             }
             else
             {
@@ -72,7 +70,7 @@ namespace Terriflux.Programs.View
         /// <exception cref="ArgumentNullException"></exception>
         public void ChangeSkin(Texture2D skin)
         {
-            if (this._skin == null)
+            if (_skin == null)
             {
                 throw new NullReferenceException(this + "'s skin child not loaded correctly!");
             }
@@ -82,7 +80,7 @@ namespace Terriflux.Programs.View
             }
             else
             {
-                this._skin.Texture = skin;
+                _skin.Texture = skin;
             }
         }
 
@@ -93,7 +91,7 @@ namespace Terriflux.Programs.View
         /// <exception cref="ArgumentNullException"></exception>
         public void ChangeSkin(Sprite2D skin)
         {
-            if (this._skin == null)
+            if (_skin == null)
             {
                 throw new NullReferenceException(this + "'s skin child not loaded correctly!");
             }
@@ -107,7 +105,7 @@ namespace Terriflux.Programs.View
             }
             else
             {
-                this._skin.Texture = skin.Texture;
+                _skin.Texture = skin.Texture;
             }
         }
 
@@ -144,12 +142,12 @@ namespace Terriflux.Programs.View
 
         public void UpdatePlacement(Vector2 coordinates)
         {
-            this.Position = coordinates;
+            Position = coordinates;
         }
 
         public void UpdateCellName(string cname)
         {
-            this._nicknameLabel.Text = cname;
+            _nicknameLabel.Text = cname;
         }
     }
 }

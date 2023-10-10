@@ -1,14 +1,11 @@
 using Godot;
-using Microsoft.VisualBasic;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Terriflux.Programs.Exceptions;
 using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Observers;
-using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Model
 {
@@ -69,7 +66,10 @@ namespace Terriflux.Programs.Model
             cells[line, column] = cell;
 
             // update view?
-            if (callForUpdate) NotifyGridChanges();
+            if (callForUpdate)
+            {
+                NotifyGridChanges();
+            }
         }
 
         public CellModel GetAt(int line, int column)
@@ -153,7 +153,10 @@ namespace Terriflux.Programs.Model
             placeable.ChangeOriginCoordinates(originPositionPlacement);
 
             // Update view now, if wanted
-            if (callForUpdate) NotifyGridChanges();
+            if (callForUpdate)
+            {
+                NotifyGridChanges();
+            }
 
             // Save placement
             placementTable.Add(new Tuple<int, int>(originPositionPlacement.X, originPositionPlacement.Y), placeable);
@@ -252,7 +255,10 @@ namespace Terriflux.Programs.Model
                         sb.Append("NULL");
                     }
 
-                    if (column < size - 1) sb.Append(',');
+                    if (column < size - 1)
+                    {
+                        sb.Append(',');
+                    }
                 }
                 sb.Append('\n');
             }

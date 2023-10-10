@@ -1,15 +1,12 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Terriflux.Programs.Data.Management;
 using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Observers;
-using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Model
 {
@@ -32,7 +29,7 @@ namespace Terriflux.Programs.Model
         private Dictionary<FlowKind, int> products = new();
         private readonly List<CellModel> parts = new();      // cells wich compose the building
         private InfluenceScale actualInfluenceScale;
-        private Direction2D orientation; 
+        private Direction2D orientation;
         private string name = "Building";
 
 
@@ -56,11 +53,11 @@ namespace Terriflux.Programs.Model
             for (int i = 0; i < size; i++)
             {
                 CellModel part = new(name, CellKind.BUILDING);
-                this.parts.Add(part);
+                parts.Add(part);
             }
         }
 
-        public static BuildingModel CreateFromName(string name) 
+        public static BuildingModel CreateFromName(string name)
         {
             StreamReader reader = DataManager.LoadBuildingData();
             name = name.ToLower().Replace(" ", ""); // erase spaces
@@ -82,8 +79,8 @@ namespace Terriflux.Programs.Model
                 split = line.Split(";");
 
                 // extract name
-                line_name = split[0].Replace(" ", "").ToLower();    
-                
+                line_name = split[0].Replace(" ", "").ToLower();
+
                 // is it the one we want? 
                 if (line_name.Equals(name))     // yes
                 {
@@ -149,33 +146,33 @@ namespace Terriflux.Programs.Model
             this.name = name;
 
             // update self composition
-            foreach (CellModel part in this.parts)
+            foreach (CellModel part in parts)
             {
                 part.SetName(this.name);
             }
 
-            this.NotifyName();
+            NotifyName();
         }
 
         public string GetName()
         {
-            return this.name;
+            return name;
         }
 
         public void NotifyName()
         {
-            foreach (IBuildingObserver observer in this.observers)
+            foreach (IBuildingObserver observer in observers)
             {
-                observer.UpdateName(this.GetName());
+                observer.UpdateName(GetName());
             }
         }
 
         // Building's COMPOSITION
         public int GetPartsNumber()
         {
-            return this.parts.Count;
+            return parts.Count;
         }
-        
+
         // Building's PRODUCTION
         /// <summary>
         /// Modify building productions, then apply influence scale's modificators
@@ -188,7 +185,7 @@ namespace Terriflux.Programs.Model
             // apply influence multiplicators
             foreach (KeyValuePair<FlowKind, int> kvp in this.products)
             {
-                this.products[kvp.Key] = kvp.Value * MULTIPLICATION_RATE[this.GetInfluence()]; 
+                this.products[kvp.Key] = kvp.Value * MULTIPLICATION_RATE[GetInfluence()];
             }
 
             NotifyProducts();
@@ -201,7 +198,7 @@ namespace Terriflux.Programs.Model
                 if (observer is IExtendedBuildingObserver extendedObserver)
                 {
                     // clone
-                    extendedObserver.UpdateProducts(this.products.ToDictionary(entry => entry.Key,
+                    extendedObserver.UpdateProducts(products.ToDictionary(entry => entry.Key,
                                                                       entry => entry.Value));
                 }
             }
@@ -229,7 +226,7 @@ namespace Terriflux.Programs.Model
             // apply influence multiplicators
             foreach (KeyValuePair<FlowKind, int> kvp in this.needs)
             {
-                this.needs[kvp.Key] = kvp.Value * MULTIPLICATION_RATE[this.GetInfluence()];
+                this.needs[kvp.Key] = kvp.Value * MULTIPLICATION_RATE[GetInfluence()];
             }
 
             NotifyNeeds();
@@ -242,7 +239,7 @@ namespace Terriflux.Programs.Model
                 if (observer is IExtendedBuildingObserver extendedObserver)
                 {
                     // clone
-                    extendedObserver.UpdateNeeds(this.needs.ToDictionary(entry => entry.Key,
+                    extendedObserver.UpdateNeeds(needs.ToDictionary(entry => entry.Key,
                                                                       entry => entry.Value));
                 }
             }
@@ -271,7 +268,7 @@ namespace Terriflux.Programs.Model
             {
                 if (observer is IExtendedBuildingObserver extendedObserver)
                 {
-                    extendedObserver.UpdateInfluence(this.actualInfluenceScale);
+                    extendedObserver.UpdateInfluence(actualInfluenceScale);
                 }
             }
         }
@@ -290,8 +287,14 @@ namespace Terriflux.Programs.Model
             }
             else
             {
-                if (impacts.Count < 3) throw new ArgumentException("Try to attribute too few impacts ! Required: 3 exactly");
-                else throw new ArgumentException("Try to attribute too much impacts ! Required: 3 exactly");
+                if (impacts.Count < 3)
+                {
+                    throw new ArgumentException("Try to attribute too few impacts ! Required: 3 exactly");
+                }
+                else
+                {
+                    throw new ArgumentException("Try to attribute too much impacts ! Required: 3 exactly");
+                }
             }
         }
         public int[] GetImpacts()
@@ -313,12 +316,12 @@ namespace Terriflux.Programs.Model
         // PLACEMENT
         public Direction2D GetDirection()
         {
-            return this.orientation;
+            return orientation;
         }
 
         public void SetDirection(Direction2D direction)
         {
-            this.orientation = direction;
+            orientation = direction;
         }
 
         // ALLS
@@ -332,7 +335,7 @@ namespace Terriflux.Programs.Model
 
             // builds infos
             NotifyName();       // for all
-            
+
             NotifyImpacts();    // for ExtendedObservers
             NotifyInfluence();
             NotifyNeeds();
@@ -363,7 +366,7 @@ namespace Terriflux.Programs.Model
         public void AddCompositionObserver(ICellObserver[] observers)
         {
             // security
-            if (observers.Length != this.GetPartsNumber())
+            if (observers.Length != GetPartsNumber())
             {
                 throw new ArgumentException("Try to assign more or less cells' observers than cells wich compose the building !");
             }
@@ -372,7 +375,7 @@ namespace Terriflux.Programs.Model
             List<ICellObserver> observersList = observers.ToList();
             for (int i = 0; i < observersList.Count; i++)
             {
-                this.parts[i].AddObserver(observersList[i]);
+                parts[i].AddObserver(observersList[i]);
             }
         }
 
@@ -383,7 +386,7 @@ namespace Terriflux.Programs.Model
         public void RemoveCompositionObserver(ICellObserver[] observers)
         {
             // security
-            if (observers.Length != this.GetPartsNumber())
+            if (observers.Length != GetPartsNumber())
             {
                 throw new ArgumentException("Try to assign more or less cells' observers than cells wich compose the building !");
             }
@@ -392,7 +395,7 @@ namespace Terriflux.Programs.Model
             List<ICellObserver> observersList = observers.ToList();
             for (int i = 0; i < observersList.Count; i++)
             {
-                this.parts[i].RemoveObserver(observersList[i]);
+                parts[i].RemoveObserver(observersList[i]);
             }
         }
 
@@ -401,10 +404,10 @@ namespace Terriflux.Programs.Model
             StringBuilder sb = new();
 
             // basis
-            sb.Append($"Name: {this.name}\n");
-            sb.Append($"Actual orientation: {this.orientation}\n");
-            sb.Append($"Nb of observers: {this.observers.Count}\n");
-            sb.Append($"Influence: {this.actualInfluenceScale}\n");
+            sb.Append($"Name: {name}\n");
+            sb.Append($"Actual orientation: {orientation}\n");
+            sb.Append($"Nb of observers: {observers.Count}\n");
+            sb.Append($"Influence: {actualInfluenceScale}\n");
 
             // impacts
             sb.Append($"Impacts:\n");
@@ -413,22 +416,22 @@ namespace Terriflux.Programs.Model
             sb.Append($"    Ecology{impacts[2]}\n");
 
             // parts
-            sb.Append($"Composed with {this.GetPartsNumber()}\n");
-            for (int i = 0; i< this.GetPartsNumber(); i++)
+            sb.Append($"Composed with {GetPartsNumber()}\n");
+            for (int i = 0; i < GetPartsNumber(); i++)
             {
-                sb.Append($"    part-{i} correctly instantiated? {this.parts[i] != null}\n");
+                sb.Append($"    part-{i} correctly instantiated? {parts[i] != null}\n");
             }
 
             // needs
             sb.Append($"Needs:\n");
-            foreach (KeyValuePair<FlowKind, int> kvp in this.needs)
+            foreach (KeyValuePair<FlowKind, int> kvp in needs)
             {
                 sb.Append($"    Key={kvp.Key}, Value{kvp.Value}\n");
             }
 
             // products
             sb.Append($"Products:\n");
-            foreach (KeyValuePair<FlowKind, int> kvp in this.products)
+            foreach (KeyValuePair<FlowKind, int> kvp in products)
             {
                 sb.Append($"    Key={kvp.Key}, Value{kvp.Value}\n");
             }
@@ -438,21 +441,21 @@ namespace Terriflux.Programs.Model
 
         public List<CellModel> GetComposition()
         {
-            return this.parts.ToList(); 
+            return parts.ToList();
         }
 
         public void ChangeOriginCoordinates(Vector2I newCoordinates)
         {
-            for (int offset = 0; offset < this.GetPartsNumber(); offset++)
+            for (int offset = 0; offset < GetPartsNumber(); offset++)
             {
-                if (this.GetDirection() == Direction2D.HORIZONTAL)
+                if (GetDirection() == Direction2D.HORIZONTAL)
                 {
-                    this.parts[offset].SetPlacement(newCoordinates.X + offset, 
+                    parts[offset].SetPlacement(newCoordinates.X + offset,
                         newCoordinates.Y);
                 }
-                else if (this.GetDirection() == Direction2D.VERTICAL)
+                else if (GetDirection() == Direction2D.VERTICAL)
                 {
-                    this.parts[offset].SetPlacement(newCoordinates.X,
+                    parts[offset].SetPlacement(newCoordinates.X,
                         newCoordinates.Y + offset);
                 }
             }

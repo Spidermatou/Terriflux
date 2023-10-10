@@ -1,5 +1,3 @@
-using Godot;
-using System;
 using Terriflux.Programs.Model;
 
 namespace Terriflux.Programs.Observers

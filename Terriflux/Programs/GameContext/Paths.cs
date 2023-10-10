@@ -1,6 +1,3 @@
-using Godot;
-using System;
-
 namespace Terriflux.Programs.GameContext
 {
     public static partial class Paths

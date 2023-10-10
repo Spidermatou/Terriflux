@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using Terriflux.Programs.Model;
-
-namespace Terriflux.Programs.Observers
+﻿namespace Terriflux.Programs.Observers
 {
-    public interface IBuildingObserver 
+    public interface IBuildingObserver
     {
         void UpdateName(string name);
     }

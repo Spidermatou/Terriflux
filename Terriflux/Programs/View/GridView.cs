@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Terriflux.Programs.Model;
 using Terriflux.Programs.Observers;
@@ -35,7 +34,7 @@ namespace Terriflux.Programs.GameContext
         /// </summary>
         /// <param name="grid"></param>
         /// <exception cref="NotImplementedException"></exception>
-		public void UpdateMap(GridModel grid)       
+		public void UpdateMap(GridModel grid)
         {
             bool invalidCase = false;
 
@@ -70,17 +69,17 @@ namespace Terriflux.Programs.GameContext
                     {
                         invalidCase = true;
                     }
-                    
+
 
                     // Have to design grass to fill an invalid case?
                     if (invalidCase)
                     {
                         // Fill with simple grass
                         GrassView grass = (GrassView)GrassView.Design();
-                        
+
                         // Instantiate into scene
                         grass.Position = new Vector2((float)(x * CellModel.GetGlobalSize()), (float)(y * CellModel.GetGlobalSize()));
-                        this.AddChild(grass);
+                        AddChild(grass);
 
                         // Next case probably valid
                         invalidCase = false;
@@ -91,9 +90,9 @@ namespace Terriflux.Programs.GameContext
 
         private void RemoveAllChildren()
         {
-            foreach (Node child in this.GetChildren())
+            foreach (Node child in GetChildren())
             {
-                this.RemoveChild(child);
+                RemoveChild(child);
             }
         }
 

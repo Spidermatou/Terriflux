@@ -1,10 +1,5 @@
 ﻿using Godot;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Formats.Asn1.AsnWriter;
 using Terriflux.Programs.Model;
 using Terriflux.Programs.View;
 
@@ -47,7 +42,7 @@ namespace Terriflux.Programs.GameContext
                 CellModel cm = new("Field", CellKind.BUILDING);
                 CellView cv = CellView.Design();
                 cm.AddObserver(cv);
-                cm.SetPlacement(new Vector2((float) gap, 0));
+                cm.SetPlacement(new Vector2((float)gap, 0));
                 scene.AddChild(cv);
 
                 cv.ChangeSkin(sprite);
@@ -57,7 +52,7 @@ namespace Terriflux.Programs.GameContext
             GD.Print($"New parent scene child count: {scene.GetChildren().Count}");
         }
 
-        public void ImageToolsProvider_OnGrid()   
+        public void ImageToolsProvider_OnGrid()
         {
             GD.Print($"--Test_ImageToolsProvider OnGrid--");
             GD.Print($"Actual child into grid view: {scene.GetChildren().Count}");
@@ -146,7 +141,7 @@ namespace Terriflux.Programs.GameContext
 
             // add a building
             BuildingModel build_model = BuildingModel.CreateFromName("field");
-            grid_model.PlaceAt(build_model, new Vector2I(5,5));
+            grid_model.PlaceAt(build_model, new Vector2I(5, 5));
 
             grid_view.UpdateMap(grid_model);
         }
@@ -168,7 +163,7 @@ namespace Terriflux.Programs.GameContext
         {
             BuildingModel model = BuildingModel.CreateFromName("fIElD");
             BuildingView view = BuildingViewsFactory.DesignFromModel(model, scene);
-            view.Position = new Vector2((float) CellModel.GetGlobalSize(),
+            view.Position = new Vector2((float)CellModel.GetGlobalSize(),
                 (float)CellModel.GetGlobalSize());
 
             // hierarchy

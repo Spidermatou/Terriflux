@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Terriflux.Programs.Model
+﻿namespace Terriflux.Programs.Model
 {
     /// <summary>
     /// Summary description for Class1

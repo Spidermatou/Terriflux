@@ -1,8 +1,6 @@
 using Godot;
-using System.Collections.Generic;
 using System.IO;
 using Terriflux.Programs.GameContext;
-using Terriflux.Programs.Model;
 using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.View
@@ -28,7 +26,7 @@ namespace Terriflux.Programs.View
 
         public void UpdateName(string name)
         {
-            foreach (Node child in this.GetChildren())
+            foreach (Node child in GetChildren())
             {
                 if (child is CellView cellChild)
                 {

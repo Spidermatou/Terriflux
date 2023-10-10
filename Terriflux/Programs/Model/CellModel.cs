@@ -1,8 +1,6 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 using Terriflux.Programs.Observers;
-using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Model
 {
@@ -11,13 +9,13 @@ namespace Terriflux.Programs.Model
     /// All cell have the exact same size. If one changes size, everything else adapts. You can access to these
     /// dimensions with Get/SetGlobalSize
     /// </summary>
-    public partial class CellModel 
+    public partial class CellModel
     {
         private static readonly double globalSize = 128;   //px
 
         private string name = "Cell";  // default
         private readonly CellKind kind = CellKind.PRIMARY;   // default
-        private Vector2 placement = new(0,0);   // default
+        private Vector2 placement = new(0, 0);   // default
         private readonly List<ICellObserver> observers = new();
 
         // CONSTRUCT
@@ -98,7 +96,7 @@ namespace Terriflux.Programs.Model
             {
                 observer.UpdateCellName(name);
             }
-        }     
+        }
 
         public void NotifyAlls()
         {
