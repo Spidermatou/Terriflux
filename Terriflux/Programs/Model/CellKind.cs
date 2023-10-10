@@ -8,6 +8,5 @@ namespace Terriflux.Programs.Model
         BUILDING,
         WASTELAND, // free cell 
         PRIMARY // nothing, basic 
-
     }
 }

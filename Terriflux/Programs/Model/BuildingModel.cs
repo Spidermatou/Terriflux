@@ -319,15 +319,6 @@ namespace Terriflux.Programs.Model
         public void SetDirection(Direction2D direction)
         {
             this.orientation = direction;
-            NotifyDirection();
-        }
-
-        private void NotifyDirection()
-        {
-            foreach (IBuildingObserver observer in observers)
-            {
-                observer.UpdateDirection(this.orientation);
-            }
         }
 
         // ALLS

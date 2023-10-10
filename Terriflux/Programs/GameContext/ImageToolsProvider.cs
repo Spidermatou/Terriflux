@@ -12,7 +12,8 @@ namespace Terriflux.Programs.GameContext
     {
         public static ImageTexture[] SliceImageTexture(string texturePath, int numSlices)
         {
-            Image blitImage = new Image();
+            Image image = new();
+            Image blitImage = image;
             blitImage.Load(texturePath);
 
             Rect2I usedRect = blitImage.GetUsedRect();
@@ -23,7 +24,7 @@ namespace Terriflux.Programs.GameContext
             for (int i = 0; i < numSlices; i++)
             {
                 Image img = Image.Create(sliceWidth, usedRect.Size.Y, false, Image.Format.Rgb8);
-                Rect2I sliceRect = new Rect2I(i * sliceWidth, 0, sliceWidth, usedRect.Size.Y);
+                Rect2I sliceRect = new(i * sliceWidth, 0, sliceWidth, usedRect.Size.Y);
                 img.BlitRect(blitImage, sliceRect, Vector2I.Zero);
 
                 ImageTexture tex = ImageTexture.CreateFromImage(img);
@@ -35,7 +36,7 @@ namespace Terriflux.Programs.GameContext
 
         public static ImageTexture LoadImageTexture(string texturePath)
         {
-            Image blitImage = new Image();
+            Image blitImage = new();
             blitImage.Load(texturePath);
 
             Rect2I usedRect = blitImage.GetUsedRect();

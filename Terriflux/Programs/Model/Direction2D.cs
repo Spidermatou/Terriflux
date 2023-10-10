@@ -1,10 +1,13 @@
 ﻿using System;
 
-/// <summary>
-/// Summary description for Class1
-/// </summary>
-public enum Direction2D
+namespace Terriflux.Programs.Model
 {
-    HORIZONTAL,
-    VERTICAL
+    /// <summary>
+    /// Summary description for Class1
+    /// </summary>
+    public enum Direction2D
+    {
+        HORIZONTAL,
+        VERTICAL
+    }
 }

@@ -77,7 +77,6 @@ namespace Terriflux.Programs.GameContext
                     {
                         // Fill with simple grass
                         GrassView grass = (GrassView)GrassView.Design();
-                        GrassModel model = new();   // just for dimensions
                         
                         // Instantiate into scene
                         grass.Position = new Vector2((float)(x * CellModel.GetGlobalSize()), (float)(y * CellModel.GetGlobalSize()));

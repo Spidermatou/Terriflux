@@ -103,7 +103,7 @@ namespace Terriflux.Programs.View
             }
             else if (skin.Texture == null)
             {
-                throw new ArgumentNullException("This skin doesn't have texture!");
+                throw new Exception("This skin doesn't have texture!");
             }
             else
             {
@@ -150,11 +150,6 @@ namespace Terriflux.Programs.View
         public void UpdateCellName(string cname)
         {
             this._nicknameLabel.Text = cname;
-        }
-
-        public void UpdateCellKind(CellKind kind)
-        {
-            // Does nothing
         }
     }
 }

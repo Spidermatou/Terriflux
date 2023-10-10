@@ -18,7 +18,6 @@ namespace Terriflux.Programs
         {
             TestsProvider tp = new(this);
             tp.GridWithBuilds();
-
         }
     }
 }

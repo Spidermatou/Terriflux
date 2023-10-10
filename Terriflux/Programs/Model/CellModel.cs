@@ -13,10 +13,10 @@ namespace Terriflux.Programs.Model
     /// </summary>
     public partial class CellModel 
     {
-        private static double globalSize = 128;   //px
+        private static readonly double globalSize = 128;   //px
 
         private string name = "Cell";  // default
-        private CellKind kind = CellKind.PRIMARY;   // default
+        private readonly CellKind kind = CellKind.PRIMARY;   // default
         private Vector2 placement = new(0,0);   // default
         private readonly List<ICellObserver> observers = new();
 

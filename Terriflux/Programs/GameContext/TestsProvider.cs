@@ -39,8 +39,10 @@ namespace Terriflux.Programs.GameContext
             // show on screen
             foreach (Texture2D individualTexture in slicedTextureParts)
             {
-                Sprite2D sprite = new();
-                sprite.Texture = individualTexture;
+                Sprite2D sprite = new()
+                {
+                    Texture = individualTexture
+                };
 
                 CellModel cm = new("Field", CellKind.BUILDING);
                 CellView cv = CellView.Design();
@@ -103,10 +105,11 @@ namespace Terriflux.Programs.GameContext
             model2.AddObserver(view2);
             Texture2D[] textures = GameContext.ImageToolsProvider.SliceImageTexture(path, CUT);
             Texture2D littleBit = textures[1];
-            Sprite2D sprite = new Sprite2D();
-
-            sprite.Name = "just the sprite";
-            sprite.Position = new Vector2(184, -96);
+            Sprite2D sprite = new()
+            {
+                Name = "just the sprite",
+                Position = new Vector2(184, -96)
+            };
             scene.AddChild(sprite);
             GD.PrintErr(textures.Length);
 
@@ -119,7 +122,7 @@ namespace Terriflux.Programs.GameContext
 
         public void Grass()
         {
-            GrassModel grassModel = new GrassModel();
+            GrassModel grassModel = new();
             CellView grassView = GrassView.Design();
             grassModel.AddObserver(grassView);
             scene.AddChild(grassView);
@@ -148,7 +151,7 @@ namespace Terriflux.Programs.GameContext
             grid_view.UpdateMap(grid_model);
         }
 
-        public void EnumTranslation()
+        public static void EnumTranslation()
         {
             string what = "wAteR";
             what = what.Capitalize();
@@ -170,7 +173,7 @@ namespace Terriflux.Programs.GameContext
 
             // hierarchy
             GD.Print("scene children:" + scene.GetChildren().Count);
-            foreach (Node2D child in scene.GetChildren())
+            foreach (Node2D child in scene.GetChildren().Cast<Node2D>())
             {
                 GD.Print($"1- {child} '{child.Name}'");
                 foreach (Node subChild in child.GetChildren())
