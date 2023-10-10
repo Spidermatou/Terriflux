@@ -1,4 +1,0 @@
-/// <summary>
-/// Create the building just below the mouse, attached to it for placement.
-/// </summary>
-public void DesignOnClick() { } // TODO

@@ -1,20 +1,17 @@
-ADD constructors and cardinalities to scheme !
-Notify into cells
+As soon as you cut an image into several textures, don't leave any white: the background color is the same green as the grass. 
 
-Rework CellView --> Don't ihnerit from cellview!!
+Add tags! (Called Atributes, in c#)(Create a class who inherit form Atribute)
 
-Each notify must be private. And Observables must be class or abstract for this, never interface!!! (else other class have access to notifies, it's strange) 
+GridModel always create and fill itself.
 
-The grid must have a function for placing a building, e.g. Place(BuildingModel). Since a building is not one cell but several, it cannot be placed directly in the grid via SetAt()!
+Remake the project (not from scratch, from actual!) in his simplified version (>see new plantuml "scratchie") 
 
-Try skin stored into models, and the view have just to UpdateSkin(Sprite2D skin)
-
+___
+THEN:
 
 Make the documentation, install securities (especially in the more "primary" classes), and update ALL the plantuml !!!
 
 Transform Paths into a static dictoonnary, with an internal enum
 
 
-Remember:
-Any view that inherits from a node will have to contain a static Design() function (which returns a packedscene cast in its own type) and will NEVER be created via constructor, only with this static Create function! (constructors must be private!!). Her model 
  
