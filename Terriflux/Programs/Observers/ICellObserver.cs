@@ -10,6 +10,5 @@ namespace Terriflux.Programs.Observers
 
         void UpdatePlacement(Vector2 coordinates);
 
-        void UpdateCellKind(CellKind kind);
     }
 }

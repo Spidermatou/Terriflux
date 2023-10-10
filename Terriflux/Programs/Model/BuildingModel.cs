@@ -151,7 +151,7 @@ namespace Terriflux.Programs.Model
             // update self composition
             foreach (CellModel part in this.parts)
             {
-                part.SetCellName(this.name);
+                part.SetName(this.name);
             }
 
             this.NotifyName();

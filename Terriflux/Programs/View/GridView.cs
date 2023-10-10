@@ -58,8 +58,8 @@ namespace Terriflux.Programs.GameContext
                         {
                             // Load view and instantiate her on the scene
                             BuildingView building = BuildingViewsFactory.DesignFromModel(buildingModel, this);
-                            building.Position = new Vector2((float)(x * CellModel.GetDefaultDimension()),
-                                (float)(y * CellModel.GetDefaultDimension()));
+                            building.Position = new Vector2((float)(x * CellModel.GetGlobalSize()),
+                                (float)(y * CellModel.GetGlobalSize()));
                         }
                         else
                         {

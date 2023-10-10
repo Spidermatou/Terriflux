@@ -106,7 +106,7 @@ public partial class GridModel : IVerbosable
                 CellModel actualCell = this.cells[originPositionPlacement.X + i, originPositionPlacement.Y]; // next cell on right
 
                 // is the size already used?
-                if (actualCell.GetCellKind() == CellKind.WASTELAND) 
+                if (actualCell.GetKind() == CellKind.WASTELAND) 
                 {
                     throw new UnplaceableException(); 
                 }
@@ -117,7 +117,7 @@ public partial class GridModel : IVerbosable
                 CellModel actualCell = this.cells[originPositionPlacement.X, originPositionPlacement.Y + i]; // cell just below
 
                 // is the size already used?
-                if (actualCell.GetCellKind() == CellKind.WASTELAND)
+                if (actualCell.GetKind() == CellKind.WASTELAND)
                 {
                     throw new UnplaceableException();
                 }
@@ -243,7 +243,7 @@ public partial class GridModel : IVerbosable
             {
                 if (this.cells[line, column] != null)
                 {
-                    sb.Append(this.cells[line, column].GetCellName());
+                    sb.Append(this.cells[line, column].GetName());
                 }
                 else
                 {

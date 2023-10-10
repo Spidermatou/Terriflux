@@ -32,7 +32,7 @@ namespace Terriflux.Programs.GameContext
 
             // create image to show the slice-texture's results
             const int CUT_WANTED = 2;
-            int gap = 1;
+            double gap = 1;
             Texture2D[] slicedTextureParts = GameContext.ImageToolsProvider.SliceImageTexture(path, CUT_WANTED);
             GD.Print($"Number of parts provided: {slicedTextureParts.Length}, awaited: {CUT_WANTED}.");
 
@@ -45,12 +45,12 @@ namespace Terriflux.Programs.GameContext
                 CellModel cm = new("Field", CellKind.BUILDING);
                 CellView cv = CellView.Design();
                 cm.AddObserver(cv);
-                cm.SetDimensions(128 / 2, 1);
-                cm.SetPlacement(new Vector2(gap, 0));
+                cm.SetGlobalSize(128 / 2, 1);
+                cm.SetPlacement(new Vector2((float) gap, 0));
                 scene.AddChild(cv);
 
                 cv.ChangeSkin(sprite);
-                gap += cm.GetSize();
+                gap += CellModel.GetGlobalSize();
             }
 
             GD.Print($"New parent scene child count: {scene.GetChildren().Count}");
@@ -95,7 +95,7 @@ namespace Terriflux.Programs.GameContext
             scene.AddChild(view);
             model.AddObserver(view);
             view.ChangeSkin(path);
-            model.SetCellName("via path");
+            model.SetName("via path");
 
             // via load and cut
             CellModel model2 = new("field", CellKind.BUILDING);
@@ -114,7 +114,7 @@ namespace Terriflux.Programs.GameContext
 
             sprite.Texture = littleBit;
             view2.ChangeSkin(sprite);
-            model2.SetCellName("via load and cut");
+            model2.SetName("via load and cut");
             view2.Position = new Vector2(-288, -72);
         }
 
@@ -152,8 +152,8 @@ namespace Terriflux.Programs.GameContext
         {
             BuildingModel model = BuildingModel.CreateFromName("fIElD");
             BuildingView view = BuildingViewsFactory.DesignFromModel(model, scene);
-            view.Position = new Vector2((float) CellModel.GetDefaultDimension(),
-                (float)CellModel.GetDefaultDimension());
+            view.Position = new Vector2((float) CellModel.GetGlobalSize(),
+                (float)CellModel.GetGlobalSize());
 
             // hierarchy
             GD.Print("scene children:" + scene.GetChildren().Count);

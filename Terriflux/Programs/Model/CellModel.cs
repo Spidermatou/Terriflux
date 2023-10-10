@@ -2,19 +2,20 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using Terriflux.Programs.Observers;
+using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Model
 {
+    /// <summary>
+    /// Represent a cell.
+    /// All cell have the exact same size. If one changes size, everything else adapts. You can access to these
+    /// dimensions with Get/SetGlobalSize
+    /// </summary>
     public partial class CellModel 
     {
-        protected const int DEFAULT_CELL_SIZE = 1024;   //px
-        protected const float DEFAULT_SCALE = (float) 0.1;
+        private static double globalSize = 128;   //px
 
-        // Own infos
-        private int size = DEFAULT_CELL_SIZE;
-        private float scale = DEFAULT_SCALE;
-
-        private string cname = "Cell";  // default
+        private string name = "Cell";  // default
         private CellKind kind = CellKind.PRIMARY;   // default
         private Vector2 placement = new(0,0);   // default
         private readonly List<ICellObserver> observers = new();
@@ -24,71 +25,30 @@ namespace Terriflux.Programs.Model
 
         public CellModel(string name, CellKind kind)
         {
-            SetCellName(name);
-            SetCellKind(kind);
+            SetName(name);
+            this.kind = kind;
         }
 
         // Global dimensions
-        public static double GetDefaultDimension()
+        public static double GetGlobalSize()
         {
-            return DEFAULT_CELL_SIZE * DEFAULT_SCALE;
-        }
-
-        public static double GetDefaultSize()
-        {
-            return DEFAULT_CELL_SIZE;
-        }
-
-        public static double GetDefaultScale()
-        {
-            return DEFAULT_SCALE;
-        }
-
-        // Own dimensions
-        /// <summary>
-        /// Equivalent of GetScale() * GetSize();
-        /// </summary>
-        /// <returns></returns>
-        public float GetExactDimensions()
-        {
-            return this.GetScale() * this.GetSize();
-        }
-
-        public void SetDimensions(int size, int scale)
-        {
-            this.size = size;
-            this.scale = scale;
-        }
-
-        public float GetScale()
-        {
-            return this.scale;
-        }
-
-        public int GetSize()
-        {
-            return this.size;
+            return globalSize;
         }
 
         // Own name
-        public void SetCellName(string newName)
+        public void SetName(string newName)
         {
-            cname = newName;
+            name = newName;
             NotifyCellName();
         }
 
-        public string GetCellName()
+        public string GetName()
         {
-            return cname;
+            return name;
         }
 
-        public void SetCellKind(CellKind newKind)
-        {
-            kind = newKind;
-            NotifyKind();
-        }
-
-        public CellKind GetCellKind()
+        // Own kind
+        public CellKind GetKind()
         {
             return kind;
         }
@@ -116,7 +76,15 @@ namespace Terriflux.Programs.Model
             observers.Add(observer);
         }
 
-        public void NotifyPlacement()
+        public void RemoveObserver(ICellObserver observer)
+        {
+            if (observers.Contains(observer))
+            {
+                observers.Remove(observer);
+            }
+        }
+
+        private void NotifyPlacement()
         {
             foreach (ICellObserver observer in observers)
             {
@@ -128,35 +96,14 @@ namespace Terriflux.Programs.Model
         {
             foreach (ICellObserver observer in observers)
             {
-                observer.UpdateCellName(cname);
+                observer.UpdateCellName(name);
             }
-        }
-        public ICellObserver[] GetObserver()
-        {
-            return observers.ToArray();
-        }
-
-        public void NotifyKind()
-        {
-            foreach (ICellObserver observer in observers)
-            {
-                observer.UpdateCellKind(kind);
-            }
-        }
-
-        public void RemoveObserver(ICellObserver observer)
-        {
-            if (observers.Contains(observer))
-            {
-                observers.Remove(observer);
-            }
-        }
+        }     
 
         public void NotifyAlls()
         {
             NotifyPlacement();
             NotifyCellName();
-            NotifyKind();
         }
     }
 }
