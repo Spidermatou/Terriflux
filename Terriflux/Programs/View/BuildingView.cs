@@ -38,7 +38,8 @@ namespace Terriflux.Programs.View
         /// <exception cref="FileLoadException"></exception>
         public static BuildingView Design(Node parent, BuildingModel model) 
         {
-            GD.Print($"Parent={parent.Name}; Nb-child-before={parent.GetChildren().Count}; model={model.GetName()}"); // test
+            GD.Print($"*design building*"); // test
+
 
             BuildingView buildingView = BuildingView.Create();
             parent.AddChild(buildingView); // instantiate this and his children
@@ -87,21 +88,8 @@ namespace Terriflux.Programs.View
 
             }
 
-            // test:
-            if (model.GetCompObser().Count >= model.GetComposition().Count)
-            {
 
-                for (int i = 0; i < model.GetComposition().Count; i++)  // test
-                {
-                    GD.Print($"{model.GetComposition()[i]}, aka '{model.GetComposition()[i].GetCellName()}', have observer: {model.GetCompObser()[i]}"); // test
-                }
-            }
-            else
-            {
-                GD.Print($"{model.GetCompObser().Count} lined, but {model.GetComposition().Count} cells!!");
-            }
-
-            GD.Print($"Nb-child-after={parent.GetChildren().Count}"); // test
+            GD.Print($"*{buildingView == null}*"); // test
 
 
             return buildingView;

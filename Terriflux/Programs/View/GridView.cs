@@ -35,7 +35,7 @@ namespace Terriflux.Programs.GameContext
         /// </summary>
         /// <param name="grid"></param>
         /// <exception cref="NotImplementedException"></exception>
-		public void UpdateMap(GridModel grid)
+		public void UpdateMap(GridModel grid)       // TODO - Urgent - have some troubles here
         {
             // Reset
             RemoveAllChildren();
@@ -45,21 +45,22 @@ namespace Terriflux.Programs.GameContext
             {
                 for (int y = 0; y < grid.GetSize(); y++)
                 {
+                    CellModel cell = grid.GetAt(x, y);
+                    IPlaceable placeable = grid.GetPlaceableAt(x, y);
+
                     // Is there a building here?
-                    if (grid.GetAt(x, y).GetCellKind() == CellKind.BUILDING)
+                    if (cell != null
+                        && cell.GetCellKind() == CellKind.BUILDING 
+                        && placeable != null 
+                        && placeable is BuildingModel buildingModel)
                     {
-                        IPlaceable model = grid.GetPlaceableAt(x, y);
-                        if (model is BuildingModel)
-                        {
-                            this.AddChild(BuildingView.Design(this, (BuildingModel) model));
-                        }
+                        this.AddChild(BuildingView.Design(this, buildingModel));
                     }
                     else
                     {
                         // Fill with simple grass
-                        GrassModel grassModel = new();
-                        GrassView grass = GrassView.Design(this, grassModel);
-                        grid.GetAt(x, y).AddObserver((ICellObserver) grass);
+                        GrassView grass = (GrassView)GrassView.Design();
+                        grass.Position = new Vector2(x, y);
                         this.AddChild(grass);
                     }
                 }

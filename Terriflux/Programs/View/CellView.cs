@@ -12,23 +12,18 @@ namespace Terriflux.Programs.View
     public partial class CellView : Node2D, ICellObserver, IVerbosable 
     {
         // children
-        private Label _nicknameLabel;
-        private Sprite2D _skin;
+        private Label _nicknameLabel;     // def
+        public Sprite2D _skin;
 
         // Creation
         /// <summary>
         /// Simple class construction not allowed. Please use the associated Design() function.
         /// </summary>
-        protected CellView() { }
-
-        public static CellView Design()
-        {
-            return (CellView)GD.Load<PackedScene>(Paths.VIEW_NODES + "CellView" + Paths.GDEXT)
-                .Instantiate();
-        }
+        protected CellView() {}
 
         public override void _Ready()
         {
+            base._Ready();
             _nicknameLabel = GetNode<Label>("NicknameLabel");
             _skin = GetNode<Sprite2D>("Skin");
 
@@ -37,6 +32,13 @@ namespace Terriflux.Programs.View
 
             // default
             _nicknameLabel.Text = "Cell";
+        }
+
+
+        public static CellView Design()
+        {
+            return (CellView)GD.Load<PackedScene>(Paths.VIEW_NODES + "CellView" + Paths.GDEXT)
+                .Instantiate();
         }
 
         // Skin

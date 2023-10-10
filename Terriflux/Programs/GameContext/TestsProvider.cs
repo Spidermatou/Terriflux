@@ -58,41 +58,24 @@ namespace Terriflux.Programs.GameContext
 
         public void ImageToolsProvider_OnGrid()   // TODO - URGENT - not yet conclusive!
         {
-            string path = "Ressources/Textures/grass.png";
+            GD.Print($"--Test_ImageToolsProvider OnGrid--");
+            GD.Print($"Actual child into grid view: {scene.GetChildren().Count}");
+
             GridModel gridModel = new(10, true);
             GridView gridView = GridView.Design();
             gridModel.AddObserver(gridView);
+
+            GD.Print($"GridView children number: {gridView.GetChildren().Count}");
+
+            // instantiate into test zone
             scene.AddChild(gridView);
 
-            GD.Print($"--Test_ImageToolsProvider OnGrid--");
-            GD.Print($"Actual parent scene child count: {scene.GetChildren().Count}");
+            gridModel.CallForUpdate();
+            gridModel.Verbose();
 
-            Texture2D texture = GameContext.ImageToolsProvider.LoadTexture(path);
-            GD.Print($"Texture loaded? {texture != null}");
+            GD.Print($"GridView children number: {gridView.GetChildren().Count}");
 
-            // create image to show the slice-texture's results
-            const int CUT_WANTED = 2;
-            int gap = 1;
-            Texture2D[] slicedTextureParts = GameContext.ImageToolsProvider.SliceImageTexture(path, CUT_WANTED);
-            GD.Print($"Number of parts provided: {slicedTextureParts.Length}, awaited: {CUT_WANTED}.");
-
-            // show on screen
-            foreach (Texture2D individualTexture in slicedTextureParts)
-            {
-                Sprite2D sprite = new();
-                sprite.Texture = individualTexture;
-
-                CellModel cm = new("Field", CellKind.BUILDING);
-                cm.SetDimensions(128 / 2, 1);
-                cm.SetPlacement(new Vector2(gap, 0));
-                gridModel.SetAt(cm, gap, 0, true);
-                gap++;
-            }
-
-            GD.Print("Grid status is:");
-            GD.Print(gridModel.Verbose());
-
-            GD.Print($"New parent scene child count: {scene.GetChildren().Count}");
+            GD.Print($"Actual child into grid view: {scene.GetChildren().Count}");
         }
 
         public void Cell()
@@ -127,6 +110,14 @@ namespace Terriflux.Programs.GameContext
             view2.ChangeSkin(sprite);
             model2.SetCellName("via load and cut");
             view2.Position = new Vector2(-288, -72);
+        }
+
+        public void Grass()
+        {
+            GrassModel grassModel = new GrassModel();
+            CellView grassView = GrassView.Design();
+            grassModel.AddObserver(grassView);
+            scene.AddChild(grassView);
         }
 
         public void Grid()

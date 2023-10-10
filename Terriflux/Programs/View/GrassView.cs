@@ -9,9 +9,11 @@ using Terriflux.Programs.Model;
 
 namespace Terriflux.Programs.View
 {
-    public partial class GrassView : CellView
+    public partial class GrassView  : CellView
     {
-        private GrassView() : base() { }
+        private static readonly string texturePath = Paths.TEXTURES + "grass.png";
+
+        private GrassView() {}
 
         /// <summary>
         /// Instantiate a CellView with correct kind, change his skin to
@@ -20,14 +22,19 @@ namespace Terriflux.Programs.View
         /// <param name="parent"></param>
         /// <param name="model"></param>
         /// <returns>The already-added CellView.</returns>
-        public static GrassView Design(Node2D parent, CellModel model)
+        public static new CellView Design()
         {
-            CellView cv = CellView.Design();
-            cv.Position = model.GetPlacement();
-            parent.AddChild(cv); // instantiate this and his children
-            cv.ChangeSkin(Paths.TEXTURES + "grass.png");
-            cv.UpdateCellName(model.GetCellName());
-            return cv as GrassView;
+            return (CellView) GD.Load<PackedScene>(Paths.VIEW_NODES + "GrassView" + Paths.GDEXT)
+                .Instantiate(); 
+        }
+
+        public override void _Ready()
+        {
+            base._Ready();
+
+            // Update texture and showed name
+            this.ChangeSkin(texturePath);
+            this.UpdateCellName("Grass");
         }
     }
 }

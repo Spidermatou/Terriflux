@@ -19,6 +19,7 @@ public partial class GridModel : IVerbosable
     private readonly CellModel[,] cells;
     private readonly int size;
     private readonly List<IGridObserver> observers = new();
+    private readonly Dictionary<Tuple<int, int>, IPlaceable> placementTable = new();    // refers to which Placeable is stored where in the grid
 
     /// <summary>
     /// Instantiates a square cell grid
@@ -150,13 +151,24 @@ public partial class GridModel : IVerbosable
 
         // Update view now, if wanted
         if (callForUpdate) NotifyGridChanges();
+
+        // Save placement
+        this.placementTable.Add(new Tuple<int, int>(originPositionPlacement.X, originPositionPlacement.Y), placeable);
     }
 
-    // TODO - GetPlaceable
     public IPlaceable GetPlaceableAt(int line, int column)
     {
-        /* Store the list placable elements stored on the grid? In the form Dictionary<hashage_buildings, tuple(x,y)>. */
-        throw new NotImplementedException();
+        Tuple<int, int> coordinates = new(line, column);
+
+        // Is in the grid?
+        if (this.placementTable.ContainsKey(coordinates))
+        {
+            return this.placementTable[coordinates];
+        }
+        else
+        {
+            return null;
+        }
     }
 
     // INFOS
