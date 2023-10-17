@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,10 @@ using Terriflux.Programs.Observers;
 namespace Terriflux.Programs.Model
 {
     /// <summary>
-    /// Represents a building
+    /// Represents a building.
     /// </summary>
-    public partial class BuildingModel : IPlaceable, IVerbosable
+    [ImmutableObject(true)]
+    public partial class BuildingModel : IPlaceable, IVerbosable        // Reworked
     {
         private static readonly Dictionary<InfluenceScale, int> MULTIPLICATION_RATE = new()
         {
@@ -23,254 +25,52 @@ namespace Terriflux.Programs.Model
 
         }; // the larger the scale, the larger the needs and production will be 
 
-        private readonly List<IBuildingObserver> observers = new();
-        private int[] impacts = new int[3];
-        private Dictionary<FlowKind, int> needs = new();
-        private Dictionary<FlowKind, int> products = new();
-        private readonly List<CellModel> parts = new();      // cells wich compose the building
-        private InfluenceScale actualInfluenceScale;
-        private Direction2D orientation;
-        private string name = "Building";
+        private readonly string name;
+        private readonly double[] impacts;
+        private readonly InfluenceScale actualInfluenceScale;
 
+        private readonly List<BuildingPart> parts;      // cells wich compose the building
+        private readonly Dictionary<FlowKind, int> needs;
+        private readonly Dictionary<FlowKind, int> production;
 
         // CREATION
-        public BuildingModel(
-            string name,
-            int size,
-            Dictionary<FlowKind, int> needs,
-            Dictionary<FlowKind, int> products,
-            Direction2D direction
-            )
+        public BuildingModel(string name, double[] impacts,InfluenceScale influence,
+            Dictionary<FlowKind, int> needs, Dictionary<FlowKind, int> production, BuildingPart[] parts)
         {
-            // build attributes
-            SetName(name);
-            SetInfluence(InfluenceScale.REGIONAL);  // by default
-            SetBasisNeeds(needs);
-            SetBasisProduction(products);
-            SetDirection(direction);
-
-            // build the building with cells
-            for (int i = 0; i < size; i++)
+            // securities
+            if (impacts.Length != 3)
             {
-                CellModel part = new(name, CellKind.BUILDING);
-                parts.Add(part);
-            }
-        }
-
-        public static BuildingModel CreateFromName(string name)
-        {
-            StreamReader reader = DataManager.LoadBuildingData();
-            name = name.ToLower().Replace(" ", ""); // erase spaces
-
-            // read each line to find the correct building
-            string line;
-            string[] split;
-            string line_name;
-            string[] splited_products;
-            string[] splited_needs;
-
-            int size;
-            Dictionary<FlowKind, int> effective_products = new();
-            Dictionary<FlowKind, int> effective_needs = new();
-            Direction2D direction;
-
-            while ((line = reader.ReadLine()) != null)
-            {
-                split = line.Split(";");
-
-                // extract name
-                line_name = split[0].Replace(" ", "").ToLower();
-
-                // is it the one we want? 
-                if (line_name.Equals(name))     // yes
-                {
-                    // extract size (nb of parts)
-                    size = int.Parse(split[1]);
-
-                    // extract needs
-                    splited_needs = split[2].Replace(" ", "").Split(",");
-                    for (int i = 0; i < splited_needs.Length - 1; i += 2)
-                    {
-                        if (!effective_needs.ContainsKey(GlobalTools.TranslateToFlowKind(splited_needs[i])))
-                        {
-                            effective_needs.Add(GlobalTools.TranslateToFlowKind(splited_needs[i]), int.Parse(splited_needs[i + 1]));
-                        }
-                    }
-
-                    // extract products
-                    splited_products = split[3].Replace(" ", "").Split(",");
-                    for (int i = 0; i < splited_products.Length - 1; i++)
-                    {
-                        if (!effective_products.ContainsKey(GlobalTools.TranslateToFlowKind(splited_products[i])))
-                        {
-                            effective_products.Add(GlobalTools.TranslateToFlowKind(splited_products[i]), int.Parse(splited_products[i + 1]));
-                        }
-                    }
-
-                    // extract default orientation
-                    string direction_code = split[4].Trim().ToUpper();
-                    if (direction_code.Length != 1)
-                    {
-                        throw new FileLoadException("The \"default direction\" code is not valid " +
-                        "within the file. Usage: h/H (for horizontal) or v/V (for vertical)");
-                    }
-                    else
-                    {
-                        if (direction_code[0] == 'H')
-                        {
-                            direction = Direction2D.HORIZONTAL;
-                        }
-                        else
-                        {
-                            direction = Direction2D.VERTICAL;
-                        }
-                    }
-
-                    return new BuildingModel(name, size, effective_needs, effective_products, direction);
-                }
-                // no? skip to next building
+                throw new ArgumentException(nameof(impacts) + "'s length must be 3.");
             }
 
-            // correct name never founded
-            throw new ArgumentException($"No building with the name '{name}' has been" +
-                    "found among the available buildings");
-        }
+            // basic attributes
+            this.name = name.ToCamelCase();
+            this.impacts = impacts;
+            this.actualInfluenceScale = influence;
 
-        // Building's PRIMARY INFORMATIONS
-        /// <summary>
-        /// Modify building's name, and the name of all cells wich compose him.
-        /// </summary>
-        /// <param name="name"></param>
-        public void SetName(string name)
-        {
-            this.name = name;
+            // needs, products
+            this.needs = needs.ToDictionary(entry => entry.Key, entry => entry.Value);  // clone to avoid external modifications
+            this.production = production.ToDictionary(entry => entry.Key, entry => entry.Value);
 
-            // update self composition
-            foreach (CellModel part in parts)
-            {
-                part.SetName(this.name);
-            }
-
-            NotifyName();
-        }
-
-        public string GetName()
-        {
-            return name;
-        }
-
-        public void NotifyName()
-        {
-            foreach (IBuildingObserver observer in observers)
-            {
-                observer.UpdateName(GetName());
-            }
-        }
-
-        // Building's COMPOSITION
-        public int GetPartsNumber()
-        {
-            return parts.Count;
-        }
-
-        // Building's PRODUCTION
-        /// <summary>
-        /// Modify building productions, then apply influence scale's modificators
-        /// </summary>
-        /// <param name="products">Default building productions, at lowest scale of influence</param>
-        public void SetBasisProduction(Dictionary<FlowKind, int> products)
-        {
-            this.products = products;
+            // composition (extracted_parts)
+            this.parts = parts.ToList();
 
             // apply influence multiplicators
-            foreach (KeyValuePair<FlowKind, int> kvp in this.products)
+            foreach (KeyValuePair<FlowKind, int> kvp in this.production)    // for products
             {
-                this.products[kvp.Key] = kvp.Value * MULTIPLICATION_RATE[GetInfluence()];
+                this.production[kvp.Key] = kvp.Value * MULTIPLICATION_RATE[GetInfluence()];
             }
 
-            NotifyProducts();
-        }
-
-        public void NotifyProducts()
-        {
-            foreach (IBuildingObserver observer in observers)
-            {
-                if (observer is IExtendedBuildingObserver extendedObserver)
-                {
-                    // clone
-                    extendedObserver.UpdateProducts(products.ToDictionary(entry => entry.Key,
-                                                                      entry => entry.Value));
-                }
-            }
-        }
-
-        public FlowKind[] GetFlowsProduction()
-        {
-            return products.Keys.ToArray();
-        }
-
-        public int GetQuantityProducedOf(FlowKind kind)
-        {
-            return needs[kind];
-        }
-
-        // Building's NEEDS
-        /// <summary>
-        /// Modify building needs, then apply influence scale's modificators
-        /// </summary>
-        /// <param name="needs">Default building needs, at lowest scale of influence</param>
-        public void SetBasisNeeds(Dictionary<FlowKind, int> needs)
-        {
-            this.needs = needs;
-
-            // apply influence multiplicators
-            foreach (KeyValuePair<FlowKind, int> kvp in this.needs)
+            foreach (KeyValuePair<FlowKind, int> kvp in this.needs)     // for needs
             {
                 this.needs[kvp.Key] = kvp.Value * MULTIPLICATION_RATE[GetInfluence()];
             }
-
-            NotifyNeeds();
         }
 
-        public void NotifyNeeds()
+        // Basic informations
+        public string GetName()
         {
-            foreach (IBuildingObserver observer in observers)
-            {
-                if (observer is IExtendedBuildingObserver extendedObserver)
-                {
-                    // clone
-                    extendedObserver.UpdateNeeds(needs.ToDictionary(entry => entry.Key,
-                                                                      entry => entry.Value));
-                }
-            }
-        }
-
-        public int GetQuantityNeeded(FlowKind kind)
-        {
-            return needs[kind];
-        }
-
-        public FlowKind[] GetFlowsNeeded()
-        {
-            return needs.Keys.ToArray();
-        }
-
-        // Building's INFLUENCE scale
-        public void SetInfluence(InfluenceScale influence)
-        {
-            actualInfluenceScale = influence;
-            NotifyInfluence();
-        }
-
-        public void NotifyInfluence()
-        {
-            foreach (IBuildingObserver observer in observers)
-            {
-                if (observer is IExtendedBuildingObserver extendedObserver)
-                {
-                    extendedObserver.UpdateInfluence(actualInfluenceScale);
-                }
-            }
+            return name;
         }
 
         public InfluenceScale GetInfluence()
@@ -278,144 +78,80 @@ namespace Terriflux.Programs.Model
             return actualInfluenceScale;
         }
 
-        // Building's IMPACTS
-        public void SetImpacts(ICollection<int> impacts)
-        {
-            if (impacts.Count == 3)
-            {
-                this.impacts = (int[])impacts;
-            }
-            else
-            {
-                if (impacts.Count < 3)
-                {
-                    throw new ArgumentException("Try to attribute too few impacts ! Required: 3 exactly");
-                }
-                else
-                {
-                    throw new ArgumentException("Try to attribute too much impacts ! Required: 3 exactly");
-                }
-            }
-        }
-        public int[] GetImpacts()
+        // Impacts
+        public double[] GetImpacts()
         {
             return impacts;
         }
 
-        public void NotifyImpacts()
+        // Composition
+        public int GetPartsNumber()
         {
-            foreach (IBuildingObserver observer in observers)
+            return parts.Count;
+        }
+
+        // Needs
+        public int GetQuantityNeeded(FlowKind kind)
+        {
+            if (this.needs.ContainsKey(kind))
             {
-                if (observer is IExtendedBuildingObserver extendedObserver)
-                {
-                    extendedObserver.UpdateImpacts(impacts);
-                }
+                return needs[kind];
+            }
+            else
+            {
+                return 0;
             }
         }
 
-        // PLACEMENT
-        public Direction2D GetDirection()
+        public FlowKind[] GetNeedsKind()
         {
-            return orientation;
+            return needs.Keys.ToArray();
         }
 
-        public void SetDirection(Direction2D direction)
-        {
-            orientation = direction;
-        }
 
-        // ALLS
-        public void CallForUpdates()
-        {
-            // cells infos
-            foreach (CellModel part in parts)
-            {
-                part.NotifyAlls();
-            }
-
-            // builds infos
-            NotifyName();       // for all
-
-            NotifyImpacts();    // for ExtendedObservers
-            NotifyInfluence();
-            NotifyNeeds();
-            NotifyProducts();
-        }
-
-        // OBSERVATION
-        public void AddObserver(IBuildingObserver observer)
-        {
-            if (!observers.Contains(observer))
-            {
-                observers.Add(observer);
-            }
-        }
-
-        public void RemoveObserver(IBuildingObserver observer)
-        {
-            if (observers.Contains(observer))
-            {
-                observers.Remove(observer);
-            }
-        }
-
+        // Production
         /// <summary>
-        /// Add observers who will look at the cells composing the building
+        /// Modify building productions, then apply influence scale's modificators
         /// </summary>
-        /// <param name="observers"></param>
-        public void AddCompositionObserver(ICellObserver[] observers)
+        /// <param name="products">Default building productions, at lowest scale of influence</param>
+        public FlowKind[] GetProductionKind()
         {
-            // security
-            if (observers.Length != GetPartsNumber())
-            {
-                throw new ArgumentException("Try to assign more or less cells' observers than cells wich compose the building !");
-            }
+            return production.Keys.ToArray();
+        }
 
-            // update
-            List<ICellObserver> observersList = observers.ToList();
-            for (int i = 0; i < observersList.Count; i++)
+        public int GetQuantityProduced(FlowKind kind)
+        {
+            if (this.production.ContainsKey(kind))
             {
-                parts[i].AddObserver(observersList[i]);
+                return production[kind];
+            }
+            else
+            {
+                return 0;
             }
         }
 
-        /// <summary>
-        /// Remove observers who will look at the cells composing the building
-        /// </summary>
-        /// <param name="observers"></param>
-        public void RemoveCompositionObserver(ICellObserver[] observers)
+        public CellModel[] GetComposition()
         {
-            // security
-            if (observers.Length != GetPartsNumber())
-            {
-                throw new ArgumentException("Try to assign more or less cells' observers than cells wich compose the building !");
-            }
-
-            // update
-            List<ICellObserver> observersList = observers.ToList();
-            for (int i = 0; i < observersList.Count; i++)
-            {
-                parts[i].RemoveObserver(observersList[i]);
-            }
+            return this.parts.ToArray();
         }
 
+      
         public string Verbose()
         {
             StringBuilder sb = new();
 
             // basis
-            sb.Append($"Name: {name}\n");
-            sb.Append($"Actual orientation: {orientation}\n");
-            sb.Append($"Nb of observers: {observers.Count}\n");
+            sb.Append($"Name: {name.ToCamelCase()}\n");
             sb.Append($"Influence: {actualInfluenceScale}\n");
 
             // impacts
             sb.Append($"Impacts:\n");
-            sb.Append($"    Sociability{impacts[0]}\n");
-            sb.Append($"    Economy{impacts[1]}\n");
-            sb.Append($"    Ecology{impacts[2]}\n");
+            sb.Append($"    Sociability:{impacts[0]}\n");
+            sb.Append($"    Economy:{impacts[1]}\n");
+            sb.Append($"    Ecology:{impacts[2]}\n");
 
-            // parts
+            // extracted_parts
             sb.Append($"Composed with {GetPartsNumber()}\n");
             for (int i = 0; i < GetPartsNumber(); i++)
             {
@@ -426,39 +162,17 @@ namespace Terriflux.Programs.Model
             sb.Append($"Needs:\n");
             foreach (KeyValuePair<FlowKind, int> kvp in needs)
             {
-                sb.Append($"    Key={kvp.Key}, Value{kvp.Value}\n");
+                sb.Append($"    Key={kvp.Key}, Value={kvp.Value}\n");
             }
 
-            // products
+            // production
             sb.Append($"Products:\n");
-            foreach (KeyValuePair<FlowKind, int> kvp in products)
+            foreach (KeyValuePair<FlowKind, int> kvp in production)
             {
-                sb.Append($"    Key={kvp.Key}, Value{kvp.Value}\n");
+                sb.Append($"    Key={kvp.Key}, Value={kvp.Value}\n");
             }
 
             return sb.ToString();
-        }
-
-        public List<CellModel> GetComposition()
-        {
-            return parts.ToList();
-        }
-
-        public void ChangeOriginCoordinates(Vector2I newCoordinates)
-        {
-            for (int offset = 0; offset < GetPartsNumber(); offset++)
-            {
-                if (GetDirection() == Direction2D.HORIZONTAL)
-                {
-                    parts[offset].SetPlacement(newCoordinates.X + offset,
-                        newCoordinates.Y);
-                }
-                else if (GetDirection() == Direction2D.VERTICAL)
-                {
-                    parts[offset].SetPlacement(newCoordinates.X,
-                        newCoordinates.Y + offset);
-                }
-            }
         }
     }
 }

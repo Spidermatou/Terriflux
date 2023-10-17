@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Text;
 using Terriflux.Programs.GameContext;
@@ -7,15 +8,18 @@ using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.View
 {
-    public partial class CellView : Node2D, ICellObserver, IVerbosable
+    public partial class CellView : Node2D, IVerbosable     // Reworked
     {
+        protected static readonly string defaultTexture = OurPaths.TEXTURES + "default" + OurPaths.PNGEXT;
+
         // children
-        private Label _nicknameLabel;     // def
+        private Label _nicknameLabel;     
         public Sprite2D _skin;
 
         // Creation
         /// <summary>
-        /// Simple class construction not allowed. Please use the associated Design() function.
+        /// Create a view for any kind of cell.
+        /// Careful: Simple class construction not allowed. Please use the associated Design() function!
         /// </summary>
         protected CellView() { }
 
@@ -29,13 +33,18 @@ namespace Terriflux.Programs.View
             _nicknameLabel.Hide();
 
             // default
-            _nicknameLabel.Text = "Cell";
+            ChangeName("Cell");
+            ChangeSkin(GD.Load<Texture2D>(defaultTexture));
         }
 
-
+        /// <summary>
+        /// Design a CellView. 
+        /// Remember to add it to your scene to display it!
+        /// </summary>
+        /// <returns></returns>
         public static CellView Design()
         {
-            return (CellView)GD.Load<PackedScene>(Paths.VIEW_NODES + "CellView" + Paths.GDEXT)
+            return (CellView)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "CellView" + OurPaths.GDEXT)
                 .Instantiate();
         }
 
@@ -43,32 +52,9 @@ namespace Terriflux.Programs.View
         /// <summary>
         /// Changes the image representing this cell on the screen
         /// </summary>
-        /// <param name="path"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        public void ChangeSkin(string path)
-        {
-            if (_skin == null)
-            {
-                throw new NullReferenceException(this + "'s skin child not loaded correctly!");
-            }
-
-            if (File.Exists(path))
-            {
-                _skin.Texture = GD.Load<Texture2D>(path);
-            }
-            else
-            {
-                throw new ArgumentException($"Invalid texture path '{path}'.");
-            }
-        }
-
-        /// <summary>
-        /// Changes the image representing this cell on the screen
-        /// </summary>
         /// <param name="skin"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public void ChangeSkin(Texture2D skin)
+        protected void ChangeSkin(Texture2D skin)
         {
             if (_skin == null)
             {
@@ -84,28 +70,11 @@ namespace Terriflux.Programs.View
             }
         }
 
-        /// <summary>
-        /// Changes the image representing this cell on the screen
-        /// </summary>
-        /// <param name="skin"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public void ChangeSkin(Sprite2D skin)
+        protected void ChangeName(string name)
         {
-            if (_skin == null)
+            if (_nicknameLabel != null)
             {
-                throw new NullReferenceException(this + "'s skin child not loaded correctly!");
-            }
-            else if (skin == null)
-            {
-                throw new ArgumentNullException(nameof(skin));
-            }
-            else if (skin.Texture == null)
-            {
-                throw new Exception("This skin doesn't have texture!");
-            }
-            else
-            {
-                _skin.Texture = skin.Texture;
+                _nicknameLabel.Text = name;
             }
         }
 
@@ -138,16 +107,6 @@ namespace Terriflux.Programs.View
         private void OnMouseExit()
         {
             _nicknameLabel.Hide();
-        }
-
-        public void UpdatePlacement(Vector2 coordinates)
-        {
-            Position = coordinates;
-        }
-
-        public void UpdateCellName(string cname)
-        {
-            _nicknameLabel.Text = cname;
         }
     }
 }

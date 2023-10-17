@@ -1,5 +1,5 @@
 using Godot;
-using Terriflux.Programs.GameContext;
+using Terriflux.Programs.TestsZone;
 
 namespace Terriflux.Programs
 {
@@ -12,8 +12,6 @@ namespace Terriflux.Programs
 
         public override void _Ready()
         {
-            TestsProvider tp = new(this);
-            tp.GridWithBuilds();
         }
     }
 }

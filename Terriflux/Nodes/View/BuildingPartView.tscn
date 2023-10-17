@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://me5k3txrjt2r"]
+
+[ext_resource type="PackedScene" uid="uid://ds2mgf155gme6" path="res://Nodes/View/CellView.tscn" id="1_oo1lb"]
+[ext_resource type="Script" path="res://Programs/View/BuildingPartView.cs" id="2_q2p1m"]
+
+[node name="BuildingPartView" instance=ExtResource("1_oo1lb")]
+script = ExtResource("2_q2p1m")

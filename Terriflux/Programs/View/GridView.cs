@@ -9,70 +9,72 @@ namespace Terriflux.Programs.GameContext
 {
     public partial class GridView : Node2D, IGridObserver
     {
-        private Camera2D _camera;
-
         /// <summary>
-        /// Simple class construction not allowed. Please use the associated Design() function.
+        /// Create a view for any grid.
+        /// Careful: Simple class construction not allowed. Please use the associated Design() function!
         /// </summary>
         private GridView() { }
 
         public static GridView Design()
         {
-            return (GridView)GD.Load<PackedScene>(Paths.VIEW_NODES + "GridView" + Paths.GDEXT)
+            return (GridView)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "GridView" + OurPaths.GDEXT)
                 .Instantiate();
         }
-
-        public override void _Ready()
-        {
-            // nodes
-            _camera = GetNode<Camera2D>("Camera");
-        }
-
 
         /// <summary>
         /// Update the specified grid on the screen.
         /// </summary>
         /// <param name="grid"></param>
         /// <exception cref="NotImplementedException"></exception>
-		public void UpdateMap(GridModel grid)
+		public void UpdateMap(GridModel grid)         
         {
-            bool invalidCase = false;
+            /* This version of the grid view update destroys the old grid (view), 
+             * then scans each cell of the model to check whether an element is placed there. 
+             * Optimization is surely possible. */
 
-            // Reset
+            bool emptyCell = false;
+            Dictionary<Vector2I, IPlaceable> placeablesToPlace = grid.GetAllPlacements();
+            Dictionary<Vector2I, Orientation2D> placeablesOrientations = grid.GetAllPlacementsDirections();
+            List<Vector2I> blockedEmplacements = grid.GetBlockedEmplacements();
+
+            // reset
             RemoveAllChildren();
 
-            // Construct the graphical grid
+            // construct the graphical grid
             for (int x = 0; x < grid.GetSize(); x++)
             {
                 for (int y = 0; y < grid.GetSize(); y++)
                 {
-                    Dictionary<Tuple<int, int>, IPlaceable> placeables = grid.GetPlaceablesInfos();
-                    Tuple<int, int> actualCoordinates = new(x, y);
+                    Vector2I actualCoordinates = new(x, y);
 
-                    // Is there a building here?
-                    if (placeables.ContainsKey(actualCoordinates))   // is a building on this coordinates?
+                    // is there a placeable object here?
+                    if (placeablesToPlace.ContainsKey(actualCoordinates))       // yes
                     {
-                        // Is a building?
-                        if (placeables[actualCoordinates] is BuildingModel buildingModel)
+                        // is it a building?
+                        if (placeablesToPlace[actualCoordinates] is BuildingModel buildingModel)    // yes
                         {
-                            // Load view and instantiate her on the scene
-                            BuildingView building = BuildingViewsFactory.DesignFromModel(buildingModel, this);
-                            building.Position = new Vector2((float)(x * CellModel.GetGlobalSize()),
-                                (float)(y * CellModel.GetGlobalSize()));
+                            BuildingView buildingView = BuildingFactory.CreateView(buildingModel, placeablesOrientations[actualCoordinates], true);
+                            buildingView.Position = new Vector2((float)(x * CellModel.GetGlobalSize()), (float)(y * CellModel.GetGlobalSize()));
+                            this.AddChild(buildingView);
                         }
-                        else
+                        else    // yes, but it's not treatable 
                         {
-                            invalidCase = true;
+                            emptyCell = true;
                         }
                     }
-                    else
+                    else if (blockedEmplacements.Contains(actualCoordinates))   // yes, but the cell is just blocked
                     {
-                        invalidCase = true;
+                        // does nothing more
+                        emptyCell = false;
+                    }
+                    else        // no, it's a free case (i.e. grass cell or empty cell)
+                    {
+                        emptyCell = true;
                     }
 
 
                     // Have to design grass to fill an invalid case?
-                    if (invalidCase)
+                    if (emptyCell)
                     {
                         // Fill with simple grass
                         GrassView grass = (GrassView)GrassView.Design();
@@ -82,7 +84,7 @@ namespace Terriflux.Programs.GameContext
                         AddChild(grass);
 
                         // Next case probably valid
-                        invalidCase = false;
+                        emptyCell = false;
                     }
                 }
             }

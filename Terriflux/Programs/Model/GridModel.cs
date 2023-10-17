@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using Terriflux.Programs.Exceptions;
@@ -9,51 +10,55 @@ using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.Model
 {
-
     /// <summary>
-    /// Design a cell grid that can accommodate any Placeable element.
+    /// A grid of cell that can accommodate any Placeable element.
     /// (Note: it is impossible to modify the size of a grid once it has been created).
     /// </summary>
-    public partial class GridModel : IVerbosable
+    public partial class GridModel : IVerbosable    // Reworked
     {
         private readonly CellModel[,] cells;
         private readonly int size;
-        private readonly List<IGridObserver> observers = new();
-        private readonly Dictionary<Tuple<int, int>, IPlaceable> placementTable = new();    // refers to which Placeable is stored where in the grid
+        private readonly Dictionary<Vector2I, IPlaceable> placementTable = new();    // refers to which Placeable is stored where in the grid
+        private readonly Dictionary<Vector2I, Orientation2D> directions = new();    // refers Placeables directions to key coordinates
+        private readonly List<Vector2I> blockedEmplacements = new();    // refers to know non-empty cells
 
+        private readonly List<IGridObserver> observers = new();
+
+        // CONSTRUCT
         /// <summary>
-        /// Instantiates a square cell grid
+        /// Instantiates a empty cells grid (square).
         /// </summary>
         /// <param name="size">Length AND width</param>
-        /// <param name="autoFilling">If true, fill in the primary cell grid. Otherwise, leave the grid with nulls.</param>
-        public GridModel(int size, bool autoFilling = false)
+        public GridModel(int size)
         {
+            // security
+            if (size <= 0)
+            {
+                throw new Exception("Cannot a grid with null or negative size.");
+            }
+
+            // creation
             this.size = size;
             cells = new CellModel[this.size, this.size];
-
-            if (autoFilling)
-            {
-                for (int line = 0; line < this.size; line++)
-                {
-                    for (int column = 0; column < this.size; column++)
-                    {
-                        cells[line, column] = new CellModel();
-                    }
-                }
-            }
         }
 
-        // CELLS
+        // Infos
+        public int GetSize()
+        {
+            return this.size;
+        }
+
+        // Cells
         /// <summary>
-        /// Modifies the cell model in the grid
+        /// Modifies the replacementCell model in the grid
         /// </summary>
-        /// <param name="cell"></param>
+        /// <param name="replacementCell"></param>
         /// <param name="line"></param>
         /// <param name="column"></param>
         /// <param name="callForUpdate">If set to True, processes the display directly for the player (more ergonomic). 
         ///     Otherwise, processes it at the next Notify (more optimized).</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public void SetAt(CellModel cell, int line, int column, bool callForUpdate = false)
+        public void ReplaceAt(CellModel replacementCell, int line, int column, bool callForUpdate = false)
         {
             // security (avoid out of range)
             if (size < line || size < column)
@@ -63,49 +68,72 @@ namespace Terriflux.Programs.Model
             }
 
             // set
-            cells[line, column] = cell;
+            cells[line, column] = replacementCell;
 
             // update view?
             if (callForUpdate)
             {
-                NotifyGridChanges();
+                NotifyGridChanged();
             }
         }
 
-        public CellModel GetAt(int line, int column)
+        public CellModel GetCellAt(int line, int column)
         {
             if (size < line && size < column)
             {
-                throw new IndexOutOfRangeException($"Tries to place a cell beyond the limits of the grid");
+                throw new IndexOutOfRangeException($"Tries to place a cell beyond the limits of the grid.");
             }
-            if (cells[line, column] == null)
+            else if (cells[line, column] == null)
             {
-                throw new NullReferenceException($"No initialized cell at emplacement {line}, {column}!");
+                throw new NullReferenceException($"Empty emplacement at {line}, {column}.");
             }
-            return cells[line, column];
+            else
+            {
+                return cells[line, column];
+            }
         }
 
-        // BUILDINGS Place a building on the grid 
-        /// <summary>
-        /// Place a placeable element on the grid, if specified emplacement is free
-        /// </summary>
-        /// <param name="placeable"></param>
-        /// <param name="originPositionPlacement"></param>
-        /// <param name="callForUpdate">If set to True, processes the display directly for the player(more ergonomic). 
-        /// Otherwise, processes it at the next Notify (more optimized).</param>
-        /// <exception cref="UnplaceableException"></exception>
-        public void PlaceAt(IPlaceable placeable, Vector2I originPositionPlacement, bool callForUpdate = false)
+        // Placeables
+
+        public void PlaceAt(IPlaceable placeable, int line, int column, Orientation2D direction, bool callForUpdate = false)
         {
-            Direction2D direction = placeable.GetDirection();
+            // security (placeable is to big for the grid, starting at this specified coordinates)
+            if (placeable.GetComposition().Length+line > this.GetSize()
+                || placeable.GetComposition().Length + column > this.GetSize())
+            {
+                throw new UnplaceableException(this.size, placeable.GetComposition().Length + line,
+                    placeable.GetComposition().Length + column);
+            }
+
+            // security: is there a placeable here?
+            for (int i = 0; i < placeable.GetComposition().Length; i++)
+            {
+                if (direction == Orientation2D.HORIZONTAL)
+                {
+                    Vector2I nextCoordinates = new(line + i, column);
+                    if (this.blockedEmplacements.Contains(nextCoordinates))
+                    {
+                        throw new UnplaceableException(nextCoordinates);
+                    }
+                }
+                else
+                {
+                    Vector2I nextCoordinates = new(line, column + i);
+                    if (this.blockedEmplacements.Contains(nextCoordinates))
+                    {
+                        throw new UnplaceableException(nextCoordinates);
+                    }
+                }
+            }
 
             // First grid observation - verify if the necessary placement is free
-            for (int i = 0; i < placeable.GetPartsNumber() && i < GetSize(); i++)
+            for (int i = 0; i < placeable.GetComposition().Length && i < this.GetSize(); i++)
             {
 
                 // look placeable-number-of-part cells to right
-                if (direction == Direction2D.HORIZONTAL)
+                if (direction == Orientation2D.HORIZONTAL)
                 {
-                    CellModel actualCell = cells[originPositionPlacement.X + i, originPositionPlacement.Y]; // next cell on right
+                    CellModel actualCell = cells[line + i, column]; // next replacementCell on right
 
                     // is the size already used?
                     if (actualCell.GetKind() != CellKind.WASTELAND)
@@ -114,57 +142,66 @@ namespace Terriflux.Programs.Model
                     }
                 }
                 // look placeable-number-of-part cells below
-                else if (direction == Direction2D.VERTICAL)
+                else if (direction == Orientation2D.VERTICAL)
                 {
-                    CellModel actualCell = cells[originPositionPlacement.X, originPositionPlacement.Y + i]; // cell just below
+                    CellModel actualCell = cells[line, column + i]; // replacementCell just below
 
                     // is the size already used?
-                    if (actualCell.GetKind() == CellKind.WASTELAND)
+                    if (actualCell.GetKind() != CellKind.WASTELAND)
                     {
                         throw new UnplaceableException();
                     }
                 }
             }
 
-            // First grid observation - place the cells
-            List<CellModel> parts = placeable.GetComposition();
+            // Second grid observation - place the cells
             int placed = 0;     // nb of already placed cells
-            for (int i = 0; i < placeable.GetPartsNumber() && i < GetSize(); i++)
+            CellModel[] parts = placeable.GetComposition();
+            for (int i = 0; i < parts.Length && i < this.GetSize(); i++)
             {
                 // look placeable-number-of-part cells to right
-                if (direction == Direction2D.HORIZONTAL)
+                if (direction == Orientation2D.HORIZONTAL)
                 {
-                    SetAt(parts[placed],
-                        originPositionPlacement.X + i,
-                        originPositionPlacement.Y);
+                    ReplaceAt(parts[placed], line + i, column);
                     placed++;
                 }
                 // look placeable-number-of-part cells below
-                else if (direction == Direction2D.VERTICAL)
+                else if (direction == Orientation2D.VERTICAL)
                 {
-                    SetAt(parts[placed],
-                        originPositionPlacement.X,
-                        originPositionPlacement.Y + i);
+                    ReplaceAt(parts[placed], line, column + i);
                     placed++;
                 }
             }
-
-            // Indicates modification of element cell placement for saving
-            placeable.ChangeOriginCoordinates(originPositionPlacement);
 
             // Update view now, if wanted
             if (callForUpdate)
             {
-                NotifyGridChanges();
+                NotifyGridChanged();
             }
 
             // Save placement
-            placementTable.Add(new Tuple<int, int>(originPositionPlacement.X, originPositionPlacement.Y), placeable);
+            placementTable.Add(new Vector2I(line, column), placeable);
+
+            // Save direction
+            this.directions.Add(new Vector2I(line, column), direction);
+
+            // Block the used cells
+            for (int i = 0; i < placeable.GetComposition().Length; i++)
+            {
+                if (direction == Orientation2D.HORIZONTAL)
+                {
+                    this.blockedEmplacements.Add(new Vector2I(line + i, column));   // block next cell on the right
+                }
+                else
+                {
+                    this.blockedEmplacements.Add(new Vector2I(line, column + i));   // block next cell below
+                }
+            }
         }
 
-        public IPlaceable GetPlaceableAt(int line, int column)
+        public IPlaceable GetAt(int line, int column)
         {
-            Tuple<int, int> coordinates = new(line, column);
+            Vector2I coordinates = new(line, column);
 
             // Is in the grid?
             if (placementTable.ContainsKey(coordinates))
@@ -177,20 +214,19 @@ namespace Terriflux.Programs.Model
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns>A clone of Dictionary(Coordinates,Placeable) wich represent all Placeable actually placed
-        /// on the grid. </returns>
-        public Dictionary<Tuple<int, int>, IPlaceable> GetPlaceablesInfos()
+        public Dictionary<Vector2I, IPlaceable> GetAllPlacements()
         {
-            return placementTable.ToDictionary(entry => entry.Key, entry => entry.Value);
+            return this.placementTable.ToDictionary(entry => entry.Key, entry => entry.Value);  // copy
         }
 
-        // INFOS
-        public int GetSize()
+        public Dictionary<Vector2I, Orientation2D> GetAllPlacementsDirections()
         {
-            return size;
+            return this.directions.ToDictionary(entry => entry.Key, entry => entry.Value);  // copy
+        }
+
+        public List<Vector2I> GetBlockedEmplacements()
+        {
+            return this.blockedEmplacements;
         }
 
         // OBSERVATION
@@ -213,12 +249,7 @@ namespace Terriflux.Programs.Model
         /// <summary>
         /// Manually request a view update
         /// </summary>
-        public void CallForUpdate()
-        {
-            NotifyGridChanges();
-        }
-
-        private void NotifyGridChanges()
+        public void NotifyGridChanged()
         {
             foreach (IGridObserver observer in observers)
             {
@@ -226,6 +257,7 @@ namespace Terriflux.Programs.Model
             }
         }
 
+        // Verbose
         public string Verbose()
         {
             StringBuilder sb = new();
@@ -234,7 +266,7 @@ namespace Terriflux.Programs.Model
             sb.Append($"Size={size}\n");
 
             // observers
-            sb.Append($"Observers : ");
+            sb.Append($"Observers ({observers.Count}): ");
             foreach (IGridObserver observer in observers)
             {
                 sb.Append(observer);

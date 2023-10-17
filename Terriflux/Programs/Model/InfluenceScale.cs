@@ -1,6 +1,9 @@
 namespace Terriflux.Programs.Model
 {
-    public enum InfluenceScale
+    /// <summary>
+    /// Scale of influence of a structur.
+    /// </summary>
+    public enum InfluenceScale  // Reworked
     {
         REGIONAL,
         NATIONAL,

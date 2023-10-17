@@ -3,22 +3,24 @@ using Terriflux.Programs.GameContext;
 
 namespace Terriflux.Programs.View
 {
-    public partial class GrassView : CellView
+    public partial class GrassView : CellView       // Reworked
     {
-        private static readonly string texturePath = Paths.TEXTURES + "grass.png";
-
-        private GrassView() { }
+        private static readonly string grassTexturePath = OurPaths.TEXTURES + "grass.png";
 
         /// <summary>
-        /// Instantiate a CellView with correct kind, change his skin to
-        /// grass and add to specified node's (root) tree.
+        /// Create a view for a grass cell.
+        /// Careful: Simple class construction not allowed. Please use the associated Design() function!
         /// </summary>
-        /// <param name="parent"></param>
-        /// <param name="model"></param>
-        /// <returns>The already-added CellView.</returns>
-        public static new CellView Design()
+        protected GrassView() : base() { }
+
+        /// <summary>
+        /// Design a GrassView. 
+        /// Remember to add it to your scene to display it!
+        /// </summary>
+        /// <returns></returns>
+        public static new GrassView Design()
         {
-            return (CellView)GD.Load<PackedScene>(Paths.VIEW_NODES + "GrassView" + Paths.GDEXT)
+            return (GrassView)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "GrassView" + OurPaths.GDEXT)
                 .Instantiate();
         }
 
@@ -27,8 +29,8 @@ namespace Terriflux.Programs.View
             base._Ready();
 
             // Update texture and showed name
-            ChangeSkin(texturePath);
-            UpdateCellName("Grass");
+            ChangeSkin(GD.Load<Texture2D>(grassTexturePath));
+            ChangeName("Grass");
         }
     }
 }

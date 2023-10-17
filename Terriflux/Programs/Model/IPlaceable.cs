@@ -3,31 +3,15 @@ using System.Collections.Generic;
 
 namespace Terriflux.Programs.Model
 {
-    public interface IPlaceable
+    /// <summary>
+    /// A placeable element
+    /// </summary>
+    public interface IPlaceable     // Reworked
     {
-        /// <summary>
-        /// Return all cells wich must be placed if this object is
-        /// </summary>
-        /// <returns></returns>
-        List<CellModel> GetComposition();
+        /// <returns>The name of the element.</returns>
+        string GetName();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns>The orientation (horizontal or vertical) where the placeable element is supposed to be oriented </returns>
-        Direction2D GetDirection();
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <returns>Number of cell wich compose the placeable element </returns>
-        int GetPartsNumber();
-
-        /// <summary>
-        /// Modify the placement data for the first cell wich compose the element, 
-        /// then deduces and modifies the rest of the cells' placement, 
-        /// according to the element orientation.
-        /// </summary>
-        void ChangeOriginCoordinates(Vector2I newCoordinates);
+        /// <returns>All cells wich must be placed if this object is.</returns>
+        CellModel[] GetComposition();
     }
 }

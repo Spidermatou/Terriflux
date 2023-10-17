@@ -1,4 +1,4 @@
-@startuml
+    @startuml
 !theme reddress-darkgreen
 
 /' HOME / MASTER / START '/
@@ -19,6 +19,7 @@ class CellModel { /' TAG: Immutable '/
     + CellModel(name : string, kind : CellKind)
     + GetName() : string
     + GetKind() : CellKind
+    + GetGlobalSize() : Real
 }
 
 enum CellKind{
@@ -32,6 +33,15 @@ class GrassModel extends CellModel {
     + GrassModel()
 }
 
+class BuildingPart extends CellModel {
+    + BuildingPart(buildingName : string)
+}
+
+enum Direction2D{
+    HORIZONTAL,
+    VERTICAL
+}
+
 class GridModel{
     - {readonly} size : int
     + GridModel(size : int)
@@ -41,16 +51,19 @@ class GridModel{
      /' argument specifies the position of the first cell, the rest is calculated by the grid itself: '/
     + PlaceAt (placeable : IPlaceable, line : int, column : int, update : bool = false)
     + GetAt (int line, int column) : IPlaceable
+    + GetAllPlacementsDirections() : Direction2D[*] /' (Vector2I, Direction2D)[*]
+    + GetAllPlacements() : IPlaceable[*] /' (Vector2I, Direction2D)[*]
     + AddObserver(observer : IGridObserver)
     + RemoveObserver(observer : IGridObserver)
-    + Notify() /' notify public: so you can request a forced update '/
+    + NotifyGridChanged() /' notify public: so you can request a forced update '/
 }
 GridModel *..> "*"CellModel : > stores\n- cells
-GridModel <.. "*"IGridObserver : > notifies\n - observers
+GridModel ..> "*"IGridObserver : > notifies\n - observers
 GridModel *..> "*"IPlaceable : > places\n- placeables   /' (Vector2I, IPlaceable)[*] '/
+GridModel <.. "*"Direction2D : > know\n- directions   /' (Vector2I, Direction2D)[*] '/
 
 interface IGridObserver{
-    + UpdateMap(gridStructur : cells[*])
+    + UpdateMap(grid : GridModel)
 }
 
 interface IPlaceable{
@@ -58,14 +71,14 @@ interface IPlaceable{
 }
 
 class BuildingModel implements IPlaceable { /' TAG: Immutable '/
-    + BuildingModel(name : string, impacts : Real[3],\n\tneeds : FlowKind[*], production : FlowKind[*])
-    + {static} CreateFromName(name : string) : BuildingModel
-    - {static} {readonly} MULTIPLICATION_RATE : InfluenceScale[*]
-    /' MULTIPLICATION_RATE : (InfluenceScale, int)[*]
     - {readonly} name : string
     - {readonly} impacts : Real[3]
+    + BuildingModel(name : string, influance : InfluenceScale, impacts : Real[3],\n\tneeds : FlowKind[*], production : FlowKind[*],\n\tparts : BuildingPart[*])
+    + {static} CreateFromName(name : string, influance : InfluenceScale) : BuildingModel
+    /' MULTIPLICATION_RATE : (InfluenceScale, int)[*] '/
     /' - needs : (FlowKind, int)[*] '/
     /' - production : (FlowKind, int)[*] '/
+    + GetName() : string
     + GetInfluence() : InfluenceScale
     + GetImpacts() : Real[3]
     + GetPartsNumber() : int
@@ -75,10 +88,11 @@ class BuildingModel implements IPlaceable { /' TAG: Immutable '/
     + GetQuantityProducted(flow : FlowKind) : int
     + ^GetComposition() : CellModel[*]
 }
-BuildingModel <.. "1"InfluenceScale : < amplifies needs\n and production
+BuildingModel <.. "1"InfluenceScale : < amplifies needs\n and production\n - influence
+BuildingModel <.. "3"InfluenceScale : < modifies\n - {static}{readonly} MULTIPLICATION_RATE
 BuildingModel <.. "*"FlowKind : < need\n{readonly} - needs
 BuildingModel <.. "*"FlowKind : < produces\n{readonly} - production
-BuildingModel *..> "*"CellModel : < is composed of\n{readonly} - parts
+BuildingModel *..> "*"BuildingPart : < is composed of\n{readonly} - parts
 
 
 enum FlowKind{

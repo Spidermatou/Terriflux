@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.Model
@@ -9,99 +10,46 @@ namespace Terriflux.Programs.Model
     /// All cell have the exact same size. If one changes size, everything else adapts. You can access to these
     /// dimensions with Get/SetGlobalSize
     /// </summary>
-    public partial class CellModel
+    [ImmutableObject(true)]
+    public partial class CellModel // Reworked
     {
         private static readonly double globalSize = 128;   //px
 
-        private string name = "Cell";  // default
+        private readonly string name = "Cell";  // default
         private readonly CellKind kind = CellKind.PRIMARY;   // default
-        private Vector2 placement = new(0, 0);   // default
-        private readonly List<ICellObserver> observers = new();
 
         // CONSTRUCT
+        /// <summary>
+        /// Create a cell model.
+        /// </summary>
         public CellModel() { }
 
+        /// <summary>
+        /// Create a cell model.
+        /// </summary>
         public CellModel(string name, CellKind kind)
         {
-            SetName(name);
+            this.name = name;
             this.kind = kind;
         }
 
         // Global dimensions
+        /// <returns> The theoretic size of any cell.</returns>
         public static double GetGlobalSize()
         {
             return globalSize;
         }
 
-        // Own name
-        public void SetName(string newName)
-        {
-            name = newName;
-            NotifyCellName();
-        }
-
+        /// <returns>The name of this cell.</returns>
         public string GetName()
         {
             return name;
         }
 
-        // Own kind
+        /// <returns>The kind of this cell.</returns>
         public CellKind GetKind()
         {
             return kind;
-        }
-
-        public void SetPlacement(float x, float y)
-        {
-            placement = new Vector2(x, y);
-            NotifyPlacement();
-        }
-
-        public void SetPlacement(Vector2 coordinates)
-        {
-            placement = coordinates;
-            NotifyPlacement();
-        }
-
-        public Vector2 GetPlacement()
-        {
-            return placement;
-        }
-
-        // Observer
-        public void AddObserver(ICellObserver observer)
-        {
-            observers.Add(observer);
-        }
-
-        public void RemoveObserver(ICellObserver observer)
-        {
-            if (observers.Contains(observer))
-            {
-                observers.Remove(observer);
-            }
-        }
-
-        private void NotifyPlacement()
-        {
-            foreach (ICellObserver observer in observers)
-            {
-                observer.UpdatePlacement(placement);
-            }
-        }
-
-        public void NotifyCellName()
-        {
-            foreach (ICellObserver observer in observers)
-            {
-                observer.UpdateCellName(name);
-            }
-        }
-
-        public void NotifyAlls()
-        {
-            NotifyPlacement();
-            NotifyCellName();
         }
     }
 }

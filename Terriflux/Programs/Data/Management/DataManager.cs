@@ -13,7 +13,7 @@ namespace Terriflux.Programs.Data.Management
 
         public static StreamReader Load(string fileName)
         {
-            string filePath = (Paths.DATA + fileName + Paths.TEXTEXT);
+            string filePath = (OurPaths.DATA + fileName + OurPaths.TEXTEXT);
             if (File.Exists(filePath))
             {
                 return new StreamReader(filePath);
@@ -27,29 +27,6 @@ namespace Terriflux.Programs.Data.Management
         public static StreamReader LoadBuildingData()
         {
             return Load("Buildings");
-        }
-
-        public static string PrintAvaibleBuildings()
-        {
-            StringBuilder result = new();
-            StreamReader reader = LoadBuildingData();
-
-            result.AppendLine("Avaible buildings:");
-
-            string line;
-            while ((line = reader.ReadLine()) != null)
-            {
-                string[] split = line.Split(";");
-
-                if (split.Length == NECESSARIES_BUILD_DATA)
-                {
-                    BuildingModel model = BuildingModel.CreateFromName(split[0]);
-                    result.Append(model.Verbose());
-                    result.Append("---\n");
-                }
-            }
-
-            return result.ToString();
         }
     }
 }
