@@ -1,6 +1,6 @@
 ﻿using Godot;
 using System;
-using Terriflux.Programs.Model;
+using Terriflux.Programs.Model.Cell;
 
 namespace Terriflux.Programs.Exceptions
 {
@@ -18,9 +18,9 @@ namespace Terriflux.Programs.Exceptions
         /// </summary>
         /// <param name="xPlusSize"></param>
         /// <param name="yPlusSize"></param>
-        public UnplaceableException(int grid_size, int xPlusSize, int yPlusSize) : base($"Unable to place item on grid! At this coordinates, the placeable will " +
+        public UnplaceableException(int gridSize, int xPlusSize, int yPlusSize) : base($"Unable to place item on grid! At this coordinates, the placeable will " +
             $"exceed the grid size. " +
-            $"Expected = {grid_size}, but coordinates-X more placeable-size = {xPlusSize} and " +
+            $"Expected = {gridSize}, but coordinates-X more placeable-size = {xPlusSize} and " +
             $"coordinates-X more placeable-size = {yPlusSize}.")
         { }
 

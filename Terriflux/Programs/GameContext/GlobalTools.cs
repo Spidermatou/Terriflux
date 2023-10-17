@@ -1,5 +1,5 @@
 ﻿using System;
-using Terriflux.Programs.Model;
+using Terriflux.Programs.Model.Placeables;
 
 namespace Terriflux.Programs.GameContext
 {

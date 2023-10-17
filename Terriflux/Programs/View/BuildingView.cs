@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using Terriflux.Programs.GameContext;
-using Terriflux.Programs.Model;
+using Terriflux.Programs.Model.Placeables;
 
 namespace Terriflux.Programs.View
 {

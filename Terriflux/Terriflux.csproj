@@ -4,6 +4,10 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Programs\TerritoryManagement\**" />
+    <EmbeddedResource Remove="Programs\TerritoryManagement\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="programs\data\Buildings.txt" />
   </ItemGroup>
 </Project>

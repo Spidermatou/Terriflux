@@ -1,4 +1,4 @@
-using Terriflux.Programs.Model;
+using Terriflux.Programs.Model.Grid;
 
 namespace Terriflux.Programs.Observers
 {

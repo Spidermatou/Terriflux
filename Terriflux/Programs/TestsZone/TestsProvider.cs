@@ -1,10 +1,13 @@
 ﻿using Godot;
 using System.Collections.Generic;
 using System.Text;
-using Terriflux.Programs.Data.Management;
+using Terriflux.Programs.Data;
 using Terriflux.Programs.Exceptions;
 using Terriflux.Programs.GameContext;
-using Terriflux.Programs.Model;
+using Terriflux.Programs.Model.Cell;
+using Terriflux.Programs.Model.Factories;
+using Terriflux.Programs.Model.Grid;
+using Terriflux.Programs.Model.Placeables;
 using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.TestsZone
@@ -88,7 +91,7 @@ namespace Terriflux.Programs.TestsZone
             }
         }
 
-        public void GridModel()
+        public void TGridModel()
         {
             int wantedSize = 10;
             GridModel grid = new(wantedSize);

@@ -1,0 +1,89 @@
+@startuml
+!theme reddress-darkgreen
+
+/' -------------------------------
+- OBJECTS
+-- '/
+
+/' all globals class '/
+package GameMaster {
+
+    /' data loading and reading '/
+    package Data{
+        class "<<static>>\nDataManager" as DataManager{
+            + {static} LoadTexture(path : string) : Texture2D
+            + {static} ReadFile(fileName : string) : StreamReader
+            + {static} ReadBuildingDatabase() : StreamReader
+        }
+    }
+
+    /' personals exceptions '/
+    package Exceptions {
+        class UnplaceableException {
+            + UnplaceableException()
+            + UnplaceableException(gridSize : int, xPlusSize : int, yPlusSize : int)
+            + UnplaceableException(actual : CellKind, necessary : CellKind)
+            + UnplaceableException(coordinates : Vector2I)
+        }
+    }
+    
+    package GameContext{
+        class "<<static>>\nGlobalTools" as GlobalTools {
+             + TranslateToFlowKind(what : string) : FlowKind
+        }
+        
+        interface IVerbosable {
+            + Verbose() : string
+        }
+        
+        class "<<static>>\nOurPaths" as OurPaths {
+            + {static} {readonly} RESSOURCES = "Ressources/" : string
+            + {static} {readonly} NODES = "Nodes/" : string
+            + {static} {readonly} IMAGES = RESSOURCES + "Images/" : string
+            + {static} {readonly} TEXTURES = RESSOURCES + "Textures/" : string
+            + {static} {readonly} PROGRAMS = "Programs/" : string
+            /' etc '/
+        }
+    }
+
+    package TestsZone {
+        /' node for tests '/
+        class Lab {
+            - Lab()
+            + {override} _Ready()
+        }
+
+        class TestsProvider {
+            + TestsProvider(scene : Node)
+            + TCellModel()
+            + TGrassModel()
+            + TBuildingModel()
+            + TGridModel()
+            + TCellView(print : bool)
+            + TGrassView(print : bool)
+            + TBuildingView(print : bool)
+            + TBuildingFactory(print : bool)
+            + TBuildingFactory_WithUnprovidedTexture(print : bool)
+            + TGridFactory_GrassOnly(print : bool)
+            + TGridFactory_WithBuildings(print : bool)
+            + TGridFactory_WithConflicts(print : bool)
+            - PrintChildrenCount()
+        }
+    }
+}
+
+/' TerritoryManagement '/
+package TerritoryManagement {
+
+    package Model{}
+
+}
+
+
+/' -------------------------------
+- RELATIONS
+-- '/
+Lab o--> " 1 "TestsProvider : < provide test patterns
+
+
+@enduml

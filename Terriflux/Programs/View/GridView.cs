@@ -1,7 +1,9 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using Terriflux.Programs.Model;
+using Terriflux.Programs.Model.Factories;
+using Terriflux.Programs.Model.Grid;
+using Terriflux.Programs.Model.Placeables;
 using Terriflux.Programs.Observers;
 using Terriflux.Programs.View;
 

@@ -6,6 +6,8 @@ namespace Terriflux.Programs.TestsZone
     {
         private Marker2D _bigObjectSartPoint;
 
+        private Lab() { }
+
         public override void _Ready()
         {
             // child
@@ -24,7 +26,7 @@ namespace Terriflux.Programs.TestsZone
             tp.TBuildingModel();
 
             GD.Print("--Test grid model--");
-            tp.GridModel();
+            tp.TGridModel();
 
             // Views
             GD.Print("--Test cell view--");
