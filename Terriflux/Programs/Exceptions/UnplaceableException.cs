@@ -21,7 +21,8 @@ namespace Terriflux.Programs.Exceptions
         public UnplaceableException(int grid_size, int xPlusSize, int yPlusSize) : base($"Unable to place item on grid! At this coordinates, the placeable will " +
             $"exceed the grid size. " +
             $"Expected = {grid_size}, but coordinates-X more placeable-size = {xPlusSize} and " +
-            $"coordinates-X more placeable-size = {yPlusSize}.") { }
+            $"coordinates-X more placeable-size = {yPlusSize}.")
+        { }
 
 
         /// <summary>

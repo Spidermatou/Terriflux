@@ -1,2 +1,2 @@
-Field ; 2 ; 1.5, 2.0, 3.0 ; Water,1 ; Cereals,2
-Fork Factory ; 3 ; 12.4, 23.0, 11.8 ; Water,3, Electricity,7, Raw_materials,4 ; Merchandise_manufactured,5
+Field ; 1.5, 2.0, 3.0 ; Water,1 ; Cereals,2
+Fork Factory ; 12.4, 23.0, 11.8 ; Water,3, Electricity,7, Raw_materials,4 ; Merchandise_manufactured,5

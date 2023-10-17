@@ -7,7 +7,7 @@ namespace Terriflux.Programs.Model
     /// such as a virgin territory to territorialize, 
     /// or a more or less rich and complex city to make prosper.
     /// </summary>
-    public static partial class GridFactory     // Reworked
+    public static partial class GridFactory
     {
         /// <summary>
         /// Create a gridmodel full of simple grass cells (wasteland).
@@ -22,7 +22,7 @@ namespace Terriflux.Programs.Model
                 for (int y = 0; y < size; y++)
                 {
                     // add a grass cell
-                    grid.ReplaceAt(new GrassModel(), x, y);
+                    grid.PlaceAt(new GrassModel(), x, y);
                 }
             }
             return grid;

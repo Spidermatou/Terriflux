@@ -1,7 +1,5 @@
 using Godot;
-using System.Collections.Generic;
 using System.ComponentModel;
-using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.Model
 {
@@ -11,35 +9,27 @@ namespace Terriflux.Programs.Model
     /// dimensions with Get/SetGlobalSize
     /// </summary>
     [ImmutableObject(true)]
-    public partial class CellModel // Reworked
+    public partial class CellModel
     {
-        private static readonly double globalSize = 128;   //px
-
         private readonly string name = "Cell";  // default
-        private readonly CellKind kind = CellKind.PRIMARY;   // default
+        private readonly CellKind kind = CellKind.WASTELAND;   // default
 
         // CONSTRUCT
         /// <summary>
         /// Create a cell model.
         /// </summary>
-        public CellModel() { }
+        private CellModel() { }
 
         /// <summary>
         /// Create a cell model.
         /// </summary>
         public CellModel(string name, CellKind kind)
         {
-            this.name = name;
+            this.name = name.ToPascalCase();
             this.kind = kind;
         }
 
         // Global dimensions
-        /// <returns> The theoretic size of any cell.</returns>
-        public static double GetGlobalSize()
-        {
-            return globalSize;
-        }
-
         /// <returns>The name of this cell.</returns>
         public string GetName()
         {

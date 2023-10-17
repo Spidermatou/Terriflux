@@ -1,6 +1,6 @@
 namespace Terriflux.Programs.Model
 {
-    public enum FlowKind        // Reworked
+    public enum FlowKind
     {
         // ex: for a car factory
         Electricity,
@@ -11,7 +11,7 @@ namespace Terriflux.Programs.Model
         // ex : for an company
         Merchandise_manufactured,
         // ex : swamill
-        Wood, 
-        Wooden_plank 
+        Wood,
+        Wooden_plank
     }
 }

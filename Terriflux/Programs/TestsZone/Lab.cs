@@ -1,8 +1,4 @@
 using Godot;
-using System;
-using Terriflux.Programs.Model;
-using Terriflux.Programs.TestsZone;
-using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.TestsZone
 {
@@ -24,9 +20,6 @@ namespace Terriflux.Programs.TestsZone
             GD.Print("--Test grass model--");
             tp.TGrassModel();
 
-            GD.Print("--Test building part model--");
-            tp.TBuildingPart();
-
             GD.Print("--Test building model--");
             tp.TBuildingModel();
 
@@ -40,9 +33,6 @@ namespace Terriflux.Programs.TestsZone
             GD.Print("--Test grass view--");
             tp.TGrassView();
 
-            GD.Print("--Test building part view--");
-            tp.TBuildingPartView();
-
             GD.Print("--Test building view--");
             tp.TBuildingView();
 
@@ -54,11 +44,11 @@ namespace Terriflux.Programs.TestsZone
             tp.TBuildingFactory_WithUnprovidedTexture();
 
             GD.Print("--Test grid factory - version: grass only--");
-            tp.TGridFactory_GrassOnly(this._bigObjectSartPoint.Position);
+            tp.TGridFactory_GrassOnly(_bigObjectSartPoint.Position);
 
             GD.Print("--Test grid factory - version: buildings classic--");
-            tp.TGridFactory_WithBuildings(this._bigObjectSartPoint.Position, true);
-            
+            tp.TGridFactory_WithBuildings(_bigObjectSartPoint.Position, true);
+
         }
     }
 }

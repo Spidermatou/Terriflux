@@ -3,12 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 using Terriflux.Programs.Data.Management;
 using Terriflux.Programs.GameContext;
-using Terriflux.Programs.Observers;
 using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Model
@@ -16,7 +12,7 @@ namespace Terriflux.Programs.Model
     /// <summary>
     /// Can load building from data files, and create view from a specified model.
     /// </summary>
-    public static partial class BuildingFactory        // Reworked
+    public static partial class BuildingFactory
     {
         public static BuildingModel LoadModel(string name, InfluenceScale influence)      // TO TEST
         {
@@ -31,11 +27,9 @@ namespace Terriflux.Programs.Model
             string[] rawData_products;
             string[] rawData_needs;
 
-            int extracted_size;
             double[] extracted_impacts = new double[3];
             Dictionary<FlowKind, int> extracted_production = new();
             Dictionary<FlowKind, int> extracted_needs = new();
-            BuildingPart[] parts;
 
             while ((actualLine = reader.ReadLine()) != null)
             {
@@ -49,17 +43,14 @@ namespace Terriflux.Programs.Model
                 // is it the one we want? 
                 if (rawData_name.Equals(name))     // yes
                 {
-                    // extract extracted_size (nb of parts)
-                    extracted_size = int.Parse(splitedLine[1]);
-
                     // extract impacts
-                    rawData_impacts = splitedLine[2].Split(",");
+                    rawData_impacts = splitedLine[1].Split(",");
                     extracted_impacts[0] = double.Parse(rawData_impacts[0], CultureInfo.InvariantCulture);
                     extracted_impacts[0] = double.Parse(rawData_impacts[1], CultureInfo.InvariantCulture);
                     extracted_impacts[0] = double.Parse(rawData_impacts[2], CultureInfo.InvariantCulture);
 
                     // extract needs
-                    rawData_needs = splitedLine[3].Replace(" ", "").Split(",");
+                    rawData_needs = splitedLine[2].Replace(" ", "").Split(",");
                     for (int i = 0; i < rawData_needs.Length - 1; i += 2)
                     {
                         if (!extracted_needs.ContainsKey(GlobalTools.TranslateToFlowKind(rawData_needs[i])))
@@ -69,7 +60,7 @@ namespace Terriflux.Programs.Model
                     }
 
                     // extract production
-                    rawData_products = splitedLine[4].Replace(" ", "").Split(",");
+                    rawData_products = splitedLine[3].Replace(" ", "").Split(",");
                     for (int i = 0; i < rawData_products.Length - 1; i++)
                     {
                         if (!extracted_production.ContainsKey(GlobalTools.TranslateToFlowKind(rawData_products[i])))
@@ -78,14 +69,7 @@ namespace Terriflux.Programs.Model
                         }
                     }
 
-                    // create parts according to the building size
-                    parts = new BuildingPart[extracted_size];
-                    for (int i = 0; i < extracted_size; i++)
-                    {
-                        parts[i] = new BuildingPart(name);
-                    }
-
-                    return new BuildingModel(name, extracted_impacts, influence, extracted_needs, extracted_production, parts);
+                    return new BuildingModel(name, extracted_impacts, influence, extracted_needs, extracted_production);
                 }
                 // no? skip to next building
             }
@@ -103,7 +87,7 @@ namespace Terriflux.Programs.Model
         /// <param name="orientation"></param>
         /// <param name="addGrass"></param>
         /// <returns></returns>
-        public static BuildingView CreateView(BuildingModel model, Orientation2D orientation, bool addGrass = true) 
+        public static BuildingView CreateView(BuildingModel model)
         {
             // verify if texture exists
             string textureFilePath = OurPaths.TEXTURES + model.GetName().ToLower() + OurPaths.PNGEXT;
@@ -111,10 +95,12 @@ namespace Terriflux.Programs.Model
             {
                 textureFilePath = OurPaths.DEFAULT_BUILDING_TEXTURE;   // load default texture
             }
-            GD.PrintErr(orientation); // test
-            return BuildingView.Design(model, 
-                orientation,
-                ImageToolsProvider.SplitImageTexture(textureFilePath, model.GetPartsNumber(), orientation, addGrass));
+
+            // load texture
+            Texture2D texture = GD.Load<Texture2D>(textureFilePath);
+
+            // create
+            return BuildingView.Design(model, texture);
         }
     }
 }

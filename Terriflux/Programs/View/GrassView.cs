@@ -3,7 +3,7 @@ using Terriflux.Programs.GameContext;
 
 namespace Terriflux.Programs.View
 {
-    public partial class GrassView : CellView       // Reworked
+    public partial class GrassView : CellView
     {
         private static readonly string grassTexturePath = OurPaths.TEXTURES + "grass.png";
 

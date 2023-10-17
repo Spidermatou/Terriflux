@@ -26,7 +26,7 @@ namespace Terriflux.Programs.GameContext
         /// </summary>
         /// <param name="grid"></param>
         /// <exception cref="NotImplementedException"></exception>
-		public void UpdateMap(GridModel grid)         
+		public void UpdateMap(GridModel grid)
         {
             /* This version of the grid view update destroys the old grid (view), 
              * then scans each cell of the model to check whether an element is placed there. 
@@ -34,8 +34,6 @@ namespace Terriflux.Programs.GameContext
 
             bool emptyCell = false;
             Dictionary<Vector2I, IPlaceable> placeablesToPlace = grid.GetAllPlacements();
-            Dictionary<Vector2I, Orientation2D> placeablesOrientations = grid.GetAllPlacementsDirections();
-            List<Vector2I> blockedEmplacements = grid.GetBlockedEmplacements();
 
             // reset
             RemoveAllChildren();
@@ -53,19 +51,14 @@ namespace Terriflux.Programs.GameContext
                         // is it a building?
                         if (placeablesToPlace[actualCoordinates] is BuildingModel buildingModel)    // yes
                         {
-                            BuildingView buildingView = BuildingFactory.CreateView(buildingModel, placeablesOrientations[actualCoordinates], true);
-                            buildingView.Position = new Vector2((float)(x * CellModel.GetGlobalSize()), (float)(y * CellModel.GetGlobalSize()));
-                            this.AddChild(buildingView);
+                            BuildingView buildingView = BuildingFactory.CreateView(buildingModel);
+                            buildingView.Position = new Vector2((float)(x * CellView.GetGlobalSize()), (float)(y * CellView.GetGlobalSize()));
+                            AddChild(buildingView);
                         }
                         else    // yes, but it's not treatable 
                         {
                             emptyCell = true;
                         }
-                    }
-                    else if (blockedEmplacements.Contains(actualCoordinates))   // yes, but the cell is just blocked
-                    {
-                        // does nothing more
-                        emptyCell = false;
                     }
                     else        // no, it's a free case (i.e. grass cell or empty cell)
                     {
@@ -77,10 +70,10 @@ namespace Terriflux.Programs.GameContext
                     if (emptyCell)
                     {
                         // Fill with simple grass
-                        GrassView grass = (GrassView)GrassView.Design();
+                        GrassView grass = GrassView.Design();
 
                         // Instantiate into scene
-                        grass.Position = new Vector2((float)(x * CellModel.GetGlobalSize()), (float)(y * CellModel.GetGlobalSize()));
+                        grass.Position = new Vector2((float)(x * CellView.GetGlobalSize()), (float)(y * CellView.GetGlobalSize()));
                         AddChild(grass);
 
                         // Next case probably valid

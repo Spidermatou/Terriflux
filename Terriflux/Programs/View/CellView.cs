@@ -1,19 +1,17 @@
 using Godot;
 using System;
-using System.ComponentModel;
-using System.IO;
 using System.Text;
 using Terriflux.Programs.GameContext;
-using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.View
 {
-    public partial class CellView : Node2D, IVerbosable     // Reworked
+    public partial class CellView : Node2D, IVerbosable
     {
         protected static readonly string defaultTexture = OurPaths.TEXTURES + "default" + OurPaths.PNGEXT;
+        public static readonly double globalSize = 128;   //px
 
         // children
-        private Label _nicknameLabel;     
+        private Label _nicknameLabel;
         public Sprite2D _skin;
 
         // Creation
@@ -76,6 +74,12 @@ namespace Terriflux.Programs.View
             {
                 _nicknameLabel.Text = name;
             }
+        }
+
+        /// <returns> The theoretic size of any cell.</returns>
+        public static double GetGlobalSize()
+        {
+            return globalSize;
         }
 
         // Verbose

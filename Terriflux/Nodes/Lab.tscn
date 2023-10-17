@@ -13,4 +13,4 @@ color = Color(0.666667, 0.564706, 0.47451, 1)
 polygon = PackedVector2Array(-584, -320, -584, -320, 584, -320, 584, 336, -584, 336)
 
 [node name="BigObjectSartPoint" type="Marker2D" parent="."]
-position = Vector2(-384, -192)
+position = Vector2(-344, -288)
