@@ -22,7 +22,7 @@ namespace Terriflux.Programs.Model.Placeables
         }; // the larger the scale, the larger the needs and production will be 
 
         private readonly double[] impacts;
-        private readonly InfluenceScale actualInfluenceScale;
+        private readonly InfluenceScale influence;
 
         private readonly Dictionary<FlowKind, int> needs;
         private readonly Dictionary<FlowKind, int> production;
@@ -39,7 +39,7 @@ namespace Terriflux.Programs.Model.Placeables
 
             // basic attributes
             this.impacts = impacts;
-            actualInfluenceScale = influence;
+            this.influence = influence;
 
             // needs, products
             this.needs = needs.ToDictionary(entry => entry.Key, entry => entry.Value);  // clone to avoid external modifications
@@ -60,7 +60,7 @@ namespace Terriflux.Programs.Model.Placeables
         // Basic informations
         public InfluenceScale GetInfluence()
         {
-            return actualInfluenceScale;
+            return influence;
         }
 
         // Impacts

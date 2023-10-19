@@ -3,15 +3,15 @@ namespace Terriflux.Programs.Model.Placeables
     public enum FlowKind
     {
         // ex: for a car factory
-        Electricity,
-        Raw_materials,
+        ELECRICITY,
+        RAW_MATERIAL,
         // ex: for fields
-        Water,
-        Cereals,
+        WATER,
+        CEREALS,
         // ex : for an company
-        Merchandise_manufactured,
+        MANUFACTURED_MERCHANDISE,
         // ex : swamill
-        Wood,
-        Wooden_plank
+        WOOD,
+        WOODEN_PLANK
     }
 }

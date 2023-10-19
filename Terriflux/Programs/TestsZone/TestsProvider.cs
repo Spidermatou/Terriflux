@@ -63,11 +63,11 @@ namespace Terriflux.Programs.TestsZone
             double[] impacts = new double[3] { 12.4, 23.0, 11.8 };
             InfluenceScale influence = InfluenceScale.NATIONAL;
             Dictionary<FlowKind, int> needs = new();
-            needs.Add(FlowKind.Water, 3);
-            needs.Add(FlowKind.Electricity, 7);
-            needs.Add(FlowKind.Raw_materials, 4);
+            needs.Add(FlowKind.WATER, 3);
+            needs.Add(FlowKind.ELECRICITY, 7);
+            needs.Add(FlowKind.RAW_MATERIAL, 4);
             Dictionary<FlowKind, int> productions = new();
-            productions.Add(FlowKind.Merchandise_manufactured, 5);
+            productions.Add(FlowKind.MANUFACTURED_MERCHANDISE, 5);
 
             // create the building himself
             BuildingModel bm = new(name, impacts, influence, needs, productions);
@@ -105,7 +105,7 @@ namespace Terriflux.Programs.TestsZone
                 for (int column = 0; column < grid.GetSize(); column++)
                 {
                     grid.PlaceAt(new GrassModel(), line, column);
-                    GD.Print(grid.GetAt(line, column));
+                    GD.Print(grid.GetPlaceableAt(line, column));
                 }
             }
 
@@ -117,11 +117,11 @@ namespace Terriflux.Programs.TestsZone
             double[] impacts = new double[3] { 12.4, 23.0, 11.8 };
             InfluenceScale influence = InfluenceScale.NATIONAL;
             Dictionary<FlowKind, int> needs = new();
-            needs.Add(FlowKind.Water, 3);
-            needs.Add(FlowKind.Electricity, 7);
-            needs.Add(FlowKind.Raw_materials, 4);
+            needs.Add(FlowKind.WATER, 3);
+            needs.Add(FlowKind.ELECRICITY, 7);
+            needs.Add(FlowKind.RAW_MATERIAL, 4);
             Dictionary<FlowKind, int> productions = new();
-            productions.Add(FlowKind.Merchandise_manufactured, 5);
+            productions.Add(FlowKind.MANUFACTURED_MERCHANDISE, 5);
             Vector2I coordinatesBuilding1 = new(2, 4);
             Vector2I coordinatesBuilding2 = new(6, 3);
 
@@ -131,9 +131,9 @@ namespace Terriflux.Programs.TestsZone
             grid.PlaceAt(new BuildingModel(name, impacts, influence, needs, productions),
                 6, 3);        // add building in 6,3 (vertical)
             GD.Print($"Is a placeable in {coordinatesBuilding1.X},{coordinatesBuilding1.Y} and not null? " +
-                $"{grid.GetAt(coordinatesBuilding1.X, coordinatesBuilding1.Y) == null}");
+                $"{grid.GetPlaceableAt(coordinatesBuilding1.X, coordinatesBuilding1.Y) == null}");
             GD.Print($"Is a placeable in {coordinatesBuilding2.X},{coordinatesBuilding2.Y} and not null? " +
-                $"{grid.GetAt(coordinatesBuilding2.X, coordinatesBuilding2.Y) == null}");
+                $"{grid.GetPlaceableAt(coordinatesBuilding2.X, coordinatesBuilding2.Y) == null}");
             GD.Print($"What's repertoried (placeables)?");
             foreach (KeyValuePair<Vector2I, IPlaceable> kvp in grid.GetAllPlacements())
             {
@@ -234,13 +234,13 @@ namespace Terriflux.Programs.TestsZone
 
         public void TGridFactory_GrassOnly(Vector2 startPosition, bool print = false)
         {
-            GridModel model = GridFactory.CreateFullGrassLand(5);
+            GridModel model = GridFactory.CreateWasteland(5);
 
             GD.Print($">> A grid full grass <<");
             GD.Print(model.Verbose());
 
             GD.Print($">> Grid with placeables part <<");
-            GridView view = GridFactory.CreateGridView(model);
+            GridView view = GridFactory.CreateView(model);
             view.Position = startPosition;
             scene.AddChild(view);
 
@@ -252,7 +252,7 @@ namespace Terriflux.Programs.TestsZone
 
         public void TGridFactory_WithBuildings(Vector2 startPosition, bool print = false)
         {
-            GridModel model = GridFactory.CreateFullGrassLand(10);
+            GridModel model = GridFactory.CreateWasteland(10);
 
             GD.Print($">> A grid with buildings <<");
             BuildingModel tbuildingModel1 = BuildingFactory.LoadModel("fork factory", InfluenceScale.NATIONAL);
@@ -262,7 +262,7 @@ namespace Terriflux.Programs.TestsZone
             GD.Print(model.Verbose());
 
             GD.Print($">> Grid with placeables part <<");
-            GridView view = GridFactory.CreateGridView(model);
+            GridView view = GridFactory.CreateView(model);
             view.Position = startPosition;
             view.Scale = new Vector2((float)0.5, (float)0.5);
             scene.AddChild(view);
@@ -275,7 +275,7 @@ namespace Terriflux.Programs.TestsZone
 
         public void TGridFactory_WithConflicts(Vector2 startPosition, bool print = false)
         {
-            GridModel model = GridFactory.CreateFullGrassLand(5);
+            GridModel model = GridFactory.CreateWasteland(5);
 
             GD.Print($">> A grid with buildings (and conflicts) <<");
             BuildingModel tbuildingModel = BuildingFactory.LoadModel("field", InfluenceScale.REGIONAL);
@@ -287,7 +287,7 @@ namespace Terriflux.Programs.TestsZone
             GD.Print(model.Verbose());
 
             GD.Print($">> Grid with placeables part (and conflicts)  <<");
-            GridView view = GridFactory.CreateGridView(model);
+            GridView view = GridFactory.CreateView(model);
             view.Position = startPosition;
             scene.AddChild(view);
 

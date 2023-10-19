@@ -113,7 +113,7 @@ namespace Terriflux.Programs.Model.Grid
             }
         }
 
-        public IPlaceable GetAt(int line, int column)
+        public IPlaceable GetPlaceableAt(int line, int column)
         {
             Vector2I coordinates = new(line, column);
 

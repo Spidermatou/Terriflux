@@ -16,7 +16,7 @@ namespace Terriflux.Programs.Model.Factories
         /// </summary>
         /// <param name="size"></param>
         /// <returns></returns>
-        public static GridModel CreateFullGrassLand(int size)
+        public static GridModel CreateWasteland(int size)
         {
             GridModel grid = new(size);
             for (int x = 0; x < size; x++)
@@ -35,7 +35,7 @@ namespace Terriflux.Programs.Model.Factories
         /// Remember to add it to your scene to display it !
         /// </summary>
         /// <returns>An up-to-date GridView</returns>
-        public static GridView CreateGridView(GridModel model)
+        public static GridView CreateView(GridModel model)
         {
             GridView view = GridView.Design();
             view.UpdateMap(model);

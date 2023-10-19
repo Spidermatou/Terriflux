@@ -54,6 +54,7 @@ package GameMaster {
         }
 
         class TestsProvider {
+            - scene : Node
             + TestsProvider(scene : Node)
             + TCellModel()
             + TGrassModel()
@@ -74,16 +75,151 @@ package GameMaster {
 
 /' TerritoryManagement '/
 package TerritoryManagement {
+    package Model{
+        package Cell{
+            enum CellKind{
+                BUILDING,
+                WASTELAND
+            }
 
-    package Model{}
+            class CellModel{
+                - {readonly} name : string
+                + CellModel()
+                + CellModel(name : string, kind : CellKind)
+                + GetName() : string
+                + GetKind() : CellKind
+            }
 
+            class GrassModel extends CellModel {
+                + GrassModel()
+            }
+        }
+
+        package Factories{
+            class "<<static>>\nBuildingFactory" as BuildingFactory{
+                + {static} LoadModel(name : string, influence : InfluenceScale) : BuildingModel
+                + {static} CreateView(model : BuildingModel) : BuildingView
+            }
+
+            class "<<static>>\nGridFactory" as GridFactory{
+                + {static} CreateWasteland(size : int) : GridModel
+                + {static} CreateView(model : GridModel) : GridView
+            }
+        }
+
+        package Grid{
+            class GridModel{
+                - {readonly} size : int
+                + GridModel(size : int)
+                + GetSize() : int
+                + PlaceAt(grass : GrassModel, line : int, column : int, callForUpdate : bool)
+                + GetCellAt(line : int, column : int) : CellModel
+                + PlaceAt(placeable : IPlaceable, line : int, column : int, callForUpdate : bool)
+                + GetPlaceableAt(line : int, column : int) : IPlaceable
+                + GetAllPlacements() : (Vector2I, IPlaceable)[*]
+                + AddObserver(observer : IGridObserver)
+                + RemoveObserver(observer : IGridObserver)
+                + NotifyGridChanged()
+            }
+        }
+
+        package Placeables {
+            interface IPlaceable {
+                + GetName() : string
+                + GetComposition() : CellModel
+            }
+
+            enum FlowKind {
+                 ELECRICITY,
+                 RAW_MATERIAL,
+                 WATER,
+                 CEREALS,
+                 MANUFACTURED_MERCHANDISE,
+                 WOOD,
+                 WOODEN_PLANK
+            }
+
+            enum InfluenceScale {
+                REGIONAL,
+                NATIONAL,
+                WORLDWIDE
+            }
+
+            class BuildingModel extends TerritoryManagement.Model.Cell.CellModel implements IPlaceable{
+                - {readonly} impacts : Real[*]
+                + BuildingModel(name : string, impacts : Real[3], influence : InfluenceScale,\n\tneeds : FlowKind[*], production : : FlowKind[*])
+                + GetInfluence() : InfluenceScale
+                + GetImpacts() : Real[*]
+                + ^GetComposition() : CellModel
+                + GetNeedsKind() : FlowKind[*]
+                + GetQuantityNeeded(kind : FlowKind) : int
+                + GetProductionKind() : FlowKind[*]
+                + GetQuantityProduced(kind : FlowKind) : int
+            }
+        }
+    }
+
+    package Observers {
+        interface IGridObserver{
+            + UpdateMap(grid : GridModel)
+        }
+    }
+
+    package View{
+        class BuildingView extends CellView {
+            - name : string
+            - texture : Texture2D
+            - BuildingView()
+            + {static} Design(model : BuildingModel, texture : Texture2D) : BuildingView
+            + {override} _Ready()
+        }
+
+        class CellView {
+            # {static} {readonly} defaultTexturePath : string
+            + {static} {readonly} globalSize : Real
+            # CellModel()
+            + {static} Design() : CellView
+            + {override} _Ready()
+            # ChangeSkin(name : string)
+            # ChangeSkin(skin : Texture2D)
+            + {static} GetGlobalSize() : Real
+            - OnMouseOver()
+            - OnMouseExit()
+        }
+
+        class GrassView {
+            # {static} {readonly} grassTexturePath : string
+            # GrassView()
+            + {static} {override} Design() : GrassView
+            + {override} _Ready()
+        }
+
+        class GridView implements IGridObserver {
+            - GridView()
+            + {static} Design() : GridView
+            + ^UpdateMap(grid : GridModel)
+        }
+    }
 }
 
+/' -------------------------------
+- AGREGATIONS / COMPOSITIONS
+-- '/
+CellModel o..> CellKind : < define\n- {readonly} kind
+GridModel *..> " * "CellModel : < compose\n- {readonly} cells
+GridModel *..> " * "TerritoryManagement.Model.Placeables.IPlaceable : < positions into her\n - {readonly} placemenTable
+GridModel o..> " * "TerritoryManagement.Observers.IGridObserver : < notifies\n - {readonly} observers
+GridFactory ..> " * "TerritoryManagement.Model.Grid.GridModel
+GridFactory ..> " * "TerritoryManagement.View.GridView
+BuildingFactory ..> " * "TerritoryManagement.Model.Placeables.BuildingModel
+BuildingModel o..> " 3 "InfluenceScale : < defines the scope of influence and the quantities produced/needed\n - {static} {readonly} MULTIPLICATION_RATE
+BuildingModel o..> " 1 "InfluenceScale : < defines influence scale of\n - {readonly} influence
+BuildingModel o..> " * "FlowKind : < needs a specific quantity of\n - {readonly} needs
+BuildingModel o..> " * "FlowKind : < products a specific quantity of\n - {readonly} production
 
 /' -------------------------------
 - RELATIONS
 -- '/
 Lab o--> " 1 "TestsProvider : < provide test patterns
-
 
 @enduml

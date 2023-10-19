@@ -7,7 +7,7 @@ namespace Terriflux.Programs.View
 {
     public partial class CellView : Node2D, IVerbosable
     {
-        protected static readonly string defaultTexture = OurPaths.TEXTURES + "default" + OurPaths.PNGEXT;
+        protected static readonly string defaultTexturePath = OurPaths.TEXTURES + "default" + OurPaths.PNGEXT;
         public static readonly double globalSize = 128;   //px
 
         // children
@@ -32,7 +32,7 @@ namespace Terriflux.Programs.View
 
             // default
             ChangeName("Cell");
-            ChangeSkin(GD.Load<Texture2D>(defaultTexture));
+            ChangeSkin(GD.Load<Texture2D>(defaultTexturePath));
         }
 
         /// <summary>
