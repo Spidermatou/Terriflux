@@ -56,18 +56,18 @@ package GameMaster {
         class TestsProvider {
             - scene : Node
             + TestsProvider(scene : Node)
-            + TCellModel()
-            + TGrassModel()
-            + TBuildingModel()
-            + TGridModel()
+            + {static} TCellModel()
+            + {static} TGrassModel()
+            + {static} TBuildingModel()
+            + {static} TGridModel()
             + TCellView(print : bool)
             + TGrassView(print : bool)
             + TBuildingView(print : bool)
             + TBuildingFactory(print : bool)
             + TBuildingFactory_WithUnprovidedTexture(print : bool)
-            + TGridFactory_GrassOnly(print : bool)
-            + TGridFactory_WithBuildings(print : bool)
-            + TGridFactory_WithConflicts(print : bool)
+            + TGridFactory_GrassOnly(coordinates : Vector2I, print : bool)
+            + TGridFactory_WithBuildings(coordinates : Vector2I, print : bool)
+            + TGridFactory_WithConflicts(coordinates : Vector2I, print : bool)
             - PrintChildrenCount()
         }
     }
