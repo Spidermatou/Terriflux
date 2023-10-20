@@ -1,6 +1,6 @@
 ﻿using Godot;
 using System;
-using Terriflux.Programs.Model.Placeables;
+using Terriflux.Programs.Model.Cell;
 
 namespace Terriflux.Programs.GameContext
 {

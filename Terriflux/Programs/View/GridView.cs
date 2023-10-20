@@ -2,8 +2,8 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using Terriflux.Programs.Factories;
+using Terriflux.Programs.Model.Cell;
 using Terriflux.Programs.Model.Grid;
-using Terriflux.Programs.Model.Placeables;
 using Terriflux.Programs.Observers;
 using Terriflux.Programs.View;
 
@@ -35,7 +35,7 @@ namespace Terriflux.Programs.GameContext
              * Optimization is surely possible. */
 
             bool emptyCell = false;
-            Dictionary<Vector2I, IPlaceable> placeablesToPlace = grid.GetAllPlacements();
+            Dictionary<Vector2I, CellModel> haveToPlace = grid.GetAllPlacements();
 
             // reset
             RemoveAllChildren();
@@ -48,10 +48,10 @@ namespace Terriflux.Programs.GameContext
                     Vector2I actualCoordinates = new(x, y);
 
                     // is there a placeable object here?
-                    if (placeablesToPlace.ContainsKey(actualCoordinates))       // yes
+                    if (haveToPlace.ContainsKey(actualCoordinates))       // yes
                     {
                         // is it a building?
-                        if (placeablesToPlace[actualCoordinates] is BuildingModel buildingModel)    // yes
+                        if (haveToPlace[actualCoordinates] is BuildingModel buildingModel)    // yes
                         {
                             BuildingView buildingView = BuildingFactory.CreateView(buildingModel);
                             buildingView.Position = new Vector2((float)(x * CellView.GetGlobalSize()), (float)(y * CellView.GetGlobalSize()));

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Model.Cell;
-using Terriflux.Programs.Model.Placeables;
 using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.Model.Grid
@@ -18,7 +17,7 @@ namespace Terriflux.Programs.Model.Grid
     {
         private readonly CellModel[,] cells;
         private readonly int size;
-        private readonly Dictionary<Vector2I, IPlaceable> placementTable = new();    // refers to which Placeable is stored where in the grid
+        private readonly Dictionary<Vector2I, CellModel> placementTable = new();    // refers to which Placeable is stored where in the grid
 
         private readonly List<IGridObserver> observers = new();
 
@@ -77,6 +76,10 @@ namespace Terriflux.Programs.Model.Grid
 
         public CellModel GetCellAt(int line, int column)
         {
+            CellModel returned;
+            Vector2I coordinates = new(line, column);
+
+            // securities
             if (size < line && size < column)
             {
                 throw new IndexOutOfRangeException($"Tries to place a cell beyond the limits of the grid.");
@@ -84,15 +87,23 @@ namespace Terriflux.Programs.Model.Grid
             else if (cells[line, column] == null)
             {
                 throw new NullReferenceException($"Empty emplacement at {line}, {column}.");
+            }               
+
+            // Is a placeable into the grid?
+            if (placementTable.ContainsKey(coordinates))
+            {
+                returned = placementTable[coordinates];
             }
+            // No, it's just a cell:
             else
             {
-                return cells[line, column];
+                returned = cells[line, column];
             }
+            return returned;
         }
 
         // Placeables
-        public void PlaceAt(IPlaceable placeable, int line, int column, bool callForUpdate = false)
+        public void PlaceAt(CellModel placeable, int line, int column, bool callForUpdate = false)
         {
             Vector2I coordinates = new(line, column);
 

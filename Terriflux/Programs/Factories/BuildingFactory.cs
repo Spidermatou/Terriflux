@@ -5,7 +5,7 @@ using System.Globalization;
 using System.IO;
 using Terriflux.Programs.Data;
 using Terriflux.Programs.GameContext;
-using Terriflux.Programs.Model.Placeables;
+using Terriflux.Programs.Model.Cell;
 using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Factories

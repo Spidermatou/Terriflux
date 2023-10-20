@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Terriflux.Programs.GameContext;
-using Terriflux.Programs.Model.Cell;
 
-namespace Terriflux.Programs.Model.Placeables
+namespace Terriflux.Programs.Model.Cell
 {
     /// <summary>
     /// Represents a building.
     /// </summary>
-    public partial class BuildingModel : CellModel, IPlaceable, IVerbosable
+    public partial class BuildingModel : CellModel, IVerbosable
     {
         private static readonly Dictionary<InfluenceScale, int> MULTIPLICATION_RATE = new()
         {
@@ -68,13 +67,6 @@ namespace Terriflux.Programs.Model.Placeables
         {
             return impacts;
         }
-
-        // Composition
-        public CellModel GetComposition()
-        {
-            return this;
-        }
-
 
         // Needs
         public int GetQuantityNeeded(FlowKind kind)

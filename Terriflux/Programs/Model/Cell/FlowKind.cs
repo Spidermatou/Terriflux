@@ -1,4 +1,4 @@
-namespace Terriflux.Programs.Model.Placeables
+namespace Terriflux.Programs.Model.Cell
 {
     public enum FlowKind
     {

@@ -7,7 +7,6 @@ using Terriflux.Programs.Factories;
 using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Model.Cell;
 using Terriflux.Programs.Model.Grid;
-using Terriflux.Programs.Model.Placeables;
 using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.TestsZone
@@ -105,7 +104,7 @@ namespace Terriflux.Programs.TestsZone
                 for (int column = 0; column < grid.GetSize(); column++)
                 {
                     grid.PlaceAt(new GrassModel(), line, column);
-                    GD.Print(grid.GetPlaceableAt(line, column));
+                    GD.Print(grid.GetCellAt(line, column));
                 }
             }
 

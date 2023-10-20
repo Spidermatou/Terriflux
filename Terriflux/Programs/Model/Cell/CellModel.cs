@@ -7,10 +7,10 @@ namespace Terriflux.Programs.Model.Cell
     /// All cell have the exact same size. If one changes size, everything else adapts. You can access to these
     /// dimensions with Get/SetGlobalSize
     /// </summary>
-    public partial class CellModel
+    public partial class CellModel 
     {
-        private readonly string name = "Cell";  // default
-        private readonly CellKind kind = CellKind.WASTELAND;   // default
+        private readonly string name = "Cell";      // default
+        private readonly CellKind kind = CellKind.WASTELAND;    // default
 
         // CONSTRUCT
         /// <summary>
@@ -27,7 +27,6 @@ namespace Terriflux.Programs.Model.Cell
             this.kind = kind;
         }
 
-        // Global dimensions
         /// <returns>The name of this cell.</returns>
         public string GetName()
         {

@@ -93,29 +93,6 @@ package TerritoryManagement {
             class GrassModel extends CellModel {
                 + GrassModel()
             }
-        }
-
-        package Grid{
-            class GridModel{
-                - {readonly} size : int
-                + GridModel(size : int)
-                + GetSize() : int
-                + PlaceAt(grass : GrassModel, line : int, column : int, callForUpdate : bool)
-                + GetCellAt(line : int, column : int) : CellModel
-                + PlaceAt(placeable : IPlaceable, line : int, column : int, callForUpdate : bool)
-                + GetPlaceableAt(line : int, column : int) : IPlaceable
-                + GetAllPlacements() : (Vector2I, IPlaceable)[*]
-                + AddObserver(observer : IGridObserver)
-                + RemoveObserver(observer : IGridObserver)
-                + NotifyGridChanged()
-            }
-        }
-
-        package Placeables {
-            interface IPlaceable {
-                + GetName() : string
-                + GetComposition() : CellModel
-            }
 
             enum FlowKind {
                  ELECRICITY,
@@ -133,16 +110,31 @@ package TerritoryManagement {
                 WORLDWIDE
             }
 
-            class BuildingModel extends TerritoryManagement.Model.Cell.CellModel implements IPlaceable{
+            class BuildingModel extends TerritoryManagement.Model.Cell.CellModel {
                 - {readonly} impacts : Real[*]
                 + BuildingModel(name : string, impacts : Real[3], influence : InfluenceScale,\n\tneeds : FlowKind[*], production : : FlowKind[*])
                 + GetInfluence() : InfluenceScale
                 + GetImpacts() : Real[*]
-                + ^GetComposition() : CellModel
                 + GetNeedsKind() : FlowKind[*]
                 + GetQuantityNeeded(kind : FlowKind) : int
                 + GetProductionKind() : FlowKind[*]
                 + GetQuantityProduced(kind : FlowKind) : int
+            }
+        }
+
+        package Grid{
+            class GridModel{
+                - {readonly} size : int
+                + GridModel(size : int)
+                + GetSize() : int
+                + PlaceAt(grass : GrassModel, line : int, column : int, callForUpdate : bool)
+                + GetCellAt(line : int, column : int) : CellModel
+                + PlaceAt(placeable : IPlaceable, line : int, column : int, callForUpdate : bool)
+                + GetPlaceableAt(line : int, column : int) : IPlaceable
+                + GetAllPlacements() : (Vector2I, IPlaceable)[*]
+                + AddObserver(observer : IGridObserver)
+                + RemoveObserver(observer : IGridObserver)
+                + NotifyGridChanged()
             }
         }
     }
