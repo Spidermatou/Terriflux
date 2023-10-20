@@ -95,18 +95,6 @@ package TerritoryManagement {
             }
         }
 
-        package Factories{
-            class "<<static>>\nBuildingFactory" as BuildingFactory{
-                + {static} LoadModel(name : string, influence : InfluenceScale) : BuildingModel
-                + {static} CreateView(model : BuildingModel) : BuildingView
-            }
-
-            class "<<static>>\nGridFactory" as GridFactory{
-                + {static} CreateWasteland(size : int) : GridModel
-                + {static} CreateView(model : GridModel) : GridView
-            }
-        }
-
         package Grid{
             class GridModel{
                 - {readonly} size : int
@@ -187,17 +175,29 @@ package TerritoryManagement {
             - OnMouseExit()
         }
 
-        class GrassView {
+        class GrassView extends CellView {
             # {static} {readonly} grassTexturePath : string
             # GrassView()
             + {static} {override} Design() : GrassView
             + {override} _Ready()
         }
 
-        class GridView implements IGridObserver {
+        class GridView implements TerritoryManagement.Observers.IGridObserver {
             - GridView()
             + {static} Design() : GridView
             + ^UpdateMap(grid : GridModel)
+        }
+    }
+
+    package Factories{
+        class "<<static>>\nBuildingFactory" as BuildingFactory{
+            + {static} LoadModel(name : string, influence : InfluenceScale) : BuildingModel
+            + {static} CreateView(model : BuildingModel) : BuildingView
+        }
+
+        class "<<static>>\nGridFactory" as GridFactory{
+            + {static} CreateWasteland(size : int) : GridModel
+            + {static} CreateView(model : GridModel) : GridView
         }
     }
 }
@@ -216,6 +216,7 @@ BuildingModel o..> " 3 "InfluenceScale : < defines the scope of influence and th
 BuildingModel o..> " 1 "InfluenceScale : < defines influence scale of\n - {readonly} influence
 BuildingModel o..> " * "FlowKind : < needs a specific quantity of\n - {readonly} needs
 BuildingModel o..> " * "FlowKind : < products a specific quantity of\n - {readonly} production
+GridView *..> " * "CellView : < stores and displays\n - children
 
 /' -------------------------------
 - RELATIONS

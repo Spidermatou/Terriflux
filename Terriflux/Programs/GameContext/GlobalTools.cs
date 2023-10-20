@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Godot;
+using System;
 using Terriflux.Programs.Model.Placeables;
 
 namespace Terriflux.Programs.GameContext
@@ -7,18 +8,15 @@ namespace Terriflux.Programs.GameContext
     {
         public static FlowKind TranslateToFlowKind(string what)
         {
-            what = what.ToUpper().Replace(" ", "");
-            foreach (FlowKind kind in Enum.GetValues(typeof(FlowKind)))
+            Enum.TryParse<FlowKind>(what, true, out FlowKind flow);
+
+            // not found?
+            if (flow == FlowKind.NOTHING)
             {
-                if (kind.ToString().ToUpper().Replace(" ", "").CompareTo(what) == 0)
-                {
-                    return kind;
-                }
+                throw new ArgumentException($"FlowKind '{what}' does not exists!");
             }
 
-            // not found
-            throw new ArgumentException($"FlowKind '{what}' does not exists!");
+            return flow;
         }
-
     }
 }

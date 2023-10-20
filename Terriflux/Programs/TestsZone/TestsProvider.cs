@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Terriflux.Programs.Data;
 using Terriflux.Programs.Exceptions;
+using Terriflux.Programs.Factories;
 using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Model.Cell;
-using Terriflux.Programs.Model.Factories;
 using Terriflux.Programs.Model.Grid;
 using Terriflux.Programs.Model.Placeables;
 using Terriflux.Programs.View;
@@ -64,7 +64,7 @@ namespace Terriflux.Programs.TestsZone
             InfluenceScale influence = InfluenceScale.NATIONAL;
             Dictionary<FlowKind, int> needs = new();
             needs.Add(FlowKind.WATER, 3);
-            needs.Add(FlowKind.ELECRICITY, 7);
+            needs.Add(FlowKind.ELECTRICITY, 7);
             needs.Add(FlowKind.RAW_MATERIAL, 4);
             Dictionary<FlowKind, int> productions = new();
             productions.Add(FlowKind.MANUFACTURED_MERCHANDISE, 5);
@@ -118,7 +118,7 @@ namespace Terriflux.Programs.TestsZone
             InfluenceScale influence = InfluenceScale.NATIONAL;
             Dictionary<FlowKind, int> needs = new();
             needs.Add(FlowKind.WATER, 3);
-            needs.Add(FlowKind.ELECRICITY, 7);
+            needs.Add(FlowKind.ELECTRICITY, 7);
             needs.Add(FlowKind.RAW_MATERIAL, 4);
             Dictionary<FlowKind, int> productions = new();
             productions.Add(FlowKind.MANUFACTURED_MERCHANDISE, 5);

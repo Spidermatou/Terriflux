@@ -2,8 +2,10 @@ namespace Terriflux.Programs.Model.Placeables
 {
     public enum FlowKind
     {
+        // error kind
+        NOTHING,
         // ex: for a car factory
-        ELECRICITY,
+        ELECTRICITY,
         RAW_MATERIAL,
         // ex: for fields
         WATER,
