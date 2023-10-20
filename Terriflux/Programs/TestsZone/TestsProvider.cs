@@ -37,7 +37,7 @@ namespace Terriflux.Programs.TestsZone
         }
 
         // Models
-        public void TCellModel()
+        public static void TCellModel()
         {
             CellModel cm = new("Default", CellKind.WASTELAND);
             GD.Print($"Null? {cm == null}");
@@ -46,7 +46,7 @@ namespace Terriflux.Programs.TestsZone
             GD.Print(cm.GetKind());
         }
 
-        public void TGrassModel()
+        public static void TGrassModel()
         {
             GrassModel grass = new();
             GD.Print($"Null? {grass == null}");
@@ -56,18 +56,22 @@ namespace Terriflux.Programs.TestsZone
         }
 
 
-        public void TBuildingModel()
+        public static void TBuildingModel()
         {
             // attributes
             string name = "Fork Factory";
             double[] impacts = new double[3] { 12.4, 23.0, 11.8 };
             InfluenceScale influence = InfluenceScale.NATIONAL;
-            Dictionary<FlowKind, int> needs = new();
-            needs.Add(FlowKind.WATER, 3);
-            needs.Add(FlowKind.ELECTRICITY, 7);
-            needs.Add(FlowKind.RAW_MATERIAL, 4);
-            Dictionary<FlowKind, int> productions = new();
-            productions.Add(FlowKind.MANUFACTURED_MERCHANDISE, 5);
+            Dictionary<FlowKind, int> needs = new()
+            {
+                { FlowKind.WATER, 3 },
+                { FlowKind.ELECTRICITY, 7 },
+                { FlowKind.RAW_MATERIAL, 4 }
+            };
+            Dictionary<FlowKind, int> productions = new()
+            {
+                { FlowKind.MANUFACTURED_MERCHANDISE, 5 }
+            };
 
             // create the building himself
             BuildingModel bm = new(name, impacts, influence, needs, productions);
@@ -91,7 +95,7 @@ namespace Terriflux.Programs.TestsZone
             }
         }
 
-        public void TGridModel()
+        public static void TGridModel()
         {
             int wantedSize = 10;
             GridModel grid = new(wantedSize);
@@ -116,12 +120,16 @@ namespace Terriflux.Programs.TestsZone
             string name = "Fork Factory";
             double[] impacts = new double[3] { 12.4, 23.0, 11.8 };
             InfluenceScale influence = InfluenceScale.NATIONAL;
-            Dictionary<FlowKind, int> needs = new();
-            needs.Add(FlowKind.WATER, 3);
-            needs.Add(FlowKind.ELECTRICITY, 7);
-            needs.Add(FlowKind.RAW_MATERIAL, 4);
-            Dictionary<FlowKind, int> productions = new();
-            productions.Add(FlowKind.MANUFACTURED_MERCHANDISE, 5);
+            Dictionary<FlowKind, int> needs = new()
+            {
+                { FlowKind.WATER, 3 },
+                { FlowKind.ELECTRICITY, 7 },
+                { FlowKind.RAW_MATERIAL, 4 }
+            };
+            Dictionary<FlowKind, int> productions = new()
+            {
+                { FlowKind.MANUFACTURED_MERCHANDISE, 5 }
+            };
             Vector2I coordinatesBuilding1 = new(2, 4);
             Vector2I coordinatesBuilding2 = new(6, 3);
 

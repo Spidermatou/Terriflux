@@ -17,16 +17,16 @@ namespace Terriflux.Programs.TestsZone
 
             // Models
             GD.Print("--Test cell model--");
-            tp.TCellModel();
+            TestsProvider.TCellModel();
 
             GD.Print("--Test grass model--");
-            tp.TGrassModel();
+            TestsProvider.TGrassModel();
 
             GD.Print("--Test building model--");
-            tp.TBuildingModel();
+            TestsProvider.TBuildingModel();
 
             GD.Print("--Test grid model--");
-            tp.TGridModel();
+            TestsProvider.TGridModel();
 
             // Views
             GD.Print("--Test cell view--");
