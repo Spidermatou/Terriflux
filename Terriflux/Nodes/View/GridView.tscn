@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://1a63s8mn0og1"]
+
+[ext_resource type="Script" path="res://Programs/View/GridView.cs" id="1_6kxev"]
+
+[node name="TerritoryView" type="Node2D"]
+script = ExtResource("1_6kxev")
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(575, 326)

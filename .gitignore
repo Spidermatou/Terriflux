@@ -1,0 +1,17 @@
+# auto generate files
+bin/
+export/
+obj/
+.import/
+.import.cfg
+Library/
+
+# specific to my environment
+.vs/
+.vscode/
+.idea/
+
+# cache and temporary files
+*.backup
+*.swo
+*.swp
