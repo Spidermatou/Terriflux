@@ -4,15 +4,34 @@ namespace Terriflux.Programs.TestsZone
 {
     public partial class Lab : Node2D
     {
-        private Marker2D _bigObjectSartPoint;
+        private Marker2D _spawnMark;
+        private Marker2D _spawnMark2;
 
         private Lab() { }
 
         public override void _Ready()
         {
             // child
-            _bigObjectSartPoint = GetNode<Marker2D>("BigObjectSartPoint");
+            _spawnMark = GetNode<Marker2D>("SpawnMark");
+            _spawnMark2 = GetNode<Marker2D>("SpawnMark2");
 
+            HUD();
+        }
+
+        // latest tests
+        private void HUD()
+        {
+            TestsProvider tp = new(this);
+            GD.Print("--Test placement list view --");
+            tp.TPlacementListView(_spawnMark.Position);
+
+            GD.Print("--Test clickable grid --");
+            tp.TClickableGridView(_spawnMark.Position, _spawnMark2.Position, true);
+        }
+
+        // old tests
+        private void TerritoryManagement()
+        {
             TestsProvider tp = new(this);
 
             // Models
@@ -46,11 +65,11 @@ namespace Terriflux.Programs.TestsZone
             tp.TBuildingFactory_WithUnprovidedTexture();
 
             GD.Print("--Test grid factory - version: grass only--");
-            tp.TGridFactory_GrassOnly(_bigObjectSartPoint.Position);
+            tp.TGridFactory_GrassOnly(_spawnMark.Position);
 
             GD.Print("--Test grid factory - version: buildings classic--");
-            tp.TGridFactory_WithBuildings(_bigObjectSartPoint.Position, true);
-
+            tp.TGridFactory_WithBuildings(_spawnMark.Position);
         }
+
     }
 }

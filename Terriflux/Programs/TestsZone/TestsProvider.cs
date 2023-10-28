@@ -1,6 +1,7 @@
 ﻿using Godot;
 using System.Collections.Generic;
 using System.Text;
+using Terriflux.Programs.Controller;
 using Terriflux.Programs.Data;
 using Terriflux.Programs.Exceptions;
 using Terriflux.Programs.Factories;
@@ -302,6 +303,51 @@ namespace Terriflux.Programs.TestsZone
             if (print == false)
             {
                 view.Hide();
+            }
+        }
+
+        public void TPlacementListView(Vector2 spawnPosition, bool print = false)
+        {
+            // design it
+            PlacementList placementList = PlacementList.Design();
+            placementList.Position = spawnPosition;
+            this.scene.AddChild(placementList);
+
+            // verbose
+            GD.Print(placementList.Verbose());
+            PrintChildrenCount();
+
+            // hide?
+            if (!print)
+            {
+                placementList.Hide();
+            }
+        }
+
+        public void TClickableGridView(Vector2 gridSpawnPosition, Vector2 placementListSpawnPosition, bool print = false)
+        {
+            // design it
+            PlacementList placementList = PlacementList.Design();
+            placementList.Position = placementListSpawnPosition;
+            this.scene.AddChild(placementList);
+
+            // assign grid to controller
+            GridModel gridModel = GridFactory.CreateWasteland(5);
+            GridController.SetGridControl(gridModel);
+            GridView gridView = GridFactory.CreateView(gridModel);
+            gridView.Position = gridSpawnPosition;
+            gridView.Scale = new Vector2((float)0.5, (float)0.5);
+            gridModel.AddObserver(gridView);
+            this.scene.AddChild(gridView);
+
+            // verbose
+            GD.Print(placementList.Verbose());
+            PrintChildrenCount();
+
+            // hide?
+            if (!print)
+            {
+                placementList.Hide();
             }
         }
     }
