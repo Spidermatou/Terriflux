@@ -19,7 +19,6 @@ namespace Terriflux.Programs.Model.Grid
         private readonly CellModel[,] cells;
         private readonly int size;
         private readonly Dictionary<Vector2I, IPlaceable> placementTable = new();    // refers to which Placeable is stored where in the grid
-
         private readonly List<IGridObserver> observers = new();
 
         // CONSTRUCT
@@ -153,7 +152,7 @@ namespace Terriflux.Programs.Model.Grid
         /// <summary>
         /// Manually request a view update
         /// </summary>
-        public void NotifyGridChanged()
+        private void NotifyGridChanged()
         {
             foreach (IGridObserver observer in observers)
             {

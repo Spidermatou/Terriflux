@@ -19,7 +19,7 @@ namespace Terriflux.Programs.GameContext
 
         public static GridView Design()
         {
-            return (GridView)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "GridView" + OurPaths.GDEXT)
+            return (GridView)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "GridView" + OurPaths.NODEXT)
                 .Instantiate();
         }
 

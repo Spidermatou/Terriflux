@@ -9,6 +9,7 @@ script = ExtResource("1_f65mx")
 [node name="Skin" type="Sprite2D" parent="."]
 
 [node name="FocusDetector" type="Control" parent="."]
+custom_minimum_size = Vector2(128, 128)
 layout_mode = 3
 anchors_preset = 0
 offset_left = -64.0
@@ -23,5 +24,11 @@ offset_top = -75.0
 offset_right = 111.0
 offset_bottom = -49.0
 
+[node name="SelectDetector" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 128)
+offset_right = 8.0
+offset_bottom = 8.0
+
 [connection signal="mouse_entered" from="FocusDetector" to="." method="OnMouseOver"]
 [connection signal="mouse_exited" from="FocusDetector" to="." method="OnMouseExit"]
+[connection signal="pressed" from="SelectDetector" to="." method="OnSelectDetectorPressed"]

@@ -1,0 +1,9 @@
+res://Nodes/View/Lab.tscn
+res://Nodes/View/MainScene.tscn
+res://Programs/TestsZone/Lab.cs
+res://Programs/View/BuildingView.cs
+res://Programs/View/CellView.cs
+res://Programs/View/GrassView.cs
+res://Programs/View/GridView.cs
+res://Programs/View/MainScene.cs
+res://Programs/View/PlacementList.cs

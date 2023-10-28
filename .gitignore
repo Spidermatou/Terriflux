@@ -5,6 +5,7 @@ obj/
 .import/
 .import.cfg
 Library/
+shader_cache/
 
 # specific to my environment
 .vs/
