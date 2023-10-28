@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dadb827vvgopg"]
+
+[ext_resource type="Script" path="res://Nodes/View/Help.cs" id="1_gsu1a"]
+
+[node name="HelpButton" type="TextureButton"]
+custom_minimum_size = Vector2(50, 50)
+offset_right = 40.0
+offset_bottom = 40.0
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("1_gsu1a")
+
+[connection signal="pressed" from="." to="." method="OnHelpButtonPressed"]
