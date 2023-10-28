@@ -37,7 +37,7 @@ namespace Terriflux.Programs.View
                 throw new ArgumentNullException(nameof(texture));
             }
 
-            BuildingView view = (BuildingView)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "BuildingView" + OurPaths.GDEXT)
+            BuildingView view = (BuildingView)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "BuildingView" + OurPaths.NODEXT)
                     .Instantiate();
 
             view.name = model.GetName();

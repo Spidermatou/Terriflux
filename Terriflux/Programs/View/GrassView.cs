@@ -20,7 +20,7 @@ namespace Terriflux.Programs.View
         /// <returns></returns>
         public static new GrassView Design()
         {
-            return (GrassView)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "GrassView" + OurPaths.GDEXT)
+            return (GrassView)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "GrassView" + OurPaths.NODEXT)
                 .Instantiate();
         }
 

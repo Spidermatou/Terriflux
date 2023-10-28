@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Text;
+using Terriflux.Programs.Controller;
 using Terriflux.Programs.GameContext;
 
 namespace Terriflux.Programs.View
@@ -13,6 +14,7 @@ namespace Terriflux.Programs.View
         // children
         private Label _nicknameLabel;
         public Sprite2D _skin;
+        private Button _selectDetector;
 
         // Creation
         /// <summary>
@@ -26,8 +28,14 @@ namespace Terriflux.Programs.View
             base._Ready();
             _nicknameLabel = GetNode<Label>("NicknameLabel");
             _skin = GetNode<Sprite2D>("Skin");
+            _selectDetector = GetNode<Button>("SelectDetector");
 
-            // Hide useless
+            // adapt button position to cells
+            Vector2 offset = new((float)CellView.GetGlobalSize() / 2,  // calculation of mid-cell location
+                (float)CellView.GetGlobalSize() / 2);
+            _selectDetector.Position -= offset;     // shift the current position of the button center to that of the cell
+
+            // hide useless
             _nicknameLabel.Hide();
 
             // default
@@ -42,7 +50,7 @@ namespace Terriflux.Programs.View
         /// <returns></returns>
         public static CellView Design()
         {
-            return (CellView)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "CellView" + OurPaths.GDEXT)
+            return (CellView)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "CellView" + OurPaths.NODEXT)
                 .Instantiate();
         }
 
@@ -111,6 +119,14 @@ namespace Terriflux.Programs.View
         private void OnMouseExit()
         {
             _nicknameLabel.Hide();
+        }
+
+        private void OnSelectDetectorPressed()
+        {
+            GridController.SetSelectedCoordinates(this.Position);
+
+            // if all ok: change the cell!
+            GridController.StartPlacement();
         }
     }
 }
