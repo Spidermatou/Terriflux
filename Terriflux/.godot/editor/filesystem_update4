@@ -8,3 +8,6 @@ res://Programs/View/GrassView.cs
 res://Programs/View/GridView.cs
 res://Programs/View/MainScene.cs
 res://Programs/View/PlacementList.cs
+res://Nodes/View/RoundCounter.tscn
+res://Nodes/View/RoundCounter.cs
+res://Programs/View/RoundCounter.cs
