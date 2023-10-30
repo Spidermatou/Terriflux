@@ -5,9 +5,7 @@ namespace Terriflux.Programs.View
 {
 	public partial class RoundCounter : Node2D
 	{
-		private int roundCount = 1;
-
-		private Label _label;
+        private Label _label;
 
 		public override void _Ready()
 		{
@@ -16,9 +14,9 @@ namespace Terriflux.Programs.View
 
 		}
 
-		public override void _Process(double delta)
-		{
-			_label.Text = this.roundCount.ToString();
-		}
+		public void Update(int roundNumber)
+        {
+            _label.Text = roundNumber.ToString();
+        }
 	}
 }
