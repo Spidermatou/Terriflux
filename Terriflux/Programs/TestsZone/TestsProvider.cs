@@ -1,6 +1,8 @@
 ﻿using Godot;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Terriflux.Programs.Controller;
 using Terriflux.Programs.Exceptions;
 using Terriflux.Programs.Factories;
@@ -8,6 +10,7 @@ using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Model.Cell;
 using Terriflux.Programs.Model.Grid;
 using Terriflux.Programs.Model.Placeables;
+using Terriflux.Programs.Model.Round;
 using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.TestsZone
@@ -347,6 +350,49 @@ namespace Terriflux.Programs.TestsZone
             if (!print)
             {
                 placementList.Hide();
+            }
+        }
+
+        public void TRoundView(bool print = false)
+        {
+            RoundCounter view = RoundCounter.Design();
+            this.scene.AddChild(view);
+            view.Show();
+
+            RoundModel model = new();
+            model.AddObserver(view);
+
+            // hide?
+            if (!print)
+            {
+                view.Hide();
+            }
+            // more test
+            else
+            {
+                GD.Print(">> Infos");
+                GD.Print(model.Verbose());
+                GD.Print(">> Now, we build something");
+                model.PlusOneBuilded();
+                GD.Print(model.Verbose());
+                GD.Print(">> Next turn!");
+                model.NextTurn();
+                GD.Print(model.Verbose());
+                GD.Print(">> Now, we try to build too much");
+                try
+                {
+                    for (int i = 0; i < model.GetMaxPerTurn() + 1; i++)
+                    {
+                        model.PlusOneBuilded();
+                    }
+
+                    // nothing catched?
+                    GD.Print("Uh oh... no conflict detected!");
+                }
+                catch
+                {
+                    GD.Print("Exception catched successfully!");
+                }
             }
         }
     }

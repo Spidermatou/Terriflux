@@ -15,18 +15,14 @@ namespace Terriflux.Programs.TestsZone
             _spawnMark = GetNode<Marker2D>("SpawnMark");
             _spawnMark2 = GetNode<Marker2D>("SpawnMark2");
 
-            HUD();
+            this.Rounds();
         }
 
         // latest tests
-        private void HUD()
+        private void Rounds()
         {
             TestsProvider tp = new(this);
-            GD.Print("--Test placement list view --");
-            tp.TPlacementListView(_spawnMark.Position);
-
-            GD.Print("--Test clickable grid --");
-            tp.TClickableGridView(_spawnMark.Position, _spawnMark2.Position, true);
+            tp.TRoundView(true);
         }
 
         // old tests
@@ -71,5 +67,14 @@ namespace Terriflux.Programs.TestsZone
             tp.TGridFactory_WithBuildings(_spawnMark.Position);
         }
 
+        private void HUD()
+        {
+            TestsProvider tp = new(this);
+            GD.Print("--Test placement list view --");
+            tp.TPlacementListView(_spawnMark.Position);
+
+            GD.Print("--Test clickable grid --");
+            tp.TClickableGridView(_spawnMark.Position, _spawnMark2.Position, true);
+        }
     }
 }
