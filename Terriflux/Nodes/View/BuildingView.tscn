@@ -5,3 +5,5 @@
 
 [node name="BuildingView" instance=ExtResource("1_fg11t")]
 script = ExtResource("1_1aynv")
+
+[node name="GrassFill" type="Sprite2D" parent="." index="0"]

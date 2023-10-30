@@ -12,6 +12,7 @@ namespace Terriflux.Programs.View
     {
         private string name;
         private Texture2D texture;
+        private Sprite2D _grassFill;
 
         /// <summary>
         /// Create a view for any building.
@@ -49,6 +50,12 @@ namespace Terriflux.Programs.View
         {
             base._Ready();
 
+            // get nodes
+            _grassFill = GetNode<Sprite2D>("GrassFill");
+            _grassFill.Texture = GD.Load<Texture2D>(GrassView.TEXTURE_PATH);
+            _grassFill.Scale = new Vector2((float)CellView.GetGlobalSize(), (float)CellView.GetGlobalSize()) / _grassFill.Texture.GetSize();
+
+            // update
             ChangeName(name);
             ChangeSkin(texture);
         }
