@@ -16,14 +16,9 @@ namespace Terriflux.Programs.Facades
             this.root = root;
         }
 
-        public void CreateTerritoryManagerHUD(Vector2 gridPosition, Vector2 placementListPosition, int gridSize,
-            out PlacementList placementList, out GridModel gridModel, out GridView gridView)
+        public void CreateAndConfigGrid(Vector2 gridPosition, int gridSize,
+            out GridModel gridModel, out GridView gridView)
         {
-            // placement list
-            placementList = PlacementList.Design();   // create it
-            placementList.Position = placementListPosition;     // place it
-            this.root.AddChild(placementList);      // add to scene
-
             // grid
             gridModel = GridFactory.CreateWasteland(gridSize);    // create model
             gridView = GridFactory.CreateView(gridModel);      // create view

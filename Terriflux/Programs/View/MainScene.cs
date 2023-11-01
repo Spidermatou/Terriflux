@@ -8,11 +8,8 @@ namespace Terriflux.Programs.View
     public partial class MainScene : Node2D
     {
         public int gameGridSize = 10;
-        private GridModel gridModel;
 
         private Marker2D _markGrid;
-        private Marker2D _markPlacementList;
-        private PlacementList _placementList;
         private GridView _gridView;
 
         private MainScene() : base() { }
@@ -23,11 +20,12 @@ namespace Terriflux.Programs.View
 
             // child
             _markGrid = GetNode<Marker2D>("GridMark");
-            _markPlacementList = GetNode<Marker2D>("PlacementListMark");
+
+            GridModel gridModel; 
 
             TerritoryManagementFacade territoryManagement = new(this);
-            territoryManagement.CreateTerritoryManagerHUD(_markGrid.Position, _markPlacementList.Position, gameGridSize,
-                out this._placementList, out this.gridModel, out this._gridView);
+            territoryManagement.CreateAndConfigGrid(_markGrid.Position, gameGridSize,
+                out gridModel, out this._gridView);
         }
     }
 }

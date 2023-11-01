@@ -65,23 +65,26 @@ namespace Terriflux.Programs.Controller
             // grid assigned?
             if (controlGrid != null)
             {
-                // maximum of builds reached for this turn?
-                if (roundManager.GetThisTurn() + 1 > roundManager.GetMaxPerTurn())
-                {
-                    PopUp.Say("Maximum construction reached for this round!");
-                }
                 // does the player have chosen the location to modify AND the new cell he wants?
-                else if (wantToPlace != null && selectedCoordinates != NULL_SELECTED_COORDINATES)
+                if (wantToPlace != null && selectedCoordinates != NULL_SELECTED_COORDINATES)
                 {
-                    // place the wanted build at wanted coordinates
-                    controlGrid.PlaceAt(wantToPlace, selectedCoordinates.X, selectedCoordinates.Y, true);
+                    // maximum of builds reached for this turn?
+                    if (roundManager.GetThisTurn() + 1 > roundManager.GetMaxPerTurn())
+                    {
+                        PopUp.Say("Maximum construction reached for this round!");
+                    }
+                    else
+                    {
+                        // place the wanted build at wanted coordinates
+                        controlGrid.PlaceAt(wantToPlace, selectedCoordinates.X, selectedCoordinates.Y, true);
 
-                    // remove one possibility of building 
-                    roundManager.PlusOneBuilded();
+                        // remove one possibility of building 
+                        roundManager.PlusOneBuilded();
 
-                    // then, reset for next
-                    wantToPlace = null;
-                    selectedCoordinates = NULL_SELECTED_COORDINATES;
+                        // then, reset for next
+                        wantToPlace = null;
+                        selectedCoordinates = NULL_SELECTED_COORDINATES;
+                    }
                 }
             }
         }
