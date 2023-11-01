@@ -73,7 +73,11 @@ namespace Terriflux.Programs.Controller
                 // does the player have chosen the location to modify AND the new cell he wants?
                 else if (wantToPlace != null && selectedCoordinates != NULL_SELECTED_COORDINATES)
                 {
+                    // place the wanted build at wanted coordinates
                     controlGrid.PlaceAt(wantToPlace, selectedCoordinates.X, selectedCoordinates.Y, true);
+
+                    // remove one possibility of building 
+                    roundManager.PlusOneBuilded();
 
                     // then, reset for next
                     wantToPlace = null;

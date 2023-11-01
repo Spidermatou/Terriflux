@@ -355,7 +355,7 @@ namespace Terriflux.Programs.TestsZone
 
         public void TRoundView(bool print = false)
         {
-            RoundCounter view = RoundCounter.Design();
+            RoundView view = RoundView.Design();
             this.scene.AddChild(view);
             view.Show();
 

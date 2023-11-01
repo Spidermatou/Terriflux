@@ -1,21 +1,22 @@
 using Godot;
 using System;
 using System.ComponentModel;
+using Terriflux.Programs.Controller;
 using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.View
 {
-	public partial class RoundCounter : Node2D, IRoundObserver
+	public partial class RoundView : Node2D, IRoundObserver
 	{
 		private Label _roundNumberLabel;
 
 		// CONSTRUCT	
-		private RoundCounter() { }
+		private RoundView() { }
 
-		public static RoundCounter Design()
+		public static RoundView Design()
 		{
-			return (RoundCounter)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "RoundCounter" + OurPaths.NODEXT)
+			return (RoundView)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "RoundCounter" + OurPaths.NODEXT)
 				.Instantiate();
 		}
 
@@ -30,5 +31,11 @@ namespace Terriflux.Programs.View
 		{
             _roundNumberLabel.Text = roundNumber.ToString();
 		}
-	}
+
+		private void OnNextTurnPressed()
+		{
+			RoundController.NextTurn();
+		}
+
+    }
 }
