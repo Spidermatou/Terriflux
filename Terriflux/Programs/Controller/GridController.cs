@@ -1,7 +1,9 @@
 ﻿using Godot;
+using System.Runtime.CompilerServices;
 using Terriflux.Programs.Model.Cell;
 using Terriflux.Programs.Model.Grid;
 using Terriflux.Programs.Model.Placeables;
+using Terriflux.Programs.Model.Round;
 using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Controller
@@ -9,7 +11,12 @@ namespace Terriflux.Programs.Controller
     public static class GridController
     {
         private static GridModel controlGrid;  // controlled grid
+        private static readonly RoundModel roundManager = new();     // rounds
 
+
+        /* ***************************
+        * Building placement
+        ************ */
         // coordinates of the cell to be modified by player action
         private readonly static Vector2I NULL_SELECTED_COORDINATES = new(-1, -1);    // default, invalid, says it's unselected (Vector2I cannot be null)
         private static Vector2I selectedCoordinates = NULL_SELECTED_COORDINATES;
@@ -58,8 +65,13 @@ namespace Terriflux.Programs.Controller
             // grid assigned?
             if (controlGrid != null)
             {
+                // maximum of builds reached for this turn?
+                if (roundManager.GetThisTurn() + 1 > roundManager.GetMaxPerTurn())
+                {
+                    PopUp.Say("Maximum construction reached for this round!");
+                }
                 // does the player have chosen the location to modify AND the new cell he wants?
-                if (wantToPlace != null && selectedCoordinates != NULL_SELECTED_COORDINATES)
+                else if (wantToPlace != null && selectedCoordinates != NULL_SELECTED_COORDINATES)
                 {
                     controlGrid.PlaceAt(wantToPlace, selectedCoordinates.X, selectedCoordinates.Y, true);
 
