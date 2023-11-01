@@ -15,15 +15,19 @@ namespace Terriflux.Programs.Controller
         private static RoundModel model;
 
 
-        public static void SetRoundView(RoundView newView)
+        public static void SetView(RoundView newView)
         {
             view = newView;
 
             // add observer
-            model?.AddObserver(view);
+            if (model != null)
+            {
+                model.AddObserver(view);
+                view.Update(model.GetRoundNumber());
+            }
         }
 
-        public static void SetRoundModel(RoundModel newModel)
+        public static void SetModel(RoundModel newModel)
         {
             model = newModel;
 
@@ -31,6 +35,7 @@ namespace Terriflux.Programs.Controller
             if (view != null) 
             {
                 model.AddObserver(view);
+                view.Update(model.GetRoundNumber());
             }
         }
 

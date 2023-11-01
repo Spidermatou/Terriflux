@@ -28,6 +28,9 @@ namespace Terriflux.Programs.Model.Round
             Notify();
         }
 
+        /// <returns> The actual round number. </returns>
+        public int GetRoundNumber() { return roundNumber; }
+
         /// <returns> Maximum number of buildings a player can build in one turn. </returns>
         public int GetMaxPerTurn() { return maxPerTurn; }
 

@@ -395,5 +395,29 @@ namespace Terriflux.Programs.TestsZone
                 }
             }
         }
+
+        public void TRoundController(bool print = false)
+        {
+            RoundView view = RoundView.Design();
+            this.scene.AddChild(view);
+            view.Show();
+
+            RoundModel model = new();
+
+            RoundController.SetModel(model);
+            RoundController.SetView(view);
+
+            // hide?
+            if (!print)
+            {
+                view.Hide();
+            }
+            // more test
+            else
+            {
+                GD.Print(">> Infos");
+                GD.Print(model.Verbose());
+            }
+        }
     }
 }
