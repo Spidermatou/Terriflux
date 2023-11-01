@@ -73,6 +73,12 @@ namespace Terriflux.Programs.Controller
                     {
                         PopUp.Say("Maximum construction reached for this round!");
                     }
+                    // is space free?
+                    else if (controlGrid.GetAllPlacements().ContainsKey(selectedCoordinates))
+                    {
+                        PopUp.Say("The selected slot is not empty!");
+                    }
+                    // all ok?
                     else
                     {
                         // place the wanted build at wanted coordinates
@@ -80,11 +86,11 @@ namespace Terriflux.Programs.Controller
 
                         // remove one possibility of building 
                         roundManager.PlusOneBuilded();
-
-                        // then, reset for next
-                        wantToPlace = null;
-                        selectedCoordinates = NULL_SELECTED_COORDINATES;
                     }
+
+                    // reset for next
+                    wantToPlace = null;
+                    selectedCoordinates = NULL_SELECTED_COORDINATES;
                 }
             }
         }
