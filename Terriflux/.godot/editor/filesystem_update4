@@ -1,7 +1,6 @@
 res://Nodes/View/MainScene.tscn
 res://Nodes/View/RoundCounter.tscn
 res://Nodes/View/Lab.tscn
-res://Nodes/View/RoundCounter.cs
 res://Programs/TestsZone/Lab.cs
 res://Programs/View/BuildingView.cs
 res://Programs/View/CellView.cs
@@ -9,5 +8,5 @@ res://Programs/View/GrassView.cs
 res://Programs/View/GridView.cs
 res://Programs/View/MainScene.cs
 res://Programs/View/PlacementList.cs
-res://Programs/View/RoundCounter.cs
 res://Programs/View/RoundView.cs
+res://Programs/View/RoundCounter.cs

@@ -4,18 +4,18 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Model.Round;
 using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Controller
 {
-    public class RoundController
+    public class RoundController 
     {
-        private static RoundView view;
+        private static RoundCounter view;
         private static RoundModel model;
 
-
-        public static void SetView(RoundView newView)
+        public static void SetView(RoundCounter newView)
         {
             view = newView;
 
@@ -42,6 +42,16 @@ namespace Terriflux.Programs.Controller
         public static void NextTurn()
         {
             if (view != null && model != null) model.NextTurn();
+        }
+
+        public static string Verbose()
+        {
+            StringBuilder sb = new();
+
+            sb.AppendLine($"Model={model}");
+            sb.AppendLine($"View={view}");
+
+            return sb.ToString();
         }
     }
 }

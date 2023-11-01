@@ -3,6 +3,7 @@ using Terriflux.Programs.Controller;
 using Terriflux.Programs.Factories;
 using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Model.Grid;
+using Terriflux.Programs.Model.Round;
 using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Facades
@@ -29,6 +30,12 @@ namespace Terriflux.Programs.Facades
 
             // config the static grid controller
             GridController.SetGridControl(gridModel);   // have to manage this new grid model
+        }
+
+        public void ConfigRounds(RoundModel roundModel, RoundCounter roundView)
+        {
+            RoundController.SetModel(roundModel);
+            RoundController.SetView(roundView);
         }
     }
 }

@@ -7,16 +7,16 @@ using Terriflux.Programs.Observers;
 
 namespace Terriflux.Programs.View
 {
-	public partial class RoundView : Node2D, IRoundObserver
+	public partial class RoundCounter : Node2D, IRoundObserver
 	{
 		private Label _roundNumberLabel;
 
 		// CONSTRUCT	
-		private RoundView() { }
+		private RoundCounter() { }
 
-		public static RoundView Design()
+		public static RoundCounter Design()
 		{
-			return (RoundView)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "RoundCounter" + OurPaths.NODEXT)
+			return (RoundCounter)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "RoundCounter" + OurPaths.NODEXT)
 				.Instantiate();
 		}
 
@@ -32,7 +32,7 @@ namespace Terriflux.Programs.View
             _roundNumberLabel.Text = roundNumber.ToString();
 		}
 
-		private void OnNextTurnPressed()
+		public void OnNextTurnPressed()
 		{
 			RoundController.NextTurn();
 		}

@@ -1,14 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://bl7qt3t548vji"]
 
-[ext_resource type="Script" path="res://Programs/View/RoundView.cs" id="1_m0c6q"]
+[ext_resource type="Script" path="res://Programs/View/RoundCounter.cs" id="1_o0ivc"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yot02"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0a8sp"]
 bg_color = Color(0.458824, 0.294118, 0.552941, 1)
 
-[node name="RoundView" type="Node2D"]
-script = ExtResource("1_m0c6q")
+[node name="RoundCounter" type="Node2D"]
+script = ExtResource("1_o0ivc")
 
 [node name="Background" type="Polygon2D" parent="."]
 position = Vector2(64, 56)
