@@ -5,7 +5,7 @@ namespace Terriflux.Programs.View
 {
     public partial class GrassView : CellView
     {
-        private static readonly string grassTexturePath = OurPaths.TEXTURES + "grass.png";
+        public static readonly string TEXTURE_PATH = OurPaths.TEXTURES + "new_grass.png";
 
         /// <summary>
         /// Create a view for a grass cell.
@@ -29,7 +29,7 @@ namespace Terriflux.Programs.View
             base._Ready();
 
             // Update texture and showed name
-            ChangeSkin(GD.Load<Texture2D>(grassTexturePath));
+            ChangeSkin(GD.Load<Texture2D>(TEXTURE_PATH));
             ChangeName("Grass");
         }
     }

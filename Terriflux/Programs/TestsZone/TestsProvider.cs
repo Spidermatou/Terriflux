@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Terriflux.Programs.Controller;
-using Terriflux.Programs.Data;
 using Terriflux.Programs.Exceptions;
 using Terriflux.Programs.Factories;
 using Terriflux.Programs.GameContext;
@@ -66,7 +65,7 @@ namespace Terriflux.Programs.TestsZone
             Dictionary<FlowKind, int> needs = new()
             {
                 { FlowKind.WATER, 3 },
-                { FlowKind.ELECTRICITY, 7 },
+                { FlowKind.ENERGY, 7 },
                 { FlowKind.RAW_MATERIAL, 4 }
             };
             Dictionary<FlowKind, int> productions = new()
@@ -124,7 +123,7 @@ namespace Terriflux.Programs.TestsZone
             Dictionary<FlowKind, int> needs = new()
             {
                 { FlowKind.WATER, 3 },
-                { FlowKind.ELECTRICITY, 7 },
+                { FlowKind.ENERGY, 7 },
                 { FlowKind.RAW_MATERIAL, 4 }
             };
             Dictionary<FlowKind, int> productions = new()
@@ -188,7 +187,7 @@ namespace Terriflux.Programs.TestsZone
                new Dictionary<FlowKind, int>());
 
             // create the view
-            Texture2D texture = DataManager.LoadTexture(TPATH);
+            Texture2D texture = GD.Load<Texture2D>(TPATH);
             BuildingView view = BuildingView.Design(tmodel, texture);
 
             // add to scene
