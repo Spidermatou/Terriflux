@@ -21,7 +21,7 @@ namespace Terriflux.Programs.Model.Placeables
 
         }; // the larger the scale, the larger the needs and production will be 
 
-        private readonly double[] impacts;
+        private readonly double[] impacts;      // economy, ecology, social
         private readonly InfluenceScale influence;
 
         private readonly Dictionary<FlowKind, int> needs;

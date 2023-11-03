@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Terriflux.Programs.Controller;
-using Terriflux.Programs.Data;
 using Terriflux.Programs.Factories;
 using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Model.Placeables;
@@ -26,8 +25,19 @@ namespace Terriflux.Programs.View
         // Specific to node
         public override void _Ready()
         {
-            StreamReader reader = DataManager.ReadBuildingDatabase();
+            StreamReader reader;
             string line;
+
+            // open data file
+            string filePath = OurPaths.DATA + "Buildings" + OurPaths.TEXTEXT;
+            if (File.Exists(filePath))
+            {
+                reader = new StreamReader(filePath);
+            }
+            else
+            {
+                throw new FileNotFoundException($"Unable to find the specified file at '{filePath}'");
+            }
 
             while ((line = reader.ReadLine()) != null)
             {
@@ -48,6 +58,9 @@ namespace Terriflux.Programs.View
                 // save the draft for later use
                 this.buildingsInfos.Add(draftModel);
             }
+
+            // close file
+            reader.Close();
         }
 
         // SIGNALS

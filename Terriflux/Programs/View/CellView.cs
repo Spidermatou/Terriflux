@@ -73,6 +73,7 @@ namespace Terriflux.Programs.View
             else
             {
                 _skin.Texture = skin;
+                _skin.Scale = new Vector2((float)CellView.GetGlobalSize(), (float)CellView.GetGlobalSize()) / _skin.Texture.GetSize();
             }
         }
 

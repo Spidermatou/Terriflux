@@ -1,5 +1,7 @@
-res://Nodes/View/Lab.tscn
 res://Nodes/View/MainScene.tscn
+res://Programs/Data/Buildings.txt
+res://Nodes/View/Lab.tscn
+res://Nodes/View/BuildingView.tscn
 res://Programs/TestsZone/Lab.cs
 res://Programs/View/BuildingView.cs
 res://Programs/View/CellView.cs

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using Terriflux.Programs.Data;
 using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Model.Placeables;
 using Terriflux.Programs.View;
@@ -17,68 +16,77 @@ namespace Terriflux.Programs.Factories
     {
         public static BuildingModel LoadModel(string name, InfluenceScale influence)
         {
-            StreamReader reader = DataManager.ReadBuildingDatabase();
-            name = name.ToLower().Replace(" ", ""); // erase spaces
+            name = name.ToLower().Replace(" ", ""); // efface les espaces
 
-            // read each actualLine to find the correct building
-            string actualLine;
-            string[] splitedLine;
-            string rawData_name;
-            string[] rawData_impacts;
-            string[] rawData_products;
-            string[] rawData_needs;
+            // Définir le chemin du fichier
+            string filePath = OurPaths.DATA + "Buildings" + OurPaths.TEXTEXT;
 
-            double[] extracted_impacts = new double[3];
-            Dictionary<FlowKind, int> extracted_production = new();
-            Dictionary<FlowKind, int> extracted_needs = new();
-
-            while ((actualLine = reader.ReadLine()) != null)
+            try
             {
-                /* Extraction of the informations */
-                // split all line
-                splitedLine = actualLine.Split(";");
-
-                // extract name
-                rawData_name = splitedLine[0].Replace(" ", "").ToLower();
-
-                // is it the one we want? 
-                if (rawData_name.Equals(name))     // yes
+                using (StreamReader reader = new(filePath))
                 {
-                    // extract impacts
-                    rawData_impacts = splitedLine[1].Split(",");
-                    extracted_impacts[0] = double.Parse(rawData_impacts[0], CultureInfo.InvariantCulture);
-                    extracted_impacts[0] = double.Parse(rawData_impacts[1], CultureInfo.InvariantCulture);
-                    extracted_impacts[0] = double.Parse(rawData_impacts[2], CultureInfo.InvariantCulture);
-
-                    // extract needs
-                    rawData_needs = splitedLine[2].Replace(" ", "").Split(",");
-                    for (int i = 0; i < rawData_needs.Length - 1; i += 2)
+                    string actualLine;
+                    while ((actualLine = reader.ReadLine()) != null)
                     {
-                        if (!extracted_needs.ContainsKey(GlobalTools.TranslateToFlowKind(rawData_needs[i])))
+                        /* Extraction des informations */
+                        string[] splitedLine = actualLine.Split(";");
+                        string rawData_name = splitedLine[0].Replace(" ", "").ToLower();
+
+                        if (rawData_name.Equals(name))
                         {
-                            extracted_needs.Add(GlobalTools.TranslateToFlowKind(rawData_needs[i]), int.Parse(rawData_needs[i + 1]));
+                            // Extraire les impacts
+                            string[] rawData_impacts = splitedLine[1].Split(",");
+                            double[] extracted_impacts = new double[3];
+
+                            if (rawData_impacts.Length == 3 &&
+                                double.TryParse(rawData_impacts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out extracted_impacts[0]) &&
+                                double.TryParse(rawData_impacts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out extracted_impacts[1]) &&
+                                double.TryParse(rawData_impacts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out extracted_impacts[2]))
+                            {
+                                // Extraire les besoins
+                                string[] rawData_needs = splitedLine[2].Replace(" ", "").Split(",");
+                                Dictionary<FlowKind, int> extracted_needs = new();
+
+                                for (int i = 0; i < rawData_needs.Length - 1; i += 2)
+                                {
+                                    if (Enum.TryParse(rawData_needs[i], out FlowKind flowKind) &&
+                                        int.TryParse(rawData_needs[i + 1], out int amount))
+                                    {
+                                        extracted_needs[flowKind] = amount;
+                                    }
+                                }
+
+                                // Extraire la production
+                                string[] rawData_products = splitedLine[3].Replace(" ", "").Split(",");
+                                Dictionary<FlowKind, int> extracted_production = new();
+
+                                for (int i = 0; i < rawData_products.Length - 1; i += 2)
+                                {
+                                    if (Enum.TryParse(rawData_products[i], out FlowKind flowKind) &&
+                                        int.TryParse(rawData_products[i + 1], out int amount))
+                                    {
+                                        extracted_production[flowKind] = amount;
+                                    }
+                                }
+
+                                return new BuildingModel(name, extracted_impacts, influence, extracted_needs, extracted_production);
+                            }
+                            else
+                            {
+                                throw new FormatException("Format invalide dans les données d'impact.");
+                            }
                         }
                     }
 
-                    // extract production
-                    rawData_products = splitedLine[3].Replace(" ", "").Split(",");
-                    for (int i = 0; i < rawData_products.Length - 1; i++)
-                    {
-                        if (!extracted_production.ContainsKey(GlobalTools.TranslateToFlowKind(rawData_products[i])))
-                        {
-                            extracted_production.Add(GlobalTools.TranslateToFlowKind(rawData_products[i]), int.Parse(rawData_products[i + 1]));
-                        }
-                    }
-
-                    return new BuildingModel(name, extracted_impacts, influence, extracted_needs, extracted_production);
+                    throw new ArgumentException($"Aucun bâtiment avec le nom '{name}' n'a été trouvé parmi les bâtiments disponibles");
                 }
-                // no? skip to next building
             }
-
-            // correct name never founded
-            throw new ArgumentException($"No building with the name '{name}' has been" +
-                    "found among the available buildings");
+            catch (FileNotFoundException ex)
+            {
+                throw new FileNotFoundException($"Impossible de trouver le fichier spécifié à l'emplacement '{filePath}'", ex);
+            }
         }
+
 
         /// <summary>
         /// Design a Building View with good texture. 
