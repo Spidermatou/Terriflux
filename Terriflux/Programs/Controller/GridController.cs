@@ -11,7 +11,7 @@ namespace Terriflux.Programs.Controller
     public static class GridController
     {
         private static GridModel controlGrid;  // controlled grid
-        private static readonly RoundModel roundManager = new();     // rounds
+        private static RoundModel roundManager;     // rounds
 
 
         /* ***************************
@@ -27,6 +27,11 @@ namespace Terriflux.Programs.Controller
         public static void SetGridControl(GridModel grid)
         {
             controlGrid = grid;
+        }
+
+        public static void SetRoundManager(RoundModel roundModel)
+        {
+            roundManager = roundModel;
         }
 
         /// <summary>
@@ -63,13 +68,14 @@ namespace Terriflux.Programs.Controller
         public static void StartPlacement()
         {
             // grid assigned?
-            if (controlGrid != null)
+            if (controlGrid != null && roundManager != null)
             {
                 // does the player have chosen the location to modify AND the new cell he wants?
                 if (wantToPlace != null && selectedCoordinates != NULL_SELECTED_COORDINATES)
                 {
+                    GD.Print("Act:" + roundManager.GetThisTurn()); // test
                     // maximum of builds reached for this turn?
-                    if (roundManager.GetThisTurn() + 1 > roundManager.GetMaxPerTurn())
+                    if (roundManager.GetThisTurn() >= roundManager.GetMaxPerTurn())
                     {
                         PopUp.Say("Maximum construction reached for this round!");
                     }
@@ -86,6 +92,9 @@ namespace Terriflux.Programs.Controller
 
                         // remove one possibility of building 
                         roundManager.PlusOneBuilded();
+
+                        GD.Print("And now act:" + roundManager.GetThisTurn()); // test
+
                     }
 
                     // reset for next

@@ -8,5 +8,4 @@ res://Programs/View/GrassView.cs
 res://Programs/View/GridView.cs
 res://Programs/View/MainScene.cs
 res://Programs/View/PlacementList.cs
-res://Programs/View/RoundView.cs
 res://Programs/View/RoundCounter.cs

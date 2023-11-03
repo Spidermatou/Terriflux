@@ -16,7 +16,9 @@ namespace Terriflux.Programs.TestsZone
             _spawnMark2 = GetNode<Marker2D>("SpawnMark2");
 
             TestsProvider tp = new(this);
-            tp.TRoundController(true);
+            tp.TRoundModel();
+            
+            //tp.TRoundController(true);
         }
     }
 }

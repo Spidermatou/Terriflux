@@ -353,6 +353,23 @@ namespace Terriflux.Programs.TestsZone
             }
         }
 
+        public void TRoundModel()
+        {
+            RoundModel mod = new();
+            GD.Print(mod.Verbose());
+            GD.Print(">> Build x 3");
+            mod.PlusOneBuilded();
+            mod.PlusOneBuilded();
+            mod.PlusOneBuilded();
+            GD.Print(">> Get infos");
+            GD.Print("This turn:" + mod.GetThisTurn());
+            GD.Print("Max per turn:" + mod.GetMaxPerTurn());
+            GD.Print("Round numb:" + mod.GetRoundNumber());
+            GD.Print(">>Next turn");
+            mod.NextTurn();
+            GD.Print(mod.Verbose());
+        }
+
         public void TRoundView(bool print = false)
         {
             RoundCounter view = RoundCounter.Design();
