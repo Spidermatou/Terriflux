@@ -1,1 +1,0 @@
-NextTurn doesn't reset actual to 0; or at least GetMax() is always lower than GetThisTurn!
