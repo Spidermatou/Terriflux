@@ -1,5 +1,4 @@
 ﻿using Godot;
-using System.Runtime.CompilerServices;
 using Terriflux.Programs.Model.Cell;
 using Terriflux.Programs.Model.Grid;
 using Terriflux.Programs.Model.Placeables;

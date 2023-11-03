@@ -1,4 +1,3 @@
-using Godot;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -38,9 +37,10 @@ namespace Terriflux.Programs.Model.Round
         public int GetThisTurn() { return buildedThisTurn; }
 
         /// <returns> Adds one to the counter of buildings created this round. </returns>
-        public void PlusOneBuilded() {
+        public void PlusOneBuilded()
+        {
             // can build?
-            if (buildedThisTurn+1 <= this.maxPerTurn)
+            if (buildedThisTurn + 1 <= this.maxPerTurn)
             {
                 buildedThisTurn++;
             }
@@ -80,7 +80,7 @@ namespace Terriflux.Programs.Model.Round
 
         public string Verbose()
         {
-            StringBuilder sb = new ();
+            StringBuilder sb = new();
             sb.AppendLine($"Round number: {this.roundNumber}");
             sb.AppendLine($"Max: {this.GetMaxPerTurn()}");
             sb.AppendLine($"Actual: {this.GetThisTurn()}");

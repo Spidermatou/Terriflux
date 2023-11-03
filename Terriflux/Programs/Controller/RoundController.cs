@@ -1,17 +1,10 @@
-﻿using Godot;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Terriflux.Programs.GameContext;
+﻿using System.Text;
 using Terriflux.Programs.Model.Round;
 using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Controller
 {
-    public class RoundController 
+    public class RoundController
     {
         private static RoundCounter view;
         private static RoundModel model;
@@ -33,7 +26,7 @@ namespace Terriflux.Programs.Controller
             model = newModel;
 
             // add observer
-            if (view != null) 
+            if (view != null)
             {
                 model.AddObserver(view);
                 view.Update(model.GetRoundNumber());
