@@ -26,9 +26,6 @@ namespace Terriflux.Programs.Model.Round
 
             // update
             Notify();
-
-            GD.Print("buildedThisTurn RESET!! so:"+this.GetThisTurn()); // test
-
         }
 
         /// <returns> The actual round number. </returns>

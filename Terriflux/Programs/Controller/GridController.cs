@@ -73,7 +73,6 @@ namespace Terriflux.Programs.Controller
                 // does the player have chosen the location to modify AND the new cell he wants?
                 if (wantToPlace != null && selectedCoordinates != NULL_SELECTED_COORDINATES)
                 {
-                    GD.Print("Act:" + roundManager.GetThisTurn()); // test
                     // maximum of builds reached for this turn?
                     if (roundManager.GetThisTurn() >= roundManager.GetMaxPerTurn())
                     {
@@ -92,9 +91,6 @@ namespace Terriflux.Programs.Controller
 
                         // remove one possibility of building 
                         roundManager.PlusOneBuilded();
-
-                        GD.Print("And now act:" + roundManager.GetThisTurn()); // test
-
                     }
 
                     // reset for next
