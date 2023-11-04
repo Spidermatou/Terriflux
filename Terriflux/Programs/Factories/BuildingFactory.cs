@@ -23,63 +23,61 @@ namespace Terriflux.Programs.Factories
 
             try
             {
-                using (StreamReader reader = new(filePath))
+                using StreamReader reader = new(filePath);
+                string actualLine;
+                while ((actualLine = reader.ReadLine()) != null)
                 {
-                    string actualLine;
-                    while ((actualLine = reader.ReadLine()) != null)
+                    /* Extraction des informations */
+                    string[] splitedLine = actualLine.Split(";");
+                    string rawData_name = splitedLine[0].Replace(" ", "").ToLower();
+
+                    if (rawData_name.Equals(name))
                     {
-                        /* Extraction des informations */
-                        string[] splitedLine = actualLine.Split(";");
-                        string rawData_name = splitedLine[0].Replace(" ", "").ToLower();
+                        // Extraire les impacts
+                        string[] rawData_impacts = splitedLine[1].Split(",");
+                        double[] extracted_impacts = new double[3];
 
-                        if (rawData_name.Equals(name))
+                        if (rawData_impacts.Length == 3 &&
+                            double.TryParse(rawData_impacts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out extracted_impacts[0]) &&
+                            double.TryParse(rawData_impacts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out extracted_impacts[1]) &&
+                            double.TryParse(rawData_impacts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out extracted_impacts[2]))
                         {
-                            // Extraire les impacts
-                            string[] rawData_impacts = splitedLine[1].Split(",");
-                            double[] extracted_impacts = new double[3];
+                            // Extraire les besoins
+                            string[] rawData_needs = splitedLine[2].Replace(" ", "").Split(",");
+                            Dictionary<FlowKind, int> extracted_needs = new();
 
-                            if (rawData_impacts.Length == 3 &&
-                                double.TryParse(rawData_impacts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out extracted_impacts[0]) &&
-                                double.TryParse(rawData_impacts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out extracted_impacts[1]) &&
-                                double.TryParse(rawData_impacts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out extracted_impacts[2]))
+                            for (int i = 0; i < rawData_needs.Length - 1; i += 2)
                             {
-                                // Extraire les besoins
-                                string[] rawData_needs = splitedLine[2].Replace(" ", "").Split(",");
-                                Dictionary<FlowKind, int> extracted_needs = new();
-
-                                for (int i = 0; i < rawData_needs.Length - 1; i += 2)
+                                if (Enum.TryParse(rawData_needs[i], out FlowKind flowKind) &&
+                                    int.TryParse(rawData_needs[i + 1], out int amount))
                                 {
-                                    if (Enum.TryParse(rawData_needs[i], out FlowKind flowKind) &&
-                                        int.TryParse(rawData_needs[i + 1], out int amount))
-                                    {
-                                        extracted_needs[flowKind] = amount;
-                                    }
+                                    extracted_needs[flowKind] = amount;
                                 }
-
-                                // Extraire la production
-                                string[] rawData_products = splitedLine[3].Replace(" ", "").Split(",");
-                                Dictionary<FlowKind, int> extracted_production = new();
-
-                                for (int i = 0; i < rawData_products.Length - 1; i += 2)
-                                {
-                                    if (Enum.TryParse(rawData_products[i], out FlowKind flowKind) &&
-                                        int.TryParse(rawData_products[i + 1], out int amount))
-                                    {
-                                        extracted_production[flowKind] = amount;
-                                    }
-                                }
-
-                                return new BuildingModel(name, extracted_impacts, influence, extracted_needs, extracted_production);
                             }
-                            else
+
+                            // Extraire la production
+                            string[] rawData_products = splitedLine[3].Replace(" ", "").Split(",");
+                            Dictionary<FlowKind, int> extracted_production = new();
+
+                            for (int i = 0; i < rawData_products.Length - 1; i += 2)
                             {
-                                throw new FormatException("Format invalide dans les données d'impact.");
+                                if (Enum.TryParse(rawData_products[i], out FlowKind flowKind) &&
+                                    int.TryParse(rawData_products[i + 1], out int amount))
+                                {
+                                    extracted_production[flowKind] = amount;
+                                }
                             }
+
+                            return new BuildingModel(name, extracted_impacts, influence, extracted_needs, extracted_production);
+                        }
+                        else
+                        {
+                            throw new FormatException("Format invalide dans les données d'impact.");
                         }
                     }
-
-                    throw new ArgumentException($"Aucun bâtiment avec le nom '{name}' n'a été trouvé parmi les bâtiments disponibles");
                 }
+
+                throw new ArgumentException($"Aucun bâtiment avec le nom '{name}' n'a été trouvé parmi les bâtiments disponibles");
             }
             catch (FileNotFoundException ex)
             {

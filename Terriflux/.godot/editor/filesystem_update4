@@ -1,6 +1,10 @@
 res://Nodes/View/MainScene.tscn
 res://Nodes/View/RoundCounter.tscn
 res://Nodes/View/Lab.tscn
+res://Programs/Gauges/EcologyGauge.cs
+res://Programs/Gauges/EconomyGauge.cs
+res://Programs/Gauges/Gauge.cs
+res://Programs/Gauges/SociabilityGauge.cs
 res://Programs/TestsZone/Lab.cs
 res://Programs/View/BuildingView.cs
 res://Programs/View/CellView.cs

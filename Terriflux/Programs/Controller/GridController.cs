@@ -17,7 +17,7 @@ namespace Terriflux.Programs.Controller
         * Building placement
         ************ */
         // coordinates of the cell to be modified by player action
-        private readonly static Vector2I NULL_SELECTED_COORDINATES = new(-1, -1);    // default, invalid, says it's unselected (Vector2I cannot be null)
+        private static readonly Vector2I NULL_SELECTED_COORDINATES = new(-1, -1);    // default, invalid, says it's unselected (Vector2I cannot be null)
         private static Vector2I selectedCoordinates = NULL_SELECTED_COORDINATES;
 
         // model of cell requested to be placed by the player

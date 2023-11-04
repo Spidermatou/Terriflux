@@ -21,7 +21,7 @@ namespace Terriflux.Programs.Model.Round
             roundNumber++;
 
             // reset
-            this.buildedThisTurn = 0;
+            buildedThisTurn = 0;
 
             // update
             Notify();
@@ -40,7 +40,7 @@ namespace Terriflux.Programs.Model.Round
         public void PlusOneBuilded()
         {
             // can build?
-            if (buildedThisTurn + 1 <= this.maxPerTurn)
+            if (buildedThisTurn + 1 <= maxPerTurn)
             {
                 buildedThisTurn++;
             }
@@ -81,9 +81,9 @@ namespace Terriflux.Programs.Model.Round
         public string Verbose()
         {
             StringBuilder sb = new();
-            sb.AppendLine($"Round number: {this.roundNumber}");
-            sb.AppendLine($"Max: {this.GetMaxPerTurn()}");
-            sb.AppendLine($"Actual: {this.GetThisTurn()}");
+            sb.AppendLine($"Round number: {roundNumber}");
+            sb.AppendLine($"Max: {GetMaxPerTurn()}");
+            sb.AppendLine($"Actual: {GetThisTurn()}");
             return sb.ToString();
         }
     }

@@ -35,7 +35,10 @@ namespace Terriflux.Programs.Controller
 
         public static void NextTurn()
         {
-            if (view != null && model != null) model.NextTurn();
+            if (view != null && model != null)
+            {
+                model.NextTurn();
+            }
         }
 
         public static string Verbose()

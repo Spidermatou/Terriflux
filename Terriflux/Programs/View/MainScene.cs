@@ -42,7 +42,7 @@ namespace Terriflux.Programs.View
             _gridView.Position = _markGrid.Position;       // place it
             _gridView.Scale = new Vector2((float)0.5, (float)0.5);       // reduces size scale to be clearly visible
             gridModel.AddObserver(_gridView);        // add view as observer
-            this.AddChild(_gridView);       // add view to scene
+            AddChild(_gridView);       // add view to scene
 
             /* ************
              * config the static grid controller

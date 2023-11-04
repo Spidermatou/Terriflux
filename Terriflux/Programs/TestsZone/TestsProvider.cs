@@ -311,7 +311,7 @@ namespace Terriflux.Programs.TestsZone
             // design it
             PlacementList placementList = PlacementList.Design();
             placementList.Position = spawnPosition;
-            this.scene.AddChild(placementList);
+            scene.AddChild(placementList);
 
             // verbose
             GD.Print(placementList.Verbose());
@@ -329,7 +329,7 @@ namespace Terriflux.Programs.TestsZone
             // design it
             PlacementList placementList = PlacementList.Design();
             placementList.Position = placementListSpawnPosition;
-            this.scene.AddChild(placementList);
+            scene.AddChild(placementList);
 
             // assign grid to controller
             GridModel gridModel = GridFactory.CreateWasteland(5);
@@ -338,7 +338,7 @@ namespace Terriflux.Programs.TestsZone
             gridView.Position = gridSpawnPosition;
             gridView.Scale = new Vector2((float)0.5, (float)0.5);
             gridModel.AddObserver(gridView);
-            this.scene.AddChild(gridView);
+            scene.AddChild(gridView);
 
             // verbose
             GD.Print(placementList.Verbose());
@@ -371,7 +371,7 @@ namespace Terriflux.Programs.TestsZone
         public void TRoundView(bool print = false)
         {
             RoundCounter view = RoundCounter.Design();
-            this.scene.AddChild(view);
+            scene.AddChild(view);
             view.Show();
 
             RoundModel model = new();
@@ -414,7 +414,7 @@ namespace Terriflux.Programs.TestsZone
         public void TRoundController(bool print = false)
         {
             RoundCounter view = RoundCounter.Design();
-            this.scene.AddChild(view);
+            scene.AddChild(view);
             view.Show();
 
             RoundModel model = new();
