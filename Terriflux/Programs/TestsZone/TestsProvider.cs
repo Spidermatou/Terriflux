@@ -5,6 +5,7 @@ using Terriflux.Programs.Controller;
 using Terriflux.Programs.Exceptions;
 using Terriflux.Programs.Factories;
 using Terriflux.Programs.GameContext;
+using Terriflux.Programs.Gauges;
 using Terriflux.Programs.Model.Cell;
 using Terriflux.Programs.Model.Grid;
 using Terriflux.Programs.Model.Placeables;
@@ -432,6 +433,27 @@ namespace Terriflux.Programs.TestsZone
             {
                 GD.Print(">> Infos");
                 GD.Print(model.Verbose());
+            }
+        }
+
+        public void TImpacts(bool print = false)
+        {
+            Impacts myimp = Impacts.Design();
+            scene.AddChild(myimp);
+            myimp.Show();
+
+            myimp.SetSocial(75);
+
+            // hide?
+            if (!print)
+            {
+                myimp.Hide();
+            }
+            // more test
+            else
+            {
+                GD.Print(">> Change social to 75%");
+                myimp.SetSocial(75);
             }
         }
     }

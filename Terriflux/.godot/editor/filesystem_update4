@@ -19,3 +19,4 @@ res://Programs/Gauges/SocialGauge.cs
 res://Nodes/View/EcologyGauge.tscn
 res://Nodes/View/EconomyGauge.tscn
 res://Nodes/View/Impacts.tscn
+res://Nodes/View/Impacts.cs
