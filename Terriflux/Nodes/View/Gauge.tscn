@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dias3k1vrr2m7"]
+
+[ext_resource type="Script" path="res://Programs/Gauges/Gauge.cs" id="1_fs2i0"]
+
+[node name="Gauge" type="TextureProgressBar"]
+offset_right = 192.0
+offset_bottom = 40.0
+script = ExtResource("1_fs2i0")

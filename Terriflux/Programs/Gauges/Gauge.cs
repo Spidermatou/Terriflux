@@ -4,13 +4,11 @@ using System.Collections.Generic;
 
 namespace Terriflux.Programs.Gauges
 {
-    public abstract partial class Gauge : Node2D, IGauge
+    public abstract partial class Gauge : TextureProgressBar, IGauge
     {
-        private double value;
-
         protected Gauge()
         {
-            this.value = 50; // default
+            this.SetValue(50); // default
         }
 
         /// <summary>
@@ -21,12 +19,12 @@ namespace Terriflux.Programs.Gauges
 
         public double GetValue()
         {
-            return value;
+            return Value;
         }
 
         public void SetValue(double newVal)
         {
-            value = newVal;
+            this.Value = newVal;
         }
     }
 }
