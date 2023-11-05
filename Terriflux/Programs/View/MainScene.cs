@@ -47,7 +47,7 @@ namespace Terriflux.Programs.View
             /* ************
              * config the static grid controller
              * */
-            GridController.SetGridControl(gridModel);   // have to manage this new grid model
+            GridController.SetGrid(gridModel);   // have to manage this new grid model
             GridController.SetRoundManager(roundModel);   // have to manage this new round model
 
             /* ************

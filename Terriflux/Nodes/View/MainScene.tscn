@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://n0qq6ap5t7sh"]
+[gd_scene load_steps=5 format=3 uid="uid://n0qq6ap5t7sh"]
 
 [ext_resource type="Script" path="res://Programs/View/MainScene.cs" id="1_15usf"]
 [ext_resource type="PackedScene" uid="uid://dh64plgjs3pta" path="res://Nodes/View/PlacementList.tscn" id="2_vatko"]
 [ext_resource type="PackedScene" uid="uid://bl7qt3t548vji" path="res://Nodes/View/RoundCounter.tscn" id="3_kn14g"]
+[ext_resource type="PackedScene" uid="uid://cao14fxsuhtl2" path="res://Nodes/View/Impacts.tscn" id="4_7gkka"]
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource("1_15usf")
@@ -21,7 +22,7 @@ polygon = PackedVector2Array(-504, -256, 128, -256, 128, 384, -504, 384)
 
 [node name="PlacementList" parent="." instance=ExtResource("2_vatko")]
 offset_left = 255.0
-offset_top = -323.0
+offset_top = -192.0
 offset_right = 574.0
 offset_bottom = 326.0
 
@@ -29,4 +30,10 @@ offset_bottom = 326.0
 position = Vector2(-523, -286)
 
 [node name="RoundCounter" parent="." instance=ExtResource("3_kn14g")]
-position = Vector2(128, -256)
+position = Vector2(128, 64)
+
+[node name="Impacts" parent="." instance=ExtResource("4_7gkka")]
+offset_left = 232.0
+offset_top = -264.0
+offset_right = 232.0
+offset_bottom = -264.0

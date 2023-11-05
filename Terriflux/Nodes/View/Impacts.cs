@@ -27,19 +27,19 @@ namespace Terriflux.Programs.Gauges
             this._ecology = GetNode<IGauge>("EcologyGauge");
         }
 
-        public void SetSocial(double newValue)
+        public void AddSocial(double newValue)
         {
-            this._social.SetValue(newValue);
+            this._social.SetValue(this._social.GetValue() + newValue);
         }
 
-        public void SetEconomy(double newValue)
+        public void AddEconomy(double newValue)
         {
-            this._economy.SetValue(newValue);
+            this._economy.SetValue(this._economy.GetValue() + newValue);
         }
 
-        public void SetEcology(double newValue)
+        public void AddEcology(double newValue)
         {
-            this._ecology.SetValue(newValue);
+            this._ecology.SetValue(this._ecology.GetValue() + newValue);
         }
     }
 }

@@ -334,7 +334,7 @@ namespace Terriflux.Programs.TestsZone
 
             // assign grid to controller
             GridModel gridModel = GridFactory.CreateWasteland(5);
-            GridController.SetGridControl(gridModel);
+            GridController.SetGrid(gridModel);
             GridView gridView = GridFactory.CreateView(gridModel);
             gridView.Position = gridSpawnPosition;
             gridView.Scale = new Vector2((float)0.5, (float)0.5);
@@ -442,7 +442,7 @@ namespace Terriflux.Programs.TestsZone
             scene.AddChild(myimp);
             myimp.Show();
 
-            myimp.SetSocial(75);
+            myimp.AddSocial(75);
 
             // hide?
             if (!print)
@@ -453,7 +453,59 @@ namespace Terriflux.Programs.TestsZone
             else
             {
                 GD.Print(">> Change social to 75%");
-                myimp.SetSocial(75);
+                myimp.AddSocial(75);
+            }
+        }
+
+        public void TImpactsController(Vector2 gridSpawnPosition, 
+            Vector2 placementListSpawnPosition,
+            Vector2 roundsSpawnPosition,
+            Vector2 impactsSpawnPosition, 
+            bool print = false)
+        {
+            // create impacts
+            Impacts impacts = Impacts.Design();
+            impacts.Position = impactsSpawnPosition;
+            impacts.Show();
+            scene.AddChild(impacts);
+
+            // create placementList
+            PlacementList placementList = PlacementList.Design();
+            placementList.Position = placementListSpawnPosition;
+            placementList.Show();
+            scene.AddChild(placementList);
+
+            // create grid
+            GridModel gridModel = GridFactory.CreateWasteland(5);
+            GridView gridView = GridFactory.CreateView(gridModel);
+            gridView.Position = gridSpawnPosition;
+            gridView.Scale = new Vector2((float)0.5, (float)0.5);
+            gridView.Show();
+            gridModel.AddObserver(gridView);
+            scene.AddChild(gridView);
+
+            // create rounds
+            RoundModel roundModel = new();
+            RoundCounter roundCounter = RoundCounter.Design();
+            roundCounter.Position = roundsSpawnPosition;
+            roundCounter.Show();
+            roundModel.AddObserver(roundCounter);
+            this.scene.AddChild(roundCounter);
+
+            // assign grid and impacts to controller
+            GridController.SetControledImpacts(impacts);
+            GridController.SetGrid(gridModel);
+            GridController.SetRoundManager(roundModel);
+
+            // verbose
+            GD.Print(GridController.Verbose());
+
+            // hide?
+            if (!print)
+            {
+                gridView.Hide();
+                placementList.Hide();
+                impacts.Hide();
             }
         }
     }

@@ -29,5 +29,3 @@ layout_mode = 0
 [node name="Emblem" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
 texture = ExtResource("4_pkhwr")
-
-[node name="Camera2D" type="Camera2D" parent="."]
