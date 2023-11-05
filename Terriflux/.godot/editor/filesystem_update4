@@ -20,3 +20,4 @@ res://Nodes/View/EcologyGauge.tscn
 res://Nodes/View/EconomyGauge.tscn
 res://Nodes/View/Impacts.tscn
 res://Nodes/View/Impacts.cs
+res://Nodes/View/PlacementList.tscn
