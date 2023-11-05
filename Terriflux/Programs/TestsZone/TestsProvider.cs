@@ -352,7 +352,7 @@ namespace Terriflux.Programs.TestsZone
             }
         }
 
-        public void TRoundModel()
+        public static void TRoundModel()
         {
             RoundModel mod = new();
             GD.Print(mod.Verbose());
@@ -457,10 +457,10 @@ namespace Terriflux.Programs.TestsZone
             }
         }
 
-        public void TImpactsController(Vector2 gridSpawnPosition, 
+        public void TImpactsController(Vector2 gridSpawnPosition,
             Vector2 placementListSpawnPosition,
             Vector2 roundsSpawnPosition,
-            Vector2 impactsSpawnPosition, 
+            Vector2 impactsSpawnPosition,
             bool print = false)
         {
             // create impacts
@@ -490,7 +490,7 @@ namespace Terriflux.Programs.TestsZone
             roundCounter.Position = roundsSpawnPosition;
             roundCounter.Show();
             roundModel.AddObserver(roundCounter);
-            this.scene.AddChild(roundCounter);
+            scene.AddChild(roundCounter);
 
             // assign grid and impacts to controller
             GridController.SetControledImpacts(impacts);

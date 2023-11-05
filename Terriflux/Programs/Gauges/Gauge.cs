@@ -1,5 +1,4 @@
 using Godot;
-using System.Collections.Generic;
 
 
 namespace Terriflux.Programs.Gauges
@@ -8,7 +7,7 @@ namespace Terriflux.Programs.Gauges
     {
         protected Gauge()
         {
-            this.SetValue(50); // default
+            SetValue(50); // default
         }
 
         /// <summary>
@@ -24,7 +23,7 @@ namespace Terriflux.Programs.Gauges
 
         public void SetValue(double newVal)
         {
-            this.Value = newVal;
+            Value = newVal;
         }
     }
 }

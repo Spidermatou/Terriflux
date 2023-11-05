@@ -8,7 +8,7 @@ namespace Terriflux.Programs.TestsZone
         private Marker2D _spawnMark2;
         private Marker2D _spawnMark3;
         private Marker2D _spawnMark4;
-        
+
         private Lab() { }
 
         public override void _Ready()

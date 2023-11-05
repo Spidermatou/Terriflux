@@ -25,7 +25,7 @@ namespace Terriflux.Programs.Controller
         ************ */
         public static string Verbose()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             sb.AppendLine($"- Grid configured? {grid != null} ;");
             sb.AppendLine($"- Rounds configured? {rounds != null} ;");
             sb.AppendLine($"- Impacts configured? {impacts != null}.");
@@ -86,8 +86,14 @@ namespace Terriflux.Programs.Controller
         /// <exception cref="Exception"></exception>
         public static void UpdateImpacts(int[] newImpactsValues)
         {
-            if (newImpactsValues.Length != 3) throw new Exception("Too much or less values. Usage : 3 values exactly.");
-            else if (grid != null && impacts != null) throw new Exception("Controller not configured correctly!");
+            if (newImpactsValues.Length != 3)
+            {
+                throw new Exception("Too much or less values. Usage : 3 values exactly.");
+            }
+            else if (grid != null && impacts != null)
+            {
+                throw new Exception("Controller not configured correctly!");
+            }
             else
             {
                 impacts.AddSocial(newImpactsValues[0]);
@@ -134,7 +140,7 @@ namespace Terriflux.Programs.Controller
                         // updates impacts
                         if (wantToPlace is BuildingModel wantedBuilding)
                         {
-                            impacts.AddEconomy( wantedBuilding.GetImpacts()[0]); // previous + newPlaced's impacts
+                            impacts.AddEconomy(wantedBuilding.GetImpacts()[0]); // previous + newPlaced's impacts
                             impacts.AddEcology(wantedBuilding.GetImpacts()[1]);
                             impacts.AddSocial(wantedBuilding.GetImpacts()[2]);
                         }
@@ -147,7 +153,7 @@ namespace Terriflux.Programs.Controller
             }
             else
             {
-                throw new Exception("GridController not set correctly!");   
+                throw new Exception("GridController not set correctly!");
             }
         }
 

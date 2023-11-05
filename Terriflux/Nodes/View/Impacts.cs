@@ -1,6 +1,4 @@
 using Godot;
-using System;
-using System.Runtime.CompilerServices;
 using Terriflux.Programs.GameContext;
 
 namespace Terriflux.Programs.Gauges
@@ -22,30 +20,30 @@ namespace Terriflux.Programs.Gauges
         {
             base._Ready();
 
-            this._social = GetNode<IGauge>("SocialGauge");
-            this._economy = GetNode<IGauge>("EconomyGauge");
-            this._ecology = GetNode<IGauge>("EcologyGauge");
+            _social = GetNode<IGauge>("SocialGauge");
+            _economy = GetNode<IGauge>("EconomyGauge");
+            _ecology = GetNode<IGauge>("EcologyGauge");
         }
 
         public void AddSocial(double newValue)
         {
-            this._social.SetValue(this._social.GetValue() + newValue);
+            _social.SetValue(_social.GetValue() + newValue);
         }
 
         public void AddEconomy(double newValue)
         {
-            this._economy.SetValue(this._economy.GetValue() + newValue);
+            _economy.SetValue(_economy.GetValue() + newValue);
         }
 
         public void AddEcology(double newValue)
         {
-            this._ecology.SetValue(this._ecology.GetValue() + newValue);
+            _ecology.SetValue(_ecology.GetValue() + newValue);
         }
 
         /// <returns>Social, Economy, Ecology</returns>
         public double[] GetImpacts()
         {
-            return new double[] { this._social.GetValue(), this._economy.GetValue(), this._ecology.GetValue() };
+            return new double[] { _social.GetValue(), _economy.GetValue(), _ecology.GetValue() };
         }
     }
 }
