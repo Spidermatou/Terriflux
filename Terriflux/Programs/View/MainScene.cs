@@ -2,6 +2,7 @@
 using Terriflux.Programs.Controller;
 using Terriflux.Programs.Factories;
 using Terriflux.Programs.GameContext;
+using Terriflux.Programs.Gauges;
 using Terriflux.Programs.Model.Grid;
 using Terriflux.Programs.Model.Round;
 
@@ -18,6 +19,7 @@ namespace Terriflux.Programs.View
         // nodes
         private RoundCounter _roundView;
         private GridView _gridView;
+        private Impacts _impactsView;
 
         // markers
         private Marker2D _markGrid;
@@ -33,7 +35,7 @@ namespace Terriflux.Programs.View
              * */
             _markGrid = GetNode<Marker2D>("GridMark");
             _roundView = GetNode<RoundCounter>("RoundCounter");
-
+            _impactsView = GetNode<Impacts>("Impacts");
 
             /* ************
              * config grid
@@ -49,6 +51,7 @@ namespace Terriflux.Programs.View
              * */
             GridController.SetGrid(gridModel);   // have to manage this new grid model
             GridController.SetRoundManager(roundModel);   // have to manage this new round model
+            GridController.SetControledImpacts(_impactsView);   // have to manage this new impacts model
 
             /* ************
              * config the rounds

@@ -41,5 +41,11 @@ namespace Terriflux.Programs.Gauges
         {
             this._ecology.SetValue(this._ecology.GetValue() + newValue);
         }
+
+        /// <returns>Social, Economy, Ecology</returns>
+        public double[] GetImpacts()
+        {
+            return new double[] { this._social.GetValue(), this._economy.GetValue(), this._ecology.GetValue() };
+        }
     }
 }

@@ -30,10 +30,10 @@ offset_bottom = 326.0
 position = Vector2(-523, -286)
 
 [node name="RoundCounter" parent="." instance=ExtResource("3_kn14g")]
-position = Vector2(128, 64)
+position = Vector2(128, -320)
 
 [node name="Impacts" parent="." instance=ExtResource("4_7gkka")]
-offset_left = 232.0
+offset_left = 256.0
 offset_top = -264.0
-offset_right = 232.0
+offset_right = 256.0
 offset_bottom = -264.0
