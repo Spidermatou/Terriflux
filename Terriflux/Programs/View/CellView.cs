@@ -124,7 +124,7 @@ namespace Terriflux.Programs.View
 
         private void OnSelectDetectorPressed()
         {
-            GridController.SetSelectedCoordinates(this.Position);
+            GridController.SetSelectedCoordinates(Position);
 
             // if all ok: change the cell!
             GridController.StartPlacement();

@@ -64,6 +64,7 @@ namespace Terriflux.Programs.Model.Placeables
         }
 
         // Impacts
+        /// <returns>economy, ecology, social</returns>
         public double[] GetImpacts()
         {
             return impacts;
