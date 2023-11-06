@@ -53,10 +53,10 @@ namespace Terriflux.Programs.View
                 Texture2D texture = GD.Load<Texture2D>(textureFilePath);
 
                 // create a new selectable item in the placement list for this building
-                this.AddItem(draftModel.GetName(), texture, true);
+                AddItem(draftModel.GetName(), texture, true);
 
                 // save the draft for later use
-                this.buildingsInfos.Add(draftModel);
+                buildingsInfos.Add(draftModel);
             }
 
             // close file
@@ -66,13 +66,13 @@ namespace Terriflux.Programs.View
         // SIGNALS
         private void OnItemSelected(int index)
         {
-            GridController.SetModelRequested(this.buildingsInfos[index]);
+            GridController.SetModelRequested(buildingsInfos[index]);
 
             // if all ok: change the cell!
             GridController.StartPlacement();
 
             // reset select
-            this.DeselectAll();
+            DeselectAll();
         }
 
         // VERBOSE
@@ -80,16 +80,16 @@ namespace Terriflux.Programs.View
         {
             StringBuilder sb = new();
             // concrete items
-            sb.AppendLine($"Items ({this.ItemCount}):");
-            for (int i = 0; i < this.ItemCount; i++)
+            sb.AppendLine($"Items ({ItemCount}):");
+            for (int i = 0; i < ItemCount; i++)
             {
-                sb.AppendLine($"\t{this.GetItemText(i)}");
+                sb.AppendLine($"\t{GetItemText(i)}");
             }
             // buildings infos
-            sb.AppendLine($"Drafts of building ({this.buildingsInfos.Count}):");
-            for (int i = 0; i < this.buildingsInfos.Count; i++)
+            sb.AppendLine($"Drafts of building ({buildingsInfos.Count}):");
+            for (int i = 0; i < buildingsInfos.Count; i++)
             {
-                sb.AppendLine($"\t{this.buildingsInfos[i].GetName()}");
+                sb.AppendLine($"\t{buildingsInfos[i].GetName()}");
             }
 
             return sb.ToString();

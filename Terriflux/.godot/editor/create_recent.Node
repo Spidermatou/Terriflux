@@ -1,5 +1,9 @@
-Sprite2D
-TileMap
+Label
 Camera2D
+Sprite2D
+TextureProgressBar
+SpinBox
+ProgressBar
 Button
+TileMap
 ItemList

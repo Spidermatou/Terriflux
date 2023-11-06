@@ -1,25 +1,48 @@
 ﻿using Godot;
+using System;
+using System.Text;
+using Terriflux.Programs.Gauges;
 using Terriflux.Programs.Model.Cell;
 using Terriflux.Programs.Model.Grid;
 using Terriflux.Programs.Model.Placeables;
+using Terriflux.Programs.Model.Round;
 using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Controller
 {
     public static class GridController
     {
-        private static GridModel controlGrid;  // controlled grid
+        private static GridModel grid;  // controlled grid
+        private static RoundModel rounds;     // rounds
+        private static Impacts impacts;    // impacts
 
-        // coordinates of the cell to be modified by player action
-        private readonly static Vector2I NULL_SELECTED_COORDINATES = new(-1, -1);    // default, invalid, says it's unselected (Vector2I cannot be null)
-        private static Vector2I selectedCoordinates = NULL_SELECTED_COORDINATES;
+        private static IPlaceable wantToPlace; // model of cell requested to be placed by the player
+        private static readonly Vector2I NULL_SELECTED_COORDINATES = new(-1, -1);    // default, invalid, says it's unselected (Vector2I cannot be null)
+        private static Vector2I selectedCoordinates = NULL_SELECTED_COORDINATES;    // coordinates of the cell to be modified by player action
 
-        // model of cell requested to be placed by the player
-        private static IPlaceable wantToPlace;
-
-        public static void SetGridControl(GridModel grid)
+        /* ***************************
+        * Verbose
+        ************ */
+        public static string Verbose()
         {
-            controlGrid = grid;
+            StringBuilder sb = new();
+            sb.AppendLine($"- Grid configured? {grid != null} ;");
+            sb.AppendLine($"- Rounds configured? {rounds != null} ;");
+            sb.AppendLine($"- Impacts configured? {impacts != null}.");
+            return sb.ToString();
+        }
+
+        /* ***************************
+        * Building placement
+        ************ */
+        public static void SetGrid(GridModel grid)
+        {
+            GridController.grid = grid;
+        }
+
+        public static void SetRoundManager(RoundModel roundModel)
+        {
+            rounds = roundModel;
         }
 
         /// <summary>
@@ -28,7 +51,7 @@ namespace Terriflux.Programs.Controller
         /// <param name="viewCoordinates">The true coordinates (on screen) of the grid view.</param>
         public static void SetSelectedCoordinates(Vector2 viewCoordinates)
         {
-            if (controlGrid != null)
+            if (grid != null)
             {
                 // grid placement calculation
                 Vector2I inGridCoordinates = new((int)(viewCoordinates.X / CellView.GetGlobalSize()),
@@ -48,6 +71,40 @@ namespace Terriflux.Programs.Controller
             wantToPlace = cellModel;
         }
 
+        /* ***************************
+        * Impacts
+        ************ */
+        public static void SetControledImpacts(Impacts newControledImpacts)
+        {
+            impacts = newControledImpacts;
+        }
+
+        /// <summary>
+        /// Update view and data with new values.
+        /// </summary>
+        /// <param name="newImpactsValues">Sociability, Ecology, Economy</param>
+        /// <exception cref="Exception"></exception>
+        public static void UpdateImpacts(int[] newImpactsValues)
+        {
+            if (newImpactsValues.Length != 3)
+            {
+                throw new Exception("Too much or less values. Usage : 3 values exactly.");
+            }
+            else if (grid != null && impacts != null)
+            {
+                throw new Exception("Controller not configured correctly!");
+            }
+            else
+            {
+                impacts.AddSocial(newImpactsValues[0]);
+                impacts.AddEcology(newImpactsValues[1]);
+                impacts.AddEconomy(newImpactsValues[2]);
+            }
+        }
+
+        /* ***************************
+        * Placement
+        ************ */
         /// <summary>
         /// Requests replacement of the cell at the location previously selected 
         /// via GridController.SetSelectedCoordinates() by the cell previously selected 
@@ -56,18 +113,49 @@ namespace Terriflux.Programs.Controller
         public static void StartPlacement()
         {
             // grid assigned?
-            if (controlGrid != null)
+            if (grid != null && rounds != null && impacts != null)
             {
                 // does the player have chosen the location to modify AND the new cell he wants?
                 if (wantToPlace != null && selectedCoordinates != NULL_SELECTED_COORDINATES)
                 {
-                    controlGrid.PlaceAt(wantToPlace, selectedCoordinates.X, selectedCoordinates.Y, true);
+                    // maximum of builds reached for this turn?
+                    if (rounds.GetThisTurn() >= rounds.GetMaxPerTurn())
+                    {
+                        PopUp.Say("Maximum construction reached for this round!");
+                    }
+                    // is space free?
+                    else if (grid.GetAllPlacements().ContainsKey(selectedCoordinates))
+                    {
+                        PopUp.Say("The selected slot is not empty!");
+                    }
+                    // all ok?
+                    else
+                    {
+                        // place the wanted build at wanted coordinates
+                        grid.PlaceAt(wantToPlace, selectedCoordinates.X, selectedCoordinates.Y, true);
 
-                    // then, reset for next
+                        // remove one possibility of building 
+                        rounds.PlusOneBuilded();
+
+                        // updates impacts
+                        if (wantToPlace is BuildingModel wantedBuilding)
+                        {
+                            impacts.AddEconomy(wantedBuilding.GetImpacts()[0]); // previous + newPlaced's impacts
+                            impacts.AddEcology(wantedBuilding.GetImpacts()[1]);
+                            impacts.AddSocial(wantedBuilding.GetImpacts()[2]);
+                        }
+                    }
+
+                    // reset for next
                     wantToPlace = null;
                     selectedCoordinates = NULL_SELECTED_COORDINATES;
                 }
             }
+            else
+            {
+                throw new Exception("GridController not set correctly!");
+            }
         }
+
     }
 }

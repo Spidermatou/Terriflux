@@ -5,9 +5,11 @@ using Terriflux.Programs.Controller;
 using Terriflux.Programs.Exceptions;
 using Terriflux.Programs.Factories;
 using Terriflux.Programs.GameContext;
+using Terriflux.Programs.Gauges;
 using Terriflux.Programs.Model.Cell;
 using Terriflux.Programs.Model.Grid;
 using Terriflux.Programs.Model.Placeables;
+using Terriflux.Programs.Model.Round;
 using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.TestsZone
@@ -310,7 +312,7 @@ namespace Terriflux.Programs.TestsZone
             // design it
             PlacementList placementList = PlacementList.Design();
             placementList.Position = spawnPosition;
-            this.scene.AddChild(placementList);
+            scene.AddChild(placementList);
 
             // verbose
             GD.Print(placementList.Verbose());
@@ -328,16 +330,16 @@ namespace Terriflux.Programs.TestsZone
             // design it
             PlacementList placementList = PlacementList.Design();
             placementList.Position = placementListSpawnPosition;
-            this.scene.AddChild(placementList);
+            scene.AddChild(placementList);
 
             // assign grid to controller
             GridModel gridModel = GridFactory.CreateWasteland(5);
-            GridController.SetGridControl(gridModel);
+            GridController.SetGrid(gridModel);
             GridView gridView = GridFactory.CreateView(gridModel);
             gridView.Position = gridSpawnPosition;
             gridView.Scale = new Vector2((float)0.5, (float)0.5);
             gridModel.AddObserver(gridView);
-            this.scene.AddChild(gridView);
+            scene.AddChild(gridView);
 
             // verbose
             GD.Print(placementList.Verbose());
@@ -347,6 +349,163 @@ namespace Terriflux.Programs.TestsZone
             if (!print)
             {
                 placementList.Hide();
+            }
+        }
+
+        public static void TRoundModel()
+        {
+            RoundModel mod = new();
+            GD.Print(mod.Verbose());
+            GD.Print(">> Build x 3");
+            mod.PlusOneBuilded();
+            mod.PlusOneBuilded();
+            mod.PlusOneBuilded();
+            GD.Print(">> Get infos");
+            GD.Print("This turn:" + mod.GetThisTurn());
+            GD.Print("Max per turn:" + mod.GetMaxPerTurn());
+            GD.Print("Round numb:" + mod.GetRoundNumber());
+            GD.Print(">>Next turn");
+            mod.NextTurn();
+            GD.Print(mod.Verbose());
+        }
+
+        public void TRoundView(bool print = false)
+        {
+            RoundCounter view = RoundCounter.Design();
+            scene.AddChild(view);
+            view.Show();
+
+            RoundModel model = new();
+            model.AddObserver(view);
+
+            // hide?
+            if (!print)
+            {
+                view.Hide();
+            }
+            // more test
+            else
+            {
+                GD.Print(">> Infos");
+                GD.Print(model.Verbose());
+                GD.Print(">> Now, we build something");
+                model.PlusOneBuilded();
+                GD.Print(model.Verbose());
+                GD.Print(">> Next turn!");
+                model.NextTurn();
+                GD.Print(model.Verbose());
+                GD.Print(">> Now, we try to build too much");
+                try
+                {
+                    for (int i = 0; i < model.GetMaxPerTurn() + 1; i++)
+                    {
+                        model.PlusOneBuilded();
+                    }
+
+                    // nothing catched?
+                    GD.Print("Uh oh... no conflict detected!");
+                }
+                catch
+                {
+                    GD.Print("Exception catched successfully!");
+                }
+            }
+        }
+
+        public void TRoundController(bool print = false)
+        {
+            RoundCounter view = RoundCounter.Design();
+            scene.AddChild(view);
+            view.Show();
+
+            RoundModel model = new();
+
+            RoundController.SetModel(model);
+            RoundController.SetView(view);
+
+            // hide?
+            if (!print)
+            {
+                view.Hide();
+            }
+            // more test
+            else
+            {
+                GD.Print(">> Infos");
+                GD.Print(model.Verbose());
+            }
+        }
+
+        public void TImpacts(bool print = false)
+        {
+            Impacts myimp = Impacts.Design();
+            scene.AddChild(myimp);
+            myimp.Show();
+
+            myimp.AddSocial(75);
+
+            // hide?
+            if (!print)
+            {
+                myimp.Hide();
+            }
+            // more test
+            else
+            {
+                GD.Print(">> Change social to 75%");
+                myimp.AddSocial(75);
+            }
+        }
+
+        public void TImpactsController(Vector2 gridSpawnPosition,
+            Vector2 placementListSpawnPosition,
+            Vector2 roundsSpawnPosition,
+            Vector2 impactsSpawnPosition,
+            bool print = false)
+        {
+            // create impacts
+            Impacts impacts = Impacts.Design();
+            impacts.Position = impactsSpawnPosition;
+            impacts.Show();
+            scene.AddChild(impacts);
+
+            // create placementList
+            PlacementList placementList = PlacementList.Design();
+            placementList.Position = placementListSpawnPosition;
+            placementList.Show();
+            scene.AddChild(placementList);
+
+            // create grid
+            GridModel gridModel = GridFactory.CreateWasteland(5);
+            GridView gridView = GridFactory.CreateView(gridModel);
+            gridView.Position = gridSpawnPosition;
+            gridView.Scale = new Vector2((float)0.5, (float)0.5);
+            gridView.Show();
+            gridModel.AddObserver(gridView);
+            scene.AddChild(gridView);
+
+            // create rounds
+            RoundModel roundModel = new();
+            RoundCounter roundCounter = RoundCounter.Design();
+            roundCounter.Position = roundsSpawnPosition;
+            roundCounter.Show();
+            roundModel.AddObserver(roundCounter);
+            scene.AddChild(roundCounter);
+
+            // assign grid and impacts to controller
+            GridController.SetControledImpacts(impacts);
+            GridController.SetGrid(gridModel);
+            GridController.SetRoundManager(roundModel);
+
+            // verbose
+            GD.Print(GridController.Verbose());
+
+            // hide?
+            if (!print)
+            {
+                gridView.Hide();
+                placementList.Hide();
+                impacts.Hide();
             }
         }
     }
