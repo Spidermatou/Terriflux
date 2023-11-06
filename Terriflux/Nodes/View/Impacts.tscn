@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cao14fxsuhtl2"]
 
+[ext_resource type="Script" path="res://Programs/View/Impacts.cs" id="1_2vqgg"]
 [ext_resource type="PackedScene" uid="uid://bkr1thtqlltcd" path="res://Nodes/View/SocialGauge.tscn" id="1_4fcbp"]
-[ext_resource type="Script" path="res://Nodes/View/Impacts.cs" id="1_r3s5o"]
 [ext_resource type="PackedScene" uid="uid://yxiu3m3v3eir" path="res://Nodes/View/EcologyGauge.tscn" id="2_d86vs"]
 [ext_resource type="PackedScene" uid="uid://c3ecxdtrc4iyk" path="res://Nodes/View/EconomyGauge.tscn" id="3_rew7g"]
 [ext_resource type="Texture2D" uid="uid://chu602ws6e2iv" path="res://Ressources/GaugesTextures/emblem.png" id="4_pkhwr"]
@@ -13,7 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_r3s5o")
+script = ExtResource("1_2vqgg")
 
 [node name="SocialGauge" parent="." instance=ExtResource("1_4fcbp")]
 layout_mode = 0
