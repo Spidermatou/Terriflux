@@ -1,0 +1,39 @@
+@startuml
+!theme reddress-darkgreen
+
+/' -------------------------------
+- OBJECTS
+-- '/
+
+class RoundModel{
+    - roundNumber : Integer 
+    - buildedThisTurn : Integer
+    - maxPerTurn : Integer 
+
+    + RoundModel()
+    + NextTurn()
+    + GetMaxPerTurn : Integer 
+    + GetThisTurn : Integer 
+    + PlusOneBuilded : Integer
+    + SetMaxPerTurn(newMax : Integer)
+
+    + AddObserver(observer : IRoundObserver)
+    + RemoveObserver(observer : IRoundObserver)
+    - Notify()
+}
+
+class RoundView implements IRoundObserver {
+    + Update(roundNumber : Integer)
+}
+
+interface IRoundObserver{
+    + Update(roundNumber : Integer)
+}
+
+/' -------------------------------
+- AGREGATIONS / COMPOSITIONS
+-- '/
+RoundCounter <.. GridController : < use 
+RoundModel o..> IRoundObserver : > notifies\n- observers[*]
+
+@enduml
