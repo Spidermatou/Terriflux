@@ -1,4 +1,5 @@
-GNU GENERAL PUBLIC LICENSE
+# Project license
+## GNU GENERAL PUBLIC LICENSE
 Version 3, 29 June 2007
 
 Copyright © 2007 Free Software Foundation, Inc. <https://fsf.org/>
@@ -217,3 +218,14 @@ The hypothetical commands `show w' and `show c' should show the appropriate part
 You should also get your employer (if you work as a programmer) or school, if any, to sign a “copyright disclaimer” for the program, if necessary. For more information on this, and how to apply and follow the GNU GPL, see <https://www.gnu.org/licenses/>.
 
 The GNU General Public License does not permit incorporating your program into proprietary programs. If your program is a subroutine library, you may consider it more useful to permit linking proprietary applications with the library. If this is what you want to do, use the GNU Lesser General Public License instead of this License. But first, please read <https://www.gnu.org/licenses/why-not-lgpl.html>.
+
+
+# Assets licenses 
+
+-  Gauges assets 
+"Health bars" (modified) by adwitr ; avaible on <https://adwitr.itch.io/pixel-health-bar-asset-pack?download>
+
+#### LICENSE:
+Attribution 4.0 International (CC BY 4.0)
+Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+
