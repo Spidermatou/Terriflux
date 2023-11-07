@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvnka1rerdevj"]
+
+[ext_resource type="Texture2D" uid="uid://dm8onf82t6edr" path="res://Ressources/Images/Menu/MenuLittle.png" id="1_ro1ou"]
+
+[node name="StandardWindow" type="Node2D"]
+
+[node name="MenuLittle" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = ExtResource("1_ro1ou")

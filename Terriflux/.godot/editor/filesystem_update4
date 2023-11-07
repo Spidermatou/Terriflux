@@ -15,3 +15,4 @@ res://Programs/View/PlacementList.cs
 res://Programs/View/RoundCounter.cs
 res://StarScene.cs
 res://Nodes/View/TypeWindow.tscn
+res://Nodes/View/LargeWindow.tscn

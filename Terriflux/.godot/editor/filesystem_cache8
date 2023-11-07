@@ -1,11 +1,11 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1699345428
+::res://::1699346365
 StarScene.cs::CSharpScript::-1::1699345366::0::1::::<><>::
-StarScene.tscn::PackedScene::8286052760526283383::1699345427::0::1::::<><>::res://StarScene.cs
+StarScene.tscn::PackedScene::8286052760526283383::1699346365::0::1::::<><>::res://StarScene.cs
 ::res://Nodes/::1698038523
 ::res://Nodes/Tools/::1695285601
 OverLabel.tscn::PackedScene::5751757002950597657::1695285601::0::1::::<><>::
-::res://Nodes/View/::1699345444
+::res://Nodes/View/::1699346366
 BuildingView.tscn::PackedScene::5867733122976779637::1699129244::0::1::::<><>::res://Programs/View/BuildingView.cs<>uid://ds2mgf155gme6
 CellView.tscn::PackedScene::8479139058785195175::1698038523::0::1::::<><>::res://Programs/View/CellView.cs<>uid://cn7gukx86ooe0
 EcologyGauge.tscn::PackedScene::1732535877969199073::1699275183::0::1::::<><>::uid://dias3k1vrr2m7
@@ -15,9 +15,10 @@ GrassView.tscn::PackedScene::2116358964918079679::1696940442::0::1::::<><>::uid:
 GridView.tscn::PackedScene::1826843160556384246::1696599953::0::1::::<><>::res://Programs/View/GridView.cs
 Impacts.tscn::PackedScene::4803373384770323157::1699275183::0::1::::<><>::res://Programs/View/Impacts.cs<>uid://bkr1thtqlltcd
 Lab.tscn::PackedScene::6702858313219318845::1699275183::0::1::::<><>::res://Programs/TestsZone/Lab.cs
-MainScene.tscn::PackedScene::965066084678917443::1699345427::0::1::::<><>::res://Programs/View/MainScene.cs<>uid://dh64plgjs3pta::::res://Nodes/View/PlacementList.tscn<>uid://bl7qt3t548vji::::res://Nodes/View/RoundCounter.tscn<>uid://cao14fxsuhtl2::::res://Nodes/View/Impacts.tscn
+MainScene.tscn::PackedScene::965066084678917443::1699346365::0::1::::<><>::res://Programs/View/MainScene.cs<>uid://dh64plgjs3pta::::res://Nodes/View/PlacementList.tscn<>uid://bl7qt3t548vji::::res://Nodes/View/RoundCounter.tscn<>uid://cao14fxsuhtl2::::res://Nodes/View/Impacts.tscn
 MainWindow.tscn::PackedScene::8971598396946956195::1699278130::0::1::::<><>::
 PlacementList.tscn::PackedScene::7716367834079953250::1699274589::0::1::::<><>::res://Programs/View/PlacementList.cs
+TypeWindow.tscn::PackedScene::7840120603273049834::1699346366::0::1::::<><>::uid://bs7ucjog8p3dy::::res://Ressources/Images/Menu/MenuBigW.png
 RoundCounter.tscn::PackedScene::3225564955218052582::1699183653::0::1::::<><>::res://Programs/View/RoundCounter.cs
 SocialGauge.tscn::PackedScene::3125016511545417947::1699275183::0::1::::<><>::uid://dias3k1vrr2m7
 ::res://Programs/::1699275183
@@ -80,7 +81,7 @@ emblem.png::CompressedTexture2D::5307379152532610913::1699275183::1699185309::1:
 empty_gauge.png::CompressedTexture2D::1163454238936199856::1699275183::1699185440::1::::<><>::
 ::res://Ressources/Images/::1699346093
 icon.svg::CompressedTexture2D::1334539069581451488::1695285601::1696221182::1::::<><>::
-::res://Ressources/Images/Icons/::1699346062
+::res://Ressources/Images/Icons/::1699346112
 icons-set-1_0000s_0000_Layer-92.png::CompressedTexture2D::5794286433658867437::1699277586::1699346112::1::::<><>::
 icons-set-1_0000s_0001_Layer-93.png::CompressedTexture2D::2459364132450380060::1699277586::1699346112::1::::<><>::
 icons-set-1_0000s_0002_Layer-94.png::CompressedTexture2D::7868799082784166594::1699277586::1699346112::1::::<><>::
@@ -164,7 +165,7 @@ icons-set-1_0000s_0084_Layer-176.png::CompressedTexture2D::3150483958122538064::
 icons-set-1_0000s_0085_Layer-177.png::CompressedTexture2D::1161669052297520762::1699277589::1699346111::1::::<><>::
 icons-set-1_0000s_0086_Layer-178.png::CompressedTexture2D::5408218834998195800::1699277589::1699346111::1::::<><>::
 icons-set-1_0001s_0000_Layer-4.png::CompressedTexture2D::190550372998898115::1699277589::1699346111::1::::<><>::
-::res://Ressources/Images/Menu/::1699346062
+::res://Ressources/Images/Menu/::1699346111
 MenuBigW.png::CompressedTexture2D::3717098363405482678::1699277590::1699346111::1::::<><>::
 MenuCase.png::CompressedTexture2D::6234238076741075506::1699277590::1699346111::1::::<><>::
 MenuLarge.png::CompressedTexture2D::5995125369079810512::1699277590::1699346111::1::::<><>::
