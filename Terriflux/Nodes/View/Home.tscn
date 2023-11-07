@@ -77,3 +77,6 @@ theme_override_font_sizes/font_size = 100
 text = "Exit"
 icon = ExtResource("4_1ebbc")
 alignment = 2
+
+[connection signal="pressed" from="Start" to="." method="OnStartPressed"]
+[connection signal="pressed" from="ExitGame" to="." method="OnExitGamePressed"]

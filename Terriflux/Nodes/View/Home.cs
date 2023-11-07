@@ -37,7 +37,7 @@ public partial class Home : StandardWindow
 
     }
 
-    public async void LoginAnim()
+    private async void LoginAnim()
     {
         _loginLabel.Text = "M";
 
@@ -60,7 +60,7 @@ public partial class Home : StandardWindow
         this.loginAnim_finished = true;
     }
 
-    public async void PasswordAnim()
+    private async void PasswordAnim()
     {
         for (int i = 0; i < 5; i++)
         {
@@ -70,4 +70,18 @@ public partial class Home : StandardWindow
 
         this.passwordAnim_finished = true;
     }
+
+
+    private void OnStartPressed()
+    {
+
+    }
+
+    private void OnExitGamePressed()
+    {
+
+    }
+
+
+    
 }
