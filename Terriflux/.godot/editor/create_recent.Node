@@ -1,9 +1,10 @@
-Label
 Camera2D
+Label
+Polygon2D
+Button
 Sprite2D
 TextureProgressBar
 SpinBox
 ProgressBar
-Button
 TileMap
 ItemList
