@@ -20,8 +20,6 @@ public partial class Home : StandardWindow
 
         _loginLabel = GetNode<Label>("LoginBackground/LoginType");
         _passwordLabel = GetNode<Label>("PasswordBackground/PasswordType");
-
-        this.SetTitle("Welcome !");
     }
 
     public override void _Process(double delta)

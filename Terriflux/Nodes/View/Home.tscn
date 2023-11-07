@@ -1,10 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbjbnu5m0bk1l"]
+[gd_scene load_steps=5 format=3 uid="uid://dbjbnu5m0bk1l"]
 
 [ext_resource type="PackedScene" uid="uid://bvnka1rerdevj" path="res://Nodes/View/StandardWindow.tscn" id="1_wtdsx"]
 [ext_resource type="Script" path="res://Nodes/View/Home.cs" id="2_xgyje"]
+[ext_resource type="Texture2D" uid="uid://d4uombm0xoiv" path="res://Ressources/Images/Icons/icons-set-1_0000s_0083_Layer-175.png" id="3_y0jcf"]
+[ext_resource type="Texture2D" uid="uid://b21hf7bj824ow" path="res://Ressources/Images/Icons/icons-set-1_0000s_0075_Layer-167.png" id="4_1ebbc"]
 
 [node name="Home" instance=ExtResource("1_wtdsx")]
 script = ExtResource("2_xgyje")
+
+[node name="Title" parent="." index="1"]
+text = "Home
+"
 
 [node name="LoginTitle" type="Label" parent="." index="3"]
 offset_left = -112.0
@@ -49,3 +55,25 @@ scale = Vector2(0.8, 0.8)
 text = "Password :"
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="Start" type="Button" parent="." index="7"]
+offset_left = -24.0
+offset_top = 24.0
+offset_right = 313.0
+offset_bottom = 169.0
+scale = Vector2(0.2, 0.2)
+theme_override_font_sizes/font_size = 100
+text = "Start"
+icon = ExtResource("3_y0jcf")
+alignment = 2
+
+[node name="ExitGame" type="Button" parent="." index="8"]
+offset_left = -24.0
+offset_top = 64.0
+offset_right = 313.0
+offset_bottom = 209.0
+scale = Vector2(0.2, 0.2)
+theme_override_font_sizes/font_size = 100
+text = "Exit"
+icon = ExtResource("4_1ebbc")
+alignment = 2

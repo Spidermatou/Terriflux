@@ -1,5 +1,8 @@
-res://Nodes/View/MainScene.tscn
-res://StarScene.tscn
+res://Nodes/View/Home.tscn
+res://Nodes/View/StandardWindow.tscn
+res://Nodes/View/Lab.tscn
+res://Nodes/View/Home.cs
+res://Nodes/View/StandardWindow.cs
 res://Programs/Gauges/EcologyGauge.cs
 res://Programs/Gauges/EconomyGauge.cs
 res://Programs/Gauges/Gauge.cs
@@ -13,11 +16,3 @@ res://Programs/View/Impacts.cs
 res://Programs/View/MainScene.cs
 res://Programs/View/PlacementList.cs
 res://Programs/View/RoundCounter.cs
-res://StarScene.cs
-res://Nodes/View/TypeWindow.tscn
-res://Nodes/View/LargeWindow.tscn
-res://Nodes/View/StandardWindow.tscn
-res://Nodes/View/Lab.tscn
-res://Nodes/View/StandardWindow.cs
-res://Nodes/View/Home.tscn
-res://Nodes/View/Home.cs
