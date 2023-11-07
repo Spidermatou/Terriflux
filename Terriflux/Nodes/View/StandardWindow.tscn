@@ -1,9 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://bvnka1rerdevj"]
+[gd_scene load_steps=3 format=3 uid="uid://bvnka1rerdevj"]
 
+[ext_resource type="Script" path="res://Nodes/View/StandardWindow.cs" id="1_gj572"]
 [ext_resource type="Texture2D" uid="uid://dm8onf82t6edr" path="res://Ressources/Images/Menu/MenuLittle.png" id="1_ro1ou"]
 
 [node name="StandardWindow" type="Node2D"]
+script = ExtResource("1_gj572")
 
-[node name="MenuLittle" type="Sprite2D" parent="."]
-scale = Vector2(3, 3)
+[node name="Background" type="Sprite2D" parent="."]
+scale = Vector2(1.8, 1.8)
 texture = ExtResource("1_ro1ou")
+
+[node name="Title" type="Label" parent="."]
+offset_left = -224.0
+offset_top = -152.0
+offset_right = -184.0
+offset_bottom = -126.0
+theme_override_font_sizes/font_size = 0
+text = "Title"
+
+[node name="Exit" type="Button" parent="."]
+offset_left = 208.0
+offset_top = -152.0
+offset_right = 226.0
+offset_bottom = -121.0
+scale = Vector2(1, 0.807467)
+text = "X"
+
+[connection signal="pressed" from="Exit" to="." method="OnExitPressed"]

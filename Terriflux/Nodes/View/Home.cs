@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 
-public partial class StarScene : Node2D
+public partial class Home : StandardWindow
 {
     private Label _loginLabel;
     private Label _passwordLabel;
@@ -12,12 +12,16 @@ public partial class StarScene : Node2D
     private bool passwordAnim_finished = false;
     private bool passwordAnim_working = false;
 
+    public Home() { }
 
     public override void _Ready()
     {
+        base._Ready();
 
         _loginLabel = GetNode<Label>("LoginBackground/LoginType");
         _passwordLabel = GetNode<Label>("PasswordBackground/PasswordType");
+
+        this.SetTitle("Welcome !");
     }
 
     public override void _Process(double delta)

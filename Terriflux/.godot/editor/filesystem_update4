@@ -16,3 +16,8 @@ res://Programs/View/RoundCounter.cs
 res://StarScene.cs
 res://Nodes/View/TypeWindow.tscn
 res://Nodes/View/LargeWindow.tscn
+res://Nodes/View/StandardWindow.tscn
+res://Nodes/View/Lab.tscn
+res://Nodes/View/StandardWindow.cs
+res://Nodes/View/Home.tscn
+res://Nodes/View/Home.cs
