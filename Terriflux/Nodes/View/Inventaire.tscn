@@ -1,0 +1,112 @@
+[gd_scene load_steps=4 format=3 uid="uid://cyl00mhoip2ij"]
+
+[ext_resource type="Script" path="res://tblInventaire.cs" id="1_cab3u"]
+[ext_resource type="Texture2D" uid="uid://b6gfmw14lu66x" path="res://Ressources/Textures/inventory.png" id="1_rpg6g"]
+[ext_resource type="Texture2D" uid="uid://vijhwd1ev7li" path="res://Ressources/Textures/const.png" id="3_owy8u"]
+
+[node name="Inventaire" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 248.0
+offset_top = 40.0
+offset_right = 800.0
+offset_bottom = 475.0
+texture = ExtResource("1_rpg6g")
+
+[node name="tblInventaire" type="VBoxContainer" parent="TextureRect"]
+clip_contents = true
+offset_left = 48.0
+offset_top = 72.0
+offset_right = 488.0
+offset_bottom = 408.0
+script = ExtResource("1_cab3u")
+
+[node name="fluxEau" type="Label" parent="TextureRect/tblInventaire"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Eau"
+
+[node name="fluxBois" type="Label" parent="TextureRect/tblInventaire"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Bois"
+
+[node name="fluxPain" type="Label" parent="TextureRect/tblInventaire"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Pain"
+
+[node name="fluxEnergie" type="Label" parent="TextureRect/tblInventaire"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Énergie"
+
+[node name="fluxCereales" type="Label" parent="TextureRect/tblInventaire"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Céréales"
+
+[node name="fluxMarchandise" type="Label" parent="TextureRect/tblInventaire"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Marchandise"
+
+[node name="fluxMedicaments" type="Label" parent="TextureRect/tblInventaire"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Médicaments"
+
+[node name="fluxMatieresPrem" type="Label" parent="TextureRect/tblInventaire"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Matières premières"
+
+[node name="Const" type="Sprite2D" parent="."]
+position = Vector2(688, 128)
+scale = Vector2(0.5, 1)
+texture = ExtResource("3_owy8u")
+
+[node name="Const2" type="Sprite2D" parent="."]
+position = Vector2(687.25, 176)
+scale = Vector2(0.5, 1)
+texture = ExtResource("3_owy8u")
+
+[node name="Const3" type="Sprite2D" parent="."]
+position = Vector2(687.75, 256)
+scale = Vector2(0.507299, 1)
+texture = ExtResource("3_owy8u")
+
+[node name="Const4" type="Sprite2D" parent="."]
+position = Vector2(687.25, 336)
+scale = Vector2(0.5, 1)
+texture = ExtResource("3_owy8u")
+
+[node name="Const5" type="Sprite2D" parent="."]
+position = Vector2(687.25, 376)
+scale = Vector2(0.5, 1)
+texture = ExtResource("3_owy8u")
+
+[node name="Const6" type="Sprite2D" parent="."]
+position = Vector2(687.75, 296)
+scale = Vector2(0.507299, 1)
+texture = ExtResource("3_owy8u")
+
+[node name="Const7" type="Sprite2D" parent="."]
+position = Vector2(687.25, 216)
+scale = Vector2(0.5, 1)
+texture = ExtResource("3_owy8u")
+
+[node name="Const8" type="Sprite2D" parent="."]
+position = Vector2(687.75, 424)
+scale = Vector2(0.507299, 1)
+texture = ExtResource("3_owy8u")
