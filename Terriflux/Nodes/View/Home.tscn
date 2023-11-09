@@ -2,17 +2,22 @@
 
 [ext_resource type="PackedScene" uid="uid://bvnka1rerdevj" path="res://Nodes/View/StandardWindow.tscn" id="1_wtdsx"]
 [ext_resource type="Script" path="res://Nodes/View/Home.cs" id="2_xgyje"]
-[ext_resource type="Texture2D" uid="uid://d4uombm0xoiv" path="res://Ressources/Images/Icons/icons-set-1_0000s_0083_Layer-175.png" id="3_y0jcf"]
-[ext_resource type="Texture2D" uid="uid://b21hf7bj824ow" path="res://Ressources/Images/Icons/icons-set-1_0000s_0075_Layer-167.png" id="4_1ebbc"]
+[ext_resource type="Texture2D" uid="uid://da4orcagrytop" path="res://Ressources/Images/Icons/icons-set-1_0000s_0083_Layer-175.png" id="3_y0jcf"]
+[ext_resource type="Texture2D" uid="uid://dasn4fhq33nka" path="res://Ressources/Images/Icons/icons-set-1_0000s_0075_Layer-167.png" id="4_1ebbc"]
 
 [node name="Home" instance=ExtResource("1_wtdsx")]
+scale = Vector2(2, 2)
 script = ExtResource("2_xgyje")
 
-[node name="Title" parent="." index="1"]
+[node name="Background2" type="Polygon2D" parent="." index="0"]
+color = Color(0.643137, 0, 0.643137, 1)
+polygon = PackedVector2Array(-288, -164, 288, -164, 288, 164, -288, 164)
+
+[node name="Title" parent="." index="2"]
 text = "Home
 "
 
-[node name="LoginTitle" type="Label" parent="." index="3"]
+[node name="LoginTitle" type="Label" parent="." index="4"]
 offset_left = -112.0
 offset_top = -72.0
 offset_right = 40.0
@@ -22,7 +27,7 @@ text = "Login :"
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="LoginBackground" type="Polygon2D" parent="." index="4"]
+[node name="LoginBackground" type="Polygon2D" parent="." index="5"]
 position = Vector2(-32, -64)
 scale = Vector2(0.569686, 0.457244)
 polygon = PackedVector2Array(0, 0, 152, 0, 152, 40, 0, 40)
@@ -34,7 +39,7 @@ offset_bottom = 40.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="PasswordBackground" type="Polygon2D" parent="." index="5"]
+[node name="PasswordBackground" type="Polygon2D" parent="." index="6"]
 position = Vector2(-32, -24)
 scale = Vector2(0.569686, 0.457244)
 polygon = PackedVector2Array(0, 0, 152, 0, 152, 40, 0, 40)
@@ -46,7 +51,7 @@ offset_bottom = 40.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="PasswordTitle" type="Label" parent="." index="6"]
+[node name="PasswordTitle" type="Label" parent="." index="7"]
 offset_left = -112.0
 offset_top = -32.0
 offset_right = 40.0
@@ -56,7 +61,7 @@ text = "Password :"
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Start" type="Button" parent="." index="7"]
+[node name="Start" type="Button" parent="." index="8"]
 offset_left = -24.0
 offset_top = 24.0
 offset_right = 313.0
@@ -67,7 +72,7 @@ text = "Start"
 icon = ExtResource("3_y0jcf")
 alignment = 2
 
-[node name="ExitGame" type="Button" parent="." index="8"]
+[node name="ExitGame" type="Button" parent="." index="9"]
 offset_left = -24.0
 offset_top = 64.0
 offset_right = 313.0
@@ -77,6 +82,8 @@ theme_override_font_sizes/font_size = 100
 text = "Exit"
 icon = ExtResource("4_1ebbc")
 alignment = 2
+
+[node name="Camera2D" type="Camera2D" parent="." index="10"]
 
 [connection signal="pressed" from="Start" to="." method="OnStartPressed"]
 [connection signal="pressed" from="ExitGame" to="." method="OnExitGamePressed"]

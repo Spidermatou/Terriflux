@@ -1,0 +1,17 @@
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\bin\Debug\Terriflux.deps.json
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\bin\Debug\Terriflux.runtimeconfig.json
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\bin\Debug\Terriflux.dll
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\bin\Debug\Terriflux.pdb
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\bin\Debug\GodotSharp.dll
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\bin\Debug\GodotSharpEditor.dll
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\obj\Debug\Terriflux.csproj.AssemblyReference.cache
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\obj\Debug\Terriflux.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\obj\Debug\Terriflux.AssemblyInfoInputs.cache
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\obj\Debug\Terriflux.AssemblyInfo.cs
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\obj\Debug\Terriflux.csproj.CoreCompileInputs.cache
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\obj\Debug\Terriflux.csproj.CopyComplete
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\obj\Debug\Terriflux.dll
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\obj\Debug\refint\Terriflux.dll
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\obj\Debug\Terriflux.pdb
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\obj\Debug\Terriflux.genruntimeconfig.cache
+C:\Users\thewi\Desktop\t-3-my-kingdom\Terriflux\.godot\mono\temp\obj\Debug\ref\Terriflux.dll

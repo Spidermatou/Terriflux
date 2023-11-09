@@ -1,28 +1,31 @@
 using Godot;
 using System;
 
-public partial class StandardWindow : Node2D
+namespace Terriflux.Programs.View
 {
-	private Label _title;
-
-    /***************
-     * READY */
-    public override void _Ready()
+    public partial class StandardWindow : Node2D
     {
-        _title = GetNode<Label>("Title");
-    }
+        private Label _title;
 
-    /***************
-     * GETSET */
-    public void SetTitle(string newTitle)
-    {
-        _title.Text = newTitle;
-    }
+        /***************
+         * READY */
+        public override void _Ready()
+        {
+            _title = GetNode<Label>("Title");
+        }
 
-    /***************
-     * EVENT */
-    private void OnExitPressed()
-	{
-		this.Hide();
-	}
+        /***************
+         * GETSET */
+        public void SetTitle(string newTitle)
+        {
+            _title.Text = newTitle;
+        }
+
+        /***************
+         * EVENT */
+        private void OnExitPressed()
+        {
+            this.Hide();
+        }
+    }
 }
