@@ -15,3 +15,7 @@ res://Programs/View/MainScene.cs
 res://Programs/View/PlacementList.cs
 res://Programs/View/RoundCounter.cs
 res://Nodes/View/GridView.tscn
+res://Nodes/View/PlacementList.tscn
+res://Nodes/View/Help.tscn
+res://Programs/Data/Buildings.txt
+res://Nodes/View/Help.cs
