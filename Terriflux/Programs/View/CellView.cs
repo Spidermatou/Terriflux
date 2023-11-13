@@ -6,15 +6,13 @@ using Terriflux.Programs.GameContext;
 
 namespace Terriflux.Programs.View
 {
-    public partial class CellView : Node2D, IVerbosable
+    public partial class CellView : TextureButton
     {
         protected static readonly string defaultTexturePath = OurPaths.TEXTURES + "default" + OurPaths.PNGEXT;
         public static readonly double globalSize = 128;   //px
 
         // children
         private Label _nicknameLabel;
-        public Sprite2D _skin;
-        private Polygon2D _feedback;
 
         // Creation
         /// <summary>
@@ -27,16 +25,14 @@ namespace Terriflux.Programs.View
         {
             base._Ready();
             _nicknameLabel = GetNode<Label>("NicknameLabel");
-            _skin = GetNode<Sprite2D>("Skin");
-            _feedback = GetNode<Polygon2D>("FeedBack");
 
             // hide useless
             _nicknameLabel.Hide();
-            _feedback.Hide();
 
             // default
             ChangeName("Cell");
             ChangeSkin(GD.Load<Texture2D>(defaultTexturePath));
+            this.TextureHover = GD.Load<Texture2D>(OurPaths.TEXTURES + "grass.png");
         }
 
         /// <summary>
@@ -58,19 +54,7 @@ namespace Terriflux.Programs.View
         /// <exception cref="ArgumentNullException"></exception>
         protected void ChangeSkin(Texture2D skin)
         {
-            if (_skin == null)
-            {
-                throw new NullReferenceException(this + "'s skin child not loaded correctly!");
-            }
-            else if (skin == null)
-            {
-                throw new ArgumentNullException(nameof(skin));
-            }
-            else
-            {
-                _skin.Texture = skin;
-                _skin.Scale = new Vector2((float)CellView.GetGlobalSize(), (float)CellView.GetGlobalSize()) / _skin.Texture.GetSize();
-            }
+            this.TextureNormal = skin;
         }
 
         protected void ChangeName(string name)
@@ -87,37 +71,15 @@ namespace Terriflux.Programs.View
             return globalSize;
         }
 
-        // Verbose
-        public string Verbose()
-        {
-            StringBuilder sb = new();
-            sb.Append("Cell " + this);
-            if (_skin == null)
-            {
-                sb.Append("_skin null");
-            }
-            else
-            {
-                sb.Append("Skin = " + _skin.Texture.ResourceName);
-            }
-            if (_nicknameLabel == null)
-            {
-                sb.Append("_nicknameLabel null");
-            }
-            return sb.ToString();
-        }
-
         // Events
         private void OnMouseOver()
         {
             _nicknameLabel.Show();
-            _feedback.Show();
         }
 
         private void OnMouseExit()
         {
             _nicknameLabel.Hide();
-            _feedback.Hide();
         }
 
         private void OnSelectDetectorPressed()
