@@ -92,7 +92,6 @@ namespace Terriflux.Programs.Factories
         /// </summary>
         /// <param name="model"></param>
         /// <param name="orientation"></param>
-        /// <param name="addGrass"></param>
         /// <returns></returns>
         public static BuildingView CreateView(BuildingModel model)
         {

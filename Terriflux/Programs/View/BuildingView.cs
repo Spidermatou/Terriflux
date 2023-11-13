@@ -50,14 +50,18 @@ namespace Terriflux.Programs.View
         {
             base._Ready();
 
-            // get nodes
+            // config background
+            const float DIMENSIONS = (float) 0.125;
             _grassFill = GetNode<Sprite2D>("GrassFill");
             _grassFill.Texture = GD.Load<Texture2D>(GrassView.TEXTURE_PATH);
-            _grassFill.Scale = new Vector2((float)CellView.GetGlobalSize(), (float)CellView.GetGlobalSize()) / _grassFill.Texture.GetSize();
+            _grassFill.ShowBehindParent = true; // go to background
+            _grassFill.Scale = new Vector2(DIMENSIONS, DIMENSIONS);
 
             // update
             ChangeName(name);
-            ChangeSkin(texture);
+            this.TextureHover = null;
+            this.TextureNormal = texture;
+            this.Disabled = true;
         }
     }
 }

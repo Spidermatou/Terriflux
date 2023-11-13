@@ -89,5 +89,13 @@ namespace Terriflux.Programs.View
             // if all ok: change the cell!
             GridController.StartPlacement();
         }
+
+        private void OnCellViewPressed()
+        {
+            GridController.SetSelectedCoordinates(Position);
+
+            // if all ok: change the cell
+            GridController.StartPlacement();
+        }
     }
 }
