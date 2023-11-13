@@ -160,6 +160,8 @@ namespace Terriflux.Programs.Model.Grid
             }
         }
 
+        public void ForceUpdate() { this.NotifyGridChanged(); }
+
         // Verbose
         public string Verbose()
         {

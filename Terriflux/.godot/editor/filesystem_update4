@@ -14,3 +14,4 @@ res://Programs/View/Impacts.cs
 res://Programs/View/MainScene.cs
 res://Programs/View/PlacementList.cs
 res://Programs/View/RoundCounter.cs
+res://Nodes/View/GridView.tscn

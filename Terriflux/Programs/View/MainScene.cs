@@ -21,9 +21,6 @@ namespace Terriflux.Programs.View
         private GridView _gridView;
         private Impacts _impactsView;
 
-        // markers
-        private Marker2D _markGrid;
-
         private MainScene() : base() { }
 
         public override void _Ready()
@@ -33,18 +30,18 @@ namespace Terriflux.Programs.View
             /* ************
              * get children
              * */
-            _markGrid = GetNode<Marker2D>("GridMark");
             _roundView = GetNode<RoundCounter>("RoundCounter");
             _impactsView = GetNode<Impacts>("Impacts");
+            _gridView = GetNode<GridView>("Grid");
 
             /* ************
              * config grid
              * */
-            _gridView = GridFactory.CreateView(gridModel);      // create view
-            _gridView.Position = _markGrid.Position;       // place it
-            _gridView.Scale = new Vector2((float)0.5, (float)0.5);       // reduces size scale to be clearly visible
+            const float DIMENSION = (float) 0.6;
+            _gridView.Scale = new Vector2(DIMENSION, DIMENSION);       // reduces size scale to be clearly visible
             gridModel.AddObserver(_gridView);        // add view as observer
-            AddChild(_gridView);       // add view to scene
+            gridModel.ForceUpdate();
+
 
             /* ************
              * config the static grid controller
