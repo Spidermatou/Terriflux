@@ -53,6 +53,4 @@ visible = false
 position = Vector2(144, 120)
 texture = ExtResource("7_511f3")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
 [connection signal="pressed" from="InventoryButton" to="." method="OnInventoryButtonPressed"]

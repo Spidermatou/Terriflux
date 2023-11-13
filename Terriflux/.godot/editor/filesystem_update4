@@ -16,3 +16,4 @@ res://Programs/View/PlacementList.cs
 res://Programs/View/RoundCounter.cs
 res://Nodes/View/Home.tscn
 res://Nodes/View/Impacts.tscn
+res://Nodes/View/CellView.tscn

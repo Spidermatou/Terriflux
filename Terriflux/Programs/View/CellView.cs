@@ -14,7 +14,7 @@ namespace Terriflux.Programs.View
         // children
         private Label _nicknameLabel;
         public Sprite2D _skin;
-        private Button _selectDetector;
+        private Polygon2D _feedback;
 
         // Creation
         /// <summary>
@@ -28,15 +28,11 @@ namespace Terriflux.Programs.View
             base._Ready();
             _nicknameLabel = GetNode<Label>("NicknameLabel");
             _skin = GetNode<Sprite2D>("Skin");
-            _selectDetector = GetNode<Button>("SelectDetector");
-
-            // adapt button position to cells
-            Vector2 offset = new((float)CellView.GetGlobalSize() / 2,  // calculation of mid-cell location
-                (float)CellView.GetGlobalSize() / 2);
-            _selectDetector.Position -= offset;     // shift the current position of the button center to that of the cell
+            _feedback = GetNode<Polygon2D>("FeedBack");
 
             // hide useless
             _nicknameLabel.Hide();
+            _feedback.Hide();
 
             // default
             ChangeName("Cell");
@@ -115,11 +111,13 @@ namespace Terriflux.Programs.View
         private void OnMouseOver()
         {
             _nicknameLabel.Show();
+            _feedback.Show();
         }
 
         private void OnMouseExit()
         {
             _nicknameLabel.Hide();
+            _feedback.Hide();
         }
 
         private void OnSelectDetectorPressed()
