@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "oriA6Jy035kzkvA8dUi8zVtDIuoQj3f9USn47iLWh1+b9o1+uyJWeXQftCCTLDHi7H+/5FHNNvJUp/eVa38YTQ==",
+  "dgSpecHash": "H3HhuJwMi+r0gluorRfG/CemqSGU9x367WBa8BcCftL/N60IhaUBzaxd4py3o8FTNIkK8umwjhhCUX1nMJuYDg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\thewi\\Desktop\\t-3-my-kingdom\\Terriflux\\Terriflux.csproj",
+  "projectFilePath": "C:\\Users\\ferna\\Desktop\\T3Kingdom\\Terriflux\\Terriflux.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\thewi\\.nuget\\packages\\godot.sourcegenerators\\4.1.1\\godot.sourcegenerators.4.1.1.nupkg.sha512",
-    "C:\\Users\\thewi\\.nuget\\packages\\godotsharp\\4.1.1\\godotsharp.4.1.1.nupkg.sha512",
-    "C:\\Users\\thewi\\.nuget\\packages\\godotsharpeditor\\4.1.1\\godotsharpeditor.4.1.1.nupkg.sha512"
+    "C:\\Users\\ferna\\.nuget\\packages\\godot.sourcegenerators\\4.1.1\\godot.sourcegenerators.4.1.1.nupkg.sha512",
+    "C:\\Users\\ferna\\.nuget\\packages\\godotsharp\\4.1.1\\godotsharp.4.1.1.nupkg.sha512",
+    "C:\\Users\\ferna\\.nuget\\packages\\godotsharpeditor\\4.1.1\\godotsharpeditor.4.1.1.nupkg.sha512"
   ],
   "logs": []
 }

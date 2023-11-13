@@ -1,25 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\thewi\\Desktop\\t-3-my-kingdom\\Terriflux\\Terriflux.csproj": {}
+    "C:\\Users\\ferna\\Desktop\\T3Kingdom\\Terriflux\\Terriflux.csproj": {}
   },
   "projects": {
-    "C:\\Users\\thewi\\Desktop\\t-3-my-kingdom\\Terriflux\\Terriflux.csproj": {
+    "C:\\Users\\ferna\\Desktop\\T3Kingdom\\Terriflux\\Terriflux.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\thewi\\Desktop\\t-3-my-kingdom\\Terriflux\\Terriflux.csproj",
+        "projectUniqueName": "C:\\Users\\ferna\\Desktop\\T3Kingdom\\Terriflux\\Terriflux.csproj",
         "projectName": "Terriflux",
-        "projectPath": "C:\\Users\\thewi\\Desktop\\t-3-my-kingdom\\Terriflux\\Terriflux.csproj",
-        "packagesPath": "C:\\Users\\thewi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\thewi\\Desktop\\t-3-my-kingdom\\Terriflux\\.godot\\mono\\temp\\obj\\",
+        "projectPath": "C:\\Users\\ferna\\Desktop\\T3Kingdom\\Terriflux\\Terriflux.csproj",
+        "packagesPath": "C:\\Users\\ferna\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ferna\\Desktop\\T3Kingdom\\Terriflux\\.godot\\mono\\temp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Users\\thewi\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder",
+          "C:\\Users\\ferna\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder",
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\thewi\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Users\\thewi\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
+          "C:\\Users\\ferna\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ferna\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -75,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

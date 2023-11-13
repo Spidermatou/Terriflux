@@ -1,6 +1,4 @@
-res://Nodes/View/StandardWindow.tscn
-res://Nodes/View/Lab.tscn
-res://Nodes/View/Home.tscn
+res://Nodes/View/MainScene.tscn
 res://Nodes/View/Home.cs
 res://Nodes/View/StandardWindow.cs
 res://Programs/Gauges/EcologyGauge.cs
@@ -16,4 +14,4 @@ res://Programs/View/Impacts.cs
 res://Programs/View/MainScene.cs
 res://Programs/View/PlacementList.cs
 res://Programs/View/RoundCounter.cs
-res://Nodes/View/MainScene.tscn
+res://Nodes/View/Home.tscn
