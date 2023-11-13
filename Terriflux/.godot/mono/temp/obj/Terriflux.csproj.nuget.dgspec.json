@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\USERS\\FERNA\\DESKTOP\\T3KINGDOM\\TERRIFLUX\\Terriflux.csproj": {}
+    "C:\\Users\\ferna\\Desktop\\T3Kingdom\\Terriflux\\Terriflux.csproj": {}
   },
   "projects": {
-    "C:\\USERS\\FERNA\\DESKTOP\\T3KINGDOM\\TERRIFLUX\\Terriflux.csproj": {
+    "C:\\Users\\ferna\\Desktop\\T3Kingdom\\Terriflux\\Terriflux.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\USERS\\FERNA\\DESKTOP\\T3KINGDOM\\TERRIFLUX\\Terriflux.csproj",
+        "projectUniqueName": "C:\\Users\\ferna\\Desktop\\T3Kingdom\\Terriflux\\Terriflux.csproj",
         "projectName": "Terriflux",
-        "projectPath": "C:\\USERS\\FERNA\\DESKTOP\\T3KINGDOM\\TERRIFLUX\\Terriflux.csproj",
+        "projectPath": "C:\\Users\\ferna\\Desktop\\T3Kingdom\\Terriflux\\Terriflux.csproj",
         "packagesPath": "C:\\Users\\ferna\\.nuget\\packages\\",
-        "outputPath": "C:\\USERS\\FERNA\\DESKTOP\\T3KINGDOM\\TERRIFLUX\\.godot\\mono\\temp\\obj\\",
+        "outputPath": "C:\\Users\\ferna\\Desktop\\T3Kingdom\\Terriflux\\.godot\\mono\\temp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Users\\ferna\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder",

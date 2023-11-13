@@ -8,6 +8,8 @@ namespace Terriflux.Programs.Gauges
         private IGauge _social;
         private IGauge _economy;
         private IGauge _ecology;
+        //private IIventory _inventory; 
+        private Node2D _inventory; // test temp type
 
         protected Impacts() { }
 
@@ -23,6 +25,10 @@ namespace Terriflux.Programs.Gauges
             _social = GetNode<IGauge>("SocialGauge");
             _economy = GetNode<IGauge>("EconomyGauge");
             _ecology = GetNode<IGauge>("EcologyGauge");
+
+            // _inventory = GetNode<IIventory>("Inventory"); // test temp type
+            _inventory = GetNode<Node2D>("Inventory"); // test temp type
+            _inventory.Hide();
         }
 
         public void AddSocial(double newValue)
@@ -44,6 +50,14 @@ namespace Terriflux.Programs.Gauges
         public double[] GetImpacts()
         {
             return new double[] { _social.GetValue(), _economy.GetValue(), _ecology.GetValue() };
+        }
+
+        private void OnInventoryButtonPressed()
+        {
+            if (_inventory != null)
+            {
+                this._inventory.Show();
+            }
         }
     }
 }
