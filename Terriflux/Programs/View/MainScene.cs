@@ -10,10 +10,10 @@ namespace Terriflux.Programs.View
 {
     public partial class MainScene : Node2D
     {
-        private const int gameGridSize = 10;
+        private const int GAME_GRID_SIZE = 8;
 
         private readonly RoundModel roundModel = new();
-        private readonly GridModel gridModel = GridFactory.CreateWasteland(gameGridSize);
+        private readonly GridModel gridModel = GridFactory.CreateWasteland(GAME_GRID_SIZE);
 
 
         // nodes
