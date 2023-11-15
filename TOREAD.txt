@@ -1,0 +1,11 @@
+Revisit the cells! model and view mixed up for the moment!!!
+And add their observer/observable (via their interfaces, also to be created)
+
+Tasks:
+- create gauges (mvc format)
+- terrain creation (mvc format)
+- creation of cells + buildings (mvc format)
+- asset creation, poster design (proto)
+
+Then:
+each person goes to work on the other's functionality, checks the documentation (understandable?), adds and points out differences with the plantuml, gives his opinion, makes any modifications (please report).
