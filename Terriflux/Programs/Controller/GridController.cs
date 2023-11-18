@@ -15,6 +15,8 @@ namespace Terriflux.Programs.Controller
         private static GridModel grid;  // controlled grid
         private static RoundModel rounds;     // rounds
         private static Impacts impacts;    // impacts
+        private static IPlaceableView lastCaller;   // last selected IPlaceable
+
 
         private static IPlaceable wantToPlace; // model of cell requested to be placed by the player
         private static readonly Vector2I NULL_SELECTED_COORDINATES = new(-1, -1);    // default, invalid, says it's unselected (Vector2I cannot be null)
@@ -49,16 +51,30 @@ namespace Terriflux.Programs.Controller
         /// Indicates which cell on the grid (visible) the player wants to modify (her position in the grid model is calculated automatically).
         /// </summary>
         /// <param name="viewCoordinates">The true coordinates (on screen) of the grid view.</param>
-        public static void SetSelectedCoordinates(Vector2 viewCoordinates)
+        public static void SetSelectedCoordinates(Vector2 viewCoordinates, IPlaceableView caller)
         {
             if (grid != null)
             {
+                // already have selected coordinates?
+                if (selectedCoordinates != NULL_SELECTED_COORDINATES && caller != null)
+                {
+                    // reset last caller aspect (he is no longer selected)
+                    lastCaller.ResetTexture();
+                }
+
                 // grid placement calculation
                 Vector2I inGridCoordinates = new((int)(viewCoordinates.X / CellView.GetGlobalSize()),
                    (int)(viewCoordinates.Y / CellView.GetGlobalSize()));
 
                 // save her coordinates to place something later
                 selectedCoordinates = inGridCoordinates;
+
+                // save caller
+                lastCaller = caller;
+            }
+            else
+            {
+                caller.ResetTexture();
             }
         }
 
@@ -122,11 +138,13 @@ namespace Terriflux.Programs.Controller
                     if (rounds.GetThisTurn() >= rounds.GetMaxPerTurn())
                     {
                         PopUp.Say("Maximum construction reached for this round!");
+                        lastCaller.ResetTexture();
                     }
                     // is space free?
                     else if (grid.GetAllPlacements().ContainsKey(selectedCoordinates))
                     {
                         PopUp.Say("The selected slot is not empty!");
+                        lastCaller.ResetTexture();
                     }
                     // all ok?
                     else
