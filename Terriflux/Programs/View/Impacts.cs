@@ -56,7 +56,8 @@ namespace Terriflux.Programs.Gauges
         {
             if (_inventory != null)
             {
-                this._inventory.Show();
+                if (this._inventory.Visible) this._inventory.Hide();
+                else this._inventory.Show();
             }
         }
     }

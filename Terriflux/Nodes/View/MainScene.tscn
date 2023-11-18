@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://n0qq6ap5t7sh"]
+[gd_scene load_steps=7 format=3 uid="uid://n0qq6ap5t7sh"]
 
 [ext_resource type="Script" path="res://Programs/View/MainScene.cs" id="1_15usf"]
 [ext_resource type="PackedScene" uid="uid://dh64plgjs3pta" path="res://Nodes/View/PlacementList.tscn" id="2_vatko"]
 [ext_resource type="PackedScene" uid="uid://bl7qt3t548vji" path="res://Nodes/View/RoundCounter.tscn" id="3_kn14g"]
 [ext_resource type="PackedScene" uid="uid://1a63s8mn0og1" path="res://Nodes/View/GridView.tscn" id="3_prd0i"]
 [ext_resource type="PackedScene" uid="uid://cao14fxsuhtl2" path="res://Nodes/View/Impacts.tscn" id="4_7gkka"]
+[ext_resource type="PackedScene" uid="uid://hhwq1kb31e5h" path="res://Nodes/ExitButton.tscn" id="6_d73dy"]
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource("1_15usf")
@@ -15,21 +16,30 @@ color = Color(0.160784, 0.156863, 0.192157, 1)
 polygon = PackedVector2Array(-584, -320, -584, -320, 584, -320, 584, 336, -584, 336)
 
 [node name="PlacementList" parent="." instance=ExtResource("2_vatko")]
-offset_left = 248.0
-offset_top = -192.0
-offset_right = 567.0
-offset_bottom = 93.0
+offset_left = 256.0
+offset_top = -72.0
+offset_right = 575.0
+offset_bottom = 213.0
+metadata/_edit_use_anchors_ = true
 
 [node name="Grid" parent="." instance=ExtResource("3_prd0i")]
 position = Vector2(-544, -296)
 
 [node name="RoundCounter" parent="." instance=ExtResource("3_kn14g")]
-position = Vector2(128, -320)
+position = Vector2(264, 256)
 
 [node name="Impacts" parent="." instance=ExtResource("4_7gkka")]
-offset_left = 256.0
-offset_top = -264.0
-offset_right = 256.0
-offset_bottom = -264.0
+offset_left = 248.0
+offset_top = -184.0
+offset_right = 248.0
+offset_bottom = -184.0
+metadata/_edit_use_anchors_ = true
 
 [node name="Camera" type="Camera2D" parent="."]
+
+[node name="ExitButton" parent="." instance=ExtResource("6_d73dy")]
+offset_left = 288.0
+offset_top = -324.0
+offset_right = 2208.0
+offset_bottom = -4.0
+scale = Vector2(0.15, 0.15)

@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://hhwq1kb31e5h"]
+
+[ext_resource type="Texture2D" uid="uid://dasn4fhq33nka" path="res://Ressources/Images/Icons/icons-set-1_0000s_0075_Layer-167.png" id="1_hccal"]
+[ext_resource type="Script" path="res://Nodes/ExitButton.cs" id="1_q6bqx"]
+
+[node name="ExitButton" type="Button"]
+offset_right = 1920.0
+offset_bottom = 320.0
+scale = Vector2(0.1, 0.1)
+script = ExtResource("1_q6bqx")
+metadata/_edit_group_ = true
+
+[node name="ExitBackground" type="Polygon2D" parent="."]
+position = Vector2(1040, -80)
+color = Color(0.215686, 0.0470588, 0.513726, 1)
+polygon = PackedVector2Array(-1040, 80, 880, 80, 880, 400, -1040, 400)
+
+[node name="ExitLabel" type="Label" parent="."]
+offset_right = 1600.0
+offset_bottom = 320.0
+theme_override_font_sizes/font_size = 120
+text = "Quitter le jeu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cross" type="Sprite2D" parent="."]
+position = Vector2(1760, 160)
+scale = Vector2(2.54545, 2.54545)
+texture = ExtResource("1_hccal")
+
+[connection signal="mouse_entered" from="." to="." method="OnMouseHover"]
+[connection signal="mouse_exited" from="." to="." method="OnMouseExit"]
+[connection signal="pressed" from="." to="." method="OnPressed"]

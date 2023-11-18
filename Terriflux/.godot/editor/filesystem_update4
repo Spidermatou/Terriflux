@@ -1,8 +1,10 @@
 res://Nodes/View/MainScene.tscn
+res://Programs/Data/Buildings.txt
 res://Nodes/View/GridView.tscn
 res://Nodes/View/PlacementList.tscn
 res://Nodes/View/BuildingView.tscn
 res://Nodes/View/CellView.tscn
+res://Nodes/View/Impacts.tscn
 res://Nodes/View/Help.cs
 res://Programs/Gauges/EcologyGauge.cs
 res://Programs/Gauges/EconomyGauge.cs
@@ -17,3 +19,5 @@ res://Programs/View/Impacts.cs
 res://Programs/View/MainScene.cs
 res://Programs/View/PlacementList.cs
 res://Programs/View/RoundCounter.cs
+res://Nodes/ExitButton.tscn
+res://Nodes/ExitButton.cs
