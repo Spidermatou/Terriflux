@@ -41,8 +41,8 @@ scale = Vector2(3, 3)
 texture = ExtResource("4_pkhwr")
 
 [node name="Icon" type="Sprite2D" parent="InventoryButton"]
-position = Vector2(40, 40)
-scale = Vector2(0.25, 0.331081)
+position = Vector2(43, 37)
+scale = Vector2(0.229651, 0.295311)
 
 [node name="Inventory" type="Node2D" parent="."]
 visible = false

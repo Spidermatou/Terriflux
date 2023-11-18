@@ -17,7 +17,8 @@ namespace Terriflux.Programs.Gauges
 
         private readonly Texture2D _inventoryIconTextureNormal = GD.Load<Texture2D>(OurPaths.ICONS + "inventory.png");
         private readonly Texture2D _inventoryIconTextureHover = GD.Load<Texture2D>(OurPaths.ICONS + "leftclick.png");
-
+        private readonly Vector2 _iconScaleClosed = new((float)0.23, (float)0.295);
+        private readonly Vector2 _iconScaleOpened = new((float)0.15, (float)0.178);
 
         protected Impacts() { }
 
@@ -79,7 +80,7 @@ namespace Terriflux.Programs.Gauges
 
                     // feedback
                     this._inventoryEmblem.FlipV = true;
-                    this._inventoryIcon.Hide();
+                    this._inventoryIcon.Scale = this._iconScaleClosed;
                     this._inventoryButton.FocusMode = FocusModeEnum.None;
                 }
                 else // already opened?
@@ -87,8 +88,8 @@ namespace Terriflux.Programs.Gauges
                     this._inventory.Hide();
 
                     // feedback
-                    this._inventoryEmblem.FlipV = false;  
-                    this._inventoryIcon.Show();
+                    this._inventoryEmblem.FlipV = false;
+                    this._inventoryIcon.Scale = this._iconScaleOpened;
                     this._inventoryButton.FocusMode = FocusModeEnum.None;
                 }
             }

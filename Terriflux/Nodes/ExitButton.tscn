@@ -4,28 +4,35 @@
 [ext_resource type="Script" path="res://Nodes/ExitButton.cs" id="1_q6bqx"]
 
 [node name="ExitButton" type="Button"]
-offset_right = 1920.0
-offset_bottom = 320.0
-scale = Vector2(0.1, 0.1)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1170.0
+offset_bottom = 300.0
+grow_horizontal = 0
+size_flags_horizontal = 6
+size_flags_vertical = 6
 script = ExtResource("1_q6bqx")
 metadata/_edit_group_ = true
 
 [node name="ExitBackground" type="Polygon2D" parent="."]
 position = Vector2(1040, -80)
 color = Color(0.215686, 0.0470588, 0.513726, 1)
-polygon = PackedVector2Array(-1040, 80, 880, 80, 880, 400, -1040, 400)
+polygon = PackedVector2Array(-1040, 80, 130, 80, 130, 380, -1040, 380)
 
 [node name="ExitLabel" type="Label" parent="."]
-offset_right = 1600.0
-offset_bottom = 320.0
+layout_mode = 0
+offset_left = 80.0
+offset_top = 20.0
+offset_right = 880.0
+offset_bottom = 260.0
 theme_override_font_sizes/font_size = 120
 text = "Quitter le jeu"
-horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Cross" type="Sprite2D" parent="."]
-position = Vector2(1760, 160)
-scale = Vector2(2.54545, 2.54545)
+position = Vector2(1030, 140)
+scale = Vector2(2.09091, 2.09091)
 texture = ExtResource("1_hccal")
 
 [connection signal="mouse_entered" from="." to="." method="OnMouseHover"]
