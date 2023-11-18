@@ -8,8 +8,16 @@ namespace Terriflux.Programs.Gauges
         private IGauge _social;
         private IGauge _economy;
         private IGauge _ecology;
+        private Button _inventoryButton;
+        private Sprite2D _inventoryIcon;
+        private Sprite2D _inventoryEmblem;
+
         //private IIventory _inventory; 
         private Node2D _inventory; // test temp type
+
+        private readonly Texture2D _inventoryIconTextureNormal = GD.Load<Texture2D>(OurPaths.ICONS + "inventory.png");
+        private readonly Texture2D _inventoryIconTextureHover = GD.Load<Texture2D>(OurPaths.ICONS + "leftclick.png");
+
 
         protected Impacts() { }
 
@@ -22,9 +30,16 @@ namespace Terriflux.Programs.Gauges
         {
             base._Ready();
 
+            // get children
             _social = GetNode<IGauge>("SocialGauge");
             _economy = GetNode<IGauge>("EconomyGauge");
             _ecology = GetNode<IGauge>("EcologyGauge");
+            _inventoryButton = GetNode<Button>("InventoryButton");
+            _inventoryIcon = GetNode<Sprite2D>("InventoryButton/Icon"); 
+            _inventoryEmblem = GetNode<Sprite2D>("InventoryButton/Emblem");
+
+            // default textures
+            this._inventoryIcon.Texture = this._inventoryIconTextureNormal;
 
             // _inventory = GetNode<IIventory>("Inventory"); // test temp type
             _inventory = GetNode<Node2D>("Inventory"); // test temp type
@@ -52,13 +67,41 @@ namespace Terriflux.Programs.Gauges
             return new double[] { _social.GetValue(), _economy.GetValue(), _ecology.GetValue() };
         }
 
+        // Feedback
         private void OnInventoryButtonPressed()
         {
             if (_inventory != null)
             {
-                if (this._inventory.Visible) this._inventory.Hide();
-                else this._inventory.Show();
+                // open inventory if is not
+                if (!this._inventory.Visible)
+                {
+                    this._inventory.Show();
+
+                    // feedback
+                    this._inventoryEmblem.FlipV = true;
+                    this._inventoryIcon.Hide();
+                    this._inventoryButton.FocusMode = FocusModeEnum.None;
+                }
+                else // already opened?
+                {
+                    this._inventory.Hide();
+
+                    // feedback
+                    this._inventoryEmblem.FlipV = false;  
+                    this._inventoryIcon.Show();
+                    this._inventoryButton.FocusMode = FocusModeEnum.None;
+                }
             }
+        }
+
+        private void OnInventoryButtonMouseEntered()
+        {
+            this._inventoryIcon.Texture = this._inventoryIconTextureHover;
+        }
+
+        private void OnInventoryButtonMouseExited()
+        {
+            this._inventoryIcon.Texture = this._inventoryIconTextureNormal;
         }
     }
 }

@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cao14fxsuhtl2"]
+[gd_scene load_steps=7 format=3 uid="uid://cl740lw2cp1mo"]
 
 [ext_resource type="Script" path="res://Programs/View/Impacts.cs" id="1_2vqgg"]
 [ext_resource type="PackedScene" uid="uid://bkr1thtqlltcd" path="res://Nodes/View/SocialGauge.tscn" id="1_4fcbp"]
 [ext_resource type="PackedScene" uid="uid://yxiu3m3v3eir" path="res://Nodes/View/EcologyGauge.tscn" id="2_d86vs"]
 [ext_resource type="PackedScene" uid="uid://c3ecxdtrc4iyk" path="res://Nodes/View/EconomyGauge.tscn" id="3_rew7g"]
 [ext_resource type="Texture2D" uid="uid://wdb1rgeqhooc" path="res://Ressources/GaugesTextures/emblem.png" id="4_pkhwr"]
-[ext_resource type="Texture2D" uid="uid://04kublco7nl4" path="res://Ressources/Images/Icons/icons-set-1_0000s_0006_Layer-98.png" id="6_o7ge0"]
 [ext_resource type="Texture2D" uid="uid://dsmjst676mfuh" path="res://Ressources/Images/Icons/icons-set-1_0000s_0007_Layer-99.png" id="7_511f3"]
 
 [node name="Impacts" type="Control"]
@@ -41,10 +40,9 @@ position = Vector2(40, 40)
 scale = Vector2(3, 3)
 texture = ExtResource("4_pkhwr")
 
-[node name="InventoryIcon" type="Sprite2D" parent="InventoryButton"]
+[node name="Icon" type="Sprite2D" parent="InventoryButton"]
 position = Vector2(40, 40)
 scale = Vector2(0.25, 0.331081)
-texture = ExtResource("6_o7ge0")
 
 [node name="Inventory" type="Node2D" parent="."]
 visible = false
@@ -53,4 +51,6 @@ visible = false
 position = Vector2(144, 120)
 texture = ExtResource("7_511f3")
 
+[connection signal="mouse_entered" from="InventoryButton" to="." method="OnInventoryButtonMouseEntered"]
+[connection signal="mouse_exited" from="InventoryButton" to="." method="OnInventoryButtonMouseExited"]
 [connection signal="pressed" from="InventoryButton" to="." method="OnInventoryButtonPressed"]
