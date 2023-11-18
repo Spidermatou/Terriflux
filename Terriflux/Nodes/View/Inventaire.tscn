@@ -15,6 +15,7 @@ texture = ExtResource("1_rpg6g")
 
 [node name="tblInventaire" type="VBoxContainer" parent="TextureRect"]
 clip_contents = true
+layout_mode = 0
 offset_left = 48.0
 offset_top = 72.0
 offset_right = 488.0
@@ -28,6 +29,11 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "Eau"
 
+[node name="Var1" type="Sprite2D" parent="TextureRect/tblInventaire/fluxEau"]
+position = Vector2(392, 16)
+scale = Vector2(0.5, 1)
+texture = ExtResource("3_owy8u")
+
 [node name="fluxBois" type="Label" parent="TextureRect/tblInventaire"]
 layout_mode = 2
 size_flags_vertical = 1
@@ -35,11 +41,21 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "Bois"
 
+[node name="Var2" type="Sprite2D" parent="TextureRect/tblInventaire/fluxBois"]
+position = Vector2(391.25, 22)
+scale = Vector2(0.5, 1)
+texture = ExtResource("3_owy8u")
+
 [node name="fluxPain" type="Label" parent="TextureRect/tblInventaire"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "Pain"
+
+[node name="Var3" type="Sprite2D" parent="TextureRect/tblInventaire/fluxPain"]
+position = Vector2(391.75, 60)
+scale = Vector2(0.507299, 1)
+texture = ExtResource("3_owy8u")
 
 [node name="fluxEnergie" type="Label" parent="TextureRect/tblInventaire"]
 layout_mode = 2
@@ -47,11 +63,21 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "Énergie"
 
+[node name="Var4" type="Sprite2D" parent="TextureRect/tblInventaire/fluxEnergie"]
+position = Vector2(391.25, 98)
+scale = Vector2(0.5, 1)
+texture = ExtResource("3_owy8u")
+
 [node name="fluxCereales" type="Label" parent="TextureRect/tblInventaire"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "Céréales"
+
+[node name="Var5" type="Sprite2D" parent="TextureRect/tblInventaire/fluxCereales"]
+position = Vector2(391.25, 96)
+scale = Vector2(0.5, 1)
+texture = ExtResource("3_owy8u")
 
 [node name="fluxMarchandise" type="Label" parent="TextureRect/tblInventaire"]
 layout_mode = 2
@@ -59,11 +85,21 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "Marchandise"
 
+[node name="Var6" type="Sprite2D" parent="TextureRect/tblInventaire/fluxMarchandise"]
+position = Vector2(391.75, -26)
+scale = Vector2(0.507299, 1)
+texture = ExtResource("3_owy8u")
+
 [node name="fluxMedicaments" type="Label" parent="TextureRect/tblInventaire"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "Médicaments"
+
+[node name="Var7" type="Sprite2D" parent="TextureRect/tblInventaire/fluxMedicaments"]
+position = Vector2(391.25, -148)
+scale = Vector2(0.5, 1)
+texture = ExtResource("3_owy8u")
 
 [node name="fluxMatieresPrem" type="Label" parent="TextureRect/tblInventaire"]
 layout_mode = 2
@@ -71,42 +107,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "Matières premières"
 
-[node name="Const" type="Sprite2D" parent="."]
-position = Vector2(688, 128)
-scale = Vector2(0.5, 1)
-texture = ExtResource("3_owy8u")
-
-[node name="Const2" type="Sprite2D" parent="."]
-position = Vector2(687.25, 176)
-scale = Vector2(0.5, 1)
-texture = ExtResource("3_owy8u")
-
-[node name="Const3" type="Sprite2D" parent="."]
-position = Vector2(687.75, 256)
-scale = Vector2(0.507299, 1)
-texture = ExtResource("3_owy8u")
-
-[node name="Const4" type="Sprite2D" parent="."]
-position = Vector2(687.25, 336)
-scale = Vector2(0.5, 1)
-texture = ExtResource("3_owy8u")
-
-[node name="Const5" type="Sprite2D" parent="."]
-position = Vector2(687.25, 376)
-scale = Vector2(0.5, 1)
-texture = ExtResource("3_owy8u")
-
-[node name="Const6" type="Sprite2D" parent="."]
-position = Vector2(687.75, 296)
-scale = Vector2(0.507299, 1)
-texture = ExtResource("3_owy8u")
-
-[node name="Const7" type="Sprite2D" parent="."]
-position = Vector2(687.25, 216)
-scale = Vector2(0.5, 1)
-texture = ExtResource("3_owy8u")
-
-[node name="Const8" type="Sprite2D" parent="."]
-position = Vector2(687.75, 424)
+[node name="Var8" type="Sprite2D" parent="TextureRect/tblInventaire/fluxMatieresPrem"]
+position = Vector2(391.75, 18)
 scale = Vector2(0.507299, 1)
 texture = ExtResource("3_owy8u")
