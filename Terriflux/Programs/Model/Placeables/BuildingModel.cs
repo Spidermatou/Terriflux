@@ -127,16 +127,30 @@ namespace Terriflux.Programs.Model.Placeables
 
             // needs
             sb.Append($"Needs:\n");
-            foreach (KeyValuePair<FlowKind, int> kvp in needs)
+            if (needs.Count > 0)
             {
-                sb.Append($"    Key={kvp.Key}, Value={kvp.Value}\n");
+                foreach (KeyValuePair<FlowKind, int> kvp in needs)
+                {
+                    sb.Append($"    Key={kvp.Key}, Value={kvp.Value}\n");
+                }
+            }
+            else
+            {
+                sb.Append("nothing");
             }
 
             // production
             sb.Append($"Products:\n");
-            foreach (KeyValuePair<FlowKind, int> kvp in production)
+            if (production.Count > 0)
             {
-                sb.Append($"    Key={kvp.Key}, Value={kvp.Value}\n");
+                foreach (KeyValuePair<FlowKind, int> kvp in production)
+                {
+                    sb.Append($"    Key={kvp.Key}, Value={kvp.Value}\n");
+                }
+            }
+            else
+            {
+                sb.Append("nothing");
             }
 
             return sb.ToString();
