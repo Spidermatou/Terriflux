@@ -21,3 +21,4 @@ res://Programs/View/PlacementList.cs
 res://Programs/View/RoundCounter.cs
 res://Nodes/ExitButton.tscn
 res://Nodes/ExitButton.cs
+res://Nodes/View/RoundCounter.tscn
