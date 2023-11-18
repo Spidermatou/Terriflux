@@ -512,7 +512,7 @@ namespace Terriflux.Programs.TestsZone
         // inventory
         public async void TInvetoryTable(Vector2 position, bool show = false)
         {
-            tblInventaire inv = tblInventaire.Design();
+            Inventory inv = Inventory.Design();
             SceneTreeTimer timer;
 
             if (show)

@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://yxiu3m3v3eir" path="res://Nodes/View/EcologyGauge.tscn" id="2_d86vs"]
 [ext_resource type="PackedScene" uid="uid://c3ecxdtrc4iyk" path="res://Nodes/View/EconomyGauge.tscn" id="3_rew7g"]
 [ext_resource type="Texture2D" uid="uid://wdb1rgeqhooc" path="res://Ressources/GaugesTextures/emblem.png" id="4_pkhwr"]
-[ext_resource type="Texture2D" uid="uid://dsmjst676mfuh" path="res://Ressources/Images/Icons/icons-set-1_0000s_0007_Layer-99.png" id="7_511f3"]
+[ext_resource type="PackedScene" uid="uid://bfoxg8e16cnnx" path="res://Nodes/Inventaire.tscn" id="6_xxysv"]
 
 [node name="Impacts" type="Control"]
 layout_mode = 3
@@ -44,12 +44,8 @@ texture = ExtResource("4_pkhwr")
 position = Vector2(43, 37)
 scale = Vector2(0.229651, 0.295311)
 
-[node name="Inventory" type="Node2D" parent="."]
-visible = false
-
-[node name="test" type="Sprite2D" parent="Inventory"]
-position = Vector2(144, 120)
-texture = ExtResource("7_511f3")
+[node name="Inventory" parent="." instance=ExtResource("6_xxysv")]
+position = Vector2(-352, 106)
 
 [connection signal="mouse_entered" from="InventoryButton" to="." method="OnInventoryButtonMouseEntered"]
 [connection signal="mouse_exited" from="InventoryButton" to="." method="OnInventoryButtonMouseExited"]
