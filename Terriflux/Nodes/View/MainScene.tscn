@@ -41,9 +41,5 @@ metadata/_edit_use_anchors_ = true
 [node name="Camera" type="Camera2D" parent="."]
 
 [node name="ExitButton" parent="." instance=ExtResource("6_d73dy")]
-offset_left = 389.0
-offset_top = -324.0
-offset_right = 1559.0
-offset_bottom = -24.0
+position = Vector2(389, -324)
 scale = Vector2(0.160221, 0.154724)
-metadata/_edit_use_anchors_ = true

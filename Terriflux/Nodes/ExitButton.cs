@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class ExitButton : Button
+public partial class ExitButton : Node2D
 {
     private readonly Color NORMAL_COLOR = new("933364");
 	private readonly Color HOVER_COLOR = new("370c83");

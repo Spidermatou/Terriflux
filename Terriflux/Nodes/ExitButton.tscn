@@ -3,15 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dasn4fhq33nka" path="res://Ressources/Images/Icons/icons-set-1_0000s_0075_Layer-167.png" id="1_hccal"]
 [ext_resource type="Script" path="res://Nodes/ExitButton.cs" id="1_q6bqx"]
 
-[node name="ExitButton" type="Button"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -1170.0
-offset_bottom = 300.0
-grow_horizontal = 0
-size_flags_horizontal = 6
-size_flags_vertical = 6
+[node name="ExitButton" type="Node2D"]
 script = ExtResource("1_q6bqx")
 
 [node name="ExitBackground" type="Polygon2D" parent="."]
@@ -20,7 +12,6 @@ color = Color(0.215686, 0.0470588, 0.513726, 1)
 polygon = PackedVector2Array(-1040, 80, 130, 80, 130, 380, -1040, 380)
 
 [node name="ExitLabel" type="Label" parent="."]
-layout_mode = 0
 offset_left = 80.0
 offset_top = 20.0
 offset_right = 880.0
@@ -34,6 +25,11 @@ position = Vector2(1030, 140)
 scale = Vector2(2.09091, 2.09091)
 texture = ExtResource("1_hccal")
 
-[connection signal="mouse_entered" from="." to="." method="OnMouseHover"]
-[connection signal="mouse_exited" from="." to="." method="OnMouseExit"]
-[connection signal="pressed" from="." to="." method="OnPressed"]
+[node name="Quit" type="Button" parent="."]
+offset_right = 1168.0
+offset_bottom = 299.0
+flat = true
+
+[connection signal="mouse_entered" from="Quit" to="." method="OnMouseHover"]
+[connection signal="mouse_exited" from="Quit" to="." method="OnMouseExit"]
+[connection signal="pressed" from="Quit" to="." method="OnPressed"]
