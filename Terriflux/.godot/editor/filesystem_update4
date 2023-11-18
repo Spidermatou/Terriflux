@@ -17,3 +17,4 @@ res://Nodes/View/Impacts.tscn
 res://Nodes/Inventaire.tscn
 res://Nodes/View/MainScene.tscn
 res://Programs/Inventory.cs
+res://Nodes/View/Lab.tscn

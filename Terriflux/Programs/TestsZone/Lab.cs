@@ -20,7 +20,7 @@ namespace Terriflux.Programs.TestsZone
             _spawnMark4 = GetNode<Marker2D>("SpawnMark4");
 
             TestsProvider tp = new(this);
-            tp.TInvetoryTable(_spawnMark2.Position, true);
+            tp.TInvetoryTable(_spawnMark.Position, true);
         }
     }
 }

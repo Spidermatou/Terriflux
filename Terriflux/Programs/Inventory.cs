@@ -12,7 +12,7 @@ public partial class Inventory : Node2D, IIventory
 
     // children
     private readonly Dictionary<FlowKind, Sprite2D> _arrows = new(); // quantities arrows visible for user
-    private readonly Dictionary<FlowKind, Label> _quantitiesLabels = new();    // quantities label visible for user
+    private readonly Dictionary<FlowKind, Label> _variationsLabels = new();    // quantities label visible for user
 
     // static textures
     private static readonly Texture2D _constArrow = GD.Load<Texture2D>(OurPaths.TEXTURES + "const.png");
@@ -24,7 +24,7 @@ public partial class Inventory : Node2D, IIventory
 
     public static Inventory Design()
     {
-        return (Inventory)GD.Load<PackedScene>("tblInventaire.tscn")
+        return (Inventory)GD.Load<PackedScene>("Nodes/Inventaire.tscn")
             .Instantiate();
     }
 
@@ -62,30 +62,35 @@ public partial class Inventory : Node2D, IIventory
         if (variation > 0)
         {
             this._arrows[flow].Texture = _upArrow; // arrow to up
-            this._quantitiesLabels[flow].Text = "+" + variation;
-            this._quantitiesLabels[flow].Modulate = new(0, 10, 0); // green
+            this._variationsLabels[flow].Text = "+" + variation;
+            this._variationsLabels[flow].Modulate = new(0, 10, 0); // green
         }
         // perfect balance between product and necessity?
         else if (variation == 0)
         {
             this._arrows[flow].Texture = _constArrow; // vertical bar
-            this._quantitiesLabels[flow].Text = "0";
-            this._quantitiesLabels[flow].Modulate = new(255, 255, 255); // black
+            this._variationsLabels[flow].Text = "0";
+            this._variationsLabels[flow].Modulate = new(255, 255, 255); // black
         }
         // underproduction?
         else
         {
             this._arrows[flow].Texture = _downArrow; //  arrow to down
-            this._quantitiesLabels[flow].Text = "-" + variation;
-            this._quantitiesLabels[flow].Modulate = new(10, 0, 0); // red
+            this._variationsLabels[flow].Text = variation.ToString();
+            this._variationsLabels[flow].Modulate = new(10, 0, 0); // red
         }
     }
-
-
 
     // GODOT
     public override void _Ready()
     {
+        // add enum et 0
+        foreach (FlowKind flow in Enum.GetValues(typeof(FlowKind)))
+        {
+            this.quantitiesProduced.Add(flow, 0);
+            this.quantitiesNeeded.Add(flow, 0);
+        }
+
         // add references for arrows
         this._arrows.Add(FlowKind.ENERGY, GetNode<Sprite2D>("VarEnergie"));
         this._arrows.Add(FlowKind.RAW_MATERIAL, GetNode<Sprite2D>("VarMatiere"));
@@ -95,12 +100,12 @@ public partial class Inventory : Node2D, IIventory
         this._arrows.Add(FlowKind.BREAD, GetNode<Sprite2D>("VarPain"));
 
         // add references for quantities
-        this._quantitiesLabels.Add(FlowKind.ENERGY, GetNode<Label>("VarNumberEnergie"));
-        this._quantitiesLabels.Add(FlowKind.RAW_MATERIAL, GetNode<Label>("VarNumberMatiere"));
-        this._quantitiesLabels.Add(FlowKind.WATER, GetNode<Label>("VarNumberEau"));
-        this._quantitiesLabels.Add(FlowKind.MANUFACTURED_MERCHANDISE, GetNode<Label>("VarNumberMarchandise"));
-        this._quantitiesLabels.Add(FlowKind.CEREALS, GetNode<Label>("VarNumberCereales"));
-        this._quantitiesLabels.Add(FlowKind.BREAD, GetNode<Label>("VarNumberPain"));
+        this._variationsLabels.Add(FlowKind.ENERGY, GetNode<Label>("VarNumberEnergie"));
+        this._variationsLabels.Add(FlowKind.RAW_MATERIAL, GetNode<Label>("VarNumberMatiere"));
+        this._variationsLabels.Add(FlowKind.WATER, GetNode<Label>("VarNumberEau"));
+        this._variationsLabels.Add(FlowKind.MANUFACTURED_MERCHANDISE, GetNode<Label>("VarNumberMarchandise"));
+        this._variationsLabels.Add(FlowKind.CEREALS, GetNode<Label>("VarNumberCereales"));
+        this._variationsLabels.Add(FlowKind.BREAD, GetNode<Label>("VarNumberPain"));
 
         // reset arrows 
         foreach (Sprite2D arrow in _arrows.Values)
@@ -109,7 +114,7 @@ public partial class Inventory : Node2D, IIventory
         }
 
         // reset labels
-        foreach (Label label in _quantitiesLabels.Values)
+        foreach (Label label in _variationsLabels.Values)
         {
             label.Text = "0";
             label.Modulate = new(255, 255, 255); // black
