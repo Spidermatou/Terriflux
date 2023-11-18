@@ -508,5 +508,44 @@ namespace Terriflux.Programs.TestsZone
                 impacts.Hide();
             }
         }
+
+        // inventory
+        public async void TInvetoryTable(Vector2 position, bool show = false)
+        {
+            tblInventaire inv = tblInventaire.Design();
+            SceneTreeTimer timer;
+
+            if (show)
+            {
+                inv.Position = position;
+                this.scene.AddChild(inv);
+            }
+            
+            // view tests
+            GD.Print(">>Add 4 water");
+            inv.Add(FlowKind.WATER, 4);
+            // wait 2 s
+            timer = this.scene.GetTree().CreateTimer(2.0f); 
+            await this.scene.ToSignal(timer, "timeout");
+            GD.Print(">>Remove 4 water");
+            inv.Remove(FlowKind.WATER, 4);
+            // wait 2 s
+            timer = this.scene.GetTree().CreateTimer(2.0f);
+            await this.scene.ToSignal(timer, "timeout");
+
+            // values test
+            GD.Print(">>Remove 45 energies");
+            inv.Remove(FlowKind.ENERGY, 45);
+            GD.Print(">>Enough energy if I want 2 energies?");
+            GD.Print(inv.ContainsEnough(FlowKind.ENERGY, 2));
+            GD.Print(">>Add 3 MANUFACTURED_MERCHANDISE");
+            inv.Add(FlowKind.MANUFACTURED_MERCHANDISE, 4);
+            GD.Print(">>Enough MANUFACTURED_MERCHANDISE if I want 2? (supposed yes)");
+            GD.Print(inv.ContainsEnough(FlowKind.MANUFACTURED_MERCHANDISE, 2));
+            GD.Print(">> ...and 0? (supposed yes)");
+            GD.Print(inv.ContainsEnough(FlowKind.MANUFACTURED_MERCHANDISE, 0));
+            GD.Print(">> ...and 63? (supposed yes)");
+            GD.Print(inv.ContainsEnough(FlowKind.MANUFACTURED_MERCHANDISE, 63));
+        }
     }
 }

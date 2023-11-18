@@ -12,10 +12,9 @@ namespace Terriflux.Programs.Gauges
         private Sprite2D _inventoryIcon;
         private Sprite2D _inventoryEmblem;
 
-        //private IIventory _inventory; 
-        private Node2D _inventory; // test temp type
+        private IIventory _inventory; 
 
-        private readonly Texture2D _inventoryIconTextureNormal = GD.Load<Texture2D>(OurPaths.ICONS + "inventory.png");
+        private readonly Texture2D _inventoryIconTextureNormal = GD.Load<Texture2D>(OurPaths.ICONS + "inventorysymbol.png");
         private readonly Texture2D _inventoryIconTextureHover = GD.Load<Texture2D>(OurPaths.ICONS + "leftclick.png");
         private readonly Vector2 _iconScaleClosed = new((float)0.23, (float)0.295);
         private readonly Vector2 _iconScaleOpened = new((float)0.15, (float)0.178);
@@ -42,8 +41,7 @@ namespace Terriflux.Programs.Gauges
             // default textures
             this._inventoryIcon.Texture = this._inventoryIconTextureNormal;
 
-            // _inventory = GetNode<IIventory>("Inventory"); // test temp type
-            _inventory = GetNode<Node2D>("Inventory"); // test temp type
+            _inventory = GetNode<IIventory>("Inventory"); 
             _inventory.Hide();
         }
 
@@ -74,7 +72,7 @@ namespace Terriflux.Programs.Gauges
             if (_inventory != null)
             {
                 // open inventory if is not
-                if (!this._inventory.Visible)
+                if (!this._inventory.IsVisibleInTree())
                 {
                     this._inventory.Show();
 

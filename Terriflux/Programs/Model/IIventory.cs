@@ -6,9 +6,10 @@ public interface IIventory
 {
 	void Show();
 	void Hide();
+	bool IsVisibleInTree();
 	void Add(FlowKind flow, int amount);
 	void Remove(FlowKind flow, int amount);
-	void Contains(FlowKind flow);
+	bool Contains(FlowKind flow);
 
     /// <param name="flow"></param>
     /// <param name="amount"></param>
