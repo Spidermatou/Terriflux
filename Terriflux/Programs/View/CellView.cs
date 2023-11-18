@@ -10,12 +10,14 @@ namespace Terriflux.Programs.View
     public partial class CellView : TextureButton, IPlaceableView
     {
         protected static readonly string defaultTexturePath = OurPaths.TEXTURES + "default" + OurPaths.PNGEXT;
-        protected static readonly Texture2D _selectedTexture = GD.Load<Texture2D>(OurPaths.TEXTURES + "building_selected.png");        
         public static readonly double globalSize = 128;   //px
+        private const string selectName = "SelectedMark";
 
         // children
         private Label _nicknameLabel;
         protected Texture2D _baseTexture;
+        private Sprite2D _selectedMark;
+
 
         // Creation
         /// <summary>
@@ -79,6 +81,9 @@ namespace Terriflux.Programs.View
         public void ResetTexture()
         {
             this.TextureNormal = this._baseTexture;
+
+            // remove select mark
+            if (_selectedMark != null) this.RemoveChild(_selectedMark);
         }
 
         // Events
@@ -103,7 +108,14 @@ namespace Terriflux.Programs.View
         private void OnCellViewPressed()
         {
             GridController.SetSelectedCoordinates(Position, this);
-            this.TextureNormal = _selectedTexture;
+            this._selectedMark = new()
+            {
+                Name = selectName,
+                Texture = GD.Load<Texture2D>(OurPaths.ICONS + "willchange.png"),
+                Position = new Vector2(64, 64),
+                Scale = new Vector2((float)0.45, (float)0.45)
+            };
+            this.AddChild(_selectedMark);
 
             // if all ok: change the cell
             GridController.StartPlacement();
