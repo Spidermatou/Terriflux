@@ -2,47 +2,40 @@ using Godot;
 using System;
 namespace Terriflux.Programs.GameContext.OurPath
 {
-public partial class text_box : CanvasLayer
-{
-	private Label _message;
-	private Label _start;
-	private Label _end;
-	// Called when the node enters the scene tree for the first time.
-	protected text_box()
+	public partial class text_box : CanvasLayer
 	{
-		
-	}
-	public override void _Ready()
-	{
-		_message = GetNode<Label>("MarginContainer/MarginContainer/HBoxContainer/Label");
-		_start = GetNode<Label>("MarginContainer/MarginContainer/HBoxContainer/StartMessage");
-		_end = GetNode<Label>("MarginContainer/MarginContainer/HBoxContainer/EndMessage");
-		
-		
-	}
+	
+			// Called when the node enters the scene tree for the first time.
+		private Label _message;
+		public override void _Ready()
+		{
+			_message = GetNode<Label>("/MarginContainer/MarginContainer/HBoxContainer/Label");
+		}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+		public override void _Process(double delta)
+		{
+		
+		}
+		
+		public void setMessage(String Message)
+		{
+			_message.Text = Message;
+		}
+		
+		public  text_box Design()
+		{
+			return (text_box)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "text_box.tscn")
+				.Instantiate();
+		}
+		private void _on_texture_button_pressed()
 	{
 		
-	}
-	
-	public void setMessage(String text)
-	{
-		_message.Text=text;
-	}
-	
-	public static text_box Design()
-	{
-		return (text_box)GD.Load<PackedScene>(OurPaths.VIEW_NODES + "text_box.tscn")
-				.Instantiate();		
-	}
-	private void _on_texture_button_pressed()
-	{
+		this.quit;
 	// Replace with function body.
-		this.QueueFree();
+		
+		}
 	}
-}
 }
 
 
