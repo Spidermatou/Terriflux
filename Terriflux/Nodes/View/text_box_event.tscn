@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bqcibv12p7cji"]
+[gd_scene load_steps=7 format=3 uid="uid://bqcibv12p7cji"]
 
 [ext_resource type="Script" path="res://Programs/TextBox/text_box_event.cs" id="1_ydm43"]
 [ext_resource type="Texture2D" uid="uid://cm3knv6xy1h2n" path="res://Ressources/Images/PhotoEvent/Tete.jpeg" id="2_0gdqd"]
@@ -12,27 +12,14 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hb6ek"]
+bg_color = Color(0, 0, 0, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o1ylo"]
 bg_color = Color(0, 0, 0, 1)
 
 [node name="TextBoxEvent" type="CanvasLayer"]
 script = ExtResource("1_ydm43")
-
-[node name="ExitTextBox" type="TextureButton" parent="."]
-anchors_preset = -1
-anchor_left = 0.493056
-anchor_top = 0.486111
-anchor_right = 0.513021
-anchor_bottom = 0.523148
-offset_left = 24.0
-offset_top = -184.0
-offset_right = 24.0
-offset_bottom = -184.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-metadata/_edit_use_anchors_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 2
@@ -60,18 +47,19 @@ theme_override_constants/margin_bottom = 16
 [node name="Panel" type="Panel" parent="MarginContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Photo" type="Sprite2D" parent="MarginContainer/MarginContainer"]
-z_as_relative = false
-position = Vector2(91, 86)
-texture = ExtResource("2_0gdqd")
-
 [node name="Nom" type="Label" parent="MarginContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_fonts/font = ExtResource("3_lqf1q")
 theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_hb6ek")
 text = "test"
 horizontal_alignment = 1
+
+[node name="Photo" type="Sprite2D" parent="MarginContainer/MarginContainer"]
+z_as_relative = false
+position = Vector2(91, 86)
+texture = ExtResource("2_0gdqd")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer"]
 layout_mode = 2
@@ -108,5 +96,21 @@ theme_override_fonts/font = ExtResource("3_lqf1q")
 theme_override_font_sizes/font_size = 25
 text = "v
 "
+
+[node name="ExitTextBox" type="TextureButton" parent="."]
+anchors_preset = -1
+anchor_left = 0.493056
+anchor_top = 0.486111
+anchor_right = 0.513021
+anchor_bottom = 0.523148
+offset_left = 24.0
+offset_top = -184.0
+offset_right = 24.0
+offset_bottom = -184.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+metadata/_edit_use_anchors_ = true
 
 [connection signal="pressed" from="ExitTextBox" to="." method="OnExitTextBoxPressed"]
