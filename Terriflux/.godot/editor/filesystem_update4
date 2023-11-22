@@ -1,9 +1,14 @@
+res://Nodes/View/Impacts.tscn
 res://Nodes/ExitButton.cs
+res://Nodes/View/MainScene.tscn
+res://Nodes/View/Lab.tscn
+res://Nodes/Inventaire.tscn
 res://Nodes/View/Help.cs
 res://Programs/Gauges/EcologyGauge.cs
 res://Programs/Gauges/EconomyGauge.cs
 res://Programs/Gauges/Gauge.cs
 res://Programs/Gauges/SocialGauge.cs
+res://Programs/Inventory.cs
 res://Programs/TestsZone/Lab.cs
 res://Programs/View/BuildingView.cs
 res://Programs/View/CellView.cs
@@ -13,8 +18,3 @@ res://Programs/View/Impacts.cs
 res://Programs/View/MainScene.cs
 res://Programs/View/PlacementList.cs
 res://Programs/View/RoundCounter.cs
-res://Nodes/View/Impacts.tscn
-res://Nodes/Inventaire.tscn
-res://Nodes/View/MainScene.tscn
-res://Programs/Inventory.cs
-res://Nodes/View/Lab.tscn
