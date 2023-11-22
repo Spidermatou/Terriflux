@@ -1,10 +1,10 @@
+Label
 RichTextLabel
 TextureRect
 TextureButton
 TextureProgressBar
 VBoxContainer
 Container
-Label
 PanelContainer
 TabContainer
 Camera2D
