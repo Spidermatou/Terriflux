@@ -1,25 +1,25 @@
 [gd_scene load_steps=4 format=3 uid="uid://cyl00mhoip2ij"]
 
 [ext_resource type="Script" path="res://tblInventaire.cs" id="1_cab3u"]
-[ext_resource type="Texture2D" uid="uid://3eldbi626mhy" path="res://Ressources/Textures/inventory2.png" id="1_d8gmo"]
+[ext_resource type="Texture2D" uid="uid://b6gfmw14lu66x" path="res://Ressources/Textures/inventory.png" id="1_wdcqb"]
 [ext_resource type="Texture2D" uid="uid://vijhwd1ev7li" path="res://Ressources/Textures/const.png" id="3_owy8u"]
 
 [node name="Inventaire" type="Node2D"]
 
 [node name="TextureRect" type="TextureRect" parent="."]
-offset_left = 80.0
+offset_left = -56.0
 offset_top = 16.0
 offset_right = 656.0
-offset_bottom = 448.0
-texture = ExtResource("1_d8gmo")
+offset_bottom = 451.0
+texture = ExtResource("1_wdcqb")
 
 [node name="TblInventaire" type="VBoxContainer" parent="TextureRect"]
 clip_contents = true
 layout_mode = 0
-offset_left = 8.0
-offset_top = 50.0
-offset_right = 568.0
-offset_bottom = 446.0
+offset_left = 72.0
+offset_top = 32.0
+offset_right = 632.0
+offset_bottom = 428.0
 theme_override_constants/separation = 10
 alignment = 1
 script = ExtResource("1_cab3u")
@@ -148,20 +148,20 @@ text = "0"
 
 [node name="Type" type="Label" parent="TextureRect"]
 layout_mode = 0
-offset_left = 24.0
-offset_top = 16.0
-offset_right = 116.0
-offset_bottom = 74.0
+offset_left = 80.0
+offset_top = 24.0
+offset_right = 172.0
+offset_bottom = 82.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "Type"
 
 [node name="Quantite" type="Label" parent="TextureRect"]
 layout_mode = 0
-offset_left = 240.0
-offset_top = 16.0
-offset_right = 560.0
-offset_bottom = 54.0
+offset_left = 304.0
+offset_top = 24.0
+offset_right = 624.0
+offset_bottom = 62.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "Quantité au prochain tour"
