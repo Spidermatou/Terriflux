@@ -15,7 +15,7 @@ public partial class Inventory : Node2D, IInventory
     private readonly Dictionary<FlowKind, Label> _variationsLabels = new();    // quantities label visible for user
 
     // static textures
-    private static readonly Texture2D _constArrow = GD.Load<Texture2D>(OurPaths.TEXTURES + "const.png");
+    private static readonly Texture2D _constArrow = GD.Load<Texture2D>(OurPaths.ICONS + "const.png");
     private static readonly Texture2D _upArrow = GD.Load<Texture2D>(OurPaths.ICONS + "up.png");
     private static readonly Texture2D _downArrow = GD.Load<Texture2D>(OurPaths.ICONS + "down.png");
 
@@ -57,6 +57,7 @@ public partial class Inventory : Node2D, IInventory
     private void Update(FlowKind flow)
     {
         int variation = this.quantitiesProduced[flow] - this.quantitiesNeeded[flow];
+        Vector2 arrowsScale = new Vector2(1, (float)0.28);
 
         // overproduction?
         if (variation > 0)
@@ -64,6 +65,7 @@ public partial class Inventory : Node2D, IInventory
             this._arrows[flow].Texture = _upArrow; // arrow to up
             this._variationsLabels[flow].Text = "+" + variation;
             this._variationsLabels[flow].Modulate = new(0, 10, 0); // green
+            this._arrows[flow].Scale = arrowsScale;
         }
         // perfect balance between product and necessity?
         else if (variation == 0)
@@ -71,6 +73,7 @@ public partial class Inventory : Node2D, IInventory
             this._arrows[flow].Texture = _constArrow; // vertical bar
             this._variationsLabels[flow].Text = "0";
             this._variationsLabels[flow].Modulate = new(255, 255, 255); // black
+            this._arrows[flow].Scale = new Vector2(1,1);
         }
         // underproduction?
         else
@@ -78,6 +81,8 @@ public partial class Inventory : Node2D, IInventory
             this._arrows[flow].Texture = _downArrow; //  arrow to down
             this._variationsLabels[flow].Text = variation.ToString();
             this._variationsLabels[flow].Modulate = new(10, 0, 0); // red
+            this._arrows[flow].Scale = arrowsScale;
+
         }
     }
 

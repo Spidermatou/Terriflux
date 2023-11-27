@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bfoxg8e16cnnx"]
+[gd_scene load_steps=3 format=3 uid="uid://bfoxg8e16cnnx"]
 
 [ext_resource type="Script" path="res://Programs/Inventory.cs" id="1_p8107"]
-[ext_resource type="Texture2D" uid="uid://ccltay2p4fctb" path="res://Ressources/Textures/inventory.png" id="1_rpg6g"]
-[ext_resource type="Texture2D" uid="uid://cw3nypvxq0cf2" path="res://Ressources/Textures/const.png" id="3_owy8u"]
+[ext_resource type="Texture2D" uid="uid://df1uk0acsvmjl" path="res://Ressources/Textures/inventory.png" id="1_rpg6g"]
 
 [node name="Inventory" type="Node2D"]
 script = ExtResource("1_p8107")
@@ -134,32 +133,26 @@ text = "0
 [node name="VarEau" type="Sprite2D" parent="."]
 position = Vector2(620, 96)
 scale = Vector2(0.5, 1)
-texture = ExtResource("3_owy8u")
 
 [node name="VarEnergie" type="Sprite2D" parent="."]
 position = Vector2(619.75, 182)
 scale = Vector2(0.507299, 1)
-texture = ExtResource("3_owy8u")
 
 [node name="VarMarchandise" type="Sprite2D" parent="."]
 position = Vector2(619.25, 262)
 scale = Vector2(0.5, 1)
-texture = ExtResource("3_owy8u")
 
 [node name="VarMatiere" type="Sprite2D" parent="."]
 position = Vector2(619.25, 302)
 scale = Vector2(0.5, 1)
-texture = ExtResource("3_owy8u")
 
 [node name="VarCereales" type="Sprite2D" parent="."]
 position = Vector2(619.75, 222)
 scale = Vector2(0.507299, 1)
-texture = ExtResource("3_owy8u")
 
 [node name="VarPain" type="Sprite2D" parent="."]
 position = Vector2(621, 138)
 scale = Vector2(0.507299, 1)
-texture = ExtResource("3_owy8u")
 
 [node name="Type" type="Label" parent="."]
 offset_left = 75.0
