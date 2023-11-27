@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://ds2mgf155gme6"]
+
+[ext_resource type="Script" path="res://Programs/View/CellView.cs" id="1_f65mx"]
+[ext_resource type="PackedScene" uid="uid://cn7gukx86ooe0" path="res://Nodes/Tools/OverLabel.tscn" id="3_a0qpn"]
+
+[node name="CellView" type="TextureButton"]
+offset_right = 128.0
+offset_bottom = 128.0
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("1_f65mx")
+
+[node name="NicknameLabel" parent="." instance=ExtResource("3_a0qpn")]
+layout_mode = 0
+offset_left = 32.0
+offset_top = -80.0
+offset_right = 112.0
+offset_bottom = -54.0
+
+[connection signal="pressed" from="." to="." method="OnCellViewPressed"]

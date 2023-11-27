@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d0256dsrkwuoh"]
+
+[node name="Window" type="Window"]
+mode = 2
+title = "Mainscene"
+initial_position = 2

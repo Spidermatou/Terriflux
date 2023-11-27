@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cn7gukx86ooe0"]
+
+[node name="OverLabel" type="Label"]
+offset_left = 69.0
+offset_top = -100.0
+offset_right = 116.0
+offset_bottom = -74.0
+scale = Vector2(2, 2)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Cell-Name"
