@@ -1,0 +1,13 @@
+@startuml
+!theme reddress-darkgreen
+
+/' -------------------------------
+- OBJECTS
+-- '/
+
+/' -------------------------------
+- AGREGATIONS / COMPOSITIONS
+-- '/
+
+
+@enduml

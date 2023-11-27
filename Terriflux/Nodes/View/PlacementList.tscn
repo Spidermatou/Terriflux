@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dh64plgjs3pta"]
+
+[ext_resource type="Script" path="res://Programs/View/PlacementList.cs" id="1_80mrs"]
+
+[node name="PlacementList" type="ItemList"]
+offset_right = 319.0
+offset_bottom = 285.0
+fixed_icon_size = Vector2i(50, 50)
+script = ExtResource("1_80mrs")
+
+[connection signal="item_selected" from="." to="." method="OnItemSelected"]
