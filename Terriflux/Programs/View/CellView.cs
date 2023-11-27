@@ -3,18 +3,21 @@ using System;
 using System.Text;
 using Terriflux.Programs.Controller;
 using Terriflux.Programs.GameContext;
+using Terriflux.Programs.Model.Placeables;
 
 namespace Terriflux.Programs.View
 {
-    public partial class CellView : Node2D, IVerbosable
+    public partial class CellView : TextureButton, IPlaceableView
     {
         protected static readonly string defaultTexturePath = OurPaths.TEXTURES + "default" + OurPaths.PNGEXT;
         public static readonly double globalSize = 128;   //px
+        private const string selectName = "SelectedMark";
 
         // children
         private Label _nicknameLabel;
-        public Sprite2D _skin;
-        private Button _selectDetector;
+        protected Texture2D _baseTexture;
+        private Sprite2D _selectedMark;
+
 
         // Creation
         /// <summary>
@@ -27,13 +30,6 @@ namespace Terriflux.Programs.View
         {
             base._Ready();
             _nicknameLabel = GetNode<Label>("NicknameLabel");
-            _skin = GetNode<Sprite2D>("Skin");
-            _selectDetector = GetNode<Button>("SelectDetector");
-
-            // adapt button position to cells
-            Vector2 offset = new((float)CellView.GetGlobalSize() / 2,  // calculation of mid-cell location
-                (float)CellView.GetGlobalSize() / 2);
-            _selectDetector.Position -= offset;     // shift the current position of the button center to that of the cell
 
             // hide useless
             _nicknameLabel.Hide();
@@ -41,6 +37,7 @@ namespace Terriflux.Programs.View
             // default
             ChangeName("Cell");
             ChangeSkin(GD.Load<Texture2D>(defaultTexturePath));
+            this.TextureHover = GD.Load<Texture2D>(OurPaths.TEXTURES + "grass.png");
         }
 
         /// <summary>
@@ -62,19 +59,8 @@ namespace Terriflux.Programs.View
         /// <exception cref="ArgumentNullException"></exception>
         protected void ChangeSkin(Texture2D skin)
         {
-            if (_skin == null)
-            {
-                throw new NullReferenceException(this + "'s skin child not loaded correctly!");
-            }
-            else if (skin == null)
-            {
-                throw new ArgumentNullException(nameof(skin));
-            }
-            else
-            {
-                _skin.Texture = skin;
-                _skin.Scale = new Vector2((float)CellView.GetGlobalSize(), (float)CellView.GetGlobalSize()) / _skin.Texture.GetSize();
-            }
+            this._baseTexture = skin;
+            this.TextureNormal = skin;
         }
 
         protected void ChangeName(string name)
@@ -91,24 +77,12 @@ namespace Terriflux.Programs.View
             return globalSize;
         }
 
-        // Verbose
-        public string Verbose()
+        public void ResetTexture()
         {
-            StringBuilder sb = new();
-            sb.Append("Cell " + this);
-            if (_skin == null)
-            {
-                sb.Append("_skin null");
-            }
-            else
-            {
-                sb.Append("Skin = " + _skin.Texture.ResourceName);
-            }
-            if (_nicknameLabel == null)
-            {
-                sb.Append("_nicknameLabel null");
-            }
-            return sb.ToString();
+            this.TextureNormal = this._baseTexture;
+
+            // remove select mark
+            if (_selectedMark != null) this.RemoveChild(_selectedMark);
         }
 
         // Events
@@ -124,9 +98,25 @@ namespace Terriflux.Programs.View
 
         private void OnSelectDetectorPressed()
         {
-            GridController.SetSelectedCoordinates(Position);
+            GridController.SetSelectedCoordinates(Position, this);
 
             // if all ok: change the cell!
+            GridController.StartPlacement();
+        }
+
+        private void OnCellViewPressed()
+        {
+            GridController.SetSelectedCoordinates(Position, this);
+            this._selectedMark = new()
+            {
+                Name = selectName,
+                Texture = GD.Load<Texture2D>(OurPaths.ICONS + "willchange.png"),
+                Position = new Vector2(64, 64),
+                Scale = new Vector2((float)0.45, (float)0.45)
+            };
+            this.AddChild(_selectedMark);
+
+            // if all ok: change the cell
             GridController.StartPlacement();
         }
     }

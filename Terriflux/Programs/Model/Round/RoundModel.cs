@@ -1,8 +1,12 @@
+using Godot;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Terriflux.Programs.GameContext;
+using Terriflux.Programs.GameContext.OurPath;
+using Terriflux.Programs.Gauges;
 using Terriflux.Programs.Observers;
+using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Model.Round
 {
@@ -12,19 +16,64 @@ namespace Terriflux.Programs.Model.Round
         private int maxPerTurn = 3;
         private int buildedThisTurn = 0;
 
+        public Impacts impactsManager;
+
         private readonly List<IRoundObserver> observers = new();
+
+
+        // for test
+        public text_box TxtBox;
+        public string endmess;
 
         public RoundModel() { }
 
         public void NextTurn()
         {
+            if (impactsManager == null)
+            {
+                GD.Print("RoundModel not set correctly");
+                throw new Exception();
+            }
+
             roundNumber++;
 
-            // reset
-            buildedThisTurn = 0;
+            // game end?    // TODO with strategy pattern 
+            if (impactsManager.GetImpacts()[0] == 0)
+            {
+                Ends endmessage = new();
+                text_box tb = text_box.Design();
+                this.endmess = endmessage.GetSocialZero();
 
-            // update
-            Notify();
+                this.TxtBox = tb;
+            }
+            else if (impactsManager.GetImpacts()[1] == 0)
+            {
+                Ends endmessage = new();
+                text_box tb = text_box.Design();
+
+                this.endmess = endmessage.GetEconomyZero();
+
+                this.TxtBox = tb;
+
+            }
+            else if (impactsManager.GetImpacts()[2] == 0)
+            {
+                Ends endmessage = new();
+                text_box tb = text_box.Design();
+
+                this.endmess = endmessage.GetEcologyZero();
+
+                this.TxtBox = tb;
+
+            }
+            else
+            {
+                // reset
+                buildedThisTurn = 0;
+
+                // update
+                Notify();
+            }
         }
 
         /// <returns> The actual round number. </returns>

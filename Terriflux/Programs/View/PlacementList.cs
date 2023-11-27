@@ -13,6 +13,7 @@ namespace Terriflux.Programs.View
     {
         private readonly List<BuildingModel> buildingsInfos = new();    // store a draft of each  buildable buildings to get further informations about 
 
+
         // CONSTRUCT
         private PlacementList() { }
 
@@ -39,6 +40,7 @@ namespace Terriflux.Programs.View
                 throw new FileNotFoundException($"Unable to find the specified file at '{filePath}'");
             }
 
+            int i = 0;
             while ((line = reader.ReadLine()) != null)
             {
                 // load the model of each building defined into build's data file
@@ -55,12 +57,30 @@ namespace Terriflux.Programs.View
                 // create a new selectable item in the placement list for this building
                 AddItem(draftModel.GetName(), texture, true);
 
+                // save his informations access
+                InstantiateHelper(draftModel, i);
+                i++;
+
                 // save the draft for later use
                 buildingsInfos.Add(draftModel);
             }
 
             // close file
             reader.Close();
+        }
+
+        private void InstantiateHelper(IVerbosable verbosable, int index)
+        {
+            const int HELP_RIGHT_POSITION = 230;
+            const int BORDER_OFFSET = 8;
+            // Node
+            Help helper = Help.Design();
+            helper.Scale = new Vector2 ((float)0.8, (float)0.8);
+            helper.Position = new Vector2(HELP_RIGHT_POSITION, this.FixedIconSize.X * index + BORDER_OFFSET * index);
+            this.AddChild(helper);
+
+            // Content
+            helper.Set(verbosable);
         }
 
         // SIGNALS

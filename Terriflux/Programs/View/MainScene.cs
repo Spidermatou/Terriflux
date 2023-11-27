@@ -1,4 +1,5 @@
 ﻿using Godot;
+using System.Linq;
 using Terriflux.Programs.Controller;
 using Terriflux.Programs.Factories;
 using Terriflux.Programs.GameContext;
@@ -10,10 +11,10 @@ namespace Terriflux.Programs.View
 {
     public partial class MainScene : Node2D
     {
-        private const int gameGridSize = 10;
+        private const int GAME_GRID_SIZE = 8;
 
         private readonly RoundModel roundModel = new();
-        private readonly GridModel gridModel = GridFactory.CreateWasteland(gameGridSize);
+        private readonly GridModel gridModel = GridFactory.CreateWasteland(GAME_GRID_SIZE);
 
 
         // nodes
@@ -21,8 +22,10 @@ namespace Terriflux.Programs.View
         private GridView _gridView;
         private Impacts _impactsView;
 
-        // markers
-        private Marker2D _markGrid;
+        // for test
+        bool occuped = false;
+
+
 
         private MainScene() : base() { }
 
@@ -33,18 +36,18 @@ namespace Terriflux.Programs.View
             /* ************
              * get children
              * */
-            _markGrid = GetNode<Marker2D>("GridMark");
             _roundView = GetNode<RoundCounter>("RoundCounter");
             _impactsView = GetNode<Impacts>("Impacts");
+            _gridView = GetNode<GridView>("Grid");
 
             /* ************
              * config grid
              * */
-            _gridView = GridFactory.CreateView(gridModel);      // create view
-            _gridView.Position = _markGrid.Position;       // place it
-            _gridView.Scale = new Vector2((float)0.5, (float)0.5);       // reduces size scale to be clearly visible
+            const float DIMENSION = (float) 0.6;
+            _gridView.Scale = new Vector2(DIMENSION, DIMENSION);       // reduces size scale to be clearly visible
             gridModel.AddObserver(_gridView);        // add view as observer
-            AddChild(_gridView);       // add view to scene
+            gridModel.ForceUpdate();
+
 
             /* ************
              * config the static grid controller
@@ -58,6 +61,30 @@ namespace Terriflux.Programs.View
              * */
             RoundController.SetModel(roundModel);
             RoundController.SetView(_roundView);
+
+            /* ************
+             * config for inventory
+             * */
+            InventoryController inventoryController = new(this._impactsView.GetInventory());
+            RoundController.inventoryController = inventoryController;
+            RoundController.grid = this.gridModel;
+            RoundController.impactsManager = this._impactsView;
+
+            roundModel.impactsManager = _impactsView;   
+
+        }
+
+        public override void _Process(double delta)
+        {
+            if (roundModel.TxtBox != null && !occuped) 
+            {
+                this.AddChild(roundModel.TxtBox);
+
+                roundModel.TxtBox.SetMessage(roundModel.endmess);
+                
+                occuped = true;
+            }
+            
         }
     }
 }

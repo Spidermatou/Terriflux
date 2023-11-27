@@ -12,6 +12,7 @@ namespace Terriflux.Programs.GameContext
         public static readonly string RESSOURCES = "Ressources/";
         public static readonly string NODES_DIRECTORY = "Nodes/";
         public static readonly string IMAGES = RESSOURCES + "Images/";
+        public static readonly string ICONS = RESSOURCES + "Images/Icons/";
         public static readonly string TEXTURES = RESSOURCES + "Textures/";
         public static readonly string PROGRAMS = "Programs/";
         public static readonly string GENERATED_BUILDINGS_PARTS = TEXTURES + "GeneratedBuildingsParts/";
