@@ -1,14 +1,7 @@
 Label
-RichTextLabel
-TextureRect
-TextureButton
-TextureProgressBar
-VBoxContainer
-Container
-PanelContainer
-TabContainer
 Camera2D
 Sprite2D
+TextureProgressBar
 SpinBox
 ProgressBar
 Button
