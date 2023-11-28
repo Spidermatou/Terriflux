@@ -85,7 +85,7 @@
       <FileName>Programs\Gauges\EconomyGauge.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Terriflux.Programs.Gauges.Gauge" Collapsed="true">
+  <Class Name="Terriflux.Programs.Gauges.Gauge">
     <Position X="3" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAIAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -107,8 +107,8 @@
       <FileName>Programs\View\Impacts.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Terriflux.Programs.Model.Cell.CellModel" Collapsed="true">
-    <Position X="6.75" Y="3.5" Width="1.5" />
+  <Class Name="Terriflux.Programs.Model.Cell.CellModel">
+    <Position X="6.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAIAAAAAQAAAAAAAAAAEAAAAAAAAAAAABAA=</HashCode>
       <FileName>Programs\Model\Cell\CellModel.cs</FileName>
@@ -130,7 +130,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="Terriflux.Programs.Model.Placeables.BuildingModel" Collapsed="true">
+  <Class Name="Terriflux.Programs.Model.Placeables.BuildingModel">
     <Position X="5.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAMCAAAAAAgAAAAAAAIABAACAAAgABgBAAAA=</HashCode>
@@ -181,7 +181,7 @@
       <FileName>Programs\View\BuildingView.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Terriflux.Programs.View.CellView" Collapsed="true">
+  <Class Name="Terriflux.Programs.View.CellView">
     <Position X="1.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QIEAgAAggAAACAAAEAAAQAAAEAQAAAAIAAAAAEAQAAg=</HashCode>

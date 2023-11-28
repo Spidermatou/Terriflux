@@ -1,0 +1,16 @@
+Chaque batiment a une production minimale. 
+-- Par exemple 2 farines par tour. -- 
+
+Si le batiment est trop loin de celui qu'il ravitaille, alors il lui offre cette production minimale. 
+-- Par exemple, si mon moulin est à 4 cases (ou plus) d'écart de la boulangerie, alors il ne fourni que ces 2 farines. --
+
+S'il est assez proche, mais pas encore juste à côté, alors il donne sa production minimale multipliée par 1.5
+-- Exemple entre 2 et 3 cases --
+
+S'il est juste à côté, alors production fois 2.
+
+
+Plus d'inventaire global, seulement des batiments actifs ou inactifs (ces dernier mettent un malus)
+
+Faire une fonction pour cacher tt les lignes de production / les montrer.
+

@@ -1,0 +1,66 @@
+@startuml
+!theme reddress-darkgreen
+
+mainframe Terriflux
+
+/' GENERAL '/
+interface IRawNode  /' Any node of our own creation '/
+{
+    + Instantiate() /' substitutes GD.Load '/
+    + Verbose()
+}
+abstract RawNode implements IRawNode /' extends Godot.Node '/
+{
+    # RawNode() /' this.Name = this.getClass().ToString() '/ 
+    + Instantiate() /' (IRawNode) GD.Load<PackedScene>(chemin_vers_noeud + noeud.Name) '/
+    + {abstract} Verbose()
+}
+
+/' CELLS '/
+interface ICell 
+{
+    + GetDimensions() : Integer[2] /' VectorI(x, y) '/
+    + IsSelected() : Boolean
+    + Select()
+    + Unselect() /' TODO - actuel ResetTexture '/
+}
+abstract Cell extends RawNode implements ICell
+{
+    - {static} {readonly} DEFAULT_TEXTURE : Texture2D
+    - {static} {readonly} SIZE : Vector2I 
+    - selfTexture : Texture2D
+    # Cell()
+    # {override} _Ready() /' ChangeSkin() '/
+    # ChangeSkin(texture : Texture2D)
+    + ^GetDimensions() : Integer[2] 
+    + ^IsSelected() : Boolean
+    + ^Select()
+    + ^Unselect() 
+    - OnMouseAbove()
+    - OnMouseOutside()
+    - OnPressed()
+}
+class Grass extends Cell
+{
+    + Grass() 
+}
+abstract Building
+{
+    - {readonly} impacts : Real[3]
+    - {readonly} needs : Real[3]
+    - {readonly} minimal production : Real[3]
+    - IsActive() : Boolean /' will produce sth this turn '/
+
+    /' TODO '/
+    
+}
+
+
+interface IGrid
+{
+    + DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer[2] /' Tuple<int, int> '/
+
+}
+
+
+@enduml
