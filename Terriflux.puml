@@ -99,9 +99,23 @@ class BuildingFactory
     + createGrocery()
 }
 
+
+
 interface IGrid
 {
+    + ReDraw()              /' old update() & forceUpdate() '/  
+    + GetSize() : Vector2I
+    + GetAll() : ICell[*]       /' (ICell, Vector2I)[*] '/
+    + GetAt(coordinates : Vector2I) : ICell
+    + SetAt(coordinates : Vector2I, cell : ICell)
     + DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer[2] /' Tuple<int, int> '/
+}
+/' gere uniquement le placement de cellule (et donc batiments) 
+et les operations qui le precedent/suivent (choix du type, des coordonnees, etc) '/
+interface ICellUsher  
+{
+    + SetWantedCell(cell : ICell)
+    + SetWantedCoordinates(coordinates : Vector2I)
 }
 
 
