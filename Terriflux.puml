@@ -143,6 +143,7 @@ ICellUsher" * " *--> " 1 "IImpacts : - impacts
 ICellUsher" * " *--> " 1 "IRound : - round 
 class Grid implements IGrid, ICellUsher
 {
+    - size : Vector2I
     - maxPerTurn : Integer
     - buildedThisTurn : Integer
     - wantedCoordinates : Vector2I
@@ -160,7 +161,30 @@ class Grid implements IGrid, ICellUsher
     + ^DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer[2]
 }
 
+/' INVENTORY & IMPACTS '/
+interface IImpacts
+{
+    + IncrementsEcology(add : Real)
+    + IncrementsEconomy(add : Real)
+    + IncrementsSocial(add : Real)
+    + GetEcology() : Real
+    + GetEconomy() : Real
+    + GetSocial() : Real
+}
+
+interface IGauge
+{
+    + Increments(add : Real)
+}
 
 
+interface IInventory /' ancien node Impact avec acces inventaire ET jauges, mais renommé '/
+/' -- TODO -- '/
+class Inventory implements  IImpacts, IInventory
+/' -- TODO -- '/
+
+
+/' MESSAGE to user '/
+/' -- TODO -- '/
 
 @enduml
