@@ -1,19 +1,24 @@
-@startuml
+@startuml Terriflux
 !theme reddress-darkgreen
 
 mainframe Terriflux
 
-/' GENERAL '/
-interface IRawNode  /' Any node of our own creation '/
+/' MAIN SCENE '/
+class MainScene
 {
-    + Instantiate() /' substitutes GD.Load '/
-    + Verbose()
+
 }
-abstract RawNode implements IRawNode /' extends Godot.Node '/
+MainScene *--> IImpacts : - impacts
+MainScene *--> IGrid : - grid
+MainScene ..> BuildingFactory : use  /' Via la PlacementList '/
+
+/' GENERAL '/
+/' Any node of our own creation '/
+abstract RawNode  /' extends Godot.Node '/
 {
     # RawNode() /' this.Name = this.getClass().ToString() '/ 
-    + ^Instantiate() /' (IRawNode) GD.Load<PackedScene>(chemin_vers_noeud + noeud.Name) '/
-    + ^{abstract} Verbose()
+    + ^Instantiate() /' (RawNode) GD.Load<PackedScene>(chemin_vers_noeud + noeud.Name) '/
+    + ^Verbose()
 }
 
 /' CELLS '/
@@ -31,12 +36,12 @@ abstract Cell extends RawNode implements ICell
     - {readonly} selfTexture : Texture2D
     # Cell()
     # ChangeSkin(texture : Texture2D)
-    + {override} _Ready() /' ChangeSkin() '/
+    + ^{override} _Ready() /' ChangeSkin() '/
     + ^GetDimensions() : Integer[2] 
     + ^IsSelected() : Boolean
     + ^Select()
     + ^Unselect() 
-    + Verbose()
+    + ^{override} Verbose()
     - OnMouseAbove()
     - OnMouseOutside()
     - OnPressed()
@@ -55,7 +60,7 @@ abstract Building extends Cell
     + GetNeedOf(flow : FlowKind) : Integer
     + GetProductOf(flow : FlowKind) : Integer        /' minimal product '/
     - IsActive() : Boolean /' will produce sth this turn '/
-    + {override} Verbose()
+    + ^{override} Verbose()
 }
 /' needs & minimalProduction = (FlowKind, Integer)[*] '/
 Building" * " o--> " * "FlowKind : - {readonly} needs \n needs      
@@ -99,8 +104,19 @@ class BuildingFactory
     + createGrocery()
 }
 
+/' ROUNDS '/
+interface IRound
+{
+    + GetNumber() : Integer
+    + Next()
+}
+class Round extends RawNode implements IRound
+{
+    + GetNumber() : Integer
+    + Next()
+}
 
-
+/' GRID '/
 interface IGrid
 {
     + ReDraw()              /' old update() & forceUpdate() '/  
@@ -110,13 +126,40 @@ interface IGrid
     + SetAt(coordinates : Vector2I, cell : ICell)
     + DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer[2] /' Tuple<int, int> '/
 }
+IGrid" * " *--> " * "ICell : - cells[*,*] 
 /' gere uniquement le placement de cellule (et donc batiments) 
 et les operations qui le precedent/suivent (choix du type, des coordonnees, etc) '/
 interface ICellUsher  
 {
     + SetWantedCell(cell : ICell)
     + SetWantedCoordinates(coordinates : Vector2I)
+    + GetMaxPlacementPerTurn() : Integer
+    + GetPlacedThisTurn() : Integer
+    + NextTurn()
+    + Place()   /' Confirm the placement - old StartPlacement() '/
 }
+ICellUsher" * " *--> " 1 "ICell : - wantedModel 
+ICellUsher" * " *--> " 1 "IImpacts : - impacts 
+ICellUsher" * " *--> " 1 "IRound : - round 
+class Grid implements IGrid, ICellUsher
+{
+    - maxPerTurn : Integer
+    - buildedThisTurn : Integer
+    - wantedCoordinates : Vector2I
+    + Grid(impacts : impacts, round : IRound)
+    + ^SetWantedCell(cell : ICell)
+    + ^SetWantedCoordinates(coordinates : Vector2I)
+    + ^GetMaxPlacementPerTurn() : Integer
+    + ^GetPlacedThisTurn() : Integer
+    + ^Place()
+    + ^ReDraw()             
+    + ^GetSize() : Vector2I
+    + ^GetAll() : ICell[*]       
+    + ^GetAt(coordinates : Vector2I) : ICell
+    + ^SetAt(coordinates : Vector2I, cell : ICell)
+    + ^DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer[2]
+}
+
 
 
 
