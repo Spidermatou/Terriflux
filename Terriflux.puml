@@ -12,8 +12,8 @@ interface IRawNode  /' Any node of our own creation '/
 abstract RawNode implements IRawNode /' extends Godot.Node '/
 {
     # RawNode() /' this.Name = this.getClass().ToString() '/ 
-    + Instantiate() /' (IRawNode) GD.Load<PackedScene>(chemin_vers_noeud + noeud.Name) '/
-    + {abstract} Verbose()
+    + ^Instantiate() /' (IRawNode) GD.Load<PackedScene>(chemin_vers_noeud + noeud.Name) '/
+    + ^{abstract} Verbose()
 }
 
 /' CELLS '/
@@ -28,14 +28,15 @@ abstract Cell extends RawNode implements ICell
 {
     - {static} {readonly} DEFAULT_TEXTURE : Texture2D
     - {static} {readonly} SIZE : Vector2I 
-    - selfTexture : Texture2D
+    - {readonly} selfTexture : Texture2D
     # Cell()
-    # {override} _Ready() /' ChangeSkin() '/
     # ChangeSkin(texture : Texture2D)
+    + {override} _Ready() /' ChangeSkin() '/
     + ^GetDimensions() : Integer[2] 
     + ^IsSelected() : Boolean
     + ^Select()
     + ^Unselect() 
+    + Verbose()
     - OnMouseAbove()
     - OnMouseOutside()
     - OnPressed()
@@ -44,23 +45,65 @@ class Grass extends Cell
 {
     + Grass() 
 }
-abstract Building
+abstract Building extends Cell
 {
     - {readonly} impacts : Real[3]
-    - {readonly} needs : Real[3]
-    - {readonly} minimal production : Real[3]
+    + Building(impacts : Real[3], needs : FlowKind[*], minimalProduction : FlowKind[*],\n\ttexture : Texture2D, colorOfDot : Color)
+    + GetImpacts() : Real[3]
+    + GetNeeds() : FlowKind[*]
+    + GetProduction() : FlowKind[*]     /' minimal product '/
+    + GetNeedOf(flow : FlowKind) : Integer
+    + GetProductOf(flow : FlowKind) : Integer        /' minimal product '/
     - IsActive() : Boolean /' will produce sth this turn '/
-
-    /' TODO '/
-    
+    + {override} Verbose()
 }
-
+/' needs & minimalProduction = (FlowKind, Integer)[*] '/
+Building" * " o--> " * "FlowKind : - {readonly} needs \n needs      
+Building" * " o--> " * "FlowKind : - {readonly} minimalProduction \n products
+enum FlowKind
+{
+    WATER
+    ENERGY
+    CEREALS
+    BREAD
+    RAW_MATERIAL
+    MANUFACTURED_MERCHANDISE
+}
+class Field extends Building
+{
+    + Field()       /' 1.5, 4.0, -2.0; WATER,1 ; CEREALS,2 ; #Ce517b '/
+}
+class Factory extends Building
+{
+    + Factory()    /' 8.5, -23.0, -11.8 ; WATER,3, ENERGY,7, RAW_MATERIAL,4 ; MANUFACTURED_MERCHANDISE,5 ; #Ce7651 '/
+}
+class Bakery extends Building
+{
+    + Bakery()      /' 3.0, -1.0, -4.0 ; WATER,2, ENERGY,1, CEREALS,2 ; BREAD,3 ; #Ceb851 '/
+}
+class Supplier extends Building
+{
+    + Supplier()        /' 2.5, -2.0, -5.0 ; ; WATER,5, ENERGY,6 ; #51ce60 '/
+}
+class Grocery extends Building
+{
+    + Grocery()         /' 15.0, -2.5, -2.5 ; MANUFACTURED_MERCHANDISE,3, ENERGY,1 ; #51ceb4 '/
+}
+class BuildingFactory
+{
+    + BuildingFactory()
+    + createField()
+    + createFactory()
+    + createBakery()
+    + createSupplier()
+    + createGrocery()
+}
 
 interface IGrid
 {
     + DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer[2] /' Tuple<int, int> '/
-
 }
+
 
 
 @enduml
