@@ -6,7 +6,8 @@ mainframe Terriflux
 /' MAIN SCENE '/
 class MainScene 
 {
-    + Main()
+    + {override} _Ready()
+    + {override} _Process()
 }
 MainScene *--> IImpacts : - impacts
 MainScene *--> IGrid : - grid
@@ -18,14 +19,12 @@ MainScene ..> IAlert : use
 /' Any node of our own creation '/
 abstract RawNode  /' extends Godot.Node '/
 {
+    # {readonly} PATH_NODES : string = "Nodes/"
+    # {readonly} PATH_PROGRAMS : string = "Programs/"
+    # {readonly} PATH_IMAGES : string = "Ressources/Images/"
     # RawNode() /' this.Name = this.getClass().ToString() '/ 
-    + ^Instantiate() /' (RawNode) GD.Load<PackedScene>(chemin_vers_noeud + noeud.Name) '/
+    + {override} _Ready()
     + ^Verbose()
-}
-abstract UpdatableNode extends RawNode
-{
-    # UpdatableNode() 
-    + {abstract} ReDraw()
 }
 
 /' CELLS '/
@@ -126,7 +125,6 @@ class Round extends RawNode implements IRound
 /' GRID '/
 interface IGrid
 {
-    + ReDraw()              /' old update() & forceUpdate() '/  
     + GetSize() : Vector2I
     + GetAll() : ICell[*]       /' (ICell, Vector2I)[*] '/
     + GetAt(coordinates : Vector2I) : ICell
@@ -150,7 +148,7 @@ interface ICellUsher
 ICellUsher" * " *--> " 1 "ICell : - wantedModel 
 ICellUsher" * " *--> " 1 "IImpacts : - impacts 
 ICellUsher" * " *--> " 1 "IRound : - round 
-class Grid extends UpdatableNode implements IGrid, ICellUsher
+class Grid extends RawNode implements IGrid, ICellUsher
 {
     - size : Vector2I
     - maxPerTurn : Integer
@@ -163,7 +161,6 @@ class Grid extends UpdatableNode implements IGrid, ICellUsher
     + ^GetMaxPlacementPerTurn() : Integer
     + ^GetPlacedThisTurn() : Integer
     + ^Place()
-    + ^ReDraw()             
     + ^GetSize() : Vector2I
     + ^GetAll() : ICell[*]       
     + ^GetAt(coordinates : Vector2I) : ICell
@@ -210,13 +207,12 @@ interface IImpacts
 IImpacts" 1 " *--> " 3 "IGauge : - gauges
 interface IInventory 
 {
-    + ReDraw()
     + Add(flow : FlowKind, amount : Integer)
     + Remove(flow : FlowKind, amount : Integer)
     + Contains(flow : FlowKind) : Boolean
     + GetQuantityOf(flow : FlowKind) : Integer
 }
-class Inventory extends UpdatableNode implements IImpacts, IInventory /' ancien node Impact avec acces inventaire ET jauges, mais renommé '/
+class Inventory extends RawNode implements IImpacts, IInventory /' ancien node Impact avec acces inventaire ET jauges, mais renommé '/
 {   
     + ^IncrementsEcology(add : Real)
     + ^IncrementsEconomy(add : Real)
@@ -224,7 +220,6 @@ class Inventory extends UpdatableNode implements IImpacts, IInventory /' ancien 
     + ^GetEcology() : Real
     + ^GetEconomy() : Real
     + ^GetSocial() : Real
-    + ^ReDraw()
     + ^Add(flow : FlowKind, amount : Integer)
     + ^Remove(flow : FlowKind, amount : Integer)
     + ^Contains(flow : FlowKind) : Boolean
