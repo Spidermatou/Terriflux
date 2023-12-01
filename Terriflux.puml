@@ -8,10 +8,11 @@ class MainScene
 {
     + Main()
 }
-MainScene *-u-> IImpacts : - impacts
-MainScene *-u-> IGrid : - grid
-MainScene *-u-> IInventory : - inventory
-MainScene .u.> BuildingFactory : use  /' Via la PlacementList '/
+MainScene *--> IImpacts : - impacts
+MainScene *--> IGrid : - grid
+MainScene *--> IInventory : - inventory
+MainScene ..> BuildingFactory : use  /' Via la PlacementList '/
+MainScene ..> IAlert : use  
 
 /' GENERAL '/
 /' Any node of our own creation '/
@@ -65,7 +66,7 @@ abstract Building extends Cell
     + GetProduction() : FlowKind[*]     /' minimal product '/
     + GetNeedOf(flow : FlowKind) : Integer
     + GetProductOf(flow : FlowKind) : Integer        /' minimal product '/
-    - IsActive() : Boolean /' will produce sth this turn '/
+    + IsActive() : Boolean /' will produce sth this turn '/
     + ^{override} Verbose()
 }
 /' needs & minimalProduction = (FlowKind, Integer)[*] '/
@@ -155,6 +156,7 @@ class Grid extends UpdatableNode implements IGrid, ICellUsher
     - maxPerTurn : Integer
     - buildedThisTurn : Integer
     - wantedCoordinates : Vector2I
+    + {static} NewWasteland(size : Integer)
     + Grid(impacts : impacts, round : IRound)
     + ^SetWantedCell(cell : ICell)
     + ^SetWantedCoordinates(coordinates : Vector2I)
@@ -231,8 +233,16 @@ class Inventory extends UpdatableNode implements IImpacts, IInventory /' ancien 
     - ContainsEnough(flow : FlowKind, amount : Integer) : Boolean
 }
 
-
 /' MESSAGE to user '/
-/' -- TODO -- '/
+interface IAlert
+{
+    + Say(text : string)
+    + Close()
+}
+class Alert implements IAlert
+{
+    + ^Say(text : string)
+    + ^Close()
+}
 
 @enduml
