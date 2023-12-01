@@ -1,0 +1,199 @@
+@startuml
+!theme reddress-darkgreen
+
+package Godot {
+    class Node
+    class Node2D extends Node
+}
+
+package Observers{
+    package CellsObservers{
+        interface ICellObserver {
+            + UpdatePlacement(coordinates : Vector2)
+            + UpdateCellName(cname : StringName)
+        }
+        interface ICellObservable{
+            + SetObserver(observer : ICellObserver)
+            + NotifyPlacement()
+        }
+    }
+    package GaugesObservers{
+        interface IGaugeObserver{
+            + Update(rate : int)
+        }
+        interface IGaugeObservable{ /' observes the 3 gauges '/
+            + RegisterObserver(observer : ICellObserver)
+            + UnregisterObserver(observer : ICellObserver)
+            + NotifyRateAll()
+        }
+    }
+
+    package TerritoryObservers{
+        interface ITerritoryObserver{
+            + Update(world : CellModel[*])
+        }
+        interface ITerritoryObservable{
+            + SetObserver(observer : ICellObserver)
+        }
+    }
+}
+package Terriflux {
+    package Models {
+        class TerritoryModel { /' A grid, a collection of CellModel '/
+            /' Grid '/
+            - grid : CellModel[*]
+            + GetGrid() : CellModel[*]
+            + SetGrid()
+            /' Rates '/
+            - economy : int
+            - ecology : int
+            - sociability : int
+            + GetEconomyRate() : int
+            + GetEcologyRate() : int
+            + GetSociabilityRate() : int
+        }
+        abstract ABuildingModel{
+            - buildingName : string
+            - impacts : int[3]
+            - observer : IBuildingView /' just one for each instance! '/
+            + GetBuildingName() : string
+            + GetImpacts() : int[3]
+            + RegisterObserver(observer : ICellObserver)
+            + UnregisterObserver(observer : ICellObserver)
+            + NotifyObservers()
+            /' + SomeMethodThatUpdatesData() : void {\n // Mettre à jour les données du modèle\n// Puis notifier les observateurs\nNotifyObservers()\n}
+            impacts = {\n +-sociability,\n +-ecology,\n +-economy\n} " '/
+        }
+        interface IBuildingModel{
+            + GetBuildingName() : string
+            + GetImpacts() : int[3]
+        }
+        class MapModelGenerator {
+            + GenerateMap(int size) : ITerritoryView
+        }
+        enum CellKind{
+            BUILDING,
+            WASTELAND, /' free cell '/
+            PRIMARY /' nothing, basic '/
+        }
+        abstract CellModel {
+            - cname : StringName
+            - kind : CellKind
+            - size : int
+            - placement : Vector2
+            + GetCellName() : StringName
+            + SetCellName(newName : StringName)
+            + GetCellKind() : CellKind
+            + SetCellKind(newKind : CellKind)
+            + GetCellSize() : int
+            + SetCellSize(newSize : int)
+            + GetPlacement() : Vector2
+            + SetPlacement(placement : Vector2)
+        }
+        class BuildingModelsFactory{
+            /' Some examples '/
+            + CreateBar() : IBuildingModel
+            + CreateCarFactory() : IBuildingModel
+            + CreatePowerPlant() : IBuildingModel
+            + CreateOatField() : IBuildingModel
+            + CreateHaulageFirm() : IBuildingModel
+        }
+    }
+    package Views {
+        interface IBuildingView {
+            + GetInGridPosition() : Vector2
+            + ^{override} _Input(click : InputEvent)
+            + ^Update()
+        }
+        abstract ABuildingView {
+            # inGridPosition : Vector2
+            + ^GetInGridPosition() : Vector2
+            + ^{override} _Input(click : InputEvent)
+            + ^Update()
+        }
+        class BuildingViewsFactory{
+            /' Some examples '/
+            + CreateBar() : IBuildingView
+            + CreateCarFactory() : IBuildingView
+            + CreatePowerPlant() : IBuildingView
+            + CreateOatField() : IBuildingView
+            + CreateHaulageFirm() : IBuildingView
+        }
+        class "<<static>>\nSceneManager" as SceneManager {
+            + Initialize(root : Node, what : Node) /' unsafe, may cause errors '/
+            + GoToScene(actualScene : Node, targetScene : Node) /' Destroy the actual scene after load target! '/
+        }
+        class MapViewGenerator {
+            + GenerateMap(int size) : TerritoryView
+        }
+        abstract Gauge {
+            + ^{abstract} Update()
+        }
+        class EconomyGauge {
+            + ^Update()
+        }
+        class EcologyGauge {
+            + ^Update()
+        }
+        class SociabilityGauge {
+            + ^Update()
+        }
+        class TerritoryView { /'The map, the grid'/
+            + ^Update()
+        }
+        interface IMovable{
+            + GetInGridPosition() : Vector2 /' Coordinates for grid '/
+            + ^{override} _Input(click : InputEvent)
+        }
+        class CellView{
+            + ^UpdatePlacement(coordinates : Vector2)
+            + ^UpdateCellName(cname : StringName)
+            - OnMouseOver()
+            - OnMouseExit()
+        }
+    }
+    package Controllers {
+        class ImpactsController{
+            + ApplyImpacts(gauge : Gauge, modifier : int)
+        }
+    }
+}
+/' LINKS '/
+Gauge --|> EconomyGauge
+Gauge --|> EcologyGauge
+Gauge --|> SociabilityGauge
+SceneManager o-> Gauge : < instantiate
+SceneManager o-> TerritoryView : < instantiate
+MapViewGenerator o-> TerritoryView
+Node2D <|-- Gauge
+Node2D <|-- CellModel
+Node2D <|-- TerritoryView
+ABuildingView --|> CellModel
+Gauge --|> IGaugeObserver
+TerritoryView --|> ITerritoryObserver
+ImpactsController o-> TerritoryModel : > changes values
+ImpactsController o-> Gauge : > calls for update
+IBuildingView <..o BuildingViewsFactory : < create
+IBuildingView --|> IMovable
+ABuildingView --|> IBuildingView
+ABuildingView --|> ICellObserver
+CellModel *..> TerritoryView : > instantiate and save
+IBuildingModel o..> BuildingModelsFactory : < create
+MapModelGenerator o-> TerritoryModel
+CellView --|> ICellObserver
+CellModel --|> ICellObservable
+CellModel <. CellKind : use
+CellModel --|> Node2D
+ABuildingModel --|> IBuildingModel
+TerritoryModel --|> IGaugeObservable
+TerritoryModel --|> ITerritoryObservable
+
+/' Some examples
+ABuildingModel <|-- PowerPlantModel
+ABuildingModel <|-- OatFieldModel
+ABuildingModel <|-- HaulageFirmModel '/
+/' Some examples
+ABuildingView <|-- PowerPlantView
+ABuildingView <|-- OatFieldView
+ABuildingView <|-- HaulageFirmView '/
+@enduml
