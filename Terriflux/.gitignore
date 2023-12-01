@@ -1,8 +1,0 @@
-.vs/
-.vscode/
-mono/
-shader_cache
-*.cfg
-uid_cache.bin
-*.snl
-*filesystem*
