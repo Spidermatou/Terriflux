@@ -1,12 +1,12 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1701283124
-::res://Nodes/::1701091319
-ExitButton.cs::CSharpScript::-1::1701090933::0::1::::<><>::
+::res://::1701434636
+::res://Nodes/::1701432385
+ExitButton.cs::CSharpScript::-1::1701430403::0::1::::<><>::
 ExitButton.tscn::PackedScene::507138277427013955::1701081115::0::1::::<><>::uid://dasn4fhq33nka
-Inventaire.tscn::PackedScene::2767675136709771845::1701091319::0::1::::<><>::res://Programs/Inventory.cs<>uid://df1uk0acsvmjl::::res://Ressources/Textures/inventory.png
+Inventaire.tscn::PackedScene::2767675136709771845::1701432385::0::1::::<><>::res://Programs/Inventory.cs<>uid://df1uk0acsvmjl::::res://Ressources/Textures/inventory.png
 ::res://Nodes/Tools/::1701080691
 OverLabel.tscn::PackedScene::5751757002950597657::1701080691::0::1::::<><>::
-::res://Nodes/View/::1701091319
+::res://Nodes/View/::1701432385
 BuildingView.tscn::PackedScene::5867733122976779637::1701081116::0::1::::<><>::res://Programs/View/BuildingView.cs<>uid://ds2mgf155gme6
 CellView.tscn::PackedScene::8479139058785195175::1701081116::0::1::::<><>::res://Programs/View/CellView.cs<>uid://cn7gukx86ooe0
 EcologyGauge.tscn::PackedScene::1732535877969199073::1701080691::0::1::::<><>::uid://dias3k1vrr2m7
@@ -19,7 +19,7 @@ Help.tscn::PackedScene::7165576301079765212::1701081115::0::1::::<><>::res://Nod
 Impacts.tscn::PackedScene::5612784786144918918::1701090476::0::1::::<><>::res://Programs/View/Impacts.cs<>uid://bkr1thtqlltcd
 Lab.tscn::PackedScene::6702858313219318845::1701090056::0::1::::<><>::res://Programs/TestsZone/Lab.cs
 LargeWindow.tscn::PackedScene::7840120603273049834::1701081115::0::1::::<><>::uid://bs7ucjog8p3dy
-MainScene.tscn::PackedScene::965066084678917443::1701091319::0::1::::<><>::res://Programs/View/MainScene.cs<>uid://dh64plgjs3pta::::res://Nodes/View/PlacementList.tscn<>uid://bl7qt3t548vji::::res://Nodes/View/RoundCounter.tscn<>uid://1a63s8mn0og1::::res://Nodes/View/GridView.tscn<>uid://cl740lw2cp1mo::::res://Nodes/View/Impacts.tscn<>uid://hhwq1kb31e5h::::res://Nodes/ExitButton.tscn
+MainScene.tscn::PackedScene::965066084678917443::1701432385::0::1::::<><>::res://Programs/View/MainScene.cs<>uid://dh64plgjs3pta::::res://Nodes/View/PlacementList.tscn<>uid://bl7qt3t548vji::::res://Nodes/View/RoundCounter.tscn<>uid://1a63s8mn0og1::::res://Nodes/View/GridView.tscn<>uid://cl740lw2cp1mo::::res://Nodes/View/Impacts.tscn<>uid://hhwq1kb31e5h::::res://Nodes/ExitButton.tscn
 MainWindow.tscn::PackedScene::8971598396946956195::1701081115::0::1::::<><>::
 PlacementList.tscn::PackedScene::7716367834079953250::1701081116::0::1::::<><>::res://Programs/View/PlacementList.cs
 RoundCounter.tscn::PackedScene::3225564955218052582::1701090476::0::1::::<><>::res://Programs/View/RoundCounter.cs<>uid://to3lheftopeo

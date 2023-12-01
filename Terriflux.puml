@@ -4,13 +4,14 @@
 mainframe Terriflux
 
 /' MAIN SCENE '/
-class MainScene
+class MainScene 
 {
-
+    + Main()
 }
-MainScene *--> IImpacts : - impacts
-MainScene *--> IGrid : - grid
-MainScene ..> BuildingFactory : use  /' Via la PlacementList '/
+MainScene *-u-> IImpacts : - impacts
+MainScene *-u-> IGrid : - grid
+MainScene *-u-> IInventory : - inventory
+MainScene .u.> BuildingFactory : use  /' Via la PlacementList '/
 
 /' GENERAL '/
 /' Any node of our own creation '/
@@ -58,7 +59,7 @@ class Grass extends Cell
 abstract Building extends Cell
 {
     - {readonly} impacts : Real[3]
-    + Building(impacts : Real[3], needs : FlowKind[*], minimalProduction : FlowKind[*],\n\ttexture : Texture2D, colorOfDot : Color)
+    + Building(impacts : Real[3], needs : FlowKind[*], minimalProduction : FlowKind[*], texture : Texture2D, colorOfDot : Color)
     + GetImpacts() : Real[3]
     + GetNeeds() : FlowKind[*]
     + GetProduction() : FlowKind[*]     /' minimal product '/
@@ -141,6 +142,7 @@ interface ICellUsher
     + SetWantedCoordinates(coordinates : Vector2I)
     + GetMaxPlacementPerTurn() : Integer
     + GetPlacedThisTurn() : Integer
+    + GetMaluses() : double[3] 
     + NextTurn()
     + Place()   /' Confirm the placement - old StartPlacement() '/
 }
@@ -166,6 +168,8 @@ class Grid extends UpdatableNode implements IGrid, ICellUsher
     + ^SetAt(coordinates : Vector2I, cell : ICell)
     + ^DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer[2]
     + ^GetInactiveCells() : ICell      
+    + ^GetMaluses() : double[3]      
+    + GetInactiveAlert() : string
 }
 
 /' INVENTORY & IMPACTS '/
@@ -205,12 +209,27 @@ IImpacts" 1 " *--> " 3 "IGauge : - gauges
 interface IInventory 
 {
     + ReDraw()
-    + 
-/' -- TODO -- '/
-
+    + Add(flow : FlowKind, amount : Integer)
+    + Remove(flow : FlowKind, amount : Integer)
+    + Contains(flow : FlowKind) : Boolean
+    + GetQuantityOf(flow : FlowKind) : Integer
 }
 class Inventory extends UpdatableNode implements IImpacts, IInventory /' ancien node Impact avec acces inventaire ET jauges, mais renommé '/
-/' -- TODO -- '/
+{   
+    + ^IncrementsEcology(add : Real)
+    + ^IncrementsEconomy(add : Real)
+    + ^IncrementsSocial(add : Real)
+    + ^GetEcology() : Real
+    + ^GetEconomy() : Real
+    + ^GetSocial() : Real
+    + ^ReDraw()
+    + ^Add(flow : FlowKind, amount : Integer)
+    + ^Remove(flow : FlowKind, amount : Integer)
+    + ^Contains(flow : FlowKind) : Boolean
+    + ^GetQuantityOf(flow : FlowKind) : Integer
+    + {override} ^Verbose() : string
+    - ContainsEnough(flow : FlowKind, amount : Integer) : Boolean
+}
 
 
 /' MESSAGE to user '/

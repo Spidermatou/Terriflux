@@ -7,15 +7,15 @@
       <FileName>Programs\PopUp.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Terriflux.Programs.Controller.GridController">
+  <Class Name="Terriflux.Programs.Controller.GridController" Collapsed="true">
     <Position X="13.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAQAFAAAIMAAAAAAAAAAAAQAAAAgARAAggAAAAAEAA=</HashCode>
       <FileName>Programs\Controller\GridController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Terriflux.Programs.Controller.InventoryController" Collapsed="true">
-    <Position X="13.75" Y="1.5" Width="1.5" />
+  <Class Name="Terriflux.Programs.Controller.InventoryController">
+    <Position X="17.5" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAAAACQAAAAAAAAAAAAAAAAAAAAiAAAAAAAAAAA=</HashCode>
       <FileName>Programs\Controller\InventoryController.cs</FileName>
@@ -100,8 +100,8 @@
       <FileName>Programs\Gauges\SocialGauge.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Terriflux.Programs.Gauges.Impacts" Collapsed="true">
-    <Position X="12" Y="1.5" Width="1.5" />
+  <Class Name="Terriflux.Programs.Gauges.Impacts">
+    <Position X="8.5" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>YAggAAEAAAACCEgQAAAAAAAAAACACIGAAAiAACAAoAA=</HashCode>
       <FileName>Programs\View\Impacts.cs</FileName>
@@ -116,7 +116,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Terriflux.Programs.Model.Cell.GrassModel" Collapsed="true">
-    <Position X="7.75" Y="4.75" Width="1.5" />
+    <Position X="5.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Programs\Model\Cell\GrassModel.cs</FileName>
@@ -175,7 +175,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Terriflux.Programs.View.BuildingView" Collapsed="true">
-    <Position X="2.75" Y="5" Width="1.5" />
+    <Position X="3.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAgAAACAAAAAAAAAAAAAAEAgAAAAAAAAAAAAA=</HashCode>
       <FileName>Programs\View\BuildingView.cs</FileName>
@@ -197,7 +197,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Terriflux.Programs.View.MainScene" Collapsed="true">
-    <Position X="17.25" Y="1.5" Width="1.5" />
+    <Position X="13.5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAEAgAAABAAQAAAAAAQAIAgAgAAAAAAAAA=</HashCode>
       <FileName>Programs\View\MainScene.cs</FileName>
@@ -212,7 +212,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Terriflux.Programs.View.RoundCounter" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="17.25" Y="2.5" Width="1.5" />
+    <Position X="12" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAQAAAAAAAAACAAABAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
       <FileName>Programs\View\RoundCounter.cs</FileName>
