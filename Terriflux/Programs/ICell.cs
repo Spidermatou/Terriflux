@@ -2,7 +2,7 @@ using Godot;
 
 namespace Terriflux.Programs
 {
-    public interface IAlert
+    public interface ICell
     {
         /// <returns>The size of the cell.</returns>
         Vector2I GetDimensions();
