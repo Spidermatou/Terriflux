@@ -202,7 +202,7 @@ interface IImpacts
     + IncrementsSocial(add : Real)
     + GetEcology() : Real
     + GetEconomy() : Real
-    + GetSocial() : Real
+    + GetSociability() : Real
 }
 IImpacts" 1 " *--> " 3 "IGauge : - gauges
 interface IInventory 
@@ -219,7 +219,7 @@ class Inventory extends RawNode implements IImpacts, IInventory /' ancien node I
     + ^IncrementsSocial(add : Real)
     + ^GetEcology() : Real
     + ^GetEconomy() : Real
-    + ^GetSocial() : Real
+    + ^GetSociability() : Real
     + ^Add(flow : FlowKind, amount : Integer)
     + ^Remove(flow : FlowKind, amount : Integer)
     + ^Contains(flow : FlowKind) : Boolean
