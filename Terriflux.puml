@@ -30,7 +30,7 @@ abstract RawNode  /' extends Godot.Node '/
 /' CELLS '/
 interface ICell 
 {
-    + GetDimensions() : Integer[2] /' VectorI(x, y) '/
+    + GetDimensions() : VectorI 
     + IsSelected() : Boolean
     + Select()
     + Unselect() /' TODO - actuel ResetTexture '/
