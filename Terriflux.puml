@@ -212,6 +212,7 @@ interface IInventory
     + Contains(flow : FlowKind) : Boolean
     + GetQuantityOf(flow : FlowKind) : Integer
 }
+IInventory" * " ..> FlowKind : use
 class Inventory extends RawNode implements IImpacts, IInventory /' ancien node Impact avec acces inventaire ET jauges, mais renommé '/
 {   
     + ^IncrementsEcology(add : Real)
