@@ -17,14 +17,14 @@ MainScene ..> IAlert : use
 
 /' GENERAL '/
 /' Any node of our own creation '/
-abstract RawNode  /' extends Godot.Node '/
+abstract RawNode  /' extends Godot.Node2D '/
 {
     # {readonly} PATH_NODES : string = "Nodes/"
     # {readonly} PATH_PROGRAMS : string = "Programs/"
     # {readonly} PATH_IMAGES : string = "Ressources/Images/"
     # RawNode() /' this.Name = this.getClass().ToString() '/ 
     + {override} _Ready()
-    + ^Verbose()
+    + Verbose()
 }
 
 /' CELLS '/
