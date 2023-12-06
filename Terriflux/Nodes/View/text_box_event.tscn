@@ -1,0 +1,103 @@
+[gd_scene load_steps=6 format=3 uid="uid://bqcibv12p7cji"]
+
+[ext_resource type="Script" path="res://Programs/TextBox/text_box_event.cs" id="1_ydm43"]
+[ext_resource type="Texture2D" uid="uid://cm3knv6xy1h2n" path="res://Ressources/Images/PhotoEvent/Tete.jpeg" id="2_0gdqd"]
+[ext_resource type="FontFile" uid="uid://cchsqbuet1eib" path="res://Ressources/Font/Born2bSportyV2.ttf" id="3_lqf1q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c7vwg"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o1ylo"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="TextBoxEvent" type="CanvasLayer"]
+script = ExtResource("1_ydm43")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -192.0
+offset_right = 640.0
+grow_vertical = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_c7vwg")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Photo" type="Sprite2D" parent="MarginContainer/MarginContainer"]
+z_as_relative = false
+position = Vector2(91, 86)
+texture = ExtResource("2_0gdqd")
+
+[node name="Nom" type="Label" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("3_lqf1q")
+theme_override_font_sizes/font_size = 35
+text = "test"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 40
+
+[node name="Panel" type="Panel" parent="MarginContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_o1ylo")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Start" type="Label" parent="MarginContainer/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("3_lqf1q")
+theme_override_font_sizes/font_size = 25
+text = "*"
+
+[node name="Message" type="Label" parent="MarginContainer/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("3_lqf1q")
+theme_override_font_sizes/font_size = 25
+text = "Message"
+autowrap_mode = 2
+
+[node name="End" type="Label" parent="MarginContainer/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("3_lqf1q")
+theme_override_font_sizes/font_size = 25
+text = "v
+"
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]
