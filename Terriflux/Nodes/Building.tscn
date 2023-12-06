@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwyf3srjo2nig"]
+
+[ext_resource type="PackedScene" uid="uid://dodopr51o7kn8" path="res://Nodes/Cell.tscn" id="1_hkxvq"]
+
+[node name="Building" instance=ExtResource("1_hkxvq")]
+
+[node name="BuildingSprite" type="Sprite2D" parent="." index="3"]
