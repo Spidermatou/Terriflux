@@ -1,10 +1,11 @@
 using Godot;
-using System;
-using Terriflux.Programs;
+using System.Text;
 
 namespace Terriflux.Programs;
-
-public abstract partial class Cell : RawNode, ICell
+/// <summary>
+/// Abstract node
+/// </summary>
+public partial class Cell : RawNode, ICell
 {
     private static readonly Texture2D DEFAULT_TEXTURE = GD.Load<Texture2D>(PATH_IMAGES + "grass.png");
     private static readonly Vector2I SIZE = new(128, 128);
@@ -47,22 +48,29 @@ public abstract partial class Cell : RawNode, ICell
     {
         return this.selectedMark.Visible;
     }
-
     public void Select()
     {
         this.selectedMark.Show();
     }
-
     public void Unselect()
     {
         this.selectedMark.Hide();
     }
-
     private void OnMouseAbove() { this.nameLabel.Show(); }
     private void OnMouseOutside() { this.nameLabel.Hide(); }
     private void OnPressed() 
     {
         if (IsSelected()) Unselect();
         else Select();
+    }
+
+    public override string Verbose()
+    {
+        StringBuilder sb = new();
+        sb.Append(base.Verbose());
+        sb.AppendLine($"Size: {SIZE}");
+        sb.AppendLine($"Cell body texture: {this.body.TextureNormal}");
+        sb.AppendLine($"Is actually selected: {IsSelected()}");
+        return sb.ToString();
     }
 }

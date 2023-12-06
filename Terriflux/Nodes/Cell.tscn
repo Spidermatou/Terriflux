@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://dodopr51o7kn8"]
 
 [ext_resource type="PackedScene" uid="uid://ds843siejjad2" path="res://Nodes/RawNode.tscn" id="1_yd43c"]
-[ext_resource type="Script" path="res://Nodes/Cell.cs" id="2_y87em"]
+[ext_resource type="Script" path="res://Programs/Cell.cs" id="2_0p4m1"]
 
 [node name="Cell" instance=ExtResource("1_yd43c")]
 scale = Vector2(0.5, 0.5)
-script = ExtResource("2_y87em")
+script = ExtResource("2_0p4m1")
 
 [node name="Button" type="TextureButton" parent="." index="0"]
 offset_left = -519.0
@@ -15,9 +15,7 @@ offset_bottom = 513.0
 
 [node name="SelectedMark" type="Sprite2D" parent="." index="1"]
 
-[node name="Camera2D" type="Camera2D" parent="." index="2"]
-
-[node name="Name" type="Label" parent="." index="3"]
+[node name="Name" type="Label" parent="." index="2"]
 offset_left = 384.0
 offset_top = -546.0
 offset_right = 464.0

@@ -22,7 +22,7 @@ namespace Terriflux.Programs{
         /// Provides additional information about the node.
         /// </summary>
         /// <returns></returns>
-        public string Verbose()
+        public virtual string Verbose()
         {
             StringBuilder sb = new();
             sb.Append($"Name: {this.Name}")
