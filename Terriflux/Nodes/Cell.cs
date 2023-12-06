@@ -29,6 +29,7 @@ public abstract partial class Cell : RawNode, ICell
         // config selection hud
         this.selectedMark = GetNode<Sprite2D>("SelectedMark");
         this.selectedMark.Texture = GD.Load<Texture2D>(PATH_IMAGES + "willchange.png");
+        this.selectedMark.Scale = new(4, 4);
         this.selectedMark.Hide();
     }
 
@@ -59,5 +60,9 @@ public abstract partial class Cell : RawNode, ICell
 
     private void OnMouseAbove() { this.nameLabel.Show(); }
     private void OnMouseOutside() { this.nameLabel.Hide(); }
-    private void OnPressed() { Select(); }
+    private void OnPressed() 
+    {
+        if (IsSelected()) Unselect();
+        else Select();
+    }
 }
