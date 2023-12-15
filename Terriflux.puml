@@ -6,8 +6,8 @@ mainframe Terriflux
 /' MAIN SCENE '/
 class MainScene 
 {
-    + {override} _Ready()
-    + {override} _Process()
+    + {override}  _Ready()
+    + {override}  _Process()
 }
 MainScene *--> IImpacts : - impacts
 MainScene *--> IGrid : - grid
@@ -23,7 +23,7 @@ abstract RawNode  /' extends Godot.Node2D '/
     # {readonly} PATH_PROGRAMS : string = "Programs/"
     # {readonly} PATH_IMAGES : string = "Ressources/Images/"
     # RawNode() /' this.Name = this.getClass().ToString() '/ 
-    + {override} _Ready()
+    + {override}  _Ready()
     + Verbose()
 }
 
@@ -42,12 +42,12 @@ abstract Cell extends RawNode implements ICell
     - {readonly} selfTexture : Texture2D
     # Cell()
     # ChangeSkin(texture : Texture2D)
-    + {override} _Ready() /' ChangeSkin() '/
-    + {override}GetDimensions() : Integer[2] 
-    + {override}IsSelected() : Boolean
-    + {override}Select()
-    + {override}Unselect() 
-    + {override} Verbose()
+    + {override}  _Ready() /' ChangeSkin() '/
+    + {override} GetDimensions() : Integer[2] 
+    + {override} IsSelected() : Boolean
+    + {override} Select()
+    + {override} Unselect() 
+    + {override}  Verbose()
     - OnMouseAbove()
     - OnMouseOutside()
     - OnPressed()
@@ -66,7 +66,8 @@ abstract Building extends Cell
     + GetNeedOf(flow : FlowKind) : Integer
     + GetProductOf(flow : FlowKind) : Integer        /' minimal product '/
     + IsActive() : Boolean /' will produce sth this turn '/
-    + {override} Verbose()
+    + GetMaluses() : Real[3]
+    + {override}  Verbose()
 }
 /' needs & minimalProduction = (FlowKind, Integer)[*] '/
 Building" * " o--> " * "FlowKind : - {readonly} needs \n needs      
@@ -77,8 +78,35 @@ enum FlowKind
     ENERGY
     CEREALS
     BREAD
-    RAW_MATERIAL
-    MANUFACTURED_MERCHANDISE
+    COMPOSANT
+    MACHINE
+}
+interface IWarehouse 
+{
+    /' Recuperer tt les batiments dans sa zone d'effet '/
+    + GetNeighbors() : Building[*] 
+    + GetEffectZoneSize() : Integer 
+    /' 
+        foreach building dans sa zone d'effet :
+            Supply()
+            Stores() si a fourni assez de ressource precedement
+    '/ 
+    + UpdateStock() 
+    + Supply(building : Building, flow : FlowKind, amount : Integer)
+    + Stores(building : Building, flow : FlowKind, amount : Integer)
+    /' Gestion des voisins '/
+    + AddGetNeighbor(neighbor : Building)
+    + RemoveGetNeighbor(neighbor : Building)    /' quand bat supprime de la map, on essaie de l'enlever dasn tt les entrpot '/
+
+}
+IWarehouse" 1 " o--> " * "Building : - neighbors : supply and stores product of
+class Warehouse extends Building implements IWarehouse
+{
+    + {override} GetEffectZoneSize() : Integer 
+    + {override} GetNeighbors() : Building[*] 
+    + {override} UpdateStock() 
+    + {override} Supply(building : Building, flow : FlowKind, amount : Integer)
+    + {override} Stores(building : Building, flow : FlowKind, amount : Integer)
 }
 class Field extends Building
 {
@@ -92,9 +120,13 @@ class Bakery extends Building
 {
     + Bakery()      /' 3.0, -1.0, -4.0 ; WATER,2, ENERGY,1, CEREALS,2 ; BREAD,3 ; #Ceb851 '/
 }
-class Supplier extends Building
+class EnergySupplier extends Building
 {
-    + Supplier()        /' 2.5, -2.0, -5.0 ; ; WATER,5, ENERGY,6 ; #51ce60 '/
+    + EnergySupplier()        /' 2.5, -2.0, -5.0 ; ; ENERGY,6 ; #51ce60 '/
+}
+class Shaft extends Building    /' Puit --- 2.5, -2.0, -5.0 ; ; WATER,6 ; blue '/
+{
+    + Shaft()
 }
 class Grocery extends Building
 {
@@ -106,8 +138,10 @@ class BuildingFactory
     + createField()
     + createFactory()
     + createBakery()
-    + createSupplier()
     + createGrocery()
+    + createShaft()
+    + createEnergySupplier() 
+    + create
 }
 
 /' ROUNDS '/
@@ -141,9 +175,13 @@ interface ICellUsher
     + SetWantedCoordinates(coordinates : Vector2I)
     + GetMaxPlacementPerTurn() : Integer
     + GetPlacedThisTurn() : Integer
-    + GetMaluses() : double[3] 
     + NextTurn()
-    + Place()   /' Confirm the placement - old StartPlacement() '/
+    /' 
+        Confirm the placement - old StartPlacement() 
+        Si c'est un bat : l'ajout à l'entrepot le plus proche s'il est dans sa zone
+        Si c'est un entrepot : recherche des bats dans sa zone et ajout  
+    '/
+    + Place()   
 }
 ICellUsher" * " *--> " 1 "ICell : - wantedModel 
 ICellUsher" * " *--> " 1 "IImpacts : - impacts 
@@ -156,18 +194,17 @@ class Grid extends RawNode implements IGrid, ICellUsher
     - wantedCoordinates : Vector2I
     + {static} NewWasteland(size : Integer)
     + Grid(impacts : impacts, round : IRound)
-    + {override}SetWantedCell(cell : ICell)
-    + {override}SetWantedCoordinates(coordinates : Vector2I)
-    + {override}GetMaxPlacementPerTurn() : Integer
-    + {override}GetPlacedThisTurn() : Integer
-    + {override}Place()
-    + {override}GetSize() : Vector2I
-    + {override}GetAll() : ICell[*]       
-    + {override}GetAt(coordinates : Vector2I) : ICell
-    + {override}SetAt(coordinates : Vector2I, cell : ICell)
-    + {override}DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer[2]
-    + {override}GetInactiveCells() : ICell      
-    + {override}GetMaluses() : double[3]      
+    + {override} SetWantedCell(cell : ICell)
+    + {override} SetWantedCoordinates(coordinates : Vector2I)
+    + {override} GetMaxPlacementPerTurn() : Integer
+    + {override} GetPlacedThisTurn() : Integer
+    + {override} Place()
+    + {override} GetSize() : Vector2I
+    + {override} GetAll() : ICell[*]       
+    + {override} GetAt(coordinates : Vector2I) : ICell
+    + {override} SetAt(coordinates : Vector2I, cell : ICell)
+    + {override} DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer[2]
+    + {override} GetInactiveCells() : ICell      
     + GetInactiveAlert() : string
 }
 
@@ -180,8 +217,8 @@ interface IGauge
 abstract Gauge implements IGauge
 {
     # Gauge()
-    + {override}Increments(add : Real)
-    + {override}Get() : Real
+    + {override} Increments(add : Real)
+    + {override} Get() : Real
 }
 class EcologyGauge extends Gauge
 {
@@ -215,17 +252,17 @@ interface IInventory
 IInventory" * " ..> FlowKind : use
 class Inventory extends RawNode implements IImpacts, IInventory /' ancien node Impact avec acces inventaire ET jauges, mais renommé '/
 {   
-    + {override}IncrementsEcology(add : Real)
-    + {override}IncrementsEconomy(add : Real)
-    + {override}IncrementsSocial(add : Real)
-    + {override}GetEcology() : Real
-    + {override}GetEconomy() : Real
-    + {override}GetSociability() : Real
-    + {override}Add(flow : FlowKind, amount : Integer)
-    + {override}Remove(flow : FlowKind, amount : Integer)
-    + {override}Contains(flow : FlowKind) : Boolean
-    + {override}GetQuantityOf(flow : FlowKind) : Integer
-    + {override} {override}Verbose() : string
+    + {override} IncrementsEcology(add : Real)
+    + {override} IncrementsEconomy(add : Real)
+    + {override} IncrementsSocial(add : Real)
+    + {override} GetEcology() : Real
+    + {override} GetEconomy() : Real
+    + {override} GetSociability() : Real
+    + {override} Add(flow : FlowKind, amount : Integer)
+    + {override} Remove(flow : FlowKind, amount : Integer)
+    + {override} Contains(flow : FlowKind) : Boolean
+    + {override} GetQuantityOf(flow : FlowKind) : Integer
+    + {override}  {override} Verbose() : string
     - ContainsEnough(flow : FlowKind, amount : Integer) : Boolean
 }
 
@@ -237,8 +274,8 @@ interface IAlert
 }
 class Alert implements IAlert
 {
-    + {override}Say(text : string)
-    + {override}Close()
+    + {override} Say(text : string)
+    + {override} Close()
 }
 
 @enduml
