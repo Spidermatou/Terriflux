@@ -28,7 +28,14 @@ namespace Terriflux.Programs{
             sb.Append($"Name: {this.Name}")
                 .Append($"Class: {this.GetClass()}")
                 .Append($"Visible on screen: {this.Visible}");
+
             return sb.ToString();
+        }
+
+ 
+        public static RawNode Instantiate(string name)
+        {
+            return GD.Load<PackedScene>(PATH_NODES + name + ".tscn").Instantiate<RawNode>();
         }
     }
 }

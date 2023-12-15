@@ -42,12 +42,12 @@ abstract Cell extends RawNode implements ICell
     - {readonly} selfTexture : Texture2D
     # Cell()
     # ChangeSkin(texture : Texture2D)
-    + ^{override} _Ready() /' ChangeSkin() '/
-    + ^GetDimensions() : Integer[2] 
-    + ^IsSelected() : Boolean
-    + ^Select()
-    + ^Unselect() 
-    + ^{override} Verbose()
+    + {override} _Ready() /' ChangeSkin() '/
+    + {override}GetDimensions() : Integer[2] 
+    + {override}IsSelected() : Boolean
+    + {override}Select()
+    + {override}Unselect() 
+    + {override} Verbose()
     - OnMouseAbove()
     - OnMouseOutside()
     - OnPressed()
@@ -66,7 +66,7 @@ abstract Building extends Cell
     + GetNeedOf(flow : FlowKind) : Integer
     + GetProductOf(flow : FlowKind) : Integer        /' minimal product '/
     + IsActive() : Boolean /' will produce sth this turn '/
-    + ^{override} Verbose()
+    + {override} Verbose()
 }
 /' needs & minimalProduction = (FlowKind, Integer)[*] '/
 Building" * " o--> " * "FlowKind : - {readonly} needs \n needs      
@@ -156,18 +156,18 @@ class Grid extends RawNode implements IGrid, ICellUsher
     - wantedCoordinates : Vector2I
     + {static} NewWasteland(size : Integer)
     + Grid(impacts : impacts, round : IRound)
-    + ^SetWantedCell(cell : ICell)
-    + ^SetWantedCoordinates(coordinates : Vector2I)
-    + ^GetMaxPlacementPerTurn() : Integer
-    + ^GetPlacedThisTurn() : Integer
-    + ^Place()
-    + ^GetSize() : Vector2I
-    + ^GetAll() : ICell[*]       
-    + ^GetAt(coordinates : Vector2I) : ICell
-    + ^SetAt(coordinates : Vector2I, cell : ICell)
-    + ^DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer[2]
-    + ^GetInactiveCells() : ICell      
-    + ^GetMaluses() : double[3]      
+    + {override}SetWantedCell(cell : ICell)
+    + {override}SetWantedCoordinates(coordinates : Vector2I)
+    + {override}GetMaxPlacementPerTurn() : Integer
+    + {override}GetPlacedThisTurn() : Integer
+    + {override}Place()
+    + {override}GetSize() : Vector2I
+    + {override}GetAll() : ICell[*]       
+    + {override}GetAt(coordinates : Vector2I) : ICell
+    + {override}SetAt(coordinates : Vector2I, cell : ICell)
+    + {override}DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer[2]
+    + {override}GetInactiveCells() : ICell      
+    + {override}GetMaluses() : double[3]      
     + GetInactiveAlert() : string
 }
 
@@ -180,8 +180,8 @@ interface IGauge
 abstract Gauge implements IGauge
 {
     # Gauge()
-    + ^Increments(add : Real)
-    + ^Get() : Real
+    + {override}Increments(add : Real)
+    + {override}Get() : Real
 }
 class EcologyGauge extends Gauge
 {
@@ -215,17 +215,17 @@ interface IInventory
 IInventory" * " ..> FlowKind : use
 class Inventory extends RawNode implements IImpacts, IInventory /' ancien node Impact avec acces inventaire ET jauges, mais renommé '/
 {   
-    + ^IncrementsEcology(add : Real)
-    + ^IncrementsEconomy(add : Real)
-    + ^IncrementsSocial(add : Real)
-    + ^GetEcology() : Real
-    + ^GetEconomy() : Real
-    + ^GetSociability() : Real
-    + ^Add(flow : FlowKind, amount : Integer)
-    + ^Remove(flow : FlowKind, amount : Integer)
-    + ^Contains(flow : FlowKind) : Boolean
-    + ^GetQuantityOf(flow : FlowKind) : Integer
-    + {override} ^Verbose() : string
+    + {override}IncrementsEcology(add : Real)
+    + {override}IncrementsEconomy(add : Real)
+    + {override}IncrementsSocial(add : Real)
+    + {override}GetEcology() : Real
+    + {override}GetEconomy() : Real
+    + {override}GetSociability() : Real
+    + {override}Add(flow : FlowKind, amount : Integer)
+    + {override}Remove(flow : FlowKind, amount : Integer)
+    + {override}Contains(flow : FlowKind) : Boolean
+    + {override}GetQuantityOf(flow : FlowKind) : Integer
+    + {override} {override}Verbose() : string
     - ContainsEnough(flow : FlowKind, amount : Integer) : Boolean
 }
 
@@ -237,8 +237,8 @@ interface IAlert
 }
 class Alert implements IAlert
 {
-    + ^Say(text : string)
-    + ^Close()
+    + {override}Say(text : string)
+    + {override}Close()
 }
 
 @enduml

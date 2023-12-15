@@ -1,17 +1,20 @@
 using Godot;
 using System;
-using Terriflux.Programs.Alert;
+using Terriflux.Programs;
 
-public partial class MainScene : Node2D
+public partial class MainScene : RawNode
 {
-	private IAlert alert;
+	private Alert alert;
+
+	public MainScene() : base() { }
 
 	public override void _Ready()
 	{
 		base._Ready();
-	}
+		// create alert
+		alert = (Alert) RawNode.Instantiate("Alert");
+		this.AddChild(alert);
 
-	public override void _Process(double delta)
-	{
-	}
+		alert.Say("pomme");
+    }
 }
