@@ -14,7 +14,7 @@ namespace Terriflux.Programs
         /// Retrieves the reference of all grid cells.
         /// </summary>
         /// <returns> Reference of all grid cells.</returns>
-        IDictionary<ICell, Vector2I> GetAll();
+        ICell[,] GetAll();
 
         /// <summary>
         /// Retrieves the cell reference at the specified coordinates.

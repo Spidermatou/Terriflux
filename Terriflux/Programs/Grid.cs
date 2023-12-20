@@ -6,10 +6,16 @@ using Terriflux.Programs;
 public partial class Grid : RawNode, IGrid
 {
     private readonly Vector2I dimensions;
+    private readonly ICell[,] cells;
 
     public Grid(Vector2I dimensions)
     {
         this.dimensions = dimensions;
+    }
+
+    public override void _Ready()
+    {
+        base._Ready();
     }
 
     public int DistanceBewteen(Vector2I position1, Vector2I position2)  // TODO
@@ -17,14 +23,17 @@ public partial class Grid : RawNode, IGrid
         throw new NotImplementedException();
     }
 
-    public IDictionary<ICell, Vector2I> GetAll()
+    public ICell[,] GetAll()
     {
-        throw new NotImplementedException();
+        return cells;
     }
 
     public ICell GetAt(Vector2I coordinates)
     {
-        throw new NotImplementedException();
+        // secu
+        VerifyCoordinates(coordinates);
+
+        return cells[coordinates.X, coordinates.Y];                
     }
 
     public Building[] GetInactiveBuildings()
@@ -39,6 +48,14 @@ public partial class Grid : RawNode, IGrid
 
     public void SetAt(Vector2I coordinates, ICell cell)
     {
-        throw new NotImplementedException();
+        cells[coordinates.X, coordinates.Y] = cell;
+    }
+
+    private void VerifyCoordinates(Vector2 coordinates)
+    {
+        if (coordinates.X > dimensions.X || coordinates.Y > dimensions.Y)
+        {
+            throw new ArgumentException("Coordinates given exceed grid size!", nameof(coordinates));
+        }
     }
 }
