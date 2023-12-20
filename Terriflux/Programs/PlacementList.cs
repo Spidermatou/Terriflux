@@ -54,7 +54,7 @@ public partial class PlacementList : RawNode
     {
         // say the building's manual
         Alert alert = (Alert) Instantiate("Alert");
-        alert.Position = new Vector2(-100, 350);
+        alert.Position = new Vector2(-225, 350);
         this.AddChild(alert);
         alert.Say(this.drafts[index].GetHelp());
 
