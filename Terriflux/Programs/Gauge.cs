@@ -17,6 +17,8 @@ public partial class Gauge : RawNode, IGauge
         base._Ready();
 
         _bar = GetNode<TextureProgressBar>("Bar");
+
+        ChangeBarSkin(GD.Load<Texture2D>(PATH_IMAGES + "complete_" + GetType().Name.ToLower() + ".png"));
     }
 
     public void Increments(double add)

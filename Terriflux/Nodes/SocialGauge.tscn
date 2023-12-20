@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvdbfnfhiua3"]
+
+[ext_resource type="PackedScene" uid="uid://bei0hamt2pymb" path="res://Nodes/Gauge.tscn" id="1_jp0ec"]
+[ext_resource type="Script" path="res://Programs/SocialGauge.cs" id="2_knsnl"]
+
+[node name="SocialGauge" instance=ExtResource("1_jp0ec")]
+script = ExtResource("2_knsnl")
+
+[node name="Bar" parent="." index="0"]
+offset_top = 17.0
+offset_right = 105.0
+offset_bottom = 57.0
+scale = Vector2(1, -1)
