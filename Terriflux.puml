@@ -9,11 +9,12 @@ class MainScene
     + {override}  _Ready()
     + {override}  _Process()
 }
-MainScene *--> IImpacts : - impacts
-MainScene *--> IGrid : - grid
-MainScene *--> IInventory : - inventory
+MainScene *--> RawNode : - impacts
+MainScene *--> RawNode : - grid
+MainScene *--> RawNode : - inventory
 MainScene ..> BuildingFactory : use  /' Via la PlacementList '/
 MainScene ..> IAlert : use  
+MainScene ..> IPlaceMediator : use  
 
 /' GENERAL '/
 /' Any node of our own creation '/
@@ -28,12 +29,13 @@ abstract RawNode  /' extends Godot.Node2D '/
 }
 
 /' CELLS '/
-interface ICell 
+interface ICell implements IPlaceMediator
 {
     + GetDimensions() : VectorI 
     + IsSelected() : Boolean
     + Select()
     + Unselect() /' TODO - actuel ResetTexture '/
+    + Notify(sender : IPlaceMediator)
 }
 abstract Cell extends RawNode implements ICell
 {
@@ -48,6 +50,7 @@ abstract Cell extends RawNode implements ICell
     + {override} Select()
     + {override} Unselect() 
     + {override}  Verbose()
+    + {override} Notify(sender : IPlaceMediator)
     - OnMouseAbove()
     - OnMouseOutside()
     - OnPressed()
@@ -167,38 +170,40 @@ interface IGrid
     + GetInactiveCells() : ICell[*]        /' notamment les batiments qui ne peuvent produire '/
 }
 IGrid" * " *--> " * "ICell : - cells[*,*] 
+interface IPlaceMediator
+{
+    + Notify(sender : IPlaceMediator)
+}
 /' gere uniquement le placement de cellule (et donc batiments) 
 et les operations qui le precedent/suivent (choix du type, des coordonnees, etc) '/
-interface ICellUsher  
+class PlaceMediator  
 {
-    + SetWantedCell(cell : ICell)
-    + SetWantedCoordinates(coordinates : Vector2I)
+    - maxPerTurn : Integer
+    - buildedThisTurn : Integer
+    - wantedCoordinates : Vector2I
+    + {override} Notify(sender : IPlaceMediator)
     + GetMaxPlacementPerTurn() : Integer
     + GetPlacedThisTurn() : Integer
-    + NextTurn()
+    - ReactOnPlacementList()
+    - ReactOnGrid()
+    - SetWantedCell(cell : ICell)
+    - SetWantedCoordinates(coordinates : Vector2I)
+    - NextTurn()
     /' 
         Confirm the placement - old StartPlacement() 
         Si c'est un bat : l'ajout à l'entrepot le plus proche s'il est dans sa zone
         Si c'est un entrepot : recherche des bats dans sa zone et ajout  
     '/
-    + Place()   
+    - Place()  
 }
-ICellUsher" * " *--> " 1 "ICell : - wantedModel 
-ICellUsher" * " *--> " 1 "IImpacts : - impacts 
-ICellUsher" * " *--> " 1 "IRound : - round 
-class Grid extends RawNode implements IGrid, ICellUsher
+PlaceMediator" * " o--> " 1 "ICell : - wantedModel 
+PlaceMediator" * " o--> " 1 "IImpacts : - impacts 
+PlaceMediator" * " o--> " 1 "IRound : - round 
+class Grid extends RawNode implements IGrid, IPlaceMediator
 {
     - size : Vector2I
-    - maxPerTurn : Integer
-    - buildedThisTurn : Integer
-    - wantedCoordinates : Vector2I
     + {static} NewWasteland(size : Integer)
     + Grid(impacts : impacts, round : IRound)
-    + {override} SetWantedCell(cell : ICell)
-    + {override} SetWantedCoordinates(coordinates : Vector2I)
-    + {override} GetMaxPlacementPerTurn() : Integer
-    + {override} GetPlacedThisTurn() : Integer
-    + {override} Place()
     + {override} GetSize() : Vector2I
     + {override} GetAll() : ICell[*]       
     + {override} GetAt(coordinates : Vector2I) : ICell
@@ -209,16 +214,18 @@ class Grid extends RawNode implements IGrid, ICellUsher
 }
 
 /' INVENTORY & IMPACTS '/
-interface IGauge
+interface IGauge implements IPlaceMediator
 {
     + Increments(add : Real)
     + Get() : Real
+    + Notify(sender : IPlaceMediator)
 }
 abstract Gauge implements IGauge
 {
     # Gauge()
     + {override} Increments(add : Real)
     + {override} Get() : Real
+    + {override} Notify(sender : IPlaceMediator)
 }
 class EcologyGauge extends Gauge
 {
@@ -232,7 +239,7 @@ class SociabilityGauge extends Gauge
 {
     + SociabilityGauge()
 }
-interface IImpacts
+interface IImpacts implements IPlaceMediator
 {
     + IncrementsEcology(add : Real)
     + IncrementsEconomy(add : Real)
@@ -240,6 +247,7 @@ interface IImpacts
     + GetEcology() : Real
     + GetEconomy() : Real
     + GetSociability() : Real
+    + Notify(sender : IPlaceMediator)
 }
 IImpacts" 1 " *--> " 3 "IGauge : - gauges
 interface IInventory 
