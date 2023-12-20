@@ -19,7 +19,9 @@ namespace Terriflux.Programs.Model.Placeables{
 
 		public void AddNeighbour(BuildingModel neigh){
 			this.voisins.Add(neigh);
-			GD.Print(neigh.Verbose());
+//			foreach (BuildingModel aneigh in this.voisins){
+//				GD.Print(aneigh.Verbose());
+//			}
 		}
 	}
 }

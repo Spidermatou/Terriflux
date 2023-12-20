@@ -20,6 +20,7 @@ namespace Terriflux.Programs.Model.Grid
 		private readonly int size;
 		private readonly Dictionary<Vector2I, IPlaceable> placementTable = new();    // refers to which Placeable is stored where in the grid
 		private readonly List<IGridObserver> observers = new();
+		private readonly Dictionary<Vector2I, Warehouse> warehouses = new();
 
 		// CONSTRUCT
 		/// <summary>
@@ -116,7 +117,9 @@ namespace Terriflux.Programs.Model.Grid
 			{
 				Warehouse warehouse = new Warehouse(placeable.GetName());
 				int[] warehouseCoordinate = new int[]{line,column};
+				//Search of different placeables on the grid
 				foreach(KeyValuePair <Vector2I, IPlaceable> kvp in this.GetAllPlacements()){
+					//Ignore the current placeable
 					if(kvp.Key.X != line && kvp.Key.Y != column){
 						int[] placeableCoordinates = new int[]{kvp.Key.X,kvp.Key.Y};
 					
@@ -125,10 +128,21 @@ namespace Terriflux.Programs.Model.Grid
 						}
 					}
 				}
+				warehouses.Add(coordinates,warehouse);
 			}
 			else
 			{
-				
+				if(warehouses.Count > 0){
+					int[] placeableCoordinates = new int[]{line,column};
+					foreach (KeyValuePair <Vector2I, Warehouse> kvp in warehouses)
+					{
+						int[] warehouseCoordinate = new int[]{kvp.Key.X,kvp.Key.Y};
+						if(DistanceBetween(warehouseCoordinate,placeableCoordinates)<=2)
+						{
+							kvp.Value.AddNeighbour((BuildingModel)placeable);
+						}
+					}
+				}
 			}
 		}
 
