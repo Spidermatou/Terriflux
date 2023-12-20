@@ -9,7 +9,7 @@ public partial class Field : Building
         new double[] { 1.5, 4.0, -2.0 },
         new Dictionary<FlowKind, int> { { FlowKind.Water, 1 } },
         new Dictionary<FlowKind, int> { { FlowKind.Cereal, 3 } },
-        new("#Ce517b")
+        new("#C17A07")
         )
     { }
 

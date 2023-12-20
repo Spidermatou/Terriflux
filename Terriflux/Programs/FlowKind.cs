@@ -10,7 +10,7 @@ namespace Terriflux.Programs
         Energy,
         Cereal,
         Bread,
-        RawMaterial,
-        ManufacturedMerchandise,
+        Composant,
+        Machine,
     }
 }
