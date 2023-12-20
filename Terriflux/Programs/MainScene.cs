@@ -12,9 +12,15 @@ public partial class MainScene : RawNode
 	{
 		base._Ready();
 		// create alert
-		alert = (Alert) RawNode.Instantiate("Alert");
+		alert = (Alert) Instantiate("Alert");
 		this.AddChild(alert);
 
-		alert.Say("pomme");
+
+		/////////////// TESTS
+		//alert.Say("pomme");
+		this.AddChild((Field)Instantiate("Field"));
+
+		
+
     }
 }

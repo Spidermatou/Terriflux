@@ -84,7 +84,7 @@ enum FlowKind
     COMPOSANT
     MACHINE
 }
-interface IWarehouse 
+class Warehouse extends Building
 {
     /' Recuperer tt les batiments dans sa zone d'effet '/
     + GetNeighbors() : Building[*] 
@@ -100,17 +100,8 @@ interface IWarehouse
     /' Gestion des voisins '/
     + AddGetNeighbor(neighbor : Building)
     + RemoveGetNeighbor(neighbor : Building)    /' quand bat supprime de la map, on essaie de l'enlever dasn tt les entrpot '/
-
 }
-IWarehouse" 1 " o--> " * "Building : - neighbors : supply and stores product of
-class Warehouse extends Building implements IWarehouse
-{
-    + {override} GetEffectZoneSize() : Integer 
-    + {override} GetNeighbors() : Building[*] 
-    + {override} UpdateStock() 
-    + {override} Supply(building : Building, flow : FlowKind, amount : Integer)
-    + {override} Stores(building : Building, flow : FlowKind, amount : Integer)
-}
+Warehouse" 1 " o--> " * "Building : - neighbors : supply and stores product of
 class Field extends Building
 {
     + Field()       /' 1.5, 4.0, -2.0; WATER,1 ; CEREALS,2 ; #Ce517b '/

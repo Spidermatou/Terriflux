@@ -1,10 +1,15 @@
 using Godot;
+using System.Collections.Generic;
 using System;
 
-public partial class Warehouse //: Building
+namespace Terriflux.Programs;
+public partial class Warehouse : Building
 {
-	/*public Warehouse() : base(GD.Load<Texture2D>(PATH_IMAGES + "warehouse.png"))
-	{
-
-	} */
+    public Warehouse() : base(
+        new double[] { -1, -1, -1 },
+        new Dictionary<FlowKind, int> { },
+        new Dictionary<FlowKind, int> { },
+        new("#B51405")
+        )
+    { }
 }

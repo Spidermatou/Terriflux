@@ -5,42 +5,41 @@ using System.Linq;
 using System.Text;
 using Terriflux.Programs;
 
+namespace Terriflux.Programs;
 /// <summary>
 /// Abstract node
 /// </summary>
 public partial class Building : Cell
 {
-    private static readonly double[] maluses = new double[]{-1, -1, -1};    // maluses if inactive
+    protected static readonly double[] maluses = new double[]{-1, -1, -1};    // maluses if inactive
 
-    private readonly double[] impacts;
-    private readonly Dictionary<FlowKind, int> needs;
-    private readonly Dictionary<FlowKind, int> minimalProduction;
-
-    private readonly Color dotColor;
+    protected readonly double[] impacts;
+    protected readonly Dictionary<FlowKind, int> needs;
+    protected readonly Dictionary<FlowKind, int> minimalProduction;
 
     // children
-    private Sprite2D _buildingSprite;
-    private Polygon2D _dot;
+    protected Color colorOfDot; 
+    protected Sprite2D _buildingSprite;
+    protected Polygon2D _dot;
 
-    public Building(Texture2D texture, double[] impacts, Dictionary<FlowKind, int> needs, Dictionary<FlowKind, int> minimalProduction, Color colorOfDot) 
+    public Building(double[] impacts, Dictionary<FlowKind, int> needs, Dictionary<FlowKind, int> minimalProduction, Color colorOfDot) : base()
     {
         if (impacts.Length != 3) throw new ArgumentException(nameof(impacts));
-
-        this._buildingSprite.Texture = texture;   
-        this.dotColor = colorOfDot;
 
         this.impacts = impacts;
         this.needs = needs;
         this.minimalProduction = minimalProduction;
-    }
 
+        this.colorOfDot = colorOfDot;
+    }
 
     public override void _Ready()
     {
         base._Ready();
         _buildingSprite = GetNode<Sprite2D>("BuildingSprite");
+        this._buildingSprite.Texture = GD.Load<Texture2D>(PATH_IMAGES + GetType().Name.ToLower() + ".png");
         _dot = GetNode<Polygon2D>("Dot");
-        _dot.Color = dotColor;
+        this._dot.Color = colorOfDot;
     }
 
     public double[] GetMaluses()
