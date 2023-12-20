@@ -16,4 +16,15 @@ allow_search = false
 auto_height = true
 fixed_icon_size = Vector2i(80, 80)
 
+[node name="HelpList" type="ItemList" parent="." index="1"]
+offset_left = 250.0
+offset_right = 345.0
+offset_bottom = 400.0
+theme_override_fonts/font = ExtResource("3_4talh")
+theme_override_font_sizes/font_size = 23
+allow_search = false
+auto_height = true
+fixed_icon_size = Vector2i(80, 80)
+
 [connection signal="item_selected" from="BuildingsList" to="." method="OnItemSelected"]
+[connection signal="item_selected" from="HelpList" to="." method="OnHelpSelected"]

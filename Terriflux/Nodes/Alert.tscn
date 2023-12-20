@@ -29,6 +29,4 @@ theme_override_fonts/font = ExtResource("3_buvwr")
 text = "V"
 flat = true
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
 [connection signal="pressed" from="Close" to="." method="Close"]
