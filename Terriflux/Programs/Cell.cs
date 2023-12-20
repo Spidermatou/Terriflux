@@ -11,6 +11,8 @@ public partial class Cell : RawNode, ICell
     private static readonly Texture2D DEFAULT_TEXTURE = GD.Load<Texture2D>(PATH_IMAGES + "grass.png");
     private static readonly Vector2I SIZE = new(128, 128);
 
+    private IGrid observer;
+
     // children
     private TextureButton body;
     private Sprite2D selectedMark;
@@ -78,4 +80,15 @@ public partial class Cell : RawNode, ICell
         sb.AppendLine($"Is actually selected: {IsSelected()}");
         return sb.ToString();
     }
+
+    private void SetObserver(IGrid grid)
+    {
+        this.observer = grid;
+    }
+
+    public void Notify()
+    {
+        this.observer.Update();
+    }
+
 }

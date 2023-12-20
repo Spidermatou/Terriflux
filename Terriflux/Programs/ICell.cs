@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 namespace Terriflux.Programs
 {
@@ -18,5 +19,10 @@ namespace Terriflux.Programs
         /// Ends cell selection feedback.
         /// </summary>
         void Unselect();
+
+        /// <summary>
+        /// Notifies its grid that it, the cell, has been selected.
+        /// </summary>
+        void Notify();
     }
 }

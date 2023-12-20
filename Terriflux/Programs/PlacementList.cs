@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terriflux.Programs;
 
 public partial class PlacementList : RawNode
@@ -12,7 +13,6 @@ public partial class PlacementList : RawNode
     // children
     private ItemList _buildingsList;
 	private ItemList _helpList;
-
 
     public PlacementList() : base() 
     {
@@ -40,6 +40,18 @@ public partial class PlacementList : RawNode
         this._buildingsList.AddItem(building.Name, building.GetIcon(), true);
         this._helpList.AddItem("", helpIcon, true);
         this.drafts.Add(building);      
+    }
+
+    public Building GetSelectedBuilding()
+    {
+        Building res = null;
+        int[] selectedItems = this._buildingsList.GetSelectedItems();
+        if (selectedItems.Length > 0)
+        {
+            // can only retrieve name or image (with itemlist), so must create instante via name:
+            res = (Building) Instantiate(this._buildingsList.GetItemText(selectedItems[0]));
+        }
+        return res;
     }
 
     private void OnItemSelected(int index)	// TODO

@@ -38,5 +38,9 @@ namespace Terriflux.Programs
         /// <typeparam name="T">Class derived from ICell.</typeparam>
         /// <returns>All cells of the specified type.</returns>
         T[] GetAllOfType<T>() where T : ICell;
+
+        Vector2I GetSelectedCoordinates();
+
+        void Update();
     }
 }
