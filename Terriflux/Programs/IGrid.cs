@@ -28,7 +28,7 @@ namespace Terriflux.Programs
         /// </summary>
         /// <param name="coordinates"></param>
         /// <param name="cell"></param>
-        void SetAt(Vector2I coordinates, ICell cell);
+        void SetAt(Vector2I coordinates, ICell cell, bool callForUpdate = true);
 
         int DistanceBewteen(Vector2I position1, Vector2I position2);
 

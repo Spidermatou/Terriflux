@@ -28,16 +28,19 @@ public partial class Grid : RawNode, IGrid
     /// <summary>
     /// Fills the grid with instances of the specified type.
     /// </summary>
-    /// <typeparam name="T">Class derived from ICell and having a constructor without parameters.</typeparam>
-    public void FillWith<T>() where T : ICell, new()
+    /// <typeparam name="T">Class derived from Cell and having a constructor without parameters.</typeparam>
+    public void FillWith<T>() where T : Cell, new()
     {
         for (int line = 0; line < this.cells.GetLength(0); line++)
         {
             for (int column = 0; column < this.cells.GetLength(1); column++)
             {
-                cells[line, column] = new T();
+                SetAt(new Vector2I(line, column), new T(), false);
             }
         }
+
+        // update
+        UpdateDisplay();
     }
 
     public override void _Ready()
@@ -63,15 +66,21 @@ public partial class Grid : RawNode, IGrid
         return cells[coordinates.X, coordinates.Y];
     }
 
-    public void SetAt(Vector2I coordinates, ICell cell)
+    public void SetAt(Vector2I coordinates, ICell cell, bool callForUpdate = true)
     {
         // secu
         VerifyCoordinates(coordinates);
 
         cells[coordinates.X, coordinates.Y] = cell;
+
+        // update now?
+        if (callForUpdate)
+        {
+            UpdateDisplay();
+        }
     }
 
-    public int DistanceBewteen(Vector2I position1, Vector2I position2)  // TODO
+    public int DistanceBewteen(Vector2I position1, Vector2I position2)  
     {
         // secu
         VerifyCoordinates(position1);
@@ -84,7 +93,7 @@ public partial class Grid : RawNode, IGrid
         return distanceX + distanceY;
     }
 
-    public Building[] GetInactiveBuildings()    // TODO
+    public Building[] GetInactiveBuildings()    
     {
         List<Building> inactiveBuildings = new();
         foreach (Building building in GetAllOfType<Building>())
@@ -116,5 +125,36 @@ public partial class Grid : RawNode, IGrid
             }
         }
         return found.ToArray();
+    }
+
+    /// <summary>
+    /// Updates grid display.
+    /// </summary>
+    private void UpdateDisplay()
+    {
+        // Reset all
+        ResetDisplay();
+
+        // (re) Add new children
+        Vector2 oneCellSize = this.cells[0,0].GetDimensions();
+        Vector2 oneCellScale = ((Cell)this.cells[0, 0]).Scale;
+        GD.Print($"GLOBAL x={oneCellSize.X}, y={oneCellSize.Y}");      // test
+        for (int line = 0; line < dimensions.X; line++)
+        {
+            for (int column = 0; column < dimensions.Y; column++)
+            {
+                Node2D visualDraft = RawNode.Instantiate(this.cells[line, column].GetType().Name);
+                visualDraft.Position = new Vector2(line * oneCellSize.X * oneCellScale.X, column * oneCellSize.Y * oneCellScale.Y);
+                this.AddChild(visualDraft);    // instantiate 
+                GD.Print($"act x={visualDraft.Position.X}, act y={visualDraft.Position.Y}");      // test
+            }
+        }
+        GD.Print($"nb child= {this.GetChildren().Count}");      // test
+
+    }
+
+    private void ResetDisplay()
+    {
+        this.GetChildren().Clear();
     }
 }

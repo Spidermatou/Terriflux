@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Text;
 
 namespace Terriflux.Programs;
@@ -22,6 +23,7 @@ public partial class Cell : RawNode, ICell
         // congig button
         this.body = GetNode<TextureButton>("Button");
         this.body.TextureNormal = DEFAULT_TEXTURE;
+        this.body.Size = SIZE;
         this.body.Show();
         // config name hud
         this.nameLabel = GetNode<Label>("Name");
@@ -43,7 +45,8 @@ public partial class Cell : RawNode, ICell
 
     public Vector2I GetDimensions()
     {
-        return SIZE;
+        Vector2I gapCorrector = (Vector2I)(new Vector2I(26, 26) * this.Scale);
+        return (Vector2I)(SIZE * this.Scale) - gapCorrector;
     }
 
     public bool IsSelected()

@@ -16,17 +16,21 @@ public partial class MainScene : RawNode
 		this.AddChild(alert);
 
 
-		/////////////// TESTS
-		//alert.Say("pomme");
-		Field f = (Field)Instantiate("Field");
+        /////////////// TESTS
+        //alert.Say("pomme");
+        /*Field f = (Field)Instantiate("Field");
 		f.Position = new Vector2((float)0.0, (float)0.0);
         this.AddChild(f);
 
         Bakery b = (Bakery)Instantiate("Bakery");
         b.Position = new Vector2((float)100.0, (float)100.0);
-        this.AddChild(b);
+        this.AddChild(b); */
 
+        GD.Print(this.GetChildren().Count);
 
-
+        GridBuilder gridBuilder = new();
+        gridBuilder.BuildWasteland(new(8,8));
+        Grid grid = gridBuilder.GetResult();
+        this.AddChild(grid);
     }
 }

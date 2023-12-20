@@ -10,7 +10,7 @@ script = ExtResource("2_0p4m1")
 [node name="Button" type="TextureButton" parent="." index="0"]
 offset_left = -519.0
 offset_top = -512.0
-offset_right = 513.0
+offset_right = 506.0
 offset_bottom = 513.0
 
 [node name="SelectedMark" type="Sprite2D" parent="." index="1"]

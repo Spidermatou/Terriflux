@@ -13,9 +13,12 @@ namespace Terriflux.Programs
     /// </summary>
     public class GridBuilder
     {
-        private Grid grid = new();
+        private Grid grid;
 
-        public GridBuilder() { }
+        public GridBuilder() 
+        {
+            Reset();
+        }
 
         public void BuildWasteland(Vector2I dimensions)
         {
@@ -25,7 +28,7 @@ namespace Terriflux.Programs
 
         public void Reset()
         {
-            grid = new Grid();
+            grid = (Grid) RawNode.Instantiate("Grid");
         }
 
         public Grid GetResult() { return grid; }
