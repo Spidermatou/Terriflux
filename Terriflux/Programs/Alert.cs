@@ -23,13 +23,11 @@ public partial class Alert : RawNode, IAlert
 
 	public void Close()
 	{
-		// reset _message
-		ModifyMessage(" ");
-		Hide();
+		this.QueueFree();
 	}
 
 	private void ModifyMessage(string message)
 	{
-		this._message.Text = "* " + message + " *";
+		this._message.Text = message ;
 	}
 }

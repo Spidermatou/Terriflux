@@ -27,7 +27,7 @@ public partial class Cell : RawNode, ICell
         this.body.Show();
         // config name hud
         this.nameLabel = GetNode<Label>("Name");
-        this.nameLabel.Text = this.Name;
+        this.nameLabel.Text = this.GetType().Name;
         this.nameLabel.Hide();
         // config selection hud
         this.selectedMark = GetNode<Sprite2D>("SelectedMark");
