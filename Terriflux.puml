@@ -63,6 +63,7 @@ class Grass extends Cell
 abstract Building extends Cell
 {
     - {readonly} impacts : Real[3]
+    - isActive : Boolean    /' will product this turn '/
     + Building(impacts : Real[3], needs : FlowKind[*], minimalProduction : FlowKind[*], texture : Texture2D, colorOfDot : Color)
     + GetImpacts() : Real[3]
     + GetNeeds() : FlowKind[*]
@@ -71,7 +72,10 @@ abstract Building extends Cell
     + GetProductOf(flow : FlowKind) : Integer        /' minimal product '/
     + GetMaluses() : Real[3]
     + GetHelp() : String        /' info for player about impacts, needs and products'/
-    + {override} Verbose() : String
+    + {override} Verbose() : String     
+    + Activate()        /' call by Warehouse '/
+    + Deactivate()      /' call by Warehouse '/
+    + IsActive() : Boolean /' call by Grid '/
 }
 /' needs & minimalProduction = (FlowKind, Integer)[*] '/
 Building" * " o--> " * "FlowKind : - {readonly} needs \n needs      

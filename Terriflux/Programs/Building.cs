@@ -17,6 +17,8 @@ public partial class Building : Cell
     protected readonly Dictionary<FlowKind, int> needs;
     protected readonly Dictionary<FlowKind, int> minimalProduction;
 
+    protected bool isActive;
+
     // children
     protected Color colorOfDot; 
     protected Sprite2D _buildingSprite;
@@ -29,6 +31,7 @@ public partial class Building : Cell
         this.impacts = impacts;
         this.needs = needs;
         this.minimalProduction = minimalProduction;
+        this.isActive = false;
 
         this.colorOfDot = colorOfDot;
     }
@@ -97,6 +100,19 @@ public partial class Building : Cell
         }
         return sb.ToString();
     }
+
+    /// <returns>Will this building produce something in the next round?</returns>
+    public bool IsActive() { return this.isActive; }
+
+    /// <summary>
+    /// Accept that this building will produce something in the next round.
+    /// </summary>
+    public void Activate() { this.isActive = true; }
+
+    /// <summary>
+    /// Refuse that this building will produce something in the next round.
+    /// </summary>
+    public void Deactivate() { this.isActive = false; }
 
     public override string Verbose()
     {
