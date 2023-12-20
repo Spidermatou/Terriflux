@@ -25,9 +25,8 @@ public partial class MainScene : RawNode
         this.AddChild(grid);    
 
         // create placement list
-        PlacementList placementList = (PlacementList) Instantiate("placementList");
+        PlacementList placementList = (PlacementList) Instantiate("PlacementList");
         placementList.Position = GetNode<Marker2D>("ListMark").Position;
         this.AddChild(placementList);
-
     }
 }
