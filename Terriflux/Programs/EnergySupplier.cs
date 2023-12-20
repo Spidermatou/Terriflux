@@ -7,13 +7,13 @@ namespace Terriflux.Programs;
 /// <summary>
 /// A Factory building (not the design pattern).
 /// </summary>
-public partial class Bakery : Building
+public partial class EnergySupplier : Building
 {
-    public Bakery() : base(
+    public EnergySupplier() : base(
         new double[] { 3.0, -1.0, -4.0 },
-        new Dictionary<FlowKind, int> { { FlowKind.Water, 2 }, { FlowKind.Cereal, 2 } },
-        new Dictionary<FlowKind, int> { { FlowKind.Bread, 3 } },
-        new("#F15309")
+        new Dictionary<FlowKind, int> { },
+        new Dictionary<FlowKind, int> { { FlowKind.Energy, 3 } },
+        new("#0A0401")
         )
     { }
 

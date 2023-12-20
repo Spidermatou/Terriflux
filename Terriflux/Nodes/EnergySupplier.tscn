@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://0k47q7qvqnpb"]
+
+[ext_resource type="PackedScene" uid="uid://cwyf3srjo2nig" path="res://Nodes/Building.tscn" id="1_jv6xi"]
+[ext_resource type="Script" path="res://Programs/EnergySupplier.cs" id="2_u1euw"]
+
+[node name="EnergySupplier" instance=ExtResource("1_jv6xi")]
+script = ExtResource("2_u1euw")
