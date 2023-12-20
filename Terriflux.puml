@@ -129,13 +129,12 @@ class Grocery extends Building
 class BuildingFactory
 {
     + BuildingFactory()
-    + createField()
-    + createFactory()
-    + createBakery()
-    + createGrocery()
-    + createShaft()
-    + createEnergySupplier() 
-    + create
+    + CreateField()
+    + CreateFactory()
+    + CreateBakery()
+    + CreateEnergySupplier() 
+    + CreateShaft()
+    + CreateGrocery()
 }
 
 /' ROUNDS '/

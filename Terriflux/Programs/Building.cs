@@ -24,7 +24,7 @@ public partial class Building : Cell
 
     public Building(double[] impacts, Dictionary<FlowKind, int> needs, Dictionary<FlowKind, int> minimalProduction, Color colorOfDot) : base()
     {
-        if (impacts.Length != 3) throw new ArgumentException(nameof(impacts));
+        if (impacts.Length != 3) throw new ArgumentException("impacts.Lengt must be 3", nameof(impacts));
 
         this.impacts = impacts;
         this.needs = needs;
@@ -79,7 +79,7 @@ public partial class Building : Cell
         StringBuilder sb = new();
         // impacts
         sb.Append("Impacts: ");
-        foreach (int impact in impacts)
+        foreach (double impact in impacts)
         {
             sb.Append($"{impact} ");
         }
