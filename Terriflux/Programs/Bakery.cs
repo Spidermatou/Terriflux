@@ -17,4 +17,10 @@ public partial class Bakery : Building
         new("#F15309")
         )
     { }
+
+    public override void _Ready()
+    {
+        base._Ready();
+        this._buildingSprite.Scale = new Vector2((float)4.30, (float)4.30);
+    }
 }

@@ -17,4 +17,10 @@ public partial class Factory : Building
         new("#A7A197")
         )
     { }
+
+    public override void _Ready()
+    {
+        base._Ready();
+        this._buildingSprite.Scale = new Vector2((float)3.5, (float)3.5);
+    }
 }

@@ -5,3 +5,8 @@
 
 [node name="Field" instance=ExtResource("1_he5lf")]
 script = ExtResource("2_pte6o")
+
+[node name="Name" parent="." index="2"]
+scale = Vector2(8, 8)
+
+[node name="Camera2D" type="Camera2D" parent="." index="5"]

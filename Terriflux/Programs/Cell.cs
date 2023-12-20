@@ -32,6 +32,8 @@ public partial class Cell : RawNode, ICell
         this.selectedMark.Texture = GD.Load<Texture2D>(PATH_IMAGES + "willchange.png");
         this.selectedMark.Scale = new(4, 4);
         this.selectedMark.Hide();
+        // scale
+        this.Scale = new((float)0.1, (float)0.1);
     }
 
     protected void ChangeSkin(Texture2D texture)

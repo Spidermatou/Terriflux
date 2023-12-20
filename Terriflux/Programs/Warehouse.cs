@@ -12,4 +12,10 @@ public partial class Warehouse : Building
         new("#B51405")
         )
     { }
+
+    public override void _Ready()
+    {
+        base._Ready();
+        this._buildingSprite.Scale = new Vector2((float)4.45, (float)4.45);
+    }
 }

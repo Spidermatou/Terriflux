@@ -18,9 +18,15 @@ public partial class MainScene : RawNode
 
 		/////////////// TESTS
 		//alert.Say("pomme");
-		this.AddChild((Field)Instantiate("Field"));
+		Field f = (Field)Instantiate("Field");
+		f.Position = new Vector2((float)0.0, (float)0.0);
+        this.AddChild(f);
 
-		
+        Bakery b = (Bakery)Instantiate("Bakery");
+        b.Position = new Vector2((float)100.0, (float)100.0);
+        this.AddChild(b);
+
+
 
     }
 }

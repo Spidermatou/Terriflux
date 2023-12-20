@@ -5,3 +5,8 @@
 
 [node name="Bakery" instance=ExtResource("1_gpnil")]
 script = ExtResource("2_wfpdi")
+
+[node name="Name" parent="." index="2"]
+z_index = 0
+z_as_relative = true
+scale = Vector2(8, 8)
