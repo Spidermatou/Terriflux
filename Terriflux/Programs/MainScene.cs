@@ -21,7 +21,7 @@ public partial class MainScene : RawNode
         gridBuilder.BuildWasteland(new(7, 7));
         Grid grid = gridBuilder.GetResult();
         grid.Position = GetNode<Marker2D>("GridMark").Position;
-        grid.Scale = new Vector2((float)0.8, (float)0.8); 
+        grid.Scale = new Vector2((float)0.9, (float)0.9); 
         this.AddChild(grid);
 
 

@@ -14,4 +14,4 @@ polygon = PackedVector2Array(0, 0, 1152, 0, 1152, 316.23, 1152, 648, 0, 648)
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="GridMark" type="Marker2D" parent="."]
-position = Vector2(-512, -256)
+position = Vector2(-528, -278)
