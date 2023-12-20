@@ -193,7 +193,7 @@ interface IPlaceMediator
 }
 /' gere uniquement le placement de cellule (et donc batiments) 
 et les operations qui le precedent/suivent (choix du type, des coordonnees, etc) '/
-class PlaceMediator  
+class PlaceMediator implements IPlaceMediator
 {
     - maxPerTurn : Integer
     - buildedThisTurn : Integer
