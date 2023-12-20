@@ -1,0 +1,16 @@
+<Project Sdk="Godot.NET.Sdk/4.1.1">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Programs\TerritoryManagement\**" />
+    <EmbeddedResource Remove="Programs\TerritoryManagement\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="programs\data\Buildings.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram3.cd" />
+  </ItemGroup>
+</Project>

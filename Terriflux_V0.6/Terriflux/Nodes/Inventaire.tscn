@@ -1,0 +1,177 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfoxg8e16cnnx"]
+
+[ext_resource type="Script" path="res://Programs/Inventory.cs" id="1_p8107"]
+[ext_resource type="Texture2D" uid="uid://df1uk0acsvmjl" path="res://Ressources/Textures/inventory.png" id="1_rpg6g"]
+
+[node name="Inventory" type="Node2D"]
+script = ExtResource("1_p8107")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_left = -67.0
+offset_top = -14.0
+offset_right = 485.0
+offset_bottom = 421.0
+scale = Vector2(1.50753, 1.06696)
+texture = ExtResource("1_rpg6g")
+
+[node name="fluxEau" type="Label" parent="."]
+offset_left = 7.0
+offset_top = 71.0
+offset_right = 52.0
+offset_bottom = 109.0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Eau"
+
+[node name="fluxPain" type="Label" parent="."]
+offset_left = 7.0
+offset_top = 113.0
+offset_right = 60.0
+offset_bottom = 151.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Pain"
+
+[node name="fluxEnergie" type="Label" parent="."]
+offset_left = 7.0
+offset_top = 155.0
+offset_right = 97.0
+offset_bottom = 193.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Énergie"
+
+[node name="fluxCereales" type="Label" parent="."]
+offset_left = 7.0
+offset_top = 197.0
+offset_right = 110.0
+offset_bottom = 235.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Céréales"
+
+[node name="fluxMarchandise" type="Label" parent="."]
+offset_left = 7.0
+offset_top = 239.0
+offset_right = 164.0
+offset_bottom = 277.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Marchandise"
+
+[node name="fluxMatiere" type="Label" parent="."]
+offset_left = 7.0
+offset_top = 281.0
+offset_right = 243.0
+offset_bottom = 319.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Matières premières"
+
+[node name="VarNumberEau" type="Label" parent="."]
+offset_left = 455.0
+offset_top = 69.0
+offset_right = 469.0
+offset_bottom = 107.0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "0
+"
+
+[node name="VarNumberPain" type="Label" parent="."]
+offset_left = 455.0
+offset_top = 111.0
+offset_right = 469.0
+offset_bottom = 149.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "0
+"
+
+[node name="VarNumberEnergie" type="Label" parent="."]
+offset_left = 455.0
+offset_top = 153.0
+offset_right = 469.0
+offset_bottom = 191.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "0
+"
+
+[node name="VarNumberCereales" type="Label" parent="."]
+offset_left = 455.0
+offset_top = 195.0
+offset_right = 469.0
+offset_bottom = 233.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "0
+"
+
+[node name="VarNumberMarchandise" type="Label" parent="."]
+offset_left = 455.0
+offset_top = 237.0
+offset_right = 469.0
+offset_bottom = 275.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "0
+"
+
+[node name="VarNumberMatiere" type="Label" parent="."]
+offset_left = 456.0
+offset_top = 279.0
+offset_right = 470.0
+offset_bottom = 317.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "0
+"
+
+[node name="VarEau" type="Sprite2D" parent="."]
+position = Vector2(620, 96)
+scale = Vector2(0.5, 1)
+
+[node name="VarEnergie" type="Sprite2D" parent="."]
+position = Vector2(619.75, 182)
+scale = Vector2(0.507299, 1)
+
+[node name="VarMarchandise" type="Sprite2D" parent="."]
+position = Vector2(619.25, 262)
+scale = Vector2(0.5, 1)
+
+[node name="VarMatiere" type="Sprite2D" parent="."]
+position = Vector2(619.25, 302)
+scale = Vector2(0.5, 1)
+
+[node name="VarCereales" type="Sprite2D" parent="."]
+position = Vector2(619.75, 222)
+scale = Vector2(0.507299, 1)
+
+[node name="VarPain" type="Sprite2D" parent="."]
+position = Vector2(621, 138)
+scale = Vector2(0.507299, 1)
+
+[node name="Type" type="Label" parent="."]
+offset_left = 75.0
+offset_top = 15.0
+offset_right = 141.0
+offset_bottom = 53.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Type"
+uppercase = true
+
+[node name="ProchainTour" type="Label" parent="."]
+offset_left = 278.0
+offset_top = 15.0
+offset_right = 661.0
+offset_bottom = 53.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Quantité au prochain tour"
+uppercase = true

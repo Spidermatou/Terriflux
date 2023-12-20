@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpumybtyffqhp"]
+
+[ext_resource type="Script" path="res://Programs/View/BuildingView.cs" id="1_1aynv"]
+[ext_resource type="PackedScene" uid="uid://ds2mgf155gme6" path="res://Nodes/View/CellView.tscn" id="1_fg11t"]
+
+[node name="BuildingView" instance=ExtResource("1_fg11t")]
+script = ExtResource("1_1aynv")
+
+[node name="GrassFill" type="Sprite2D" parent="." index="1"]
+position = Vector2(64, 64)
+scale = Vector2(0.125, 0.125)
