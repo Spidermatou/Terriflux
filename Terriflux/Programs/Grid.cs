@@ -1,8 +1,8 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using Terriflux.Programs;
 
+namespace Terriflux.Programs;
 public partial class Grid : RawNode, IGrid
 {
     private Vector2I dimensions;
@@ -77,12 +77,24 @@ public partial class Grid : RawNode, IGrid
         VerifyCoordinates(position1);
         VerifyCoordinates(position2);
 
-        return 0;        
+        // Calcul de la distance de Manhattan
+        int distanceX = Math.Abs(position1.X - position2.X);
+        int distanceY = Math.Abs(position1.Y - position2.Y);
+
+        return distanceX + distanceY;
     }
 
     public Building[] GetInactiveBuildings()    // TODO
     {
-        throw new NotImplementedException();
+        List<Building> inactiveBuildings = new();
+        foreach (Building building in GetAllOfType<Building>())
+        {
+            if (!building.IsActive())
+            {
+                inactiveBuildings.Add(building);
+            }
+        }
+        return inactiveBuildings.ToArray();
     }
 
     private void VerifyCoordinates(Vector2 coordinates)
@@ -91,5 +103,18 @@ public partial class Grid : RawNode, IGrid
         {
             throw new ArgumentException("Coordinates given exceed grid size!", nameof(coordinates));
         }
+    }
+
+    public T[] GetAllOfType<T>() where T : ICell
+    {
+        List<T> found = new();
+        foreach (ICell cell in cells)
+        {
+            if (cell is T cellT)
+            {
+                found.Add(cellT);
+            }
+        }
+        return found.ToArray();
     }
 }

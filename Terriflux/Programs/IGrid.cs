@@ -34,6 +34,9 @@ namespace Terriflux.Programs
 
         /// <returns>In particular, buildings that cannot produce resources this turn.</returns>
         Building[] GetInactiveBuildings();
-       
+
+        /// <typeparam name="T">Class derived from ICell.</typeparam>
+        /// <returns>All cells of the specified type.</returns>
+        T[] GetAllOfType<T>() where T : ICell;
     }
 }
