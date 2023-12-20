@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b21n4s5dqitf6"]
+
+[ext_resource type="PackedScene" uid="uid://ds843siejjad2" path="res://Nodes/RawNode.tscn" id="1_s4bc0"]
+[ext_resource type="Script" path="res://Programs/Grid.cs" id="2_6ul3n"]
+
+[node name="Grid" instance=ExtResource("1_s4bc0")]
+script = ExtResource("2_6ul3n")
+
+[node name="ItemList" type="ItemList" parent="." index="0"]
+offset_right = 294.0
+offset_bottom = 242.0

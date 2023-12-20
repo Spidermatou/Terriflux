@@ -13,6 +13,7 @@ MainScene *--> RawNode : - impacts
 MainScene *--> RawNode : - grid
 MainScene *--> RawNode : - inventory
 MainScene ..> BuildingFactory : use  /' Via la PlacementList '/
+MainScene ..> GridBuilder : use  
 MainScene ..> IAlert : use  
 MainScene ..> IPlaceMediator : use  
 
@@ -152,12 +153,12 @@ class Round extends RawNode implements IRound
 /' GRID '/
 interface IGrid
 {
-    + GetSize() : Vector2I
+    + GetDimensions() : Vector2I
     + GetAll() : ICell[*]       /' (ICell, Vector2I)[*] '/
     + GetAt(coordinates : Vector2I) : ICell
     + SetAt(coordinates : Vector2I, cell : ICell)
     + DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer
-    + GetInactiveCells() : ICell[*]        /' notamment les batiments qui ne peuvent produire '/
+    + GetInactiveBuildings() : Building[*]        /' batiments qui ne peuvent produire '/
 }
 IGrid" * " *--> " * "ICell : - cells[*,*] 
 interface IPlaceMediator
@@ -191,17 +192,22 @@ PlaceMediator" * " o--> " 1 "IImpacts : - impacts
 PlaceMediator" * " o--> " 1 "IRound : - round 
 class Grid extends RawNode implements IGrid, IPlaceMediator
 {
-    - size : Vector2I
-    + {static} NewWasteland(size : Integer)
-    + Grid(impacts : impacts, round : IRound)
-    + {override} GetSize() : Vector2I
-    + {override} GetAll() : ICell[*]       
+    - dimensions : Vector2I
+    + <<create>> Grid(dimensions : Vector2I)
+    + {override} GetDimensions() : Vector2I
+    + {override} GetAll() : ICell[*]       /' (ICell, Vector2I)[*] '/
     + {override} GetAt(coordinates : Vector2I) : ICell
     + {override} SetAt(coordinates : Vector2I, cell : ICell)
-    + {override} DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer[2]
-    + {override} GetInactiveCells() : ICell      
-    + GetInactiveAlert() : String
+    + {override} DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer
+    + {override} GetInactiveBuildings() : Building[*]        /' batiments qui ne peuvent produire '/   
+    + {override} GetInactiveAlert() : String
 }
+class GridBuilder
+{
+    /' Creer une grille remplie d'herbe / terrains constructibles (terrain par defaut du jeu) '/
+    + Wasteland(size : Integer) : Grid
+}
+GridBuilder ..> Grid : create
 
 /' INVENTORY & IMPACTS '/
 interface IGauge implements IPlaceMediator

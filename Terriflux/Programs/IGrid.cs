@@ -8,7 +8,7 @@ namespace Terriflux.Programs
     public interface IGrid
     {
         /// <returns>The size of the grid.</returns>
-        Vector2I GetSize();
+        Vector2I GetDimensions();
 
         /// <summary>
         /// Retrieves the reference of all grid cells.
@@ -33,7 +33,7 @@ namespace Terriflux.Programs
         int DistanceBewteen(Vector2I position1, Vector2I position2);
 
         /// <returns>In particular, buildings that cannot produce resources this turn.</returns>
-        ICell[] GetInactiveCells();
+        Building[] GetInactiveBuildings();
        
     }
 }
