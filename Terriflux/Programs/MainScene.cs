@@ -23,5 +23,11 @@ public partial class MainScene : RawNode
         grid.Position = GetNode<Marker2D>("GridMark").Position;
         grid.Scale = new Vector2((float)0.9, (float)0.9); 
         this.AddChild(grid);    
+
+        // create placement list
+        PlacementList placementList = (PlacementList) Instantiate("placementList");
+        placementList.Position = GetNode<Marker2D>("ListMark").Position;
+        this.AddChild(placementList);
+
     }
 }
