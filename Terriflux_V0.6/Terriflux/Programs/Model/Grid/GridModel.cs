@@ -110,20 +110,25 @@ namespace Terriflux.Programs.Model.Grid
 			{
 				NotifyGridChanged();
 			}
-			GD.Print(placeable.GetName());
+
 			// If the player places a warehouse, his neighbours were added
-			if (placeable is Warehouse warehouse){
-				int[] warehouseCoordinate = {line,column};
+			if (placeable.GetName() == "Warehouse")
+			{
+				Warehouse warehouse = new Warehouse(placeable.GetName());
+				int[] warehouseCoordinate = new int[]{line,column};
 				foreach(KeyValuePair <Vector2I, IPlaceable> kvp in this.GetAllPlacements()){
-					int[] placeableCoordinates = new int[2];
-					placeableCoordinates[0] = kvp.Key.X;
-					placeableCoordinates[1] = kvp.Key.Y;
-					GD.Print("Entrepôt");
-					//GD.Print(DistanceBetween(warehouseCoordinate,placeableCoordinates).ToString());
-					if (DistanceBetween(warehouseCoordinate,placeableCoordinates) <=2){
-						warehouse.AddNeighbour((BuildingModel)kvp.Value);
+					if(kvp.Key.X != line && kvp.Key.Y != column){
+						int[] placeableCoordinates = new int[]{kvp.Key.X,kvp.Key.Y};
+					
+						if (DistanceBetween(warehouseCoordinate,placeableCoordinates) <=2){
+							warehouse.AddNeighbour((BuildingModel)kvp.Value);
+						}
 					}
 				}
+			}
+			else
+			{
+				
 			}
 		}
 

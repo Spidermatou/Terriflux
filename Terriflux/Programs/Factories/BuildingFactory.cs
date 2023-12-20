@@ -18,7 +18,7 @@ namespace Terriflux.Programs.Factories
         {
             name = name.ToLower().Replace(" ", ""); // efface les espaces
 
-            // DÈfinir le chemin du fichier
+            // Definir le chemin du fichier
             string filePath = OurPaths.DATA + "Buildings" + OurPaths.TEXTEXT;
 
             try
@@ -72,16 +72,16 @@ namespace Terriflux.Programs.Factories
                         }
                         else
                         {
-                            throw new FormatException("Format invalide dans les donnÈes d'impact.");
+                            throw new FormatException("Format invalide dans les donn√©es d'impact.");
                         }
                     }
                 }
 
-                throw new ArgumentException($"Aucun b‚timent avec le nom '{name}' n'a ÈtÈ trouvÈ parmi les b‚timents disponibles");
+                throw new ArgumentException($"Aucun b√¢timent avec le nom '{name}' n'a √©t√© trouv√© parmi les b√¢timents disponibles");
             }
             catch (FileNotFoundException ex)
             {
-                throw new FileNotFoundException($"Impossible de trouver le fichier spÈcifiÈ ‡ l'emplacement '{filePath}'", ex);
+                throw new FileNotFoundException($"Impossible de trouver le fichier sp√©cifi√© √† l'emplacement '{filePath}'", ex);
             }
         }
 

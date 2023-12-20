@@ -9,8 +9,7 @@ namespace Terriflux.Programs.Model.Placeables{
 	/// </summary>
 	public partial class Warehouse : BuildingModel
 	{
-		//double[] impacts = new double[]{2.0, 2.0, 2.0};
-		public Warehouse () : base("Warehouse") { }
+		public Warehouse (string name) : base(name) { }
 
 		private List<BuildingModel> voisins = new List<BuildingModel>();
 		
