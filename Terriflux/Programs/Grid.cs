@@ -138,7 +138,6 @@ public partial class Grid : RawNode, IGrid
         // (re) Add new children
         Vector2 oneCellSize = this.cells[0,0].GetDimensions();
         Vector2 oneCellScale = ((Cell)this.cells[0, 0]).Scale;
-        GD.Print($"GLOBAL x={oneCellSize.X}, y={oneCellSize.Y}");      // test
         for (int line = 0; line < dimensions.X; line++)
         {
             for (int column = 0; column < dimensions.Y; column++)
@@ -146,11 +145,8 @@ public partial class Grid : RawNode, IGrid
                 Node2D visualDraft = RawNode.Instantiate(this.cells[line, column].GetType().Name);
                 visualDraft.Position = new Vector2(line * oneCellSize.X * oneCellScale.X, column * oneCellSize.Y * oneCellScale.Y);
                 this.AddChild(visualDraft);    // instantiate 
-                GD.Print($"act x={visualDraft.Position.X}, act y={visualDraft.Position.Y}");      // test
             }
         }
-        GD.Print($"nb child= {this.GetChildren().Count}");      // test
-
     }
 
     private void ResetDisplay()

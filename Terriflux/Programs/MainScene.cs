@@ -10,17 +10,20 @@ public partial class MainScene : RawNode
 	{
 		base._Ready();
 
-        // create grid
+        // create grid      (have to be generate via script)
         GridBuilder gridBuilder = new();
         gridBuilder.BuildWasteland(new(7, 7));
         Grid grid = gridBuilder.GetResult();
         grid.Position = GetNode<Marker2D>("GridMark").Position;
         grid.Scale = new Vector2((float)0.9, (float)0.9); 
-        this.AddChild(grid);    
+        this.AddChild(grid);
 
-        // create placement list
-        PlacementList placementList = (PlacementList) Instantiate("PlacementList");
-        placementList.Position = GetNode<Marker2D>("ListMark").Position;
-        this.AddChild(placementList);
+        // get placement list
+        PlacementList placementList = GetNode<PlacementList>("PlacementList");
+    }
+
+    private void OnExitGamePressed()
+    {
+        GetTree().Quit();
     }
 }

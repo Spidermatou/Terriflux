@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bu4tjpqmm7h5g"]
+[gd_scene load_steps=5 format=3 uid="uid://bu4tjpqmm7h5g"]
 
 [ext_resource type="Script" path="res://Programs/MainScene.cs" id="1_sagjt"]
+[ext_resource type="PackedScene" uid="uid://brf8vloq6rocx" path="res://Nodes/Impacts.tscn" id="2_5ofeb"]
+[ext_resource type="PackedScene" uid="uid://bhyj83gtd0yq7" path="res://Nodes/PlacementList.tscn" id="3_l250q"]
+[ext_resource type="Texture2D" uid="uid://ci8t08y235lou" path="res://Ressources/Images/cross.png" id="4_2u1jm"]
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource("1_sagjt")
@@ -16,5 +19,21 @@ polygon = PackedVector2Array(0, 0, 1152, 0, 1152, 316.23, 1152, 648, 0, 648)
 [node name="GridMark" type="Marker2D" parent="."]
 position = Vector2(-400, -278)
 
-[node name="ListMark" type="Marker2D" parent="."]
-position = Vector2(230, -185)
+[node name="Impacts" parent="." instance=ExtResource("2_5ofeb")]
+position = Vector2(251, -270)
+scale = Vector2(3, 3)
+
+[node name="PlacementList" parent="." instance=ExtResource("3_l250q")]
+position = Vector2(230, -177)
+
+[node name="ExitGame" type="Button" parent="."]
+offset_left = -571.0
+offset_top = -319.0
+offset_right = -98.0
+offset_bottom = -201.0
+scale = Vector2(0.217059, 0.284947)
+theme_override_font_sizes/font_size = 75
+text = "Exit game"
+icon = ExtResource("4_2u1jm")
+
+[connection signal="pressed" from="ExitGame" to="." method="OnExitGamePressed"]
