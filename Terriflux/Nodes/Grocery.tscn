@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cblku333wey6o"]
+
+[ext_resource type="PackedScene" uid="uid://cwyf3srjo2nig" path="res://Nodes/Building.tscn" id="1_60yv4"]
+[ext_resource type="Script" path="res://Programs/Grocery.cs" id="2_2n6du"]
+
+[node name="Grocery" instance=ExtResource("1_60yv4")]
+script = ExtResource("2_2n6du")

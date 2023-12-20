@@ -116,15 +116,15 @@ class Bakery extends Building
 }
 class EnergySupplier extends Building
 {
-    + EnergySupplier()        /' 2.5, -2.0, -5.0 ; ; ENERGY,6 ; #51ce60 '/
+    + EnergySupplier()      
 }
-class Shaft extends Building    /' Puit --- 2.5, -2.0, -5.0 ; ; WATER,6 ; blue '/
+class Shaft extends Building    
 {
     + Shaft()
 }
 class Grocery extends Building
 {
-    + Grocery()         /' 15.0, -2.5, -2.5 ; MANUFACTURED_MERCHANDISE,3, ENERGY,1 ; #51ceb4 '/
+    + Grocery()         
 }
 class BuildingFactory
 {
