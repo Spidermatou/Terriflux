@@ -20,9 +20,9 @@ MainScene ..> IPlaceMediator : use
 /' Any node of our own creation '/
 abstract RawNode  /' extends Godot.Node2D '/
 {
-    # {readonly} PATH_NODES : string = "Nodes/"
-    # {readonly} PATH_PROGRAMS : string = "Programs/"
-    # {readonly} PATH_IMAGES : string = "Ressources/Images/"
+    # {readonly} PATH_NODES : String = "Nodes/"
+    # {readonly} PATH_PROGRAMS : String = "Programs/"
+    # {readonly} PATH_IMAGES : String = "Ressources/Images/"
     # RawNode() /' this.Name = this.getClass().ToString() '/ 
     + {override}  _Ready()
     + Verbose()
@@ -68,9 +68,9 @@ abstract Building extends Cell
     + GetProduction() : FlowKind[*]     /' minimal product '/
     + GetNeedOf(flow : FlowKind) : Integer
     + GetProductOf(flow : FlowKind) : Integer        /' minimal product '/
-    + IsActive() : Boolean /' will produce sth this turn '/
     + GetMaluses() : Real[3]
-    + {override}  Verbose()
+    + GetHelp() : String        /' info for player about impacts, needs and products'/
+    + {override} Verbose() : String
 }
 /' needs & minimalProduction = (FlowKind, Integer)[*] '/
 Building" * " o--> " * "FlowKind : - {readonly} needs \n needs      
@@ -210,7 +210,7 @@ class Grid extends RawNode implements IGrid, IPlaceMediator
     + {override} SetAt(coordinates : Vector2I, cell : ICell)
     + {override} DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer[2]
     + {override} GetInactiveCells() : ICell      
-    + GetInactiveAlert() : string
+    + GetInactiveAlert() : String
 }
 
 /' INVENTORY & IMPACTS '/
@@ -270,19 +270,19 @@ class Inventory extends RawNode implements IImpacts, IInventory /' ancien node I
     + {override} Remove(flow : FlowKind, amount : Integer)
     + {override} Contains(flow : FlowKind) : Boolean
     + {override} GetQuantityOf(flow : FlowKind) : Integer
-    + {override}  {override} Verbose() : string
+    + {override} {override} Verbose() : String
     - ContainsEnough(flow : FlowKind, amount : Integer) : Boolean
 }
 
 /' MESSAGE to user '/
 interface IAlert
 {
-    + Say(text : string)
+    + Say(text : String)
     + Close()
 }
 class Alert implements IAlert
 {
-    + {override} Say(text : string)
+    + {override} Say(text : String)
     + {override} Close()
 }
 
