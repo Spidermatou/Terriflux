@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgkndpqmeid8w"]
+
+[ext_resource type="PackedScene" uid="uid://ds843siejjad2" path="res://Nodes/RawNode.tscn" id="1_q41wc"]
+[ext_resource type="Script" path="res://Programs/Inventory.cs" id="2_k1nfi"]
+
+[node name="Inventory" instance=ExtResource("1_q41wc")]
+script = ExtResource("2_k1nfi")

@@ -153,6 +153,7 @@ class Round extends RawNode implements IRound
 {
     + GetNumber() : Integer
     + Next()
+    - OnPressed()
 }
 
 /' GRID '/
