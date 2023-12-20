@@ -1,0 +1,22 @@
+[gd_scene load_steps=7 format=3 uid="uid://brf8vloq6rocx"]
+
+[ext_resource type="PackedScene" uid="uid://ds843siejjad2" path="res://Nodes/RawNode.tscn" id="1_p07ot"]
+[ext_resource type="Script" path="res://Programs/Impacts.cs" id="2_gqeln"]
+[ext_resource type="PackedScene" uid="uid://bvdbfnfhiua3" path="res://Nodes/SocialGauge.tscn" id="3_g30oy"]
+[ext_resource type="PackedScene" uid="uid://begi1tn5768we" path="res://Nodes/EcologyGauge.tscn" id="4_fmdw3"]
+[ext_resource type="PackedScene" uid="uid://3ql6l3uewm4l" path="res://Nodes/EconomyGauge.tscn" id="5_jc8gg"]
+[ext_resource type="Texture2D" uid="uid://x1qv3nokf84p" path="res://Ressources/Images/emblem.png" id="6_wl877"]
+
+[node name="Impacts" instance=ExtResource("1_p07ot")]
+script = ExtResource("2_gqeln")
+
+[node name="Social" parent="." index="0" instance=ExtResource("3_g30oy")]
+position = Vector2(0, -17)
+
+[node name="Ecology" parent="." index="1" instance=ExtResource("4_fmdw3")]
+position = Vector2(1, -9)
+
+[node name="Economy" parent="." index="2" instance=ExtResource("5_jc8gg")]
+
+[node name="Emblem" type="Sprite2D" parent="." index="3"]
+texture = ExtResource("6_wl877")
