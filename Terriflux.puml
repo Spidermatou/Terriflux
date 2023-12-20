@@ -76,6 +76,7 @@ abstract Building extends Cell
     + Activate()        /' call by Warehouse '/
     + Deactivate()      /' call by Warehouse '/
     + IsActive() : Boolean /' call by Grid '/
+    + GetIcon() : Texture2D
 }
 /' needs & minimalProduction = (FlowKind, Integer)[*] '/
 Building" * " o--> " * "FlowKind : - {readonly} needs \n needs      
@@ -215,6 +216,12 @@ class PlaceMediator
 PlaceMediator" * " o--> " 1 "ICell : - wantedModel 
 PlaceMediator" * " o--> " 1 "IImpacts : - impacts 
 PlaceMediator" * " o--> " 1 "IRound : - round 
+PlaceMediator" * " o--> " 1 "PlacementList : - placementList 
+class PlacementList   /' extends Godot ItemList '/
+{ 
+    + Add(building : Building)
+    - OnItemSelected(index : Integer)
+}
 
 /' INVENTORY & IMPACTS '/
 interface IGauge implements IPlaceMediator

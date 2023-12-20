@@ -22,21 +22,6 @@ public partial class MainScene : RawNode
         Grid grid = gridBuilder.GetResult();
         grid.Position = GetNode<Marker2D>("GridMark").Position;
         grid.Scale = new Vector2((float)0.9, (float)0.9); 
-        this.AddChild(grid);
-
-
-        /////////////// TESTS
-        //alert.Say("pomme");
-        /*Field f = (Field)Instantiate("Field");
-		f.Position = new Vector2((float)0.0, (float)0.0);
-        this.AddChild(f);
-
-        Bakery b = (Bakery)Instantiate("Bakery");
-        b.Position = new Vector2((float)100.0, (float)100.0);
-        this.AddChild(b); */
-
-        GD.Print(this.GetChildren().Count);
-
-    
+        this.AddChild(grid);    
     }
 }

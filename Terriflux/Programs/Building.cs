@@ -40,9 +40,15 @@ public partial class Building : Cell
     {
         base._Ready();
         _buildingSprite = GetNode<Sprite2D>("BuildingSprite");
-        this._buildingSprite.Texture = GD.Load<Texture2D>(PATH_IMAGES + GetType().Name.ToLower() + ".png");
+        this._buildingSprite.Texture = GetIcon();
         _dot = GetNode<Polygon2D>("Dot");
         this._dot.Color = colorOfDot;
+    }
+
+    /// <returns>Returns the image representing the building.</returns>
+    public Texture2D GetIcon()
+    {
+        return GD.Load<Texture2D>(PATH_IMAGES + GetType().Name.ToLower() + ".png");
     }
 
     public double[] GetMaluses()
