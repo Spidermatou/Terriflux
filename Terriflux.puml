@@ -200,7 +200,6 @@ class Grid extends RawNode implements IGrid, IPlaceMediator
     + {override} SetAt(coordinates : Vector2I, cell : ICell)
     + {override} DistanceBewteen(position1 : Integer[2], position2 : Integer[2]) : Integer
     + {override} GetInactiveBuildings() : Building[*]        /' batiments qui ne peuvent produire '/   
-    + {override} GetInactiveAlert() : String
 }
 class GridBuilder
 {
