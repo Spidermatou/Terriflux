@@ -7,6 +7,8 @@ public partial class Round : RawNode, IRound, IPlaceMediator
     private Button number;
     private PlaceMediator mediator;
 
+    private const int MAX_NB_TURN = 10;
+
     public Round() { }
 
     public int GetNumber()
@@ -16,7 +18,17 @@ public partial class Round : RawNode, IRound, IPlaceMediator
 
     public void Next()
     {
-        number.Text = (int.Parse(number.Text) + 1).ToString();
+        int next = (int.Parse(number.Text) + 1);
+
+        // victory?
+        if (next >= MAX_NB_TURN)
+        {
+            Alert alert = (Alert) Instantiate("Alert");
+            this.AddChild(alert);
+            alert.Say("Victoire ! Vous avez su gerer votre territoire malgre les defis. " +
+                "Votre ville est prospere et attractive, sans etre trop polluante. Bien joue !!");
+        }
+        number.Text = next.ToString();
 
         if (mediator == null) throw new Exception("Invalid Round configuration");
         mediator.Notify(this);

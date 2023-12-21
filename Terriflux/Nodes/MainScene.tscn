@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bu4tjpqmm7h5g"]
+[gd_scene load_steps=6 format=3 uid="uid://bu4tjpqmm7h5g"]
 
 [ext_resource type="Script" path="res://Programs/MainScene.cs" id="1_sagjt"]
 [ext_resource type="PackedScene" uid="uid://brf8vloq6rocx" path="res://Nodes/Impacts.tscn" id="2_5ofeb"]
 [ext_resource type="PackedScene" uid="uid://bhyj83gtd0yq7" path="res://Nodes/PlacementList.tscn" id="3_l250q"]
 [ext_resource type="Texture2D" uid="uid://ci8t08y235lou" path="res://Ressources/Images/cross.png" id="4_2u1jm"]
+[ext_resource type="PackedScene" uid="uid://ci8wayhxgyqyg" path="res://Nodes/Round.tscn" id="5_ywhl2"]
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource("1_sagjt")
@@ -35,5 +36,8 @@ scale = Vector2(0.217059, 0.284947)
 theme_override_font_sizes/font_size = 75
 text = "Exit game"
 icon = ExtResource("4_2u1jm")
+
+[node name="Round" parent="." instance=ExtResource("5_ywhl2")]
+position = Vector2(231, -301)
 
 [connection signal="pressed" from="ExitGame" to="." method="OnExitGamePressed"]
