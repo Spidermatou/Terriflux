@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhyj83gtd0yq7"]
+
+[ext_resource type="PackedScene" uid="uid://ds843siejjad2" path="res://Nodes/RawNode.tscn" id="1_83h4a"]
+[ext_resource type="Script" path="res://Programs/PlacementList.cs" id="2_t6wtw"]
+[ext_resource type="FontFile" uid="uid://brgg6df0yioql" path="res://Ressources/Font/Born2bSportyV2.ttf" id="3_4talh"]
+
+[node name="PlacementList" instance=ExtResource("1_83h4a")]
+script = ExtResource("2_t6wtw")
+
+[node name="BuildingsList" type="ItemList" parent="." index="0"]
+offset_right = 250.0
+offset_bottom = 400.0
+theme_override_fonts/font = ExtResource("3_4talh")
+theme_override_font_sizes/font_size = 23
+allow_search = false
+auto_height = true
+fixed_icon_size = Vector2i(80, 80)
+
+[node name="HelpList" type="ItemList" parent="." index="1"]
+offset_left = 250.0
+offset_right = 345.0
+offset_bottom = 400.0
+theme_override_fonts/font = ExtResource("3_4talh")
+theme_override_font_sizes/font_size = 23
+allow_search = false
+auto_height = true
+fixed_icon_size = Vector2i(80, 80)
+
+[connection signal="item_selected" from="BuildingsList" to="." method="OnItemSelected"]
+[connection signal="item_selected" from="HelpList" to="." method="OnHelpSelected"]

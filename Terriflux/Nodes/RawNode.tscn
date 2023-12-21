@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ds843siejjad2"]
+
+[ext_resource type="Script" path="res://Programs/RawNode.cs" id="1_jqstb"]
+
+[node name="RawNode" type="Node2D"]
+script = ExtResource("1_jqstb")

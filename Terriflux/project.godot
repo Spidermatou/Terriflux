@@ -11,14 +11,9 @@ config_version=5
 [application]
 
 config/name="Terriflux"
-run/main_scene="res://Nodes/View/MainScene.tscn"
+run/main_scene="res://Nodes/MainScene.tscn"
 config/features=PackedStringArray("4.1", "C#", "GL Compatibility")
-config/icon="res://Ressources/Images/icon.svg"
-
-[display]
-
-window/stretch/mode="viewport"
-window/stretch/aspect="expand"
+config/icon="res://icon.svg"
 
 [dotnet]
 

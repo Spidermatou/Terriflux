@@ -1,8 +1,2 @@
-.vs/
-.vscode/
-mono/
-shader_cache
-*.cfg
-uid_cache.bin
-*.snl
-*filesystem*
+# Godot 4+ specific ignores
+.godot/

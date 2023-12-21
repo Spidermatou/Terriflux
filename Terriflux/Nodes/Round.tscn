@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://ci8wayhxgyqyg"]
+
+[ext_resource type="PackedScene" uid="uid://ds843siejjad2" path="res://Nodes/RawNode.tscn" id="1_mv4ga"]
+[ext_resource type="Script" path="res://Programs/Round.cs" id="2_ybhx5"]
+[ext_resource type="FontFile" uid="uid://brgg6df0yioql" path="res://Ressources/Font/Born2bSportyV2.ttf" id="3_rrwqw"]
+
+[node name="Round" instance=ExtResource("1_mv4ga")]
+script = ExtResource("2_ybhx5")
+
+[node name="Number" type="Button" parent="." index="0"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("3_rrwqw")
+theme_override_font_sizes/font_size = 50
+text = "10"
+flat = true
+
+[connection signal="pressed" from="Number" to="." method="OnPressed"]

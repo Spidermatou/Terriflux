@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://bei0hamt2pymb"]
+
+[ext_resource type="PackedScene" uid="uid://ds843siejjad2" path="res://Nodes/RawNode.tscn" id="1_4rxdn"]
+[ext_resource type="Script" path="res://Programs/Gauge.cs" id="2_cdtro"]
+[ext_resource type="Texture2D" uid="uid://bnea0ieohxy4i" path="res://Ressources/Images/empty_gauge.png" id="2_ch6lq"]
+[ext_resource type="FontFile" uid="uid://brgg6df0yioql" path="res://Ressources/Font/Born2bSportyV2.ttf" id="2_t144v"]
+
+[node name="Gauge" instance=ExtResource("1_4rxdn")]
+script = ExtResource("2_cdtro")
+
+[node name="Bar" type="TextureProgressBar" parent="." index="0"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture_under = ExtResource("2_ch6lq")
+
+[node name="Description" type="Label" parent="." index="1"]
+offset_left = 18.0
+offset_top = 5.0
+offset_right = 54.0
+offset_bottom = 24.0
+scale = Vector2(0.5, 0.5)
+theme_override_fonts/font = ExtResource("2_t144v")
+text = "Texte"

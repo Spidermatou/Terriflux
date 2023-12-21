@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://dodopr51o7kn8"]
+
+[ext_resource type="PackedScene" uid="uid://ds843siejjad2" path="res://Nodes/RawNode.tscn" id="1_yd43c"]
+[ext_resource type="Script" path="res://Programs/Cell.cs" id="2_0p4m1"]
+
+[node name="Cell" instance=ExtResource("1_yd43c")]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("2_0p4m1")
+
+[node name="Button" type="TextureButton" parent="." index="0"]
+offset_left = -519.0
+offset_top = -512.0
+offset_right = 506.0
+offset_bottom = 513.0
+
+[node name="SelectedMark" type="Sprite2D" parent="." index="1"]
+
+[node name="Name" type="Label" parent="." index="2"]
+z_index = 5
+z_as_relative = false
+offset_left = 384.0
+offset_top = -546.0
+offset_right = 464.0
+offset_bottom = -520.0
+scale = Vector2(10, 10)
+theme_override_colors/font_shadow_color = Color(0.141176, 0.141176, 0.141176, 1)
+text = "Cell-Name"
+
+[connection signal="mouse_entered" from="Button" to="." method="OnMouseAbove"]
+[connection signal="mouse_exited" from="Button" to="." method="OnMouseOutside"]
+[connection signal="pressed" from="Button" to="." method="OnPressed"]
