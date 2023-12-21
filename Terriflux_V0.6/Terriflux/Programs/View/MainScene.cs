@@ -70,6 +70,7 @@ namespace Terriflux.Programs.View
 			InventoryController inventoryController = new(this._impactsView.GetInventory());
 			RoundController.inventoryController = inventoryController;
 			RoundController.grid = this.gridModel;
+			RoundController.grid.SetInventory(this._impactsView.GetInventory());
 			RoundController.impactsManager = this._impactsView;
 
 			roundModel.impactsManager = _impactsView;   

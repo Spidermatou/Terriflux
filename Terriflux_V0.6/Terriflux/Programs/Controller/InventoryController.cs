@@ -1,3 +1,4 @@
+using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,17 +31,20 @@ namespace Terriflux.Programs.Controller
 		{
 			foreach (BuildingModel building in buildings)
 			{
-				bool canWork;
-				if(this.inventory.GetWarehouses().Contains(building))
+				bool canWork = false;
+				foreach(Warehouse warehouse in this.inventory.GetWarehouses())
 				{
-					canWork = true;
+					GD.Print(warehouse.GetVoisins().Contains(building));
+					if(warehouse.GetVoisins().Contains(building))
+					{
+						canWork = true;
+					}
+					else
+					{
+						canWork = false;
+						this.blockedBuildings.Add(building); // Ajout du bâtiment bloqué
+					}
 				}
-				else
-				{
-					canWork = false;
-					this.blockedBuildings.Add(building); // Ajout du bâtiment bloqué
-				}
-
 				// Vérification si le bâtiment est déjà dans la liste des bâtiments bloqués
 				if (!blockedBuildings.Contains(building))
 				{
