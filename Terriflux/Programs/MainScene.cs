@@ -21,10 +21,18 @@ public partial class MainScene : RawNode
         // get placement list
         PlacementList placementList = GetNode<PlacementList>("PlacementList");
 
+        // get impacts
+        Impacts impact = GetNode<Impacts>("Impacts");
+
+        // get round
+        Round round = GetNode<Round>("Round");
+
         // create mediator
-        PlaceMediator mediator = new(grid, placementList);
+        PlaceMediator mediator = new(grid, placementList, impact, round);
         placementList.SetMediator(mediator);
         grid.SetMediator(mediator);
+        round.SetMediator(mediator);
+
 
 
     }

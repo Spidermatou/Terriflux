@@ -56,6 +56,7 @@ public partial class Building : Cell
         return maluses.ToArray();
     }
 
+    /// <returns>Social, Economy, Ecology</returns>
     public double[] GetImpacts()
     {
         return impacts.ToArray();

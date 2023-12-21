@@ -14,16 +14,20 @@ public partial class PlaceMediator : IPlaceMediator
 
     private readonly IGrid grid;
     private readonly PlacementList placementList;
+    private readonly IImpacts impacts;
+    private readonly IRound round;
 
     // info about placement status
     private Vector2I wantedCoordinates;     // where to place the cell
     private ICell wantedCell;               // what it will places
        
 
-    public PlaceMediator(IGrid grid, PlacementList placementList) 
+    public PlaceMediator(IGrid grid, PlacementList placementList, IImpacts impacts, IRound round) 
     {
         this.grid = grid;
         this.placementList = placementList;
+        this.round = round;
+        this.impacts = impacts;
         this.wantedCoordinates = UNVALID_COORDINATES;
         this.wantedCell = null;
     }
@@ -67,6 +71,20 @@ public partial class PlaceMediator : IPlaceMediator
             // notify colleague
             grid.Notify(this);
             placementList.Notify(this);
+
+            /*   // TODO - end of turn
+            // manage impacts
+            if (wantedCell is Building wantedBuilding)    
+            {
+                double[] addedValues = wantedBuilding.GetImpacts();
+                impacts.IncrementsSocial(addedValues[0]);
+                impacts.IncrementsEconomy(addedValues[1]);
+                impacts.IncrementsEcology(addedValues[2]);
+
+                GD.Print($"Add: {addedValues[0]}, {addedValues[1]}, {addedValues[2]}");
+
+            }
+            */
         }
     }   
 

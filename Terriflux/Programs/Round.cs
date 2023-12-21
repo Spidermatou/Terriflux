@@ -2,11 +2,12 @@ using Godot;
 using System;
 using Terriflux.Programs;
 
-public partial class Round : RawNode, IRound
+public partial class Round : RawNode, IRound, IPlaceMediator
 {
     private Button number;
+    private PlaceMediator mediator;
 
-	public Round() { }
+    public Round() { }
 
     public int GetNumber()
     {
@@ -16,7 +17,18 @@ public partial class Round : RawNode, IRound
     public void Next()
     {
         number.Text = (int.Parse(number.Text) + 1).ToString();
+
+        if (mediator == null) throw new Exception("Invalid Round configuration");
+        mediator.Notify(this);
     }
+    
+    public void SetMediator(PlaceMediator mediator)
+    {
+        this.mediator = mediator;
+    }
+
+    // does nothing special
+    public void Notify(IPlaceMediator sender) { }
 
     public override void _Ready()
 	{
