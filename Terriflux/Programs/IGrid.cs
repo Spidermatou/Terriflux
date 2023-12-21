@@ -40,5 +40,7 @@ namespace Terriflux.Programs
         T[] GetAllOfType<T>() where T : ICell;
 
         Vector2I GetSelectedCoordinates();
+
+        Vector2I GetCoordinatesOf(ICell cell);
     }
 }

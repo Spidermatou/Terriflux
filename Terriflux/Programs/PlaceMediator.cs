@@ -20,9 +20,10 @@ public partial class PlaceMediator : IPlaceMediator
 
     // info about placement status
     private Vector2I wantedCoordinates;     // where to place the cell
-    private Building wantedBuild;               // what it will places
+    private Building wantedForBuild;               // what it will places
     private readonly List<Building> builtThisTurn;
-       
+    private readonly Dictionary<Vector2I, Warehouse> allWarehouses;
+
 
     public PlaceMediator(IGrid grid, PlacementList placementList, IImpacts impacts, IRound round, IInventory inventory) 
     {
@@ -32,8 +33,9 @@ public partial class PlaceMediator : IPlaceMediator
         this.impacts = impacts;
         this.inventory = inventory;
         this.wantedCoordinates = UNVALID_COORDINATES;
-        this.wantedBuild = null;
+        this.wantedForBuild = null;
         this.builtThisTurn = new();
+        this.allWarehouses = new();
     }
 
     public void Notify(IPlaceMediator sender)
@@ -42,7 +44,7 @@ public partial class PlaceMediator : IPlaceMediator
         switch (sender)
         {
             case PlacementList:
-                wantedBuild = (Building)placementList.GetSelectedItem();
+                wantedForBuild = (Building)placementList.GetSelectedItem();
                 break;
             case IGrid:
                 wantedCoordinates = grid.GetSelectedCoordinates();
@@ -60,7 +62,7 @@ public partial class PlaceMediator : IPlaceMediator
 
     private void ResetWants()
     {
-        wantedBuild = null;
+        wantedForBuild = null;
         wantedCoordinates = UNVALID_COORDINATES;
     }
 
@@ -76,7 +78,7 @@ public partial class PlaceMediator : IPlaceMediator
         }
         else
         {
-            // update inventory
+            // update impacts
             foreach (Building building in builtThisTurn)
             {
                 double[] addedValues = building.GetImpacts();
@@ -84,6 +86,9 @@ public partial class PlaceMediator : IPlaceMediator
                 impacts.IncrementsEconomy(addedValues[1]);
                 impacts.IncrementsEcology(addedValues[2]);
             }
+
+            // update inventory
+
         }
     }
 
@@ -93,22 +98,57 @@ public partial class PlaceMediator : IPlaceMediator
     /// If it's a warehouse: searches for buildings in its zone and adds them.  
     /// </summary>
     private void Place() {
-        if (wantedBuild != null && wantedCoordinates != UNVALID_COORDINATES)
+        if (wantedForBuild != null && wantedCoordinates != UNVALID_COORDINATES)
         {
-            grid.SetAt(wantedCoordinates, wantedBuild, true);
+            ManageWarehousePlacement();
+            grid.SetAt(wantedCoordinates, wantedForBuild, true);
 
             // notify colleague
             grid.Notify(this);
             placementList.Notify(this);
 
             // save a clone has builtThisTurn
-            builtThisTurn.Add((Building) RawNode.Instantiate(wantedBuild.GetType().Name));
+            builtThisTurn.Add((Building) RawNode.Instantiate(wantedForBuild.GetType().Name));
 
             // reset
             ResetWants();
         }
     }   
 
+    private void ManageWarehousePlacement()
+    {
+        // is an warehouse? add his neighbours already-on-map
+        if (wantedForBuild is Warehouse warehouse)
+        {
+            foreach (Building build in grid.GetAllOfType<Building>())
+            {
+                int distanceWithWarehouse = grid.DistanceBewteen(wantedCoordinates, grid.GetCoordinatesOf(build));
+
+                // if in its area of effect... add as a neighbour
+                if (distanceWithWarehouse <= Warehouse.EFFECT_ZONE_SIZE)
+                {
+                    warehouse.AddNeighbour(build);
+                }
+            }
+
+            // save into warehouse list
+            this.allWarehouses.Add(wantedCoordinates, warehouse);
+        }
+        // is just a building
+        else
+        {
+            foreach (KeyValuePair<Vector2I, Warehouse> kvp in this.allWarehouses)
+            {
+                int distanceWithWarehouse = grid.DistanceBewteen(wantedCoordinates, kvp.Key);
+
+                // if in its area of effect... add as a neighbour
+                if (distanceWithWarehouse <= Warehouse.EFFECT_ZONE_SIZE)
+                {
+                    kvp.Value.AddNeighbour(wantedForBuild);
+                }
+            }
+        }
+    }
 
 
 }

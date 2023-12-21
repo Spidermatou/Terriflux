@@ -7,6 +7,7 @@ public partial class Warehouse : Building
 {
     private IInventory inventory;
     private readonly List<Building> neighbour; // list of elements with access to the warehouse
+    public const int EFFECT_ZONE_SIZE = 3;
 
     public Warehouse() : base(
         new double[] { -1, -1, -1 },
