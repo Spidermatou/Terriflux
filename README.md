@@ -5,7 +5,7 @@
 - FERNANDES Samuel
 - LE ROUX Aymeric
 - GILLIG Mattéo
-- Tejedinne
+- KHENISSI Tejeddinne
 
 ## Logo du Jeu
 
@@ -16,11 +16,6 @@ Ce jeu est une simulation de construction et de gestion urbaine avec un focus su
 
 ## Problématique
 Re-territorialiser par la matière. Approche du métabolisme urbain à l'échelle d'un quartier - spécifiquement, Koenigshoffen-Est à Strasbourg.
-
-## Objectifs Pédagogiques
-- Comprendre l'impact du métabolisme urbain et de la re-territorialisation sur un quartier spécifique.
-- Appréhender les défis et opportunités de la gestion d'un quartier urbain dans une perspective de développement durable.
-- Comprendre l'influence des flux de marchandise sur l'occupation d'un territoire
 
 ## Technologie
 - Moteur de jeu : Godot Engine .Net 4.0
