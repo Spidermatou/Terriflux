@@ -28,7 +28,8 @@ position = Vector2(251, -270)
 scale = Vector2(3, 3)
 
 [node name="PlacementList" parent="." instance=ExtResource("3_l250q")]
-position = Vector2(230, -177)
+position = Vector2(281, -175)
+scale = Vector2(0.85, 0.85)
 
 [node name="Round" parent="." instance=ExtResource("5_ywhl2")]
 position = Vector2(231, -301)
@@ -54,6 +55,7 @@ texture_pressed = ExtResource("7_cmfcl")
 texture_hover = ExtResource("7_cmfcl")
 
 [node name="Inventory" parent="." instance=ExtResource("6_4tjvw")]
+visible = false
 z_index = 200
 position = Vector2(37, 136)
 

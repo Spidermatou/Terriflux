@@ -34,6 +34,7 @@ public partial class PlacementList : RawNode, IPlaceMediator
 		Add(buildingFactory.CreateFactory());
 		Add(buildingFactory.CreateBakery());
 		Add(buildingFactory.CreateGrocery());
+		Add(buildingFactory.CreateWarehouse());
     }
 
     public void SetMediator(PlaceMediator mediator)

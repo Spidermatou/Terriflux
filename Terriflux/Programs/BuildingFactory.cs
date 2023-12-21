@@ -16,5 +16,6 @@ namespace Terriflux.Programs
         public Building CreateEnergySupplier() { return (Building)RawNode.Instantiate("EnergySupplier"); }
         public Building CreateShaft() { return (Building)RawNode.Instantiate("Shaft"); }
         public Building CreateGrocery() { return (Building)RawNode.Instantiate("Grocery"); }
+        public Building CreateWarehouse() { return (Building)RawNode.Instantiate("Warehouse"); }
     }
 }
