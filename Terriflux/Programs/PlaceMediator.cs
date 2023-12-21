@@ -166,13 +166,9 @@ public partial class PlaceMediator : IPlaceMediator
         // each warehouse on the grid...
         foreach (Warehouse warehouse in allWarehouses.Values)
         {
-            GD.Print($"Look warehouse {warehouse}");         // test
-
             // ... requests to its neighbours...
             foreach (Building neighbour in warehouse.GetNeighbours())
             {
-                GD.Print($"\tneighbour {neighbour}");         // test
-
                 bool isSupplied = true;
 
                 // already been treated? 
@@ -184,8 +180,6 @@ public partial class PlaceMediator : IPlaceMediator
                 // ... what they needs...
                 for (int i = 0; i < neighbour.GetNeeds().Length && isSupplied; i++)
                 {
-                    GD.Print($"\t\the need {neighbour.GetNeeds()[i]}");         // test
-
                     // ... can we supply it with enough?
                     if (!(inventory.GetQuantityOf(neighbour.GetNeeds()[i]) >= neighbour.GetNeedOf(neighbour.GetNeeds()[i]))) // no
                     {
@@ -209,8 +203,6 @@ public partial class PlaceMediator : IPlaceMediator
                     }
                 }
                 // no : does nothing
-
-                GD.Print($"\t--is supplied:{isSupplied}");         // test
             }
         }
     }

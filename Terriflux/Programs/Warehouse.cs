@@ -38,10 +38,6 @@ public partial class Warehouse : Building
     public void AddNeighbour(Building neighbour)
     {
         this.neighbours.Add(neighbour);
-        foreach (Building act_neighbour in this.neighbours)
-        {
-            GD.Print(act_neighbour.Name);
-        }
     }
 
     public void RemoveNeighbour(Building neighbour)

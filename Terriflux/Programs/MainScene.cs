@@ -43,9 +43,6 @@ public partial class MainScene : RawNode
 
         // hiding
         inventory.Hide();
-
-
-        ////// TEST 
     }
 
     private void OnExitGamePressed()
