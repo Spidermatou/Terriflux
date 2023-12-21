@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://bu4tjpqmm7h5g"]
+[gd_scene load_steps=9 format=3 uid="uid://bu4tjpqmm7h5g"]
 
 [ext_resource type="Script" path="res://Programs/MainScene.cs" id="1_sagjt"]
 [ext_resource type="PackedScene" uid="uid://brf8vloq6rocx" path="res://Nodes/Impacts.tscn" id="2_5ofeb"]
 [ext_resource type="PackedScene" uid="uid://bhyj83gtd0yq7" path="res://Nodes/PlacementList.tscn" id="3_l250q"]
 [ext_resource type="Texture2D" uid="uid://ci8t08y235lou" path="res://Ressources/Images/cross.png" id="4_2u1jm"]
 [ext_resource type="PackedScene" uid="uid://ci8wayhxgyqyg" path="res://Nodes/Round.tscn" id="5_ywhl2"]
+[ext_resource type="PackedScene" uid="uid://dgkndpqmeid8w" path="res://Nodes/Inventory.tscn" id="6_4tjvw"]
+[ext_resource type="Texture2D" uid="uid://40lldd38m5c7" path="res://Ressources/Images/inventorybutton.png" id="6_nffoy"]
+[ext_resource type="Texture2D" uid="uid://c2dagwvp2mxy1" path="res://Ressources/Images/leftclick.png" id="7_cmfcl"]
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource("1_sagjt")
@@ -27,6 +30,9 @@ scale = Vector2(3, 3)
 [node name="PlacementList" parent="." instance=ExtResource("3_l250q")]
 position = Vector2(230, -177)
 
+[node name="Round" parent="." instance=ExtResource("5_ywhl2")]
+position = Vector2(231, -301)
+
 [node name="ExitGame" type="Button" parent="."]
 offset_left = -571.0
 offset_top = -319.0
@@ -37,7 +43,19 @@ theme_override_font_sizes/font_size = 75
 text = "Exit game"
 icon = ExtResource("4_2u1jm")
 
-[node name="Round" parent="." instance=ExtResource("5_ywhl2")]
-position = Vector2(231, -301)
+[node name="OpenInventory" type="TextureButton" parent="."]
+offset_left = -559.0
+offset_top = 255.0
+offset_right = -433.0
+offset_bottom = 366.0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("6_nffoy")
+texture_pressed = ExtResource("7_cmfcl")
+texture_hover = ExtResource("7_cmfcl")
+
+[node name="Inventory" parent="." instance=ExtResource("6_4tjvw")]
+z_index = 999
+position = Vector2(37, 136)
 
 [connection signal="pressed" from="ExitGame" to="." method="OnExitGamePressed"]
+[connection signal="pressed" from="OpenInventory" to="." method="OnOpenInventoryPressed"]

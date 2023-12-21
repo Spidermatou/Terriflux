@@ -7,6 +7,7 @@ namespace Terriflux.Programs{
         protected const string PATH_NODES = "Nodes/";
         protected const string PATH_PROGRAMS = "Programs/";
         protected const string PATH_IMAGES = "Ressources/Images/";
+        protected const string PATH_FONT = "Ressources/Font/";
         protected RawNode()
         {
             this.Name = this.GetClass().ToString();

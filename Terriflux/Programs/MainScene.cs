@@ -4,7 +4,9 @@ using Terriflux.Programs;
 
 public partial class MainScene : RawNode
 {
-	public MainScene() : base() { }
+    Inventory inventory;
+
+    public MainScene() : base() { }
 
 	public override void _Ready()
 	{
@@ -27,18 +29,27 @@ public partial class MainScene : RawNode
         // get round
         Round round = GetNode<Round>("Round");
 
+        // get inventory
+        inventory = GetNode<Inventory>("Inventory");
+
         // create mediator
         PlaceMediator mediator = new(grid, placementList, impact, round);
         placementList.SetMediator(mediator);
         grid.SetMediator(mediator);
         round.SetMediator(mediator);
 
-
-
+        // hiding
+        inventory.Hide();
     }
 
     private void OnExitGamePressed()
     {
         GetTree().Quit();
+    }
+
+    private void OnOpenInventoryPressed()
+    {
+        if (inventory.Visible) inventory.Hide();
+        else inventory.Show();
     }
 }
