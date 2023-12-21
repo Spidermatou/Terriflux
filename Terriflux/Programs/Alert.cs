@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Text;
 
 namespace Terriflux.Programs;
 
@@ -9,8 +10,10 @@ namespace Terriflux.Programs;
 /// </summary>
 public partial class Alert : RawNode
 {
-	// himself
-	private static readonly Alert singleton = (Alert) RawNode.Instantiate("Alert");
+	private const int LINE_SIZE = 57;       // max nb of characters on an unique line
+
+    // himself
+    private static readonly Alert singleton = (Alert) RawNode.Instantiate("Alert");
 
 	// children
 	Label _message;
@@ -31,9 +34,14 @@ public partial class Alert : RawNode
 		return singleton;
 	}
 
+    /// <summary>
+    /// Displays the dialog box with the specified message.
+    /// </summary>
+    /// <param name="message"></param>
     public static void Say(string message)
 	{
-		ModifyMessage(message);
+        // show the message
+        ModifyMessage(message);
         singleton.Show();
 	}
 

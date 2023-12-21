@@ -43,6 +43,13 @@ public partial class MainScene : RawNode
 
         // hiding
         inventory.Hide();
+
+
+
+        ///// TEST
+        End d = new End();
+        GD.Print(d.Fail());
+        Alert.Say(d.Fail());
     }
 
     private void OnExitGamePressed()
