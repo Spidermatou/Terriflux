@@ -105,6 +105,7 @@ public partial class PlaceMediator : IPlaceMediator
     private void Place() {
         if (wantedForBuild != null && wantedCoordinates != UNVALID_COORDINATES)
         {
+            ManageCellCrush();
             ManageWarehousePlacement();
             grid.SetAt(wantedCoordinates, wantedForBuild, true);
 
@@ -129,7 +130,7 @@ public partial class PlaceMediator : IPlaceMediator
             {
                 int distanceWithWarehouse = grid.DistanceBewteen(wantedCoordinates, grid.GetCoordinatesOf(build));
 
-                // if in its area of effect... add as a neighbour
+                // if in its area of effect... add as a neighbours
                 if (distanceWithWarehouse <= Warehouse.EFFECT_ZONE_SIZE)
                 {
                     warehouse.AddNeighbour(build);
@@ -146,7 +147,7 @@ public partial class PlaceMediator : IPlaceMediator
             {
                 int distanceWithWarehouse = grid.DistanceBewteen(wantedCoordinates, kvp.Key);
 
-                // if in its area of effect... add as a neighbour
+                // if in its area of effect... add as a neighbours
                 if (distanceWithWarehouse <= Warehouse.EFFECT_ZONE_SIZE)
                 {
                     kvp.Value.AddNeighbour(wantedForBuild);
@@ -166,47 +167,75 @@ public partial class PlaceMediator : IPlaceMediator
         foreach (Warehouse warehouse in allWarehouses.Values)
         {
             GD.Print($"Look warehouse {warehouse}");         // test
+
             // ... requests to its neighbours...
             foreach (Building neighbour in warehouse.GetNeighbours())
             {
                 GD.Print($"\tneighbour {neighbour}");         // test
 
                 bool isSupplied = true;
+
+                // already been treated? 
+                if (alreadyProcessed.Contains(neighbour))
+                {
+                    isSupplied = false; // yes, skip
+                }
+
                 // ... what they needs...
-                for (int i = 0; i < neighbour.GetNeeds().Length && isSupplied ; i++)
+                for (int i = 0; i < neighbour.GetNeeds().Length && isSupplied; i++)
                 {
                     GD.Print($"\t\the need {neighbour.GetNeeds()[i]}");         // test
-
-                    // already been treated?
-                    if (alreadyProcessed.Contains(neighbour))
-                    {
-                        isSupplied = false;
-                    }
 
                     // ... can we supply it with enough?
                     if (!(inventory.GetQuantityOf(neighbour.GetNeeds()[i]) >= neighbour.GetNeedOf(neighbour.GetNeeds()[i]))) // no
                     {
-                        isSupplied = false; 
+                        isSupplied = false;
                     }
-
-                    // do we actually supply it?
-                    if (isSupplied)
-                    {
-                        // we give it ressources
-                        inventory.Remove(neighbour.GetNeeds()[i], neighbour.GetNeedOf(neighbour.GetNeeds()[i]));
-
-                        // and we get his production!
-                        foreach (FlowKind product in neighbour.GetProduction())
-                        {
-                            inventory.Add(product, neighbour.GetProductOf(product));
-                        }
-                    }
-                    // no : does nothing
-
-                    GD.Print($"\t--is supplied:{isSupplied}");         // test
-
                 }
+
+                // do we actually supply it?
+                if (isSupplied)
+                {
+                    // we give it ressources
+                    for (int i = 0; i < neighbour.GetNeeds().Length && isSupplied; i++)
+                    {
+                        inventory.Remove(neighbour.GetNeeds()[i], neighbour.GetNeedOf(neighbour.GetNeeds()[i]));
+                    }
+
+                    // and we get his production!
+                    foreach (FlowKind product in neighbour.GetProduction())
+                    {
+                        inventory.Add(product, neighbour.GetProductOf(product));
+                    }
+                }
+                // no : does nothing
+
+                GD.Print($"\t--is supplied:{isSupplied}");         // test
             }
+        }
+    }
+
+    private void RemoveFromAllWarehouse(Building removedBuilding)
+    {
+        foreach (Warehouse warehouse in allWarehouses.Values)
+        {
+            warehouse.RemoveNeighbour(removedBuilding);
+        }
+    }
+
+    /// <summary>
+    /// If a warehouse is deleted in the operation: deletes its references. <br></br>
+    /// If a building is deleted in the operation: deletes it from all warehouses.
+    /// </summary>
+    private void ManageCellCrush()
+    {
+        if (grid.GetAt(wantedCoordinates) is Warehouse)
+        {
+            this.allWarehouses.Remove(wantedCoordinates);
+        }
+        else if (grid.GetAt(wantedCoordinates) is Building removedBuilding)
+        {
+            RemoveFromAllWarehouse(removedBuilding);
         }
     }
 }

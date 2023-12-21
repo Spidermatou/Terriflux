@@ -6,7 +6,7 @@ namespace Terriflux.Programs;
 public partial class Warehouse : Building
 {
     private IInventory inventory;
-    private readonly List<Building> neighbour; // list of elements with access to the warehouse
+    private readonly List<Building> neighbours; // list of elements with access to the warehouse
     public const int EFFECT_ZONE_SIZE = 3;
 
     public Warehouse() : base(
@@ -16,7 +16,7 @@ public partial class Warehouse : Building
         new("#B51405")
         )
     { 
-        this.neighbour = new();  
+        this.neighbours = new();  
     }
 
     public override void _Ready()
@@ -27,15 +27,28 @@ public partial class Warehouse : Building
 
     public List<Building> GetNeighbours()
     {
-        return this.neighbour;
+        return this.neighbours;
+    }
+
+    public bool HasNeighbour(Building building)
+    {
+        return neighbours.Contains(building);
     }
 
     public void AddNeighbour(Building neighbour)
     {
-        this.neighbour.Add(neighbour);
-        foreach (Building act_neighbour in this.neighbour)
+        this.neighbours.Add(neighbour);
+        foreach (Building act_neighbour in this.neighbours)
         {
             GD.Print(act_neighbour.Name);
+        }
+    }
+
+    public void RemoveNeighbour(Building neighbour)
+    {
+        if (HasNeighbour(neighbour))
+        {
+            this.neighbours.Remove(neighbour);
         }
     }
 

@@ -46,7 +46,6 @@ public partial class MainScene : RawNode
 
 
         ////// TEST 
-        inventory.Add(FlowKind.Water, 5);
     }
 
     private void OnExitGamePressed()
