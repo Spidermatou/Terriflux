@@ -81,7 +81,7 @@ public partial class Building : Cell
     /// <returns>Minimal production of </returns>
     public int GetProductOf(FlowKind flow)
     {
-        return this.needs[flow];
+        return this.minimalProduction[flow];
     }
 
     public string GetHelp()

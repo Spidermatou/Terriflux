@@ -43,6 +43,10 @@ public partial class MainScene : RawNode
 
         // hiding
         inventory.Hide();
+
+
+        ////// TEST 
+        inventory.Add(FlowKind.Water, 5);
     }
 
     private void OnExitGamePressed()
