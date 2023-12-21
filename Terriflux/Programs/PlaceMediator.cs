@@ -19,7 +19,8 @@ public partial class PlaceMediator : IPlaceMediator
 
     // info about placement status
     private Vector2I wantedCoordinates;     // where to place the cell
-    private ICell wantedCell;               // what it will places
+    private Building wantedBuild;               // what it will places
+    private readonly List<Building> builtThisTurn;
        
 
     public PlaceMediator(IGrid grid, PlacementList placementList, IImpacts impacts, IRound round) 
@@ -29,7 +30,8 @@ public partial class PlaceMediator : IPlaceMediator
         this.round = round;
         this.impacts = impacts;
         this.wantedCoordinates = UNVALID_COORDINATES;
-        this.wantedCell = null;
+        this.wantedBuild = null;
+        this.builtThisTurn = new();
     }
 
     public void Notify(IPlaceMediator sender)
@@ -38,10 +40,14 @@ public partial class PlaceMediator : IPlaceMediator
         switch (sender)
         {
             case PlacementList:
-                wantedCell = placementList.GetSelectedItem();
+                wantedBuild = (Building)placementList.GetSelectedItem();
+                GD.Print($"wantedbuild: {wantedBuild == null}");
                 break;
             case IGrid:
                 wantedCoordinates = grid.GetSelectedCoordinates();
+                break;
+            case Round:
+                ReactOnNextRound();
                 break;
             default:
                 break;
@@ -53,8 +59,26 @@ public partial class PlaceMediator : IPlaceMediator
 
     private void ResetWants()
     {
-        wantedCell = null;
+        wantedBuild = null;
         wantedCoordinates = UNVALID_COORDINATES;
+    }
+
+    private void ReactOnNextRound()
+    {
+        GD.Print($"imp null? {impacts == null}");
+        GD.Print($"nb contstru ce tour: {builtThisTurn.Count}");
+        foreach (Building building in builtThisTurn)
+        {
+            GD.Print($"nb contstru ce tour: {building == null}");
+
+            double[] addedValues = building.GetImpacts();
+            impacts.IncrementsSocial(addedValues[0]);
+            impacts.IncrementsEconomy(addedValues[1]);
+            impacts.IncrementsEcology(addedValues[2]);
+
+            GD.Print($"Add: {addedValues[0]}, {addedValues[1]}, {addedValues[2]}");
+        }
+        
     }
 
     /// <summary>
@@ -63,28 +87,19 @@ public partial class PlaceMediator : IPlaceMediator
     /// If it's a warehouse: searches for buildings in its zone and adds them.  
     /// </summary>
     private void Place() {
-        if (wantedCell != null && wantedCoordinates != UNVALID_COORDINATES)
+        if (wantedBuild != null && wantedCoordinates != UNVALID_COORDINATES)
         {
-            grid.SetAt(wantedCoordinates, wantedCell, true);
-            ResetWants();
+            grid.SetAt(wantedCoordinates, wantedBuild, true);
 
             // notify colleague
             grid.Notify(this);
             placementList.Notify(this);
 
-            /*   // TODO - end of turn
-            // manage impacts
-            if (wantedCell is Building wantedBuilding)    
-            {
-                double[] addedValues = wantedBuilding.GetImpacts();
-                impacts.IncrementsSocial(addedValues[0]);
-                impacts.IncrementsEconomy(addedValues[1]);
-                impacts.IncrementsEcology(addedValues[2]);
+            // save a clone has builtThisTurn
+            builtThisTurn.Add((Building) RawNode.Instantiate(wantedBuild.GetType().Name));
 
-                GD.Print($"Add: {addedValues[0]}, {addedValues[1]}, {addedValues[2]}");
-
-            }
-            */
+            // reset
+            ResetWants();
         }
     }   
 
