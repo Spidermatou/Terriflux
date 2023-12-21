@@ -10,130 +10,129 @@ using Terriflux.Programs.View;
 
 namespace Terriflux.Programs.Model.Round
 {
-    public partial class RoundModel : IVerbosable
-    {
-        private int roundNumber = 1;
-        private int maxPerTurn = 3;
-        private int buildedThisTurn = 0;
+	public partial class RoundModel : IVerbosable
+	{
+		private int roundNumber = 1;
+		private int maxPerTurn = 3;
+		private int buildedThisTurn = 0;
 
-        public Impacts impactsManager;
+		public Impacts impactsManager;
 
-        private readonly List<IRoundObserver> observers = new();
+		private readonly List<IRoundObserver> observers = new();
 
 
-        // for test
-        public text_box TxtBox;
-        public string endmess;
+		// for test
+		public text_box TxtBox;
+		public string endmess;
 
-        public RoundModel() { }
+		public RoundModel() { }
 
-        public void NextTurn()
-        {
-            if (impactsManager == null)
-            {
-                GD.Print("RoundModel not set correctly");
-                throw new Exception();
-            }
+		public void NextTurn()
+		{
+			if (impactsManager == null)
+			{
+				GD.Print("RoundModel not set correctly");
+				throw new Exception();
+			}
 
-            roundNumber++;
+			roundNumber++;
 
-            // game end?    // TODO with strategy pattern 
-            if (impactsManager.GetImpacts()[0] == 0)
-            {
-                Ends endmessage = new();
-                text_box tb = text_box.Design();
-                this.endmess = endmessage.GetSocialZero();
+			// game end?    // TODO with strategy pattern 
+			if (impactsManager.GetImpacts()[0] == 0)
+			{
+				Ends endmessage = new();
+				text_box tb = text_box.Design();
+				this.endmess = endmessage.GetSocialZero();
 
-                this.TxtBox = tb;
-            }
-            else if (impactsManager.GetImpacts()[1] == 0)
-            {
-                Ends endmessage = new();
-                text_box tb = text_box.Design();
+				this.TxtBox = tb;
+			}
+			else if (impactsManager.GetImpacts()[1] == 0)
+			{
+				Ends endmessage = new();
+				text_box tb = text_box.Design();
 
-                this.endmess = endmessage.GetEconomyZero();
+				this.endmess = endmessage.GetEconomyZero();
 
-                this.TxtBox = tb;
+				this.TxtBox = tb;
 
-            }
-            else if (impactsManager.GetImpacts()[2] == 0)
-            {
-                Ends endmessage = new();
-                text_box tb = text_box.Design();
+			}
+			else if (impactsManager.GetImpacts()[2] == 0)
+			{
+				Ends endmessage = new();
+				text_box tb = text_box.Design();
 
-                this.endmess = endmessage.GetEcologyZero();
+				this.endmess = endmessage.GetEcologyZero();
 
-                this.TxtBox = tb;
+				this.TxtBox = tb;
+			}
+			else
+			{
+				// reset
+				buildedThisTurn = 0;
 
-            }
-            else
-            {
-                // reset
-                buildedThisTurn = 0;
+				// update
+				Notify();
+			}
+		}
 
-                // update
-                Notify();
-            }
-        }
+		/// <returns> The actual round number. </returns>
+		public int GetRoundNumber() { return roundNumber; }
 
-        /// <returns> The actual round number. </returns>
-        public int GetRoundNumber() { return roundNumber; }
+		/// <returns> Maximum number of buildings a player can build in one turn. </returns>
+		public int GetMaxPerTurn() { return maxPerTurn; }
 
-        /// <returns> Maximum number of buildings a player can build in one turn. </returns>
-        public int GetMaxPerTurn() { return maxPerTurn; }
+		/// <returns> Number of buildings already created this round. </returns>
+		public int GetThisTurn() { return buildedThisTurn; }
 
-        /// <returns> Number of buildings already created this round. </returns>
-        public int GetThisTurn() { return buildedThisTurn; }
+		/// <returns> Adds one to the counter of buildings created this round. </returns>
+		public void PlusOneBuilded()
+		{
+			// can build?
+			if (buildedThisTurn + 1 <= maxPerTurn)
+			{
+				buildedThisTurn++;
+			}
+			else
+			{
+				throw new Exception("Try to build more buildings than allowed!");
+			}
+		}
 
-        /// <returns> Adds one to the counter of buildings created this round. </returns>
-        public void PlusOneBuilded()
-        {
-            // can build?
-            if (buildedThisTurn + 1 <= maxPerTurn)
-            {
-                buildedThisTurn++;
-            }
-            else
-            {
-                throw new Exception("Try to build more buildings than allowed!");
-            }
-        }
+		/// <returns> Set the maximum number of buildings a player can build in one turn. </returns>
+		public void SetMaxPerTurn(int newMax) { maxPerTurn = newMax; }
 
-        /// <returns> Set the maximum number of buildings a player can build in one turn. </returns>
-        public void SetMaxPerTurn(int newMax) { maxPerTurn = newMax; }
+		// OBSERVERS
+		public void AddObserver(IRoundObserver observer)
+		{
+			if (!observers.Contains(observer))
+			{
+				observers.Add(observer);
+			}
+		}
 
-        // OBSERVERS
-        public void AddObserver(IRoundObserver observer)
-        {
-            if (!observers.Contains(observer))
-            {
-                observers.Add(observer);
-            }
-        }
+		public void RemoveObserver(IRoundObserver observer)
+		{
+			if (observers.Contains(observer))
+			{
+				observers.Remove(observer);
+			}
+		}
 
-        public void RemoveObserver(IRoundObserver observer)
-        {
-            if (observers.Contains(observer))
-            {
-                observers.Remove(observer);
-            }
-        }
+		private void Notify()
+		{
+			foreach (IRoundObserver observer in observers)
+			{
+				observer.Update(roundNumber);
+			}
+		}
 
-        private void Notify()
-        {
-            foreach (IRoundObserver observer in observers)
-            {
-                observer.Update(roundNumber);
-            }
-        }
-
-        public string Verbose()
-        {
-            StringBuilder sb = new();
-            sb.AppendLine($"Round number: {roundNumber}");
-            sb.AppendLine($"Max: {GetMaxPerTurn()}");
-            sb.AppendLine($"Actual: {GetThisTurn()}");
-            return sb.ToString();
-        }
-    }
+		public string Verbose()
+		{
+			StringBuilder sb = new();
+			sb.AppendLine($"Round number: {roundNumber}");
+			sb.AppendLine($"Max: {GetMaxPerTurn()}");
+			sb.AppendLine($"Actual: {GetThisTurn()}");
+			return sb.ToString();
+		}
+	}
 }

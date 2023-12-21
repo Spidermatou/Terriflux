@@ -6,6 +6,7 @@ using Terriflux.Programs.GameContext;
 using Terriflux.Programs.Gauges;
 using Terriflux.Programs.Model.Grid;
 using Terriflux.Programs.Model.Round;
+using Terriflux.Programs.Model.Placeables;
 
 namespace Terriflux.Programs.View
 {
@@ -72,7 +73,11 @@ namespace Terriflux.Programs.View
 			RoundController.impactsManager = this._impactsView;
 
 			roundModel.impactsManager = _impactsView;   
-
+			
+			foreach (Warehouse warehouse in RoundController.grid.GetWarehouses().Values)
+			{
+				warehouse.SetInventory(inventoryController.GetInventory());
+			}
 		}
 
 		public override void _Process(double delta)

@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using Terriflux.Programs.Model.Placeables;
 
 public interface IInventory
@@ -12,8 +13,9 @@ public interface IInventory
 	bool Contains(FlowKind flow);
 	int GetQuantityOf(FlowKind flow);
 
-    /// <param name="flow"></param>
-    /// <param name="amount"></param>
-    /// <returns>True if the inventory contains at least the quantity "amount", false otherwise </returns>
-    bool ContainsEnough(FlowKind flow, int amount);
+	/// <param name="flow"></param>
+	/// <param name="amount"></param>
+	/// <returns>True if the inventory contains at least the quantity "amount", false otherwise </returns>
+	bool ContainsEnough(FlowKind flow, int amount);
+	List<Warehouse> GetWarehouses();
 }

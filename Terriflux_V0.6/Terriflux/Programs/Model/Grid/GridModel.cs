@@ -45,7 +45,11 @@ namespace Terriflux.Programs.Model.Grid
 		{
 			return size;
 		}
-
+		
+		public Dictionary<Vector2I, Warehouse> GetWarehouses()
+		{
+			return this.warehouses;
+		}
 		// Cells
 		/// <summary>
 		/// Modifies the grass model in the grid

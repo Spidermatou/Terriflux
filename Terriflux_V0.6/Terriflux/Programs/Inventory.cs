@@ -18,6 +18,9 @@ public partial class Inventory : Node2D, IInventory
 	private static readonly Texture2D _constArrow = GD.Load<Texture2D>(OurPaths.ICONS + "const.png");
 	private static readonly Texture2D _upArrow = GD.Load<Texture2D>(OurPaths.ICONS + "up.png");
 	private static readonly Texture2D _downArrow = GD.Load<Texture2D>(OurPaths.ICONS + "down.png");
+	
+	//warehouses which posseded the inventory
+	private List<Warehouse> warehouses = new();
 
 	// CONSTRUCT
 	private Inventory() { }
@@ -27,7 +30,12 @@ public partial class Inventory : Node2D, IInventory
 		return (Inventory)GD.Load<PackedScene>("Nodes/Inventaire.tscn")
 			.Instantiate();
 	}
-
+	
+	public List<Warehouse> GetWarehouses()
+	{
+		return warehouses;
+	}
+	
 	public void Add(FlowKind flow, int amount)
 	{
 		quantitiesProduced[flow] += amount;
