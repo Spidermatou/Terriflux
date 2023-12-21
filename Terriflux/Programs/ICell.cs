@@ -20,9 +20,7 @@ namespace Terriflux.Programs
         /// </summary>
         void Unselect();
 
-        /// <summary>
-        /// Notifies its grid that it, the cell, has been selected.
-        /// </summary>
-        void Notify();
+        void AddObserver(ICellObserver observer);
+        void RemoveObserver(ICellObserver observer);
     }
 }

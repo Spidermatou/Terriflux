@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Terriflux.Programs;
 
-public partial class PlacementList : RawNode
+public partial class PlacementList : RawNode, IPlaceMediator
 {
     private readonly Texture2D helpIcon;
-
     private readonly List<Building> drafts;      // to see needs and production 
+
+    private PlaceMediator mediator;
 
     // children
     private ItemList _buildingsList;
@@ -35,6 +36,11 @@ public partial class PlacementList : RawNode
 		Add(buildingFactory.CreateGrocery());
     }
 
+    public void SetMediator(PlaceMediator mediator)
+    {
+        this.mediator = mediator;
+    }
+
     public void Add(Building building)
 	{
         this._buildingsList.AddItem(building.Name, building.GetIcon(), true);
@@ -42,24 +48,25 @@ public partial class PlacementList : RawNode
         this.drafts.Add(building);      
     }
 
-    public Building GetSelectedBuilding()
+    public ICell GetItemAt(int index)
     {
-        Building res = null;
-        int[] selectedItems = this._buildingsList.GetSelectedItems();
-        if (selectedItems.Length > 0)
+        if (index > this._buildingsList.ItemCount)
         {
-            // can only retrieve name or image (with itemlist), so must create instante via name:
-            res = (Building) Instantiate(this._buildingsList.GetItemText(selectedItems[0]));
+            throw new ArgumentOutOfRangeException(nameof(index));
         }
-        return res;
+        return (Building)Instantiate(this._buildingsList.GetItemText(index));
     }
 
-    private void OnItemSelected(int index)	// TODO
-	{
-		// notify
+    public ICell GetSelectedItem()
+    {
+        return GetItemAt(this._buildingsList.GetSelectedItems()[0]);
+    }
 
-		// reset focus
-		this._buildingsList.DeselectAll();
+    private void OnItemSelected(int index)	
+	{
+        // dialog
+        if (mediator == null) throw new Exception("Invalid configuration for PlacementList");
+        mediator.Notify(this); // can only retrieve name or image (with itemlist), so must create instante via name:
     }
 
     private void OnHelpSelected(int index)
@@ -72,5 +79,14 @@ public partial class PlacementList : RawNode
 
         // reset focus
         this._helpList.DeselectAll();
+    }
+
+    public void Notify(IPlaceMediator sender)
+    {
+        if (sender is PlaceMediator)
+        {
+            // reset focus
+            this._buildingsList.DeselectAll();
+        }
     }
 }

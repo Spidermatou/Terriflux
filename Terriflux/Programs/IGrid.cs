@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Terriflux.Programs
 {
-    public interface IGrid
+    public interface IGrid : IPlaceMediator, ICellObserver
     {
         /// <returns>The size of the grid.</returns>
         Vector2I GetDimensions();
@@ -40,7 +40,5 @@ namespace Terriflux.Programs
         T[] GetAllOfType<T>() where T : ICell;
 
         Vector2I GetSelectedCoordinates();
-
-        void Update();
     }
 }

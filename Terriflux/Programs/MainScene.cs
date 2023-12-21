@@ -20,6 +20,13 @@ public partial class MainScene : RawNode
 
         // get placement list
         PlacementList placementList = GetNode<PlacementList>("PlacementList");
+
+        // create mediator
+        PlaceMediator mediator = new(grid, placementList);
+        placementList.SetMediator(mediator);
+        grid.SetMediator(mediator);
+
+
     }
 
     private void OnExitGamePressed()

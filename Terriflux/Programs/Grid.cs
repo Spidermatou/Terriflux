@@ -8,6 +8,11 @@ public partial class Grid : RawNode, IGrid
     private Vector2I dimensions;
     private ICell[,] cells;
 
+    private Vector2I selectedCoordinates;
+    private PlaceMediator mediator;
+
+    private ICell lastSelectedCell;
+
     /// <summary>
     /// Create a Grid.
     /// <br></br>
@@ -25,6 +30,11 @@ public partial class Grid : RawNode, IGrid
         this.cells = new ICell[dimensions.X, dimensions.Y];
     }
 
+    public void SetMediator(PlaceMediator mediator)
+    {
+        this.mediator = mediator;
+    }
+
     /// <summary>
     /// Fills the grid with instances of the specified type.
     /// </summary>
@@ -35,7 +45,7 @@ public partial class Grid : RawNode, IGrid
         {
             for (int column = 0; column < this.cells.GetLength(1); column++)
             {
-                SetAt(new Vector2I(line, column), new T(), false);
+                SetAt(new Vector2I(line, column), (Cell) Instantiate(new T().GetType().Name), false);
             }
         }
 
@@ -71,6 +81,10 @@ public partial class Grid : RawNode, IGrid
         // secu
         VerifyCoordinates(coordinates);
 
+        // add as observer
+        cell.AddObserver(this);
+
+        // add into the grid
         cells[coordinates.X, coordinates.Y] = cell;
 
         // update now?
@@ -136,21 +150,65 @@ public partial class Grid : RawNode, IGrid
         ResetDisplay();
 
         // (re) Add new children
-        Vector2 oneCellSize = this.cells[0,0].GetDimensions();
-        Vector2 oneCellScale = ((Cell)this.cells[0, 0]).Scale;
+        Vector2 oneCellSize = this.cells[0, 0].GetDimensions();
         for (int line = 0; line < dimensions.X; line++)
         {
             for (int column = 0; column < dimensions.Y; column++)
             {
-                Node2D visualDraft = RawNode.Instantiate(this.cells[line, column].GetType().Name);
-                visualDraft.Position = new Vector2(line * oneCellSize.X * oneCellScale.X, column * oneCellSize.Y * oneCellScale.Y);
-                this.AddChild(visualDraft);    // instantiate 
+                ((Cell) this.cells[line, column]).Position = new Vector2(line * this.cells[line, column].GetDimensions().X, 
+                                                                    column * this.cells[line, column].GetDimensions().Y);
+                this.AddChild((Cell) this.cells[line, column]);    // instantiate 
             }
         }
     }
 
     private void ResetDisplay()
     {
-        this.GetChildren().Clear();
+        foreach (Node2D child in GetChildren())
+        {
+            // remove children
+            this.RemoveChild(child);
+
+            // destroys items no longer intended for storage
+            // TODO
+        }
+    }
+
+    public Vector2I GetCoordinatesOf(ICell cell)
+    {
+        if (cell == null) return PlaceMediator.UNVALID_COORDINATES;
+        for (int line = 0; line < this.cells.GetLength(0); line++)
+        {
+            for (int column = 0; column < this.cells.GetLength(1); column++)
+            {
+                if (cell == this.cells[line, column])
+                {
+                    return new Vector2I(line, column);
+                }
+            }
+        }
+        return PlaceMediator.UNVALID_COORDINATES;
+    }
+
+    public Vector2I GetSelectedCoordinates()   
+    {
+        return GetCoordinatesOf(lastSelectedCell);
+    }
+
+    public void Update(ICell sender)
+    {
+        lastSelectedCell?.Unselect();
+        lastSelectedCell = sender;
+
+        if (mediator == null) throw new Exception("Incorrect grid configuration");
+        mediator.Notify(this);
+    }
+
+    public void Notify(IPlaceMediator sender)
+    {
+        if (sender is PlaceMediator && lastSelectedCell != null)
+        {
+            lastSelectedCell.Unselect();
+        }
     }
 }
