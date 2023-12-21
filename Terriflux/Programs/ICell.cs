@@ -16,7 +16,7 @@ namespace Terriflux.Programs
         void Select();
 
         /// <summary>
-        /// Ends cell selection feedback.
+        /// End cell selection feedback.
         /// </summary>
         void Unselect();
 

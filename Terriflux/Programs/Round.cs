@@ -24,8 +24,8 @@ public partial class Round : RawNode, IRound
         // victory?
         if (next >= MAX_NB_TURN)
         {
-            Alert.Say("Victoire ! Vous avez su gerer votre territoire malgre les defis. " +
-                "Votre ville est prospere et attractive, sans etre trop polluante. Bien joue !!");
+            End end = new();
+            Alert.Say(end.Victory());
         }
         number.Text = next.ToString();
 
