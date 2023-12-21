@@ -72,10 +72,7 @@ public partial class PlacementList : RawNode, IPlaceMediator
     private void OnHelpSelected(int index)
     {
         // say the building's manual
-        Alert alert = (Alert) Instantiate("Alert");
-        alert.Position = new Vector2(-225, 350);
-        this.AddChild(alert);
-        alert.Say(this.drafts[index].GetHelp());
+        Alert.Say(this.drafts[index].GetHelp());
 
         // reset focus
         this._helpList.DeselectAll();

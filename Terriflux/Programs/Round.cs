@@ -24,9 +24,7 @@ public partial class Round : RawNode, IRound
         // victory?
         if (next >= MAX_NB_TURN)
         {
-            Alert alert = (Alert) Instantiate("Alert");
-            this.AddChild(alert);
-            alert.Say("Victoire ! Vous avez su gerer votre territoire malgre les defis. " +
+            Alert.Say("Victoire ! Vous avez su gerer votre territoire malgre les defis. " +
                 "Votre ville est prospere et attractive, sans etre trop polluante. Bien joue !!");
         }
         number.Text = next.ToString();
@@ -48,7 +46,6 @@ public partial class Round : RawNode, IRound
     /// <param name="sender"></param>
     public void Notify(IPlaceMediator sender)
     {
-        GD.Print("want previous turn");
         if (sender is PlaceMediator)
         {
             Previous();

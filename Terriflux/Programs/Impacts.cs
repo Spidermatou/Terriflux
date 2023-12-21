@@ -35,22 +35,15 @@ public partial class Impacts : RawNode, IImpacts
     public void IncrementsEcology(double add)
     {
         _ecology.Increments(add);
-        GD.Print($"access ecol {add}");
-
     }
 
     public void IncrementsEconomy(double add)
     {
         _economy.Increments(add);
-        GD.Print($"access econ {add}");
-
-
     }
 
     public void IncrementsSocial(double add)
     {
-        GD.Print($"access soc {add}");
-
         _social.Increments(add);
     }
 }

@@ -12,6 +12,9 @@ public partial class MainScene : RawNode
 	{
 		base._Ready();
 
+        // create alert
+        this.AddChild(Alert.GetInstance());
+
         // create grid      (have to be generate via script)
         GridBuilder gridBuilder = new();
         gridBuilder.BuildWasteland(new(7, 7));

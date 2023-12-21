@@ -54,7 +54,7 @@ texture_pressed = ExtResource("7_cmfcl")
 texture_hover = ExtResource("7_cmfcl")
 
 [node name="Inventory" parent="." instance=ExtResource("6_4tjvw")]
-z_index = 999
+z_index = 200
 position = Vector2(37, 136)
 
 [connection signal="pressed" from="ExitGame" to="." method="OnExitGamePressed"]

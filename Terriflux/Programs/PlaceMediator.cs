@@ -71,10 +71,7 @@ public partial class PlaceMediator : IPlaceMediator
 
         if (isOk == false)  // non
         {
-            GD.Print("Pas assez d'argent pour importer ces marchandises ou pas assez de marchandises pour exporter ces quantités !");  
-            // TODO
-            //Alert alert = (Alert) RawNode.Instantiate("Alert");
-            //alert.Say("Pas assez d'argent pour importer ces marchandises ou pas assez de marchandises pour exporter ces quantités !");
+            Alert.Say("Pas assez d'argent pour importer ces marchandises ou pas assez de marchandises pour exporter ces quantités !");
             round.Notify(this);
         }
         else

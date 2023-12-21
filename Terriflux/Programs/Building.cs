@@ -93,6 +93,7 @@ public partial class Building : Cell
         {
             sb.Append($"{impact} ");
         }
+        sb.AppendLine();
         // needs
         if (needs.Count > 0)
         {

@@ -26,7 +26,6 @@ public partial class Gauge : RawNode, IGauge
 
     public void Increments(double add)
     {
-        GD.Print($"increm {add}");
         _bar.Value += add;
     }
 

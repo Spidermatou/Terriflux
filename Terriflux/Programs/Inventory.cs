@@ -182,7 +182,7 @@ public partial class Inventory : RawNode, IInventory
         {
 			// player want to export more than he have?
 
-			if (GetQuantityOf(export.Key) <int.Parse(export.Value.Text)) GD.Print("essaye d'expo trop"); return false;
+			if (GetQuantityOf(export.Key) <int.Parse(export.Value.Text)) return false;
         }
 
         // price calculation
@@ -196,9 +196,6 @@ public partial class Inventory : RawNode, IInventory
         {
             totalPrice += PRICES[export.Key] * int.Parse(export.Value.Text);
         }
-
-        GD.Print(totalPrice);
-
 
         // enough money?
         if (totalPrice < 0) return false;
