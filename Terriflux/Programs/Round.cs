@@ -1,8 +1,9 @@
 using Godot;
 using System;
 using Terriflux.Programs;
+using static System.Net.Mime.MediaTypeNames;
 
-public partial class Round : RawNode, IRound, IPlaceMediator
+public partial class Round : RawNode, IRound
 {
     private Button number;
     private PlaceMediator mediator;
@@ -18,7 +19,7 @@ public partial class Round : RawNode, IRound, IPlaceMediator
 
     public void Next()
     {
-        int next = (int.Parse(number.Text) + 1);
+        int next = int.Parse(number.Text) + 1;
 
         // victory?
         if (next >= MAX_NB_TURN)
@@ -34,13 +35,25 @@ public partial class Round : RawNode, IRound, IPlaceMediator
         mediator.Notify(this);
     }
     
+    private void Previous() { number.Text = (int.Parse(number.Text) - 1).ToString(); }
+    
     public void SetMediator(PlaceMediator mediator)
     {
         this.mediator = mediator;
     }
 
-    // does nothing special
-    public void Notify(IPlaceMediator sender) { }
+    /// <summary>
+    /// If received, must cancel turn change.
+    /// </summary>
+    /// <param name="sender"></param>
+    public void Notify(IPlaceMediator sender)
+    {
+        GD.Print("want previous turn");
+        if (sender is PlaceMediator)
+        {
+            Previous();
+        }
+    }
 
     public override void _Ready()
 	{

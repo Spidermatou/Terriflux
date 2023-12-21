@@ -11,5 +11,7 @@ namespace Terriflux.Programs
         void Remove(FlowKind flow, int amount);
         bool Contains(FlowKind flow);
         int GetQuantityOf(FlowKind flow);
+
+        bool TryImportExport();
     }
 }

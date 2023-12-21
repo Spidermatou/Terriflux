@@ -175,13 +175,14 @@ public partial class Inventory : RawNode, IInventory
     /// Verify that the player have enough money and qty to import/export everything he wants
     /// </summary>
     /// <returns>True if transaction a is possible, false otherwise (not yet performed!).</returns>
-    public bool VerifyPrices()
+    public bool TryImportExport()
 	{
         // verify quantities
         foreach (KeyValuePair<FlowKind,LineEdit> export in _exportLines)
         {
 			// player want to export more than he have?
-			if (GetQuantityOf(export.Key) <int.Parse(export.Value.Text)) return false;
+
+			if (GetQuantityOf(export.Key) <int.Parse(export.Value.Text)) GD.Print("essaye d'expo trop"); return false;
         }
 
         // price calculation
@@ -196,8 +197,12 @@ public partial class Inventory : RawNode, IInventory
             totalPrice += PRICES[export.Key] * int.Parse(export.Value.Text);
         }
 
-		// enough money?
-		if (totalPrice < 0) return false;
+        GD.Print(totalPrice);
+
+
+        // enough money?
+        if (totalPrice < 0) return false;
+
 
 		// all correct?
 		ApplyImportExport(totalPrice);

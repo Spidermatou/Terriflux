@@ -2,7 +2,7 @@ using Godot;
 
 namespace Terriflux.Programs
 {
-    public interface IRound
+    public interface IRound : IPlaceMediator
     {
         /// <returns>The round number.</returns>
         int GetNumber();

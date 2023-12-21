@@ -16,6 +16,7 @@ public partial class PlaceMediator : IPlaceMediator
     private readonly PlacementList placementList;
     private readonly IImpacts impacts;
     private readonly IRound round;
+    private readonly IInventory inventory;
 
     // info about placement status
     private Vector2I wantedCoordinates;     // where to place the cell
@@ -23,12 +24,13 @@ public partial class PlaceMediator : IPlaceMediator
     private readonly List<Building> builtThisTurn;
        
 
-    public PlaceMediator(IGrid grid, PlacementList placementList, IImpacts impacts, IRound round) 
+    public PlaceMediator(IGrid grid, PlacementList placementList, IImpacts impacts, IRound round, IInventory inventory) 
     {
         this.grid = grid;
         this.placementList = placementList;
         this.round = round;
         this.impacts = impacts;
+        this.inventory = inventory;
         this.wantedCoordinates = UNVALID_COORDINATES;
         this.wantedBuild = null;
         this.builtThisTurn = new();
@@ -41,7 +43,6 @@ public partial class PlaceMediator : IPlaceMediator
         {
             case PlacementList:
                 wantedBuild = (Building)placementList.GetSelectedItem();
-                GD.Print($"wantedbuild: {wantedBuild == null}");
                 break;
             case IGrid:
                 wantedCoordinates = grid.GetSelectedCoordinates();
@@ -65,20 +66,28 @@ public partial class PlaceMediator : IPlaceMediator
 
     private void ReactOnNextRound()
     {
-        GD.Print($"imp null? {impacts == null}");
-        GD.Print($"nb contstru ce tour: {builtThisTurn.Count}");
-        foreach (Building building in builtThisTurn)
+        // possible change of turn?
+        bool isOk = inventory.TryImportExport();
+
+        if (isOk == false)  // non
         {
-            GD.Print($"nb contstru ce tour: {building == null}");
-
-            double[] addedValues = building.GetImpacts();
-            impacts.IncrementsSocial(addedValues[0]);
-            impacts.IncrementsEconomy(addedValues[1]);
-            impacts.IncrementsEcology(addedValues[2]);
-
-            GD.Print($"Add: {addedValues[0]}, {addedValues[1]}, {addedValues[2]}");
+            GD.Print("Pas assez d'argent pour importer ces marchandises ou pas assez de marchandises pour exporter ces quantités !");  
+            // TODO
+            //Alert alert = (Alert) RawNode.Instantiate("Alert");
+            //alert.Say("Pas assez d'argent pour importer ces marchandises ou pas assez de marchandises pour exporter ces quantités !");
+            round.Notify(this);
         }
-        
+        else
+        {
+            // update inventory
+            foreach (Building building in builtThisTurn)
+            {
+                double[] addedValues = building.GetImpacts();
+                impacts.IncrementsSocial(addedValues[0]);
+                impacts.IncrementsEconomy(addedValues[1]);
+                impacts.IncrementsEcology(addedValues[2]);
+            }
+        }
     }
 
     /// <summary>

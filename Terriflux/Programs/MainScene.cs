@@ -33,7 +33,7 @@ public partial class MainScene : RawNode
         inventory = GetNode<Inventory>("Inventory");
 
         // create mediator
-        PlaceMediator mediator = new(grid, placementList, impact, round);
+        PlaceMediator mediator = new(grid, placementList, impact, round, inventory);
         placementList.SetMediator(mediator);
         grid.SetMediator(mediator);
         round.SetMediator(mediator);
