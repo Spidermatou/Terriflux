@@ -14,12 +14,6 @@ namespace Terriflux.Programs
 
         int GetPlacedThisTurn();
 
-        /// <summary>
-        /// Recovers malus based on inactive buildings.
-        /// </summary>
-        /// <returns> A double[3] of sociability, economy, ecology maluses.</returns>
-        double[] GetMaluses();
-
         void NextTurn();
 
         /// <summary>

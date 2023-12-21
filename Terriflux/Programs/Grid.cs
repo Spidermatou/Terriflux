@@ -107,19 +107,6 @@ public partial class Grid : RawNode, IGrid
         return distanceX + distanceY;
     }
 
-    public Building[] GetInactiveBuildings()    
-    {
-        List<Building> inactiveBuildings = new();
-        foreach (Building building in GetAllOfType<Building>())
-        {
-            if (!building.IsActive())
-            {
-                inactiveBuildings.Add(building);
-            }
-        }
-        return inactiveBuildings.ToArray();
-    }
-
     private void VerifyCoordinates(Vector2 coordinates)
     {
         if (coordinates.X > dimensions.X || coordinates.Y > dimensions.Y)

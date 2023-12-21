@@ -32,9 +32,6 @@ namespace Terriflux.Programs
 
         int DistanceBewteen(Vector2I position1, Vector2I position2);
 
-        /// <returns>In particular, buildings that cannot produce resources this turn.</returns>
-        Building[] GetInactiveBuildings();
-
         /// <typeparam name="T">Class derived from ICell.</typeparam>
         /// <returns>All cells of the specified type.</returns>
         T[] GetAllOfType<T>() where T : ICell;

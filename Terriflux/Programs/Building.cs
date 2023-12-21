@@ -11,13 +11,9 @@ namespace Terriflux.Programs;
 /// </summary>
 public partial class Building : Cell
 {
-    protected static readonly double[] maluses = new double[]{-1, -1, -1};    // maluses if inactive
-
     protected readonly double[] impacts;
     protected readonly Dictionary<FlowKind, int> needs;
     protected readonly Dictionary<FlowKind, int> minimalProduction;
-
-    protected bool isActive;
 
     // children
     protected Color colorOfDot; 
@@ -31,8 +27,6 @@ public partial class Building : Cell
         this.impacts = impacts;
         this.needs = needs;
         this.minimalProduction = minimalProduction;
-        this.isActive = false;
-
         this.colorOfDot = colorOfDot;
     }
 
@@ -49,11 +43,6 @@ public partial class Building : Cell
     public Texture2D GetIcon()
     {
         return GD.Load<Texture2D>(PATH_IMAGES + GetType().Name.ToLower() + ".png");
-    }
-
-    public double[] GetMaluses()
-    {
-        return maluses.ToArray();
     }
 
     /// <returns>Social, Economy, Ecology</returns>
@@ -116,19 +105,6 @@ public partial class Building : Cell
         else sb.AppendLine("No production");
         return sb.ToString();
     }
-
-    /// <returns>Will this building produce something in the next round?</returns>
-    public bool IsActive() { return this.isActive; }
-
-    /// <summary>
-    /// Accept that this building will produce something in the next round.
-    /// </summary>
-    public void Activate() { this.isActive = true; }
-
-    /// <summary>
-    /// Refuse that this building will produce something in the next round.
-    /// </summary>
-    public void Deactivate() { this.isActive = false; }
 
     public override string Verbose()
     {
