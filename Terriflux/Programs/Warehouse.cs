@@ -25,7 +25,7 @@ public partial class Warehouse : Building
         this._buildingSprite.Scale = new Vector2((float)4.45, (float)4.45);
     }
 
-    public List<Building> GetVoisins()
+    public List<Building> GetNeighbours()
     {
         return this.neighbour;
     }
@@ -35,7 +35,7 @@ public partial class Warehouse : Building
         this.neighbour.Add(neighbour);
         foreach (Building act_neighbour in this.neighbour)
         {
-            GD.Print(act_neighbour.Verbose());
+            GD.Print(act_neighbour.Name);
         }
     }
 
@@ -47,7 +47,6 @@ public partial class Warehouse : Building
     public void SetInventory(IInventory inventory)
     {
         this.inventory = inventory;
-        // inventory.GetWarehouses().Add(this); // TT
     }
 
 }

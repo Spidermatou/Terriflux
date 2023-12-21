@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Terriflux.Programs;
@@ -88,7 +89,11 @@ public partial class PlaceMediator : IPlaceMediator
             }
 
             // update inventory
+            ProcessingExchanges();
 
+            // reset
+            ResetWants();
+            builtThisTurn.Clear();
         }
     }
 
@@ -150,6 +155,44 @@ public partial class PlaceMediator : IPlaceMediator
         }
     }
 
+    /// <summary>
+    /// Handles building supply from warehouses and production storage.
+    /// </summary>
+    private void ProcessingExchanges()
+    {
+        List<Building> alreadyProcessed = new();
 
+        // each warehouse on the grid...
+        foreach (Warehouse warehouse in allWarehouses.Values)
+        {
+            // ... requests to its neighbours...
+            foreach (Building neighbour in warehouse.GetNeighbours())
+            {
+                bool isSupplied = true;
+                // ... what they needs...
+                for (int i = 0; i < neighbour.GetNeeds().Length && isSupplied ; i++)
+                {
+                    // ... can we supply it with enough?
+                    if (!(inventory.GetQuantityOf(neighbour.GetNeeds()[i]) >= neighbour.GetNeedOf(neighbour.GetNeeds()[i]))) // no
+                    {
+                        isSupplied = false; 
+                    }
+
+                    // do we actually supply it?
+                    if (isSupplied)
+                    {
+                        // we give it ressources
+                        inventory.Remove(neighbour.GetNeeds()[i], neighbour.GetNeedOf(neighbour.GetNeeds()[i]));
+
+                        // and we get his production!
+                        foreach (FlowKind product in neighbour.GetProduction())
+                        {
+                            inventory.Add(product, neighbour.GetProductOf(product));
+                        }
+                    }
+                    // no : does nothing
+                }
+            }
+        }
+    }
 }
-
