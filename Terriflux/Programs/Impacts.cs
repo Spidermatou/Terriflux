@@ -35,15 +35,31 @@ public partial class Impacts : RawNode, IImpacts
     public void IncrementsEcology(double add)
     {
         _ecology.Increments(add);
+        VerifyFail();
     }
 
     public void IncrementsEconomy(double add)
     {
         _economy.Increments(add);
+        VerifyFail();
     }
 
     public void IncrementsSocial(double add)
     {
         _social.Increments(add);
+        VerifyFail();
+    }
+
+    /// <summary>
+    /// Checks whether one of the bars has fallen below the critical threshold (0 and below), 
+    /// and therefore whether the player has lost or not.
+    /// </summary>
+    private void VerifyFail()
+    {
+        if (GetSociability() <= 0 || GetEcology() <= 0 || GetEconomy() <= 0)
+        {
+            End end = new();
+            Alert.Say(end.Fail());
+        }
     }
 }
