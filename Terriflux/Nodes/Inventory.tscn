@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://dgkndpqmeid8w"]
+
+[ext_resource type="PackedScene" uid="uid://ds843siejjad2" path="res://Nodes/RawNode.tscn" id="1_q41wc"]
+[ext_resource type="Script" path="res://Programs/Inventory.cs" id="2_k1nfi"]
+[ext_resource type="Texture2D" uid="uid://b6j0ntq16xdjt" path="res://Ressources/Images/inventory.png" id="3_y1qv6"]
+[ext_resource type="FontFile" uid="uid://brgg6df0yioql" path="res://Ressources/Font/Born2bSportyV2.ttf" id="4_81urf"]
+
+[node name="Inventory" instance=ExtResource("1_q41wc")]
+script = ExtResource("2_k1nfi")
+
+[node name="Inventory" type="Sprite2D" parent="." index="0"]
+position = Vector2(240, 0)
+scale = Vector2(2.66667, 1)
+texture = ExtResource("3_y1qv6")
+
+[node name="Type" type="Label" parent="." index="1"]
+offset_left = -71.0
+offset_top = -199.0
+offset_right = 17.0
+offset_bottom = -145.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_81urf")
+theme_override_font_sizes/font_size = 40
+text = "Type"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Qte" type="Label" parent="." index="2"]
+offset_left = 85.0
+offset_top = -198.0
+offset_right = 173.0
+offset_bottom = -144.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_81urf")
+theme_override_font_sizes/font_size = 40
+text = "QTE"
+vertical_alignment = 1
+
+[node name="Import" type="Label" parent="." index="3"]
+offset_left = 186.0
+offset_top = -200.0
+offset_right = 274.0
+offset_bottom = -146.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_81urf")
+theme_override_font_sizes/font_size = 40
+text = "Import"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Export" type="Label" parent="." index="4"]
+offset_left = 322.0
+offset_top = -198.0
+offset_right = 425.0
+offset_bottom = -144.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_81urf")
+theme_override_font_sizes/font_size = 40
+text = "Export
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Variations" type="Label" parent="." index="5"]
+offset_left = 461.0
+offset_top = -199.0
+offset_right = 564.0
+offset_bottom = -145.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_81urf")
+theme_override_font_sizes/font_size = 40
+text = "Var
+"
+vertical_alignment = 1

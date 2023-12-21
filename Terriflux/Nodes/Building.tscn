@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwyf3srjo2nig"]
+
+[ext_resource type="PackedScene" uid="uid://dodopr51o7kn8" path="res://Nodes/Cell.tscn" id="1_hkxvq"]
+
+[node name="Building" instance=ExtResource("1_hkxvq")]
+
+[node name="BuildingSprite" type="Sprite2D" parent="." index="3"]
+
+[node name="Dot" type="Polygon2D" parent="." index="4"]
+position = Vector2(412, 356)
+scale = Vector2(1.00868, 1.15321)
+polygon = PackedVector2Array(-43.6215, 34.6859, 97.1569, 34.6859, 97.1569, 137.009, -43.6215, 137.009)

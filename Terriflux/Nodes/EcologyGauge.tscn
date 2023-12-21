@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://begi1tn5768we"]
+
+[ext_resource type="PackedScene" uid="uid://bei0hamt2pymb" path="res://Nodes/Gauge.tscn" id="1_ek3ra"]
+[ext_resource type="Script" path="res://Programs/EcologyGauge.cs" id="2_i6lyf"]
+
+[node name="EcologyGauge" instance=ExtResource("1_ek3ra")]
+script = ExtResource("2_i6lyf")

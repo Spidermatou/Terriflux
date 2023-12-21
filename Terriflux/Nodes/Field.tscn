@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1wx7l2ssb2gk"]
+
+[ext_resource type="PackedScene" uid="uid://cwyf3srjo2nig" path="res://Nodes/Building.tscn" id="1_he5lf"]
+[ext_resource type="Script" path="res://Programs/Field.cs" id="2_pte6o"]
+
+[node name="Field" instance=ExtResource("1_he5lf")]
+script = ExtResource("2_pte6o")
+
+[node name="Name" parent="." index="2"]
+scale = Vector2(8, 8)
+
+[node name="Camera2D" type="Camera2D" parent="." index="5"]

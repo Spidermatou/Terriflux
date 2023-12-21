@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://chhsqeclm65bi"]
+
+[ext_resource type="PackedScene" uid="uid://cwyf3srjo2nig" path="res://Nodes/Building.tscn" id="1_g1mv4"]
+[ext_resource type="Script" path="res://Programs/Warehouse.cs" id="2_6s2lt"]
+
+[node name="Warehouse" instance=ExtResource("1_g1mv4")]
+script = ExtResource("2_6s2lt")
