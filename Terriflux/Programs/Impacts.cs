@@ -58,8 +58,7 @@ public partial class Impacts : RawNode, IImpacts
     {
         if (GetSociability() <= 0 || GetEcology() <= 0 || GetEconomy() <= 0)
         {
-            End end = new();
-            Alert.Say(end.Fail());
+            End.Fail();
         }
     }
 }

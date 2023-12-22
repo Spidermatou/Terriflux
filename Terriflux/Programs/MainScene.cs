@@ -6,18 +6,24 @@ public partial class MainScene : RawNode
 {
     Inventory inventory;
 
+    // children
+    Label _money;
+
     public MainScene() : base() { }
 
 	public override void _Ready()
 	{
 		base._Ready();
 
+        // get children
+        _money = GetNode<Label>("Money");
+
         // create alert
         this.AddChild(Alert.GetInstance());
 
         // create grid      (have to be generate via script)
         GridBuilder gridBuilder = new();
-        gridBuilder.BuildWasteland(new(7, 7));
+        gridBuilder.BuildWasteland(new(5, 5));
         Grid grid = gridBuilder.GetResult();
         grid.Position = GetNode<Marker2D>("GridMark").Position;
         grid.Scale = new Vector2((float)0.9, (float)0.9); 
@@ -41,8 +47,21 @@ public partial class MainScene : RawNode
         grid.SetMediator(mediator);
         round.SetMediator(mediator);
 
+        // create end screen
+        End end = End.GetInstance();
+        end.Hide();
+        this.AddChild(end);
+
         // hiding
         inventory.Hide();
+    }
+
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+        
+        // show _money
+        _money.Text = inventory.GetMoney().ToString();
     }
 
     private void OnExitGamePressed()

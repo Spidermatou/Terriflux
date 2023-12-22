@@ -10,8 +10,6 @@ namespace Terriflux.Programs;
 /// </summary>
 public partial class Alert : RawNode
 {
-	private const int LINE_SIZE = 57;       // max nb of characters on an unique line
-
     // himself
     private static readonly Alert singleton = (Alert) RawNode.Instantiate("Alert");
 

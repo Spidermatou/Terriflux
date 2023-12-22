@@ -12,8 +12,8 @@ public partial class Grocery : Building
     // /' 15.0, -2.5, -2.5 ; MANUFACTURED_MERCHANDISE,3, ENERGY,1 ; #51ceb4 '/
     public Grocery() : base(
         new double[] { 3.0, -1.0, -4.0 },
-        new Dictionary<FlowKind, int> { { FlowKind.Water, 3 } },
-        new Dictionary<FlowKind, int> { { FlowKind.Water, 3 } },
+        new Dictionary<FlowKind, int> { { FlowKind.Energy, 1 }, { FlowKind.Composant, 2 } },
+        new Dictionary<FlowKind, int> { { FlowKind.Machine, 3 } },
         new("#0684A9")
         )
     { }

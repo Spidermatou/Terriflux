@@ -70,11 +70,10 @@ public partial class PlaceMediator : IPlaceMediator
     private void ReactOnNextRound()
     {
         // possible change of turn?
-        bool isOk = inventory.TryImportExport();
-
+        bool isOk = inventory.TryImportExport();    // import export works
+        GD.Print(isOk);
         if (isOk == false)  // non
         {
-            Alert.Say("Pas assez d'argent pour importer ces marchandises ou pas assez de marchandises pour exporter ces quantités !");
             round.Notify(this);
         }
         else
@@ -123,7 +122,7 @@ public partial class PlaceMediator : IPlaceMediator
 
     private void ManageWarehousePlacement()
     {
-        // is an warehouse? add his neighbours already-on-map
+        // is an warehouse? add his neighbours already on map
         if (wantedForBuild is Warehouse warehouse)
         {
             foreach (Building build in grid.GetAllOfType<Building>())

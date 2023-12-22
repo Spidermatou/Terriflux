@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bu4tjpqmm7h5g"]
+[gd_scene load_steps=10 format=3 uid="uid://bu4tjpqmm7h5g"]
 
 [ext_resource type="Script" path="res://Programs/MainScene.cs" id="1_sagjt"]
 [ext_resource type="PackedScene" uid="uid://brf8vloq6rocx" path="res://Nodes/Impacts.tscn" id="2_5ofeb"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dgkndpqmeid8w" path="res://Nodes/Inventory.tscn" id="6_4tjvw"]
 [ext_resource type="Texture2D" uid="uid://40lldd38m5c7" path="res://Ressources/Images/inventorybutton.png" id="6_nffoy"]
 [ext_resource type="Texture2D" uid="uid://c2dagwvp2mxy1" path="res://Ressources/Images/leftclick.png" id="7_cmfcl"]
+[ext_resource type="FontFile" uid="uid://brgg6df0yioql" path="res://Ressources/Font/Born2bSportyV2.ttf" id="9_4lx2d"]
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource("1_sagjt")
@@ -21,7 +22,7 @@ polygon = PackedVector2Array(0, 0, 1152, 0, 1152, 316.23, 1152, 648, 0, 648)
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="GridMark" type="Marker2D" parent="."]
-position = Vector2(-400, -278)
+position = Vector2(-373, -194)
 
 [node name="Impacts" parent="." instance=ExtResource("2_5ofeb")]
 position = Vector2(251, -270)
@@ -58,6 +59,45 @@ texture_hover = ExtResource("7_cmfcl")
 visible = false
 z_index = 200
 position = Vector2(37, 136)
+
+[node name="WalletBackground" type="Polygon2D" parent="."]
+position = Vector2(223, -216)
+scale = Vector2(0.3, 0.05)
+color = Color(0.160784, 0.156863, 0.309804, 1)
+polygon = PackedVector2Array(0, 0, 1152, 0, 1152, 316.23, 1152, 648, 0, 648)
+
+[node name="TresorPublic" type="Label" parent="."]
+offset_left = 207.0
+offset_top = -224.0
+offset_right = 317.0
+offset_bottom = -198.0
+scale = Vector2(2, 2)
+theme_override_fonts/font = ExtResource("9_4lx2d")
+text = "Tresor public :"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Euro" type="Label" parent="."]
+offset_left = 439.0
+offset_top = -222.0
+offset_right = 549.0
+offset_bottom = -196.0
+scale = Vector2(2, 2)
+theme_override_fonts/font = ExtResource("9_4lx2d")
+text = "€"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Money" type="Label" parent="."]
+offset_left = 357.0
+offset_top = -224.0
+offset_right = 467.0
+offset_bottom = -198.0
+scale = Vector2(2, 2)
+theme_override_fonts/font = ExtResource("9_4lx2d")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="ExitGame" to="." method="OnExitGamePressed"]
 [connection signal="pressed" from="OpenInventory" to="." method="OnOpenInventoryPressed"]

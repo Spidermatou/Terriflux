@@ -1,41 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Godot;
+using System;
+using Terriflux.Programs;
 
-namespace Terriflux.Programs
+public partial class End : RawNode
 {
-    public record End
-    {
-        private enum EndKind { VICTORY, FAIL }
+	private Sprite2D _background;
 
-        private readonly Dictionary<EndKind, string> ends;
+    // himself
+    private static readonly End singleton = (End)RawNode.Instantiate("End");
 
-        public End() 
-        {
-            this.ends = new();
+    private End() : base() { }
 
-            this.ends.Add(EndKind.VICTORY, "Félicitations ! Vous avez réussi à équilibrer l'écologie, l'économie et le social. " +
-            "La région prospère grâce à vos efforts acharnés. Vous êtes un véritable champion de la reterritorialisation, " +
-            "démontrant que l'harmonie entre ces trois piliers est la clé d'un avenir durable.");
-
-            this.ends.Add(EndKind.FAIL, "Votre quête pour la reterritorialisation a pris fin. Bien que vous ayez eu un impact " +
-                "significatif sur la région, la situation est critique. L'un des piliers essentiels - l'écologie, " +
-                "l'économie ou le social - est maintenant en péril, mettant en danger l'équilibre que vous avez tenté " +
-                "de maintenir. Utilisez cette expérience pour réfléchir à de nouvelles stratégies, car même des pas " +
-                "modestes dans la bonne direction peuvent avoir un effet profond et durable. C'est une leçon précieuse " +
-                "pour vos futures entreprises. Continuez à bâtir sur ces fondations et à inspirer le changement positif.");
-        }     
-        
-        public string Victory()
-        {
-            return this.ends[EndKind.VICTORY];
-        }
-
-        public string Fail()
-        {
-            return this.ends[EndKind.FAIL];
-        }
+    public override void _Ready()
+	{
+		base._Ready();
+		_background = GetNode<Sprite2D>("Background");
+        this.Hide();
+        this.ZIndex = 110;
     }
+
+    public static End GetInstance()
+    {
+        return singleton;
+    }
+
+    public static void Victory()
+    {
+        Alert.Say("Felicitations ! Vous avez reussi a equilibrer l'ecologie, l'economie et le social. " +
+            "La region prospere grace a vos efforts acharnes. Vous etes un veritable champion de la reterritorialisation, " +
+            "demontrant que l'harmonie entre ces trois piliers est la cle d'un avenir durable.");
+        singleton.Show();
+        singleton._background.Texture = GD.Load<Texture2D>(PATH_IMAGES + "victory.png");
+    }
+
+    public static void Fail()
+    {
+        Alert.Say("Votre quete pour la reterritorialisation a pris fin. Bien que vous ayez eu un impact significatif sur la region, " +
+            "la situation est critique. L'un des piliers essentiels - l'ecologie, l'economie ou le social - est maintenant en peril, " +
+            "mettant en danger l'equilibre que vous avez tente de maintenir. Utilisez cette experience pour reflechir a de nouvelles " +
+            "strategies, car meme des pas modestes dans la bonne direction peuvent avoir un effet profond et durable. C'est une lecon " +
+            "precieuse pour vos futures entreprises. Continuez a batir sur ces fondations et a inspirer le changement positif.");
+        singleton.Show();
+        singleton._background.Texture = GD.Load<Texture2D>(PATH_IMAGES + "fail.png");
+    }
+
+
 }

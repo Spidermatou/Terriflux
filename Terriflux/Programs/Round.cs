@@ -5,35 +5,36 @@ using static System.Net.Mime.MediaTypeNames;
 
 public partial class Round : RawNode, IRound
 {
-    private Button number;
+    private Button _number;
     private PlaceMediator mediator;
 
     private const int MAX_NB_TURN = 10;
 
-    public Round() { }
+    private int number;
+
+    public Round() { this.number = 1; }
 
     public int GetNumber()
     {
-        return int.Parse(number.Text);
+        return int.Parse(_number.Text);
     }
 
     public void Next()
     {
-        int next = int.Parse(number.Text) + 1;
+        int next = number + 1;
 
         // victory?
         if (next >= MAX_NB_TURN)
         {
-            End end = new();
-            Alert.Say(end.Victory());
+            End.Victory();
         }
-        number.Text = next.ToString();
+        number++;
 
         if (mediator == null) throw new Exception("Invalid Round configuration");
         mediator.Notify(this);
     }
     
-    private void Previous() { number.Text = (int.Parse(number.Text) - 1).ToString(); }
+    private void Previous() { number--; }
     
     public void SetMediator(PlaceMediator mediator)
     {
@@ -46,22 +47,25 @@ public partial class Round : RawNode, IRound
     /// <param name="sender"></param>
     public void Notify(IPlaceMediator sender)
     {
-        if (sender is PlaceMediator)
-        {
-            Previous();
-        }
+        Previous();
     }
 
     public override void _Ready()
 	{
 		base._Ready();
 
-        number = GetNode<Button>("Number");
+        _number = GetNode<Button>("Number");
 
-        number.Text = "1";
 	}
 
-	private void OnPressed()
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+
+        _number.Text = this.number.ToString();
+    }
+
+    private void OnPressed()
     {
         Next();
     }

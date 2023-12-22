@@ -1,6 +1,23 @@
 
 # Description
 
+## Concept 
+
+Le but de notre jeu est de maintenir un équilibre entre l'écologie, l'économie et la sociologie, qui constituent les trois piliers d'un territoire. Votre objectif secondaire est d'améliorer votre territoire, y construire une véritable ville prospère. Mais pour y parvenir, vous devrez à la fois gérer les chaines de production de votre ville ainsi que l'importation et l'exportation de ressources. 
+
+Cependant, soyez attentif, car certains bâtiments nécessitent un certain nombre de ressources spécifiques pour fonctionner. S'ils ne fonctionnent pas, ils ne produiront rien.
+
+Faites également attention aux trois piliers de votre territoire; si l'un d'entre eux atteint zéro, vous perdez la partie.
+Il est impératif de maintenir un certain équilibre pour remporter la victoire !
+
+### Actions du joueur
+Pour y parvenir : choisissez une case où construire en cliquant dessus, et faites de même dans liste de batiments disponibles pour choisir lequel construire ! _Vous pouvez construire autant de batiments que vous voulez par tour_.
+
+Pour obtenir des ressources : laissez vos batiments fabriquer leur production et les envoyer vers votre inventaire via les __entrepôts__ ; importez des ressources via l'écran d'__inventaire__ en cliquant sur le bouton lié (en bas à gauche).
+
+_Si vous souhaitez quitter le jeu, cliquez sur le bouton associé (en haut à gauche).
+
+
 ## Objectifs Pédagogiques
 
 ### Sensibilisation au Métabolisme Urbain

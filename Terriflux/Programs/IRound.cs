@@ -4,7 +4,7 @@ namespace Terriflux.Programs
 {
     public interface IRound : IPlaceMediator
     {
-        /// <returns>The round number.</returns>
+        /// <returns>The round _number.</returns>
         int GetNumber();
 
         /// <summary>

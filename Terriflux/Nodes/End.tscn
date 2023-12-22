@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://c32qwxndniwa4"]
+
+[ext_resource type="PackedScene" uid="uid://ds843siejjad2" path="res://Nodes/RawNode.tscn" id="1_mrkqk"]
+[ext_resource type="Script" path="res://Programs/End.cs" id="2_ynvg6"]
+
+[node name="End" instance=ExtResource("1_mrkqk")]
+script = ExtResource("2_ynvg6")
+
+[node name="Background" type="Sprite2D" parent="." index="0"]
+scale = Vector2(1.5, 1.5)
