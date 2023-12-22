@@ -4,7 +4,8 @@ using Terriflux.Programs;
 
 public partial class End : RawNode
 {
-	private Sprite2D _background;
+    private Sprite2D _background;
+    private Button _exit;
 
     // himself
     private static readonly End singleton = (End)RawNode.Instantiate("End");
@@ -15,6 +16,7 @@ public partial class End : RawNode
 	{
 		base._Ready();
 		_background = GetNode<Sprite2D>("Background");
+        _exit = GetNode<Button>("ExitGame");
         this.Hide();
         this.ZIndex = 110;
     }
@@ -31,6 +33,8 @@ public partial class End : RawNode
             "demontrant que l'harmonie entre ces trois piliers est la cle d'un avenir durable.");
         singleton.Show();
         singleton._background.Texture = GD.Load<Texture2D>(PATH_IMAGES + "victory.png");
+        singleton._background.ZIndex = 1;
+        singleton._exit.Show();
     }
 
     public static void Fail()
@@ -42,6 +46,13 @@ public partial class End : RawNode
             "precieuse pour vos futures entreprises. Continuez a batir sur ces fondations et a inspirer le changement positif.");
         singleton.Show();
         singleton._background.Texture = GD.Load<Texture2D>(PATH_IMAGES + "fail.png");
+        singleton._background.ZIndex = 1;
+        singleton._exit.Show();
+    }
+
+    private void OnExitPressed()
+    {
+        GetTree().Quit();
     }
 
 

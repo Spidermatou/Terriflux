@@ -56,7 +56,7 @@ public partial class Impacts : RawNode, IImpacts
     /// </summary>
     private void VerifyFail()
     {
-        if (GetSociability() <= 0 || GetEcology() <= 0 || GetEconomy() <= 0)
+        if (GetSociability() <= 5 || GetEcology() <= 5 || GetEconomy() <= 5)
         {
             End.Fail();
         }

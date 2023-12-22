@@ -86,23 +86,25 @@ public partial class Building : Cell
         // needs
         if (needs.Count > 0)
         {
-            sb.AppendLine("Needs: ");
+            sb.Append("Needs: ");
             foreach (KeyValuePair<FlowKind, int> kvp in needs)
             {
-                sb.AppendLine("\t" + kvp.Key.ToString() + ": " + kvp.Value.ToString());
+                sb.Append(kvp.Key.ToString() + " x " + kvp.Value.ToString() + " ");
             }
         }
-        else sb.AppendLine("No needs");
+        else sb.Append("No needs");
+        sb.AppendLine();
         // product
         if (minimalProduction.Count > 0)
         {
-            sb.AppendLine("Products (minimal): ");
+            sb.Append("Products (minimal): ");
             foreach (KeyValuePair<FlowKind, int> kvp in minimalProduction)
             {
-                sb.AppendLine("\t" + kvp.Key.ToString() + ": " + kvp.Value.ToString());
+                sb.Append(kvp.Key.ToString() + " x " + kvp.Value.ToString() + " ");
             }
         }
-        else sb.AppendLine("No production");
+        else sb.Append("No production");
+        sb.AppendLine();
         return sb.ToString();
     }
 
