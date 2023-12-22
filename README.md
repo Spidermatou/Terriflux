@@ -29,8 +29,28 @@ Re-territorialiser par la matière. Approche du métabolisme urbain à l'échell
 - Développement axé sur la simulation réaliste des défis urbains.
 - Collaboration avec des experts en géographie et en développement urbain pour assurer l'authenticité.
 
+
+## Environnement de Développement et Prérequis
+
+### Prérequis
+Pour contribuer au développement de Terriflux, les développeurs doivent installer les outils suivants :
+- **Godot Engine 4.0** : Utilisé pour le développement et la simulation du jeu. Disponible sur [Site Officiel de Godot](https://godotengine.org/download).
+- **Visual Studio** (Recommandé, mais pas obligatoire) : Offre un environnement de développement plus confortable pour le codage, en particulier pour ceux qui utilisent C#. Disponible sur [Site Officiel de Visual Studio](https://visualstudio.microsoft.com/downloads/).
+
+### Configuration de l'Environnement
+1. **Installation de Godot Engine** : Suivez les instructions d'installation sur le site officiel pour installer Godot Engine sur votre système.
+2. **Installation de Visual Studio** (Si utilisé) : Installez Visual Studio en sélectionnant les composants nécessaires pour le développement en C#.
+
+### Clonage et Configuration du Projet
+1. **Cloner le Répertoire** : Clonez le dépôt du jeu sur votre machine locale en utilisant :
+   ```bash
+   git clone <lien_du_dépôt>
+   ```
+2. **Ouvrir le Projet dans Godot** : Ouvrez Godot Engine et importez le projet cloné.
+3. **Configurer Visual Studio pour Godot** (Si utilisé) : Assurez-vous que Visual Studio est configuré comme éditeur externe dans Godot pour une intégration plus fluide.
+
 ## Installation
-Installez le zip ici ___inserer le lien entre les signes < et >___ et lancez l'éxecutable.
+Installez le zip que vous trouverez ici <https://seafile.unistra.fr/d/f65c5e3fef9147f78e25/> et lancez le projet godot.
 
 ## Utilisation
 Le jeu plonge le joueur dans les défis de la gestion d'un quartier urbain, avec un accent sur la durabilité et le métabolisme urbain.
@@ -54,4 +74,3 @@ Quelques images du jeu :
 
 ![Capture d'écran du jeu](Screen_1.png)
 ![Capture d'écran du jeu](Screen_2.png)
-
