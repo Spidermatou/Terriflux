@@ -52,11 +52,11 @@ Pour contribuer au développement de Terriflux, les développeurs doivent instal
 ## Installation
 
 ### Windows
-Lien de téléchargement : <https://seafile.unistra.fr/d/241c4656391e43ff8fc0/>
+Lien de téléchargement : <https://seafile.unistra.fr/d/52fa7af059934f7cb298/>
 Veuillez télécharger le zip, ensuite, lancer l'executable.
 
 ### Linux
-Lien de téléchargement : <https://seafile.unistra.fr/d/9e354a467e3a4876ad16/>
+Lien de téléchargement : <https://seafile.unistra.fr/d/90f71895650243d89c85/>
 Veuillez télécharger le zip, ensuite, lancer l'executable.
 
 ## Utilisation
