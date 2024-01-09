@@ -6,21 +6,25 @@ mainframe Terriflux
 /' MAIN SCENE '/
 class MainScene 
 {
+    + <<create>> MainScene()
     + {override}  _Ready()
     + {override}  _Process()
 }
 MainScene *--> RawNode : - impacts
 MainScene *--> RawNode : - grid
 MainScene *--> RawNode : - inventory
+MainScene *--> IAlert : - notification
 MainScene ..> BuildingFactory : use  /' Via la PlacementList '/
 MainScene ..> GridBuilder : use  
-MainScene ..> IAlert : use  
 MainScene ..> IPlaceMediator : use  
+MainScene ..> IInventory : use  
+MainScene ..> IImpacts : use  
 
 /' GENERAL '/
 /' Any node of our own creation '/
 abstract RawNode  /' extends Godot.Node2D '/
 {
+    # <<create>> RawNode() 
     # {readonly} PATH_NODES : String = "Nodes/"
     # {readonly} PATH_PROGRAMS : String = "Programs/"
     # {readonly} PATH_IMAGES : String = "Ressources/Images/"
@@ -43,7 +47,7 @@ abstract Cell extends RawNode implements ICell
     - {static} {readonly} DEFAULT_TEXTURE : Texture2D
     - {static} {readonly} SIZE : Vector2I 
     - {readonly} selfTexture : Texture2D
-    # Cell()
+    # <<create>> Cell()
     # ChangeSkin(texture : Texture2D)
     + {override}  _Ready() /' ChangeSkin() '/
     + {override} GetDimensions() : Integer[2] 
@@ -58,13 +62,13 @@ abstract Cell extends RawNode implements ICell
 }
 class Grass extends Cell
 {
-    + Grass() 
+    + <<create>> Grass() 
 }
 abstract Building extends Cell
 {
     - {readonly} impacts : Real[3]
     - isActive : Boolean    /' will product this turn '/
-    + Building(impacts : Real[3], needs : FlowKind[*], minimalProduction : FlowKind[*], texture : Texture2D, colorOfDot : Color)
+    + <<create>> Building(impacts : Real[3], needs : FlowKind[*], minimalProduction : FlowKind[*], texture : Texture2D, colorOfDot : Color)
     + GetImpacts() : Real[3]
     + GetNeeds() : FlowKind[*]
     + GetProduction() : FlowKind[*]     /' minimal product '/
@@ -92,6 +96,7 @@ enum FlowKind
 }
 class Warehouse extends Building
 {
+    + <<create>> Warehouse()
     /' Recuperer tt les batiments dans sa zone d'effet '/
     + GetNeighbors() : Building[*] 
     + GetEffectZoneSize() : Integer 
@@ -110,31 +115,31 @@ class Warehouse extends Building
 Warehouse" 1 " o--> " * "Building : - neighbors : supply and stores product of
 class Field extends Building
 {
-    + Field()       
+    + <<create>> Field()       
 }
 class Factory extends Building
 {
-    + Factory()    
+    + <<create>> Factory()    
 }
 class Bakery extends Building
 {
-    + Bakery()     
+    + <<create>> Bakery()     
 }
 class EnergySupplier extends Building
 {
-    + EnergySupplier()      
+    + <<create>> EnergySupplier()      
 }
 class Shaft extends Building    
 {
-    + Shaft()
+    + <<create>> Shaft()
 }
 class Grocery extends Building
 {
-    + Grocery()         
+    + <<create>> Grocery()         
 }
 class BuildingFactory
 {
-    + BuildingFactory()
+    + <<create>> BuildingFactory()
     + CreateField()
     + CreateFactory()
     + CreateBakery()
@@ -142,15 +147,17 @@ class BuildingFactory
     + CreateShaft()
     + CreateGrocery()
 }
+BuildingFactory ..> Building : create
 
 /' ROUNDS '/
-interface IRound
+interface IRound implements IPlaceMediator
 {
     + GetNumber() : Integer
     + Next()
 }
 class Round extends RawNode implements IRound
 {
+    + <<create>> Round()
     + GetNumber() : Integer
     + Next()
     - OnPressed()
@@ -184,6 +191,7 @@ class Grid extends RawNode implements IGrid, IPlaceMediator
 }
 class GridBuilder
 {
+    + <<create>> GridBuilder()
     /' Creer une grille remplie d'herbe / terrains constructibles (terrain par defaut du jeu) '/
     + Wasteland(size : Integer) : Grid
 }
@@ -198,7 +206,8 @@ class PlaceMediator implements IPlaceMediator
 {
     - maxPerTurn : Integer
     - buildedThisTurn : Integer
-    - wantedCoordinates : Vector2I
+    - wantedCoordinates : Vector2I 
+    + <<create>> PlaceMediator(grid : IGrid, placementList : PlacementList, impacts : IImpacts, round : IRound, inventory : IInventory)
     + {override} Notify(sender : IPlaceMediator)
     + GetMaxPlacementPerTurn() : Integer
     + GetPlacedThisTurn() : Integer
@@ -218,37 +227,41 @@ PlaceMediator" * " o--> " 1 "ICell : - wantedModel
 PlaceMediator" * " o--> " 1 "IImpacts : - impacts 
 PlaceMediator" * " o--> " 1 "IRound : - round 
 PlaceMediator" * " o--> " 1 "PlacementList : - placementList 
+PlaceMediator" * " o--> " 1 "IInventory : - inventory 
+
 class PlacementList   /' extends Godot ItemList '/
 { 
+    + <<create>> PlacementList()
     + Add(building : Building)
     - OnItemSelected(index : Integer)
 }
+PlacementList" 1 " o..> " * "Building : presents
 
-/' INVENTORY & IMPACTS '/
+/' IMPACTS '/
 interface IGauge implements IPlaceMediator
 {
     + Increments(add : Real)
     + Get() : Real
     + Notify(sender : IPlaceMediator)
 }
-abstract Gauge implements IGauge
+abstract Gauge extends RawNode implements IGauge
 {
-    # Gauge()
+    # <<create>> Gauge()
     + {override} Increments(add : Real)
     + {override} Get() : Real
     + {override} Notify(sender : IPlaceMediator)
 }
 class EcologyGauge extends Gauge
 {
-    + EcologyGauge()
+    + <<create>> EcologyGauge()
 }
 class EconomyGauge extends Gauge
 {
-    + EconomyGauge()
+    + <<create>> EconomyGauge()
 }
 class SociabilityGauge extends Gauge
 {
-    + SociabilityGauge()
+    + <<create>> SociabilityGauge()
 }
 interface IImpacts implements IPlaceMediator
 {
@@ -263,6 +276,7 @@ interface IImpacts implements IPlaceMediator
 IImpacts" 1 " *--> " 3 "IGauge : - gauges
 class Impacts implements IImpacts
 {
+    + <<create>> Impacts()
     + {override} IncrementsEcology(add : Real)
     + {override} IncrementsEconomy(add : Real)
     + {override} IncrementsSocial(add : Real)
@@ -271,28 +285,31 @@ class Impacts implements IImpacts
     + {override} GetSociability() : Real
     + {override} Notify(sender : IPlaceMediator)
 }
+
+/' INVENTORY '/
 interface IInventory 
 {
     + Add(flow : FlowKind, amount : Integer)
     + Remove(flow : FlowKind, amount : Integer)
     + Contains(flow : FlowKind) : Boolean
     + GetQuantityOf(flow : FlowKind) : Integer
+    + TryImportExport() : Boolean
 }
 IInventory" * " ..> FlowKind : use
-class Inventory extends RawNode implements IImpacts, IInventory /' ancien node Impact avec acces inventaire ET jauges, mais renommé '/
+class Inventory extends RawNode implements IInventory 
 {   
-    + {override} IncrementsEcology(add : Real)
-    + {override} IncrementsEconomy(add : Real)
-    + {override} IncrementsSocial(add : Real)
-    + {override} GetEcology() : Real
-    + {override} GetEconomy() : Real
-    + {override} GetSociability() : Real
+    + <<create>> Inventory()
     + {override} Add(flow : FlowKind, amount : Integer)
     + {override} Remove(flow : FlowKind, amount : Integer)
     + {override} Contains(flow : FlowKind) : Boolean
     + {override} GetQuantityOf(flow : FlowKind) : Integer
-    + {override} {override} Verbose() : String
-    - ContainsEnough(flow : FlowKind, amount : Integer) : Boolean
+    + {override} TryImportExport() : Boolean
+    + {override} Verbose() : String
+    + GetMoney() : Real
+    - UpdateDisplay(flow : FlowKind)
+    - ApplyImportExport()
+    - ResetImportExport()
+    - LineEditTextChanged(newText : String)
 }
 
 /' MESSAGE to user '/
@@ -301,10 +318,14 @@ interface IAlert
     + Say(text : String)
     + Close()
 }
-class Alert implements IAlert
+class "Alert\n<<singleton>>" as Alert implements IAlert
 {
+    - <<create>> Alert()
+    + {static} GetInstance()    
     + {override} Say(text : String)
     + {override} Close()
+    + {override} _Ready()
+    - {static} ModifyMessage(message : String)
 }
 
 @enduml
