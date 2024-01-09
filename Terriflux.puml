@@ -261,7 +261,7 @@ interface IImpacts implements IPlaceMediator
     + Notify(sender : IPlaceMediator)
 }
 IImpacts" 1 " *--> " 3 "IGauge : - gauges
-class Impacts 
+class Impacts implements IImpacts
 {
     + {override} IncrementsEcology(add : Real)
     + {override} IncrementsEconomy(add : Real)
