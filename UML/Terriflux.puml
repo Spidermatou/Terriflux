@@ -24,11 +24,11 @@ MainScene ..> IImpacts : use
 /' Any node of our own creation '/
 abstract RawNode  /' extends Godot.Node2D '/
 {
-    # <<create>> RawNode() 
     # {readonly} PATH_NODES : String = "Nodes/"
     # {readonly} PATH_PROGRAMS : String = "Programs/"
     # {readonly} PATH_IMAGES : String = "Ressources/Images/"
-    # RawNode() /' this.Name = this.getClass().ToString() '/ 
+    + {static} Instantiate(string name) : RawNode
+    # <<create>> RawNode() /' this.Name = this.getClass().ToString() '/ 
     + {override}  _Ready()
     + Verbose()
 }

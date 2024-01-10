@@ -1,5 +1,6 @@
 res://Nodes/MainScene.tscn
 res://Nodes/End.tscn
+res://Nodes/PlacementList.tscn
 res://Programs/Alert.cs
 res://Programs/Bakery.cs
 res://Programs/Building.cs
