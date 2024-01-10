@@ -13,7 +13,7 @@ Il est impératif de maintenir un certain équilibre pour remporter la victoire 
 ### Actions du joueur
 Pour y parvenir : choisissez une case où construire en cliquant dessus, et faites de même dans liste de batiments disponibles pour choisir lequel construire ! _Vous pouvez construire autant de batiments que vous voulez par tour_.
 
-Pour obtenir des ressources : laissez vos batiments fabriquer leur production et les envoyer vers votre inventaire via les __entrepôts__ ; importez des ressources via l'écran d'__inventaire__ en cliquant sur le bouton lié (en bas à gauche).
+Pour obtenir des ressources : laissez vos batiments fabriquer leur production et les envoyer vers votre inventaire via les __entrepôts__ (Warehouse) à placer à proximité (3 cases max) ; importez des ressources via l'écran d'__inventaire__ en cliquant sur le bouton lié (en bas à gauche).
 
 _Si vous souhaitez quitter le jeu, cliquez sur le bouton associé (en haut à gauche).
 
